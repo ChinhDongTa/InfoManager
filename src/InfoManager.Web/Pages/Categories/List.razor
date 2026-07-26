@@ -1,0 +1,79 @@
+﻿@page "/categories/list"
+@inject NavigationManager navigationManager
+@inject ICategoryService categoryService
+@using InfoManager.Shared.Dtos.Categories
+
+<PageHeader Title="Danh sách danh mục" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/categories/create"))>
+           Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="CategoryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="ID" Property="@(x => x.Id)" />
+            <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="Category Name" Property="@(x => x.Name)" Sortable="true" />
+            <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="Nhóm" Property="@(x => x.Group)" />
+            <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="Từ khóa" Property="@(x => x.KeyName)" /> 
+            <TemplateColumn TGridItem="CategoryDto" Context="item"  Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    PaginatedList<CategoryDto>? paginatedList;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await categoryService.GetCategoriesAsync(null, null, 1, pageSize);
+            if(result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+                //items = paginatedList.Items.AsQueryable();
+                //Console.WriteLine($"Total: {paginatedList.TotalCount} categories.");
+                //des = $"Tổng số danh mục: {paginatedList.TotalCount}";
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+    private int currentPage = 1;
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+        //StateHasChanged();
+
+        var result = await categoryService.GetCategoriesAsync(null, null, page, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+            //items = paginatedList.Items.AsQueryable();
+            //Console.WriteLine($"Total: {paginatedList.TotalCount} categories.");
+        }
+        isLoading = false;
+        //StateHasChanged();
+    }
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/categories/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/categories/update/{id}");
+    }
+}

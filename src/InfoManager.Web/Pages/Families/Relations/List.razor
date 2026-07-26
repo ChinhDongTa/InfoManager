@@ -1,0 +1,87 @@
+﻿@page "/families/relations/list"
+@inject IFamilyService familyService
+@inject NavigationManager navigationManager
+@using InfoManager.Shared.Dtos.FamilyRelations
+
+<PageHeader Title="Quan hệ gia đình" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/families/relations/create"))>Tạo mới</FluentButton>
+
+        <PaginatedTable TItem="FamilyRelationDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="FamilyRelationDto" TProp="string" Title="Tên quan hệ" Property="@(x => x.Name)" />
+            <PropertyColumn TGridItem="FamilyRelationDto" TProp="string" Title="Mô tả" Property="@(x => x.Description)" Sortable="true" />
+            <TemplateColumn TGridItem="FamilyRelationDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<FamilyRelationDto>? paginatedList;
+    bool isLoading = false;
+    private int currentPage = 1;
+    int pageSize = Constants.PageSize;
+    Alert? alertComponent;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await familyService.GetFamilyRelationsAsync(null, currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("FamilyRelationDto"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        isLoading = true;
+        currentPage = page;
+        try
+        {
+            var result = await familyService.GetFamilyRelationsAsync(null, page, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("FamilyRelationDto"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/relations/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/relations/update/{id}");
+    }
+}

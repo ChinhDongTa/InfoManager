@@ -1,0 +1,81 @@
+﻿@page "/experiences/list"
+@inject NavigationManager navigationManager
+@inject IExperienceService experienceService
+@using InfoManager.Shared.Dtos.Experiences
+
+<PageHeader Title="Danh sách kinh nghiệm" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())"  OnClick=@(() => navigationManager.NavigateTo("/experiences/create"))>Tạo mới</FluentButton>
+        <PaginatedTable TItem="ExperienceSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="ExperienceSummaryDto" TProp="string" Title="ID" Property="@(x => x.Id)" />
+            <PropertyColumn TGridItem="ExperienceSummaryDto" TProp="string" Title="Content" Property="@(x => x.Content)" Sortable="true" />
+            <PropertyColumn TGridItem="ExperienceSummaryDto" TProp="DateOnly?" Title="Date" Property="@(x => x.ExperienceDate)" />
+            <TemplateColumn TGridItem="ExperienceSummaryDto" Context="item"  Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<ExperienceSummaryDto>? paginatedList;
+    bool isLoading = false;
+    private int currentPage = 1;
+    int pageSize = Constants.PageSize;
+    Alert? alertComponent;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await experienceService.GetExperiencesAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert($"Error: Failed to load experiences: {result.ErrorMessage?.ToLine()}", AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await experienceService.GetExperiencesAsync(page, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert($"Error: Failed to load experiences: {result.ErrorMessage?.ToLine()}", AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/experiences/update/{id}");
+    }
+   
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/experiences/details/{id}");
+    }
+}

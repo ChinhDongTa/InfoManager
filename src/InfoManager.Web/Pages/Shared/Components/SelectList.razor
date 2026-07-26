@@ -1,0 +1,147 @@
+﻿@using InfoManager.Shared.Dtos.Common
+@inject IHttpClientFactory HttpFactory
+@if (IsLoading)
+{
+    <FluentProgressRing />
+}
+else if (HasError)
+{
+    <FluentLabel Typo="Typography.Body" Style="color: var(--error);" Title="@ErrorMessage">
+        ⚠️ @ErrorMessage
+    </FluentLabel>
+}
+else if (Items.Any())
+{
+    <FluentSelect TOption="SelectListItemDto"
+                  Items="@Items"
+                  Value="@(_selectedOption?.Id ?? string.Empty)"
+                  @bind-SelectedOption="SelectedOption"
+                  OptionValue="@(item => item.Id ?? string.Empty)"
+                  OptionText="@(item=>item.Name??string.Empty)"
+                  Label="@Label"
+                  Required="@Required"
+                  Placeholder="@(string.IsNullOrEmpty(Placeholder) ? "Chọn..." : Placeholder)"
+                  Disabled="@Disabled"
+                  Style="@Style"
+                  Class="@Class"
+                  @attributes="AdditionalAttributes" />
+
+    <!-- Test label trong child -->
+    @* <label>Id selected: @SelectedOption?.Id </label> *@
+}
+else
+{
+    <FluentLabel Typo="Typography.Body">Không có dữ liệu</FluentLabel>
+}
+
+@code {
+    [Parameter] public required string Route { get; set; }
+    [Parameter] public string? DefaultId { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Style { get; set; }
+    [Parameter] public string? Class { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private List<SelectListItemDto> Items { get; set; } = new();
+    private SelectListItemDto? _selectedOption;
+
+    [Parameter]
+    public SelectListItemDto? SelectedOption
+    {
+        get => _selectedOption;
+        set
+        {
+            if (EqualityComparer<SelectListItemDto?>.Default.Equals(_selectedOption, value)) return;
+            _selectedOption = value;
+            _ = SelectedOptionChanged.InvokeAsync(value);
+        }
+    }
+
+    [Parameter] public EventCallback<SelectListItemDto?> SelectedOptionChanged { get; set; }
+
+    private bool IsLoading { get; set; } = true;
+    private bool HasError { get; set; }
+    private string? ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Route))
+        {
+            HasError = true;
+            ErrorMessage = "Route phải có giá trị.";
+            IsLoading = false;
+            return;
+        }
+        await LoadItems();
+    }
+
+    // Xử lý khi DefaultId thay đổi từ parent
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Items.Any() && !string.IsNullOrEmpty(DefaultId))
+        {
+            await ApplyDefaultSelection();
+        }
+    }
+
+    private async Task LoadItems()
+    {
+        try
+        {
+            var client = HttpFactory.CreateClient(Constants.PublicHttpClient);
+            var apiResult = await client.GetFromJsonAsync<IEnumerable<SelectListItemDto>>(Route);
+
+            if (apiResult != null)
+            {
+                Items = apiResult.OrderBy(x => x.Name).ToList();
+
+                // Áp dụng default selection sau khi load items
+                if (!string.IsNullOrEmpty(DefaultId))
+                {
+                    await ApplyDefaultSelection();
+                }
+            }
+            else
+            {
+                HasError = true;
+                ErrorMessage = "Không thể tải danh sách.";
+            }
+        }
+        catch (Exception ex)
+        {
+            HasError = true;
+            ErrorMessage = $"Lỗi kết nối: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ApplyDefaultSelection()
+    {
+        if (string.IsNullOrWhiteSpace(DefaultId))
+        {
+            // Nếu DefaultId null hoặc rỗng → không chọn gì
+            if (_selectedOption != null)
+            {
+                _selectedOption = null;
+                await SelectedOptionChanged.InvokeAsync(null);
+            }
+            return;
+        }
+
+        var defaultItem = Items.FirstOrDefault(x => (x.Id ?? string.Empty) == DefaultId);
+
+        if (defaultItem != null && !EqualityComparer<SelectListItemDto?>.Default.Equals(_selectedOption, defaultItem))
+        {
+            _selectedOption = defaultItem;
+            await SelectedOptionChanged.InvokeAsync(_selectedOption);
+        }
+    }
+}

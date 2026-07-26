@@ -1,0 +1,19 @@
+{
+  "runtime": "Net100",
+  "documentGenerator": {
+    "aspNetCoreToOpenApi": {
+      "project": "InfoManager.Api.csproj",
+      "documentName": "v1",
+      "noBuild": true,
+      "msBuildOutputPath": null,
+      "verbose": false,
+      "workingDirectory": null,
+      "aspNetCoreEnvironment": null,
+      "output": "wwwroot/api/specification.json",
+      "newLineBehavior": "Auto",
+      "generateDefaultResponses": true,
+      "defaultResponseReferenceTypeNullHandling": "Null"
+    }
+  },
+  "codeGenerators": {}
+}

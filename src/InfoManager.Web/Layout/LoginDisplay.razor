@@ -1,0 +1,49 @@
+﻿@using System.Security.Claims
+@using InfoManager.Web.Services
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<FluentStack Orientation="Orientation.Horizontal" HorizontalGap="12" VerticalAlignment="VerticalAlignment.Center" HorizontalAlignment="HorizontalAlignment.End">
+    <AuthorizeView>
+        <Authorized>
+            <FluentPersona Name="@GetUserEmail(context.User)"
+                           Appearance="PersonaAppearance.Circle"
+                           Size="PersonaSize.Size32" />
+
+            <FluentButton Appearance="Appearance.Accent"
+                          OnClick="BeginLogOut"
+                          Title="Đăng xuất">
+                Đăng xuất
+            </FluentButton>
+        </Authorized>
+        <NotAuthorized>
+            <FluentButton Appearance="Appearance.Accent"
+                          OnClick="@(() => Navigation.NavigateTo("/account/login"))">
+                Đăng nhập
+            </FluentButton>
+        </NotAuthorized>
+    </AuthorizeView>
+</FluentStack>
+
+@code {
+    private string GetUserEmail(ClaimsPrincipal user)
+    {
+        //Debug: In ra tất cả claims
+        // Console.WriteLine("[LoginDisplay] All claims:");
+        // foreach (var claim in user?.Claims ?? [])
+        // {
+        //     Console.WriteLine($"  - {claim.Type}: {claim.Value}");
+        // }
+
+        return user?.FindFirst("email")?.Value ?? user?.Identity?.Name ?? "Người dùng";
+
+        //Console.WriteLine($"[LoginDisplay] Email/Name: {email}");
+        //return email;
+    }
+
+    private async Task BeginLogOut()
+    {
+        await AuthService.LogoutAsync(null, CancellationToken.None);
+        Navigation.NavigateTo("/", forceLoad: true);
+    }
+}

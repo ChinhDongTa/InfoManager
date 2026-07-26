@@ -1,0 +1,155 @@
+﻿@page "/priceTrackings/create"
+@page "/priceTrackings/update/{id}"
+@inject IPriceTrackingService priceTrackingService
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.PriceTrackings
+<PageHeader Title="Quản lý theo dõi giá" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên sản phẩm" @bind-Value="updateModel.ProductName" />
+                        <FluentTextField Label="Liên kết sản phẩm" @bind-Value="updateModel.ProductUrl" />
+                        <FluentTextField Label="Tên cửa hàng" @bind-Value="updateModel.StoreName"/>
+                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <CurrencyNumberField Label="Giá hiện tại" @bind-Value="updateModel.CurrentPrice" />
+                        <CurrencyNumberField Label="Giá mong muốn" @bind-Value="updateModel.DesiredPrice" />
+                        <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="updateModel.LowestPriceSeen" />
+                        <FluentCheckbox Label="Đã mua" @bind-Checked="updateModel.IsPurchased" />
+                        <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <FluentTextField Label="Tên sản phẩm" @bind-Value="createModel.ProductName" />
+                        <FluentTextField Label="Liên kết sản phẩm" @bind-Value="createModel.ProductUrl" />
+                        <FluentTextField Label="Tên cửa hàng" @bind-Value="createModel.StoreName" />
+                        <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                        <CurrencyNumberField Label="Giá hiện tại" @bind-Value="createModel.CurrentPrice" /> 
+                        <CurrencyNumberField Label="Giá mong muốn" @bind-Value="createModel.DesiredPrice" />
+                        <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="createModel.LowestPriceSeen" />
+                        <FluentCheckbox Label="Đã mua" @bind-Checked="createModel.IsPurchased" />
+                        <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
+                        @* Action : create, update *@
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private UpdatePriceTrackingModel? updateModel;
+    private CreatePriceTrackingModel? createModel;
+    private UpdatePriceTrackingModel? originModel;
+
+    private DateTime? LastCheckedDate ;
+    private SelectListItemDto? prioritySelected, categorySelected;
+    bool isCompleted = false;
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật theo dõi giá";
+            var result = await priceTrackingService.GetPriceTrackingByIdAsync(Id);
+            if (result.Success && result.Data != null) 
+            {
+                updateModel = new UpdatePriceTrackingModel(result.Data);
+                originModel = new UpdatePriceTrackingModel(result.Data);
+                LastCheckedDate = result.Data.LastCheckedDate;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("PriceTracking", Id), AlertType.Error, Models.Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới theo dõi giá";
+            createModel = new CreatePriceTrackingModel();
+        }
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.LastCheckedDate = LastCheckedDate;
+        var result = await priceTrackingService.UpdatePriceTrackingAsync(Id, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "PriceTracking"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        createModel.LastCheckedDate = LastCheckedDate;
+        var result = await priceTrackingService.CreatePriceTrackingAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "PriceTracking"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

@@ -1,0 +1,73 @@
+﻿@page "/priceTrackings/details/{id}"
+@inject IPriceTrackingService PriceTrackingService
+
+<PageHeader Title="Theo dõi giá của sản phẩm" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Sản phẩm:</strong> @dto?.ProductName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Trạng thái mua:</strong> @dto?.IsPurchased ? "Đã mua" : "Chưa mua"
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Giá hiện tại:</strong> @dto?.CurrentPrice
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Giá mong muốn:</strong> @dto?.DesiredPrice
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Giá thấp nhất đã thấy:</strong> @dto?.LowestPriceSeen
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày kiểm tra cuối cùng:</strong> @dto?.LastCheckedDate
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Liên kết sản phẩm:</strong> <a href="@dto?.ProductUrl" target="_blank">xem sản phẩm</a>
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Cửa hàng:</strong> @dto?.StoreName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Mô tả:</strong> @dto?.Description
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="priceTrackings" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.PriceTrackings.PriceTrackingDto? dto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await PriceTrackingService.GetPriceTrackingByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Price Tracking", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa theo dõi giá (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

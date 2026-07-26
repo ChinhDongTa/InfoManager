@@ -1,0 +1,139 @@
+﻿@page "/categories/update/{Id}"
+@page "/categories/create"
+@inject ICategoryService categoryService
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.Categories
+
+<PageHeader Title="Quản lý danh mục" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField @bind-Value="@updateModel.Name" Label="Tên danh mục" />
+                    <FluentTextField @bind-Value="@updateModel.Group" Label="Nhóm danh mục" />
+                    <FluentTextField @bind-Value="@updateModel.KeyName" Label="KeyName" />
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/categories/list" />
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField @bind-Value="@createModel.Name" Label="Tên danh mục" Required="true" />
+                    <FluentTextField @bind-Value="@createModel.Group" Label="Nhóm danh mục" />
+                    <FluentTextField @bind-Value="@createModel.KeyName" Label="KeyName" />
+
+                    @* Action : create, update *@
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/categories/list" />
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private UpdateCategoryModel? updateModel;
+    private CreateCategoryModel? createModel;
+    private UpdateCategoryModel? originModel;
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title=null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        //Nếu Id không rỗng, thì load dữ liệu danh mục từ service
+        if(!string.IsNullOrEmpty(Id))
+        {
+            var result = await categoryService.GetCategoryByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                originModel = new UpdateCategoryModel(result.Data);
+                updateModel = new UpdateCategoryModel(result.Data);
+                title = $"Chỉnh sửa danh mục: {result.Data.Name}";
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine()??"GetCategory"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            createModel = new CreateCategoryModel();
+            title = "Tạo mới danh mục";
+        }
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        //Hiện tại, có thể dùng updateContext.IsModified() để kiểm tra xem model có bị thay đổi hay không, nếu không thì không cần gọi service update.
+        //Vì ở server đã có logic kiểm tra xem dữ liệu có thay đổi hay không.
+        //Sau này có thể dùng dùng Reflection để so sánh các property của model cũ và model mới, nếu có sự khác biệt thì gọi service update
+        IsSaving = true;
+        if (updateModel == null || originModel == null) 
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await categoryService.UpdateCategoryAsync(Id, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update,"Category"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }   
+         
+        var result = await categoryService.CreateCategoryAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create,"Category"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    } 
+}

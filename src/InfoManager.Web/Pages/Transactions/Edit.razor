@@ -1,0 +1,167 @@
+﻿@page "/transactions/create"
+@page "/transactions/update/{id}"
+
+@inject ITransactionService transactionService
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.Transactions
+
+<PageHeader Title="Quản lý giao dịch" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        
+                        <FluentTextArea Label="Nội dung giao dịch" @bind-Value="updateModel.Description" Cols="100" />
+                        <CurrencyNumberField Label="Số tiền" @bind-Value="updateModel.Amount" />
+                        <SelectList @bind-SelectedOption="categorySelected" DefaultId="@updateModel.CategoryId" Route="api/selectlist/category" Label="Loại giao dịch" />
+                        <SelectList @bind-SelectedOption="paymentSelected" DefaultId="@updateModel.PaymentMethod.ToIntString()" Route="api/selectlist/paymentmethod" Label="Phương thức thanh toán" />
+                        <SelectList @bind-SelectedOption="transactionSelected" DefaultId="@updateModel.TransactionType.ToIntString()" Route="api/selectlist/transactiontype" Label="Loại giao dịch" />
+                        <DateTimePicker Label="Ngày giao dịch" @bind-Value="selectedDate" />
+
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/transactions/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <FluentTextArea Label="Nội dung giao dịch" @bind-Value="createModel.Description" Cols="100" />
+                        <CurrencyNumberField Label="Số tiền" @bind-Value="createModel.Amount" />
+                        <SelectList @bind-SelectedOption="categorySelected" Route="api/selectlist/category" Label="Loại giao dịch" />
+                        <SelectList @bind-SelectedOption="paymentSelected" DefaultId="@createModel.PaymentMethod.ToIntString()" Route="api/selectlist/paymentmethod" Label="Phương thức thanh toán" />
+                        <SelectList @bind-SelectedOption="transactionSelected" DefaultId="@createModel.TransactionType.ToIntString()" Route="api/selectlist/transactiontype" Label="Loại giao dịch" />
+                        <DateTimePicker Label="Ngày giao dịch" @bind-Value="selectedDate" />
+
+                        @* Action : create, update *@
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/transactions/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private UpdateTransactionModel? updateModel;
+    private CreateTransactionModel? createModel;
+    private UpdateTransactionModel? originModel;
+
+    private DateTime? selectedDate = null;
+    private SelectListItemDto? categorySelected, paymentSelected, transactionSelected;
+
+    bool isCompleted = false;
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật giao dịch";
+            var result = await transactionService.GetTransactionByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateTransactionModel(result.Data);
+                originModel = new UpdateTransactionModel(result.Data);
+                selectedDate = updateModel.TransactionDate;
+                // categorySelected = new SelectListItemDto ( Id : updateModel?.CategoryId, Name : result.Data.CategoryName );
+                // paymentSelected = new SelectListItemDto ( Id : updateModel?.PaymentMethod.ToIntString(), Name : result.Data.PaymentMethodName );
+                // transactionSelected = new SelectListItemDto ( Id : updateModel? .TransactionType.ToIntString(), Name : result.Data.TransactionTypeName );
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Transaction", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới giao dịch";
+            createModel = new CreateTransactionModel();
+        }
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.TransactionDate = selectedDate;
+        updateModel.CategoryId = categorySelected?.Id;
+        updateModel.TransactionType = Enum.Parse<TransactionType>(transactionSelected?.Id ?? string.Empty);
+        updateModel.PaymentMethod = Enum.Parse<PaymentMethod>(paymentSelected?.Id ?? string.Empty);
+
+        var result = await transactionService.UpdateTransactionAsync(Id, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Transaction"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        createModel.TransactionDate = selectedDate;
+        createModel.CategoryId = categorySelected?.Id;
+        createModel.TransactionType = Enum.Parse<TransactionType>(transactionSelected?.Id ?? string.Empty);
+        createModel.PaymentMethod = Enum.Parse<PaymentMethod>(paymentSelected?.Id ?? string.Empty);
+
+        var result = await transactionService.CreateTransactionAsync(createModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Transaction"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

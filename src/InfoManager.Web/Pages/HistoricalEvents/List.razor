@@ -1,0 +1,65 @@
+﻿@page "/historicalEvents/list"
+@inject NavigationManager navigationManager
+@inject IHistoricalEventService historicalEventService
+@using InfoManager.Shared.Dtos.HistoricalEvents
+
+<PageHeader Title="Danh sách sự kiện lịch sử" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/historicalEvents/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="HistoricalEventSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Tên" Property="@(x => x.Title)" Sortable="true" />
+            <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Ngày" Property="@(x => x.EventDate.ToString("dd/MM/yyyy"))" />
+            <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Loại" Property="@(x => x.EventType)" />
+            <TemplateColumn TGridItem="HistoricalEventSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<HistoricalEventSummaryDto>? paginatedList;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        var result = await historicalEventService.GetHistoricalEventsAsync(1, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        isLoading = false;
+    }
+    private int currentPage = 1;
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+        var result = await historicalEventService.GetHistoricalEventsAsync(page, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        isLoading = false;
+    }
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/historicalEvents/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/historicalEvents/edit/{id}");
+    }
+   
+}

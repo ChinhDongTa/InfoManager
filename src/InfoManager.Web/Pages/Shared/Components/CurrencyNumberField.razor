@@ -1,0 +1,78 @@
+﻿@* Copilot tạo *@
+@using System.Globalization
+@using System.Text.RegularExpressions
+
+<FluentTextField Label="@Label"
+                 Placeholder="@Placeholder"
+                 @bind-Value="displayValue"
+                 Immediate="true"
+                 Style="@Style"
+                 @oninput="OnInput"
+                 @onblur="OnBlur" />
+
+@code {
+    [Parameter]
+    public decimal? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<decimal?> ValueChanged { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
+
+    [Parameter]
+    public string? Placeholder { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    private string displayValue = string.Empty;
+
+    private static readonly CultureInfo ViCulture = new("vi-VN");
+
+    protected override void OnParametersSet()
+    => displayValue = Value.HasValue ? Format(Value.Value) : string.Empty;
+
+    private string Format(decimal v) => v.ToString("N0", ViCulture) + " đ";
+
+    private void OnInput(ChangeEventArgs e)
+    {
+        // Keep raw input while typing (avoid reformatting on every keystroke)
+        displayValue = e?.Value?.ToString() ?? string.Empty;
+
+        // Try to parse live so parent model is updated immediately (prevents missing update if save occurs before blur)
+        var cleanedLive = Regex.Replace(displayValue, "[^0-9,\\-]", string.Empty).Replace(".", string.Empty).Replace(",", ".");
+        if (decimal.TryParse(cleanedLive, NumberStyles.Number | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var parsedLive))
+        {
+            Value = parsedLive;
+            _ = ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private async Task OnBlur(FocusEventArgs _)
+    {
+        var s = displayValue ?? string.Empty;
+        // Remove anything except digits and comma (decimal separator in vi-VN) and minus
+        var cleaned = Regex.Replace(s, @"[^0-9,\-]", string.Empty);
+        // Remove thousand separators if user typed dots
+        cleaned = cleaned.Replace(".", string.Empty);
+        // Normalize decimal separator to invariant dot for parsing
+        cleaned = cleaned.Replace(",", ".");
+
+        if (decimal.TryParse(cleaned, NumberStyles.Number | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var parsed))
+        {
+            await SetValue(parsed);
+        }
+        else
+        {
+            await SetValue(null);
+        }
+    }
+
+    private async Task SetValue(decimal? v)
+    {
+        Value = v;
+        await ValueChanged.InvokeAsync(Value);
+        displayValue = v.HasValue ? Format(v.Value) : string.Empty;
+    }
+}

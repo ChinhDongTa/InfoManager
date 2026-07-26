@@ -1,0 +1,13 @@
+﻿global using FluentValidation;
+global using InfoManager.Application.Common.Exceptions;
+global using InfoManager.Application.Common.Handlers;
+global using InfoManager.Application.Common.Interfaces;
+global using InfoManager.Application.Common.Models;
+global using InfoManager.Application.Extensions;
+global using InfoManager.Domain.Entities;
+global using InfoManager.Enum;
+global using InfoManager.Helper;
+global using MediatR;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Logging;
+global using InfoManager.Shared.Dtos.Common;

@@ -1,0 +1,104 @@
+﻿@page "/account/login"
+@using InfoManager.Shared.Dtos.Auths
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Center" Style="margin: 20px auto;">
+            <FluentLabel Typo="Typography.PaneHeader">
+                Bạn đã đăng nhập!
+            </FluentLabel>
+            <FluentButton Appearance="Appearance.Accent" OnClick=@(() => Navigation.NavigateTo("/"))>
+                Quay lại trang chủ
+            </FluentButton>
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <h3>Login</h3>
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Center" Style="max-width:400px; margin: 20px auto;">
+            <FluentLabel Typo="Typography.PaneHeader">
+                Đăng nhập vào hệ thống
+            </FluentLabel>
+            <FluentTextField @bind-Value="Email"
+                             Label="Email"
+                             Placeholder="nhap@email.com"
+                             Required="true"
+                             Immediate="true"
+                             Style="width:100%;" />
+
+            <FluentTextField TextFieldType="TextFieldType.Password" @bind-Value="Password"
+                             Label="Mật khẩu"
+                             Required="true"
+                             Immediate="true"
+                             Style="width:100%;" />
+
+            @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+            {
+                <FluentMessageBar Severity="MessageSeverity.Error" Duration="0">
+                    @ErrorMessage
+                </FluentMessageBar>
+            }
+
+            <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="10" HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="width:100%; margin-top:16px;">
+                <FluentButton Appearance="Appearance.Accent" OnClick="HandleLogin" Disabled="@IsLoading">
+                    @if (IsLoading)
+                    {
+                        <span>Đang đăng nhập...</span>
+                    }
+                    else
+                    {
+                        <span>Đăng nhập</span>
+                    }
+                </FluentButton>
+                <FluentButton Appearance="Appearance.Outline" OnClick="GoToRegister">
+                    Đăng ký tài khoản mới
+                </FluentButton>
+            </FluentStack>
+        </FluentStack>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private string Email { get; set; } = "";
+    private string Password { get; set; } = "";
+    private string? ErrorMessage;
+    private bool IsLoading;
+
+    private async Task HandleLogin()
+    {
+        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+        {
+            ErrorMessage = "Vui lòng nhập đầy đủ email và mật khẩu";
+            return;
+        }
+
+        ErrorMessage = null;
+        IsLoading = true;
+
+        try
+        {
+            var result = await AuthService.LoginAsync(new LoginRequest { Email = Email, Password = Password });
+            if (!result.Success && result.Data is null)
+            {
+                ErrorMessage = "Đăng nhập thất bại";
+                return;
+            }
+            // Nếu thành công
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = "Đăng nhập thất bại: " + ex.Message;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private void GoToRegister()
+    {
+        Navigation.NavigateTo("auth/register");
+    }
+}

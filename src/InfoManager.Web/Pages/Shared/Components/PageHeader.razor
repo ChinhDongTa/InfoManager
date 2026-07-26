@@ -1,0 +1,35 @@
+﻿<FluentStack Orientation="Orientation.Horizontal"
+             VerticalAlignment="VerticalAlignment.Center"
+             Style="margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid var(--neutral-stroke-divider-rest);">
+
+    @* Icon + Tiêu đề *@
+    <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
+        @if (Icon is not null)
+        {
+            <FluentIcon Value="@Icon" Style="font-size: 28px; color: var(--accent-fill-rest);" />
+        }
+
+        <div>
+            <FluentLabel Typo="Typography.H3" Color="Color.Success" Style="margin: 0; font-weight: 600;">
+                @Title
+            </FluentLabel>
+             @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <FluentLabel Typo="Typography.Body" 
+                            Style="color: var(--neutral-foreground-hint); margin-top: 4px;">
+                    @Description
+                </FluentLabel>
+            }
+        </div>
+    </div>
+</FluentStack>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public Icon? Icon { get; set; }
+    [Parameter]
+    public string? Description { get; set; }
+}

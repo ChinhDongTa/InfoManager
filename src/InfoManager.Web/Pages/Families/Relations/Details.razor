@@ -1,0 +1,51 @@
+﻿@page "/families/relations/details/{Id}"
+@inject IFamilyService familyService
+
+<PageHeader Title="Chi tiết sự kiện gia đình" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Họ và tên</strong>: @dto?.Name
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Tên sự kiện</strong>: @dto?.Description
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="families/relations" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    InfoManager.Shared.Dtos.FamilyRelations.FamilyRelationDto? dto;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await familyService.GetFamilyRelationByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Family Relation", Id), AlertType.Error, Models.Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa Family Relation (ID: {dto?.Id}) thành công!";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Models.Constants.DismissAlertAfter10Seconds);
+    }
+}

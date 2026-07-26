@@ -1,0 +1,151 @@
+﻿@page "/experiences/update/{Id}"
+@page "/experiences/create"
+@inject IExperienceService experienceService
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.Experiences
+
+<PageHeader Title="Quản lý kinh nghiệm" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                 <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextArea @bind-Value="@updateModel.Content" Label="Nội dung kinh nghiệm" Cols="150" Rows="5" Maxlength="500" />
+                        <FluentTextArea @bind-Value="@updateModel.Description" Label="Mô tả" Cols="150" Rows="10" />
+                        <DateTimePicker @bind-Value="@experienceDate" WithTime="false" Label="Ngày kinh nghiệm" />
+                        <SelectList @bind-SelectedOption="selectedCategory" DefaultId="@updateModel.CategoryId" Route="api/selectList/category" Label="Danh mục" />
+                    
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/experiences/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                    <FluentTextArea @bind-Value="@createModel.Content" Cols="150" Rows="5" Label="Nội dung kinh nghiệm" Required Maxlength="500" />
+                    <FluentTextArea @bind-Value="@createModel.Description" Cols="150" Rows="10" Label="Mô tả" />
+                    <DateTimePicker @bind-Value="@experienceDate" WithTime="false" Label="Ngày kinh nghiệm" />
+                    <SelectList @bind-SelectedOption="selectedCategory" Route="api/selectList/category" Label="Danh mục" />
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/experiences/list" />
+                     </FluentStack>
+                </EditForm>
+            }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+
+    private UpdateExperienceModel? updateModel;
+    private UpdateExperienceModel? originModel;
+    private CreateExperienceModel? createModel;
+
+    private InfoManager.Shared.Dtos.Common.SelectListItemDto? selectedCategory;
+    private DateTime? experienceDate;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật kinh nghiệm";
+            var result = await experienceService.GetExperienceByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateExperienceModel(result.Data);
+                originModel = new UpdateExperienceModel(result.Data);   
+                  
+               
+                experienceDate = result.Data.ExperienceDate.ToDateTime();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine()??"GetExperience"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới kinh nghiệm";
+            createModel = new CreateExperienceModel();
+        }
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.ExperienceDate = experienceDate.ToDateOnly();
+        updateModel.CategoryId = selectedCategory?.Id;
+
+        var updateRequest = updateModel.CreateRequest();
+
+        var result = await experienceService.UpdateExperienceAsync(Id,updateRequest);
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Experience"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        createModel.ExperienceDate = experienceDate.ToDateOnly();
+        createModel.CategoryId = selectedCategory?.Id;
+        var createRequest = createModel.CreateRequest();
+        var result = await experienceService.CreateExperienceAsync(createRequest);
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Experience"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

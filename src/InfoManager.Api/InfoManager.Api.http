@@ -1,0 +1,46 @@
+@InfoManager.Api_HostAddress = https://localhost:7217
+
+
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJmZTYxYzI4ZC0zZWJkLTQyZWYtYTcyMS04NTQwNzk0Yjk4YmMiLCJlbWFpbCI6ImR0Y2hpbmhraHRuQHlhaG9vLmNvbSIsImp0aSI6ImRhMWI4NTliLTdkODUtNDY0Yy1hMzFkLWVkY2QzNDYwY2FjYiIsIm5iZiI6MTc4MzU2NjQ2MywiZXhwIjoxNzgzNTY3MzYzLCJpYXQiOjE3ODM1NjY0NjN9.1yynrcTXyrZLis5t2U1-yXSGo05NvHeupWOhdmqlAOc
+
+###
+
+POST {{InfoManager.Api_HostAddress}}/api/Identities/register
+Content-Type: application/json
+{
+  "Email": "dtchinhkhtn@yahoo.com",
+  "Password": "P@ssw0rd"
+}
+
+###
+
+POST {{InfoManager.Api_HostAddress}}/api/Identities/login
+Content-Type: application/json
+{
+   "email": "dtchinhkhtn@yahoo.com",
+   "password": "P@ssw0rd"
+}
+
+###
+
+@id=e5c2537c-d8fe-4237-ae34-6ee948ec98e8
+GET {{InfoManager.Api_HostAddress}}/api/Identities/user-detail/{{id}}
+Authorization: Bearer {{token}}
+###
+
+@email=dtchinh
+GET {{InfoManager.Api_HostAddress}}/api/Identities/users/search/{{email}}
+Authorization: Bearer {{token}}
+
+###
+//Test update category success
+PUT {{InfoManager.Api_HostAddress}}/api/Categories/6e6f59f5-7f5a-496d-9dd9-e8582c86f30b
+Authorization: Bearer {{token}}
+Content-Type: application/json
+ {
+    "id": "6e6f59f5-7f5a-496d-9dd9-e8582c86f30b",
+    "name": "Bán hàng",
+    "group": null,
+    "keyName": "sale"
+ }
+###

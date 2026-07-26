@@ -1,0 +1,64 @@
+﻿@page "/transactions/details/{id}"
+@inject ITransactionService transactionService
+
+<PageHeader Title="Chi tiết giao dịch" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Danh mục:</strong> @dto?.CategoryName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Nội dung giao dịch:</strong> @dto?.Description
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Tổng số tiền:</strong> @dto?.Amount
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày giao dịch:</strong> @dto?.TransactionDate?.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Loại giao dịch:</strong> @dto?.TransactionTypeName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Phương thức thanh toán:</strong> @dto?.PaymentMethodName
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="transactions" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.Transactions.TransactionDto? dto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await transactionService.GetTransactionByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Transaction", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa giao dịch (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

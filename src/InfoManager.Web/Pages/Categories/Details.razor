@@ -1,0 +1,53 @@
+﻿@page "/categories/details/{Id}"
+@inject ICategoryService categoryService
+<PageHeader Title="Chi tiết danh mục" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Name:</strong> @dto?.Name
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Group:</strong> @dto?.Group
+            </FluentLabel>
+            <FluentLabel>
+                <strong>KeyName:</strong> @dto?.KeyName
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="categories"  OnDeleteClick="DeleteHandler"/>
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; } 
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.Categories.CategoryDto? dto;
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await categoryService.GetCategoryByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Danh mục", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa danh mục {dto?.Name} (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

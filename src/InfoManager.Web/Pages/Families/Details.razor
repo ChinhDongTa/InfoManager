@@ -1,0 +1,72 @@
+﻿@page "/families/details/{Id}"
+@inject IFamilyService familyService
+<PageHeader Title="Chi tiết danh mục" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Họ tên:</strong> @dto?.FullName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày sinh:</strong> @dto?.BirthDate.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Giới tính:</strong> @dto?.Gender
+            </FluentLabel>
+            @if(dto?.DeathDate != null)
+            {
+                <FluentLabel>
+                    <strong>Ngày mất:</strong> @dto?.DeathDate?.ToString("dd/MM/yyyy")
+                </FluentLabel>
+            }
+            <FluentLabel>
+                <strong>Mối quan hệ:</strong> @dto?.Relationship
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Email:</strong> <a href="mailto:@dto?.Email">@dto?.Email</a>
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Điện thoại:</strong> @dto?.PhoneNumber
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ghi chú:</strong> @dto?.Note
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="families" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.FamilyMembers.FamilyMemberDto? dto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await familyService.GetFamilyMemberByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Thành viên gia đình", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa  {dto?.FullName} (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

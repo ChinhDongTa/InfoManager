@@ -1,0 +1,162 @@
+﻿@page "/Intentions/update/{Id}"
+@page "/Intentions/create"
+@inject IIntentionService intentionService
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.Intentions
+
+<PageHeader Title="Quản lý ý định" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextArea Label="Nội dung" @bind-Value="updateModel.Content" Maxlength="500" />
+                        <FluentTextArea Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <DateTimePicker Label="Ngày dự kiến" @bind-Value="selectedDate" />
+                        <SelectList Label="Mức độ ưu tiên" @bind-Value="prioritySelected" DefaultId="@updateModel.Priority.ToIntString()" Route="api/selectlist/priority" />
+                        <FluentCheckbox Label="Hoàn thành" @bind-Value="isCompleted" />
+                        <SelectList Label="Danh mục" @bind-Value="categorySelected" DefaultId="@updateModel.CategoryId" Route="api/selectlist/category" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/relations/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <FluentTextArea Label="Nội dung" @bind-Value="createModel.Content" Maxlength="500" Required />
+                        <FluentTextArea Label="Mô tả" @bind-Value="createModel.Description" />
+                        <DateTimePicker Label="Ngày dự kiến" @bind-Value="selectedDate" />
+                        <SelectList Label="Mức độ ưu tiên" @bind-Value="prioritySelected"  Route="api/selectlist/priority" />
+                        <FluentCheckbox Label="Hoàn thành" @bind-Value="createModel.IsCompleted" />
+                        <SelectList Label="Danh mục" @bind-Value="categorySelected" D Route="api/selectlist/category" />
+
+                        @* Action : create, update *@
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/relations/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private UpdateIntentionModel? updateModel;
+    private CreateIntentionModel? createModel;
+    private UpdateIntentionModel? originModel;
+
+    private DateTime? selectedDate = null;
+    private SelectListItemDto? prioritySelected, categorySelected;
+    bool isCompleted = false;
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật ý định";
+            var result = await intentionService.GetIntentionByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateIntentionModel(result.Data);
+                originModel = new UpdateIntentionModel(result.Data);    
+                selectedDate = result.Data.PlannDate;
+                isCompleted = result.Data.IsCompleted;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Intention", Id), AlertType.Error, Models.Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới ý định";
+            createModel = new CreateIntentionModel();
+        }
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.PlannDate = selectedDate;
+        updateModel.Priority = GetPriorityFromSelected(prioritySelected?.Id ?? "0");
+        updateModel.CategoryId = categorySelected?.Id;
+
+        var result = await intentionService.UpdateIntentionAsync(Id, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Intention"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        
+        createModel.PlannDate = selectedDate;
+        createModel.CategoryId = categorySelected?.Id;
+        var result = await intentionService.CreateIntentionAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Intention"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private Priority GetPriorityFromSelected(string selected)
+    {
+        return (Priority)int.Parse(selected);
+    }
+}

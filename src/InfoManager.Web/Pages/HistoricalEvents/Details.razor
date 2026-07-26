@@ -1,0 +1,64 @@
+﻿@page "/HistoricalEvents/Details/{Id}"
+@inject IHistoricalEventService historicalEventService
+
+<PageHeader Title="Chi tiết sự kiện lịch sử" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Tên:</strong> @dto?.Title
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Tóm tắt:</strong> @dto?.Summary
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Loại:</strong> @dto?.EventName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày:</strong> @dto?.EventDate
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Địa điểm:</strong> @dto?.Location
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Nguồn tham khảo:</strong> @dto?.ReferenceSource
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="historicalEvents" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.HistoricalEvents.HistoricalEventDto? dto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await historicalEventService.GetHistoricalEventByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Sự kiện lịch sử", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa sự kiện lịch sử {dto?.Title} (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

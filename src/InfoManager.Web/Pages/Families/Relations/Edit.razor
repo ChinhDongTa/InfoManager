@@ -1,0 +1,139 @@
+﻿@page "/families/relations/create"
+@page "/families/relations/update/{Id}"
+@inject IFamilyService familyService
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.Families
+
+<PageHeader Title="Quản lý sự kiện gia đình" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên quan hệ" @bind-Value="updateModel.Name" Maxlength="100" />
+                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" Maxlength="300" />
+                   
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/relations/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary /> 
+ 
+                    <FluentTextField Label="Tên quan hệ" @bind-Value="createModel.Name" Maxlength="100" Required/>
+                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" Maxlength="300" />
+
+                    @* Action : create, update *@
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/relations/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    private UpdateFamilyRelationModel? updateModel;
+    private CreateFamilyRelationModel? createModel;
+    private UpdateFamilyRelationModel? originModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật quan hệ gia đình";
+            var result = await familyService.GetFamilyRelationByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateFamilyRelationModel(result.Data);
+                originModel = new UpdateFamilyRelationModel(result.Data);
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Family Relation", Id), AlertType.Error, Models.Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới quan hệ gia đình";
+            createModel = new CreateFamilyRelationModel();
+        }
+        IsLoading = false;
+    }    
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        var result = await familyService.UpdateFamilyRelationAsync(Id, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Family Relation"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        var result = await familyService.CreateFamilyRelationAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Family Relation"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

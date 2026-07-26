@@ -1,0 +1,65 @@
+﻿@page "/Intentions/details/{Id}"
+@inject IIntentionService intentionService
+
+<PageHeader Title="Chi tiết ý định" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Nội dung:</strong> @dto?.Content
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Danh mục:</strong> @dto?.CategoryName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày dự kiến:</strong> @dto?.PlannDate?.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Hoàn thành:</strong> @(dto?.IsCompleted == true ? "Đã hoàn thành" : "Chưa hoàn thành")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ưu tiên:</strong> @dto?.PriorityName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Mô tả:</strong> @dto?.Description
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="intentions" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.Intentions.IntentionDto? dto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await intentionService.GetIntentionByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Intention", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa ý định (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

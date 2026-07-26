@@ -1,0 +1,57 @@
+﻿@page "/Experiences/Details/{Id}"
+@inject IExperienceService experienceService
+
+<PageHeader Title="Chi tiết danh mục" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Content</strong>: @dto?.Content
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Description</strong>: @dto?.Description
+            </FluentLabel>
+            <FluentLabel>
+                <strong>ExperienceDate</strong>: @dto?.ExperienceDate
+            </FluentLabel>
+            <FluentLabel>
+                <strong>CategoryName</strong>: @dto?.CategoryName
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="Experiences" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized> 
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.Experiences.ExperienceDto? dto;
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await experienceService.GetExperienceByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Experience", Id), AlertType.Error, Models.Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa Experience (ID: {dto?.Id}) thành công!";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success,Models.Constants.DismissAlertAfter10Seconds);
+    }
+}

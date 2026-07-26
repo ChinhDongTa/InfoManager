@@ -1,0 +1,15 @@
+<Solution>
+  <Project Path="src/InfoManager.Api/InfoManager.Api.csproj" Id="a169f98f-f202-43d1-a90c-ae46c27510fe" />
+  <Project Path="src/InfoManager.ApiClient/InfoManager.ApiClient.csproj" Id="558362c6-02ef-4cf8-b526-b1bff18663dd" />
+  <Project Path="src/InfoManager.AppHost/InfoManager.AppHost.AppHost/InfoManager.AppHost.AppHost.csproj" Id="cd66d7b5-8f5b-45df-9d72-647a1b25b297" />
+  <Project Path="src/InfoManager.AppHost/InfoManager.AppHost.ServiceDefaults/InfoManager.AppHost.ServiceDefaults.csproj" />
+  <Project Path="src/InfoManager.Application/InfoManager.Application.csproj" Id="cba47c39-11fe-48e1-9a8f-9afe9c917590" />
+  <Project Path="src/InfoManager.Domain/InfoManager.Domain.csproj" Id="6abc6be8-a75a-4a58-a6e7-65d1e96643da" />
+  <Project Path="src/InfoManager.Enum/InfoManager.Enum.csproj" Id="739f1055-586b-4008-9393-3012f659e3c0" />
+  <Project Path="src/InfoManager.ErrorHelper/InfoManager.Helper.csproj" Id="66ad020e-8244-4fb0-8110-946ffcb90e53" />
+  <Project Path="src/InfoManager.Infrastructure/InfoManager.Infrastructure.csproj" Id="71af1f41-2342-41e5-add6-8a9b6b15c83d" />
+  <Project Path="src/InfoManager.ModelClient/InfoManager.ModelClient.csproj" Id="66033a50-7687-4a48-a124-7fe38e50ec3f" />
+  <Project Path="src/InfoManager.Shared/InfoManager.Shared.csproj" Id="b3d0e0df-4939-4cf7-a37a-f79cb2498dbd" />
+  <Project Path="src/InfoManager.TestConsole/InfoManager.TestConsole.csproj" Id="22b0756d-ee8b-4f7c-96a0-d8119dfca388" />
+  <Project Path="src/InfoManager.Web/InfoManager.Web.csproj" Id="5637ad6d-901b-4cdd-b143-05703996148f" />
+</Solution>

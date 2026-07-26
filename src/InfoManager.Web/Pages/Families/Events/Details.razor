@@ -1,0 +1,58 @@
+﻿@page "/families/events/details/{Id}"
+@inject IFamilyService familyService
+
+<PageHeader Title="Chi tiết sự kiện gia đình" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Họ và tên</strong>: @dto?.FamilyMemberFullName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Tên sự kiện</strong>: @dto?.EventName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày</strong>: @dto?.EventDate
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Địa điểm</strong>: @dto?.Location
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="families/events" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    InfoManager.Shared.Dtos.FamilyEvents.FamilyEventDto? dto;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await familyService.GetFamilyEventByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Family Event", Id), AlertType.Error, Models.Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa Family Event (ID: {dto?.Id}) thành công!";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Models.Constants.DismissAlertAfter10Seconds);
+    }
+}

@@ -1,0 +1,115 @@
+﻿<FluentStack Orientation="Orientation.Horizontal">
+    <FluentDatePicker @bind-Value="SelectedDate" Label="@Label" Placeholder="@Placeholder" DayFormat="DayFormat.TwoDigit" Immediate="@Immediate" Required="@Required" />
+    @if (WithTime)
+    {
+        <FluentTimePicker @bind-Value="SelectedTime" TimeDisplay="TimeDisplay.HourMinute" />
+    }
+
+    <!-- Clear button -->
+    <FluentButton Appearance="Appearance.Outline" @onclick="ClearValue" Style="margin-left:5px;">
+        ✖
+    </FluentButton>
+</FluentStack>
+
+@code {
+    [Parameter]
+    public DateTime? Value { get; set; }
+    [Parameter]
+    public string? Label { get; set; }
+    [Parameter]
+    public string? Placeholder { get; set; }
+    [Parameter]
+    public bool Immediate { get; set; } = true;
+    [Parameter]
+    public bool WithTime { get; set; } = true;
+
+    [Parameter]
+    public bool Required { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<DateTime?> ValueChanged { get; set; }
+
+    private DateTime? selectedDate;
+    private DateTime? selectedTime;
+
+    protected override void OnParametersSet()
+    {
+        // Sync local parts from external Value
+        if (Value.HasValue)
+        {
+            selectedDate = Value.Value.Date;
+            // represent time as a DateTime instance (date part is irrelevant for picker)
+            selectedTime = new DateTime(1, 1, 1).Add(Value.Value.TimeOfDay);
+        }
+        else
+        {
+            selectedDate = null;
+            selectedTime = null;
+        }
+    }
+
+    private DateTime? SelectedDate
+    {
+        get => selectedDate;
+        set
+        {
+            selectedDate = value;
+            if (selectedDate.HasValue)
+            {
+                // If there is no time selected yet, initialize to current time (so time picker shows something)
+                if (!selectedTime.HasValue)
+                {
+                    selectedTime = DateTime.Now;
+                }
+
+                // Combine date + existing time
+                Value = selectedDate.Value.Date + (selectedTime?.TimeOfDay ?? DateTime.Now.TimeOfDay);
+            }
+            else
+            {
+                Value = null;
+                selectedTime = null;
+            }
+
+            _ = ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private DateTime? SelectedTime
+    {
+        get => selectedTime;
+        set
+        {
+            selectedTime = value;
+            if (selectedTime.HasValue && selectedDate.HasValue)
+            {
+                Value = selectedDate.Value.Date + selectedTime.Value.TimeOfDay;
+            }
+            else if (selectedTime.HasValue && !selectedDate.HasValue)
+            {
+                // If user sets time without date, assume today's date
+                selectedDate = DateTime.Today;
+                Value = selectedDate.Value.Date + selectedTime.Value.TimeOfDay;
+            }
+            else if (!selectedTime.HasValue && selectedDate.HasValue)
+            {
+                // date only
+                Value = selectedDate.Value.Date;
+            }
+            else
+            {
+                Value = null;
+            }
+
+            _ = ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private void ClearValue()
+    {
+        selectedDate = null;
+        selectedTime = null;
+        Value = null;
+        _ = ValueChanged.InvokeAsync(Value);
+    }
+}

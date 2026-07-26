@@ -1,0 +1,76 @@
+﻿@page "/families/list"
+@inject NavigationManager navigationManager
+@inject IFamilyService familyService
+@using InfoManager.Shared.Dtos.FamilyMembers
+
+<PageHeader Title="Danh sách gia đình" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/families/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="FamilyMemberSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="FamilyMemberSummaryDto" TProp="string" Title="Họ tên" Property="@(x => x.FullName)" Sortable="true" />
+            <PropertyColumn TGridItem="FamilyMemberSummaryDto" TProp="string" Title="Ngày sinh" Property="@(x => x.BirthDate.ToString("dd/MM/yyyy"))" />
+            <PropertyColumn TGridItem="FamilyMemberSummaryDto" TProp="string" Title="Mối quan hệ" Property="@(x => x.Relationship)" />
+            <TemplateColumn TGridItem="FamilyMemberSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<FamilyMemberSummaryDto>? paginatedList;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await familyService.GetFamilyMembersAsync(null, null, 1, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+    private int currentPage = 1;
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+        //StateHasChanged();
+
+        var result = await familyService.GetFamilyMembersAsync(null, null, page, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+            //items = paginatedList.Items.AsQueryable();
+            //Console.WriteLine($"Total: {paginatedList.TotalCount} families.");
+        }
+        isLoading = false;
+        //StateHasChanged();
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/update/{id}");
+    }
+}
