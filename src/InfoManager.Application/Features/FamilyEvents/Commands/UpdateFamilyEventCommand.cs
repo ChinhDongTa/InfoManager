@@ -1,9 +1,11 @@
-﻿namespace InfoManager.Application.Features.FamilyEvents.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyEvents.Commands;
 public record UpdateFamilyEventCommand() : IRequest<Result>
 {
     public required string Id { get; init; }
     public  string? FamilyMemberId { get; init; }
-    public DateTime? EventDate { get; init; }
+    public DateOnly? EventDate { get; init; }
     public string? Title { get; init; }
     public FamilyEventType? EventType { get; init; }
     public string? Location { get; init; }
@@ -21,13 +23,13 @@ public class UpdateFamilyEventCommandHandler : BaseUpdateCommandHandler<UpdateFa
         return await Context.FamilyEvents.FindAsync([request.Id]   , cancellationToken);
     }
 
-    protected override void UpdateEntityProperties(FamilyEvent entity, UpdateFamilyEventCommand request)
+    protected override async Task UpdateEntityProperties(FamilyEvent entity, UpdateFamilyEventCommand request)
     {
         if (request.FamilyMemberId.IsDifferentFrom(entity.FamilyMemberId))
             entity.FamilyMemberId = request.FamilyMemberId!;
 
-        if (request.EventDate.HasValue)
-            entity.EventDate = request.EventDate.Value.ToDateOnly();
+        if (request.EventDate.HasValueAndIsDifferentFrom(entity.EventDate))
+            entity.EventDate = request.EventDate!.Value;
 
         if (request.Title.HasValueAndIsDifferentFrom(entity.Title))
             entity.Title = request.Title!;

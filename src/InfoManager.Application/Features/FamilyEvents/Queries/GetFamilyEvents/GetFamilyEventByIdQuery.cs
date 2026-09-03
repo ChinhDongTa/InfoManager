@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.FamilyEvents;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.FamilyEvents;
 
 namespace InfoManager.Application.Features.FamilyEvents.Queries.GetFamilyEvents;
 

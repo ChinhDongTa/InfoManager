@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.FamilyEvents;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.FamilyEvents;
 
 namespace InfoManager.Application.Features.FamilyEvents;
 
@@ -17,7 +18,8 @@ public static class QueryableExtensions
                  EventName: fe.EventType.ToDisplayName(),
                  Location: fe.Location,
                  FamilyMemberId: fe.FamilyMemberId,
-                 EventType: fe.EventType
+                 EventType: fe.EventType,
+                 IsActive: fe.IsActive
              ));
     }
     public static IQueryable<FamilyEventSummaryDto> ToQuerySummaryDto(this IQueryable<FamilyEvent> query)
@@ -28,9 +30,17 @@ public static class QueryableExtensions
                  Id: fe.Id,
                  FamilyMemberFullName: fe.FamilyMember != null ? fe.FamilyMember.FullName : string.Empty,
                  EventDate: fe.EventDate,
-                 EventName: fe.EventType.ToDisplayName()
+                 EventName: fe.EventType.ToDisplayName(),
+                 IsActive: fe.IsActive
              ));
     }
+    /// <summary>
+    /// Applies sorting to the FamilyEvent query based on the provided sortBy parameter.
+    /// </summary>
+    /// <param name="query">The queryable collection of FamilyEvent entities to sort.</param>
+    /// <param name="sortBy">The field (title, date) to sort by. If null or empty, defaults to sorting by EventDate.</param>
+    /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
+    /// <returns>The sorted queryable collection of FamilyEvent entities.</returns>
     public static IQueryable<FamilyEvent> ApplySorting(this IQueryable<FamilyEvent> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))

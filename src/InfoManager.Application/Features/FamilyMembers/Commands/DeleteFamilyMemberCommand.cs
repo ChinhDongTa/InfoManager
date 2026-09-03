@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.FamilyMembers.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyMembers.Commands;
 
 public record DeleteFamilyMemberCommand(string Id) : IRequest<Result>;
 public class DeleteFamilyMemberCommandHandler : BaseDeleteCommandHandler<DeleteFamilyMemberCommand, FamilyMember>
@@ -8,10 +10,7 @@ public class DeleteFamilyMemberCommandHandler : BaseDeleteCommandHandler<DeleteF
         : base(context, logger)
     {
     }
-    protected override void DeleteEntity(FamilyMember entity, CancellationToken cancellationToken)
-    {
-        Context.FamilyMembers.Remove(entity);
-    }
+    
     protected override async Task<FamilyMember?> GetEntityAsync(DeleteFamilyMemberCommand request, CancellationToken cancellationToken)
     {
         return await Context.FamilyMembers.FindAsync([request.Id], cancellationToken);

@@ -16,13 +16,13 @@ public interface IExperienceApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Put("/api/Experiences/{id}")]
-    Task<ApiResponse<MessageResponse>> UpdateExperienceAsync(string id, [Body] UpdateExperienceRequest request, CancellationToken ct);
+    Task<IApiResponse> UpdateExperienceAsync(string id, [Body] UpdateExperienceRequest request, CancellationToken ct);
 
     /// <param name="id">id parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Delete("/api/Experiences/{id}")]
-    Task<ApiResponse<MessageResponse>> DeleteExperienceAsync(string id, CancellationToken ct);
+    Task<IApiResponse> DeleteExperienceAsync(string id, CancellationToken ct);
 
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>

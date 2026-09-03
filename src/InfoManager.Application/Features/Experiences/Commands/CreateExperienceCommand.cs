@@ -22,7 +22,7 @@ public class CreateExperienceCommandHandler : BaseCreateCommandHandler<CreateExp
         await Context.Experiences.AddAsync(entity, cancellationToken);
     }
 
-    protected override Experience CreateEntity(CreateExperienceCommand request)
+    protected override async Task<Experience> CreateEntity(CreateExperienceCommand request)
     {
         return new Experience
         {

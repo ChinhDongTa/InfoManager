@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.FamilyMembers;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.FamilyMembers;
 
 namespace InfoManager.Application.Features.FamilyMembers.Queries.GetFamilyMembers;
 

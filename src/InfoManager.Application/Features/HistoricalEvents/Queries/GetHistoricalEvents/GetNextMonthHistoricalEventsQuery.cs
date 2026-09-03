@@ -8,22 +8,12 @@ public class GetNextMonthHistoricalEventsQueryHandler(IApplicationDbContext cont
     public async Task<Result<List<HistoricalEventSummaryDto>>> Handle(GetNextMonthHistoricalEventsQuery request, CancellationToken cancellationToken)
     {
         var targetYear = DateTime.Now.Year;
-        var months = GetMonthsRange(DateTime.UtcNow.Month, request.NumMonths);
+        var months = NumberExtension.GetMonthsRange(DateTime.UtcNow.Month, request.NumMonths);
         var result = await context.HistoricalEvents
-            .Where(e => months.Contains(e.EventDate.Month))
+            .Where(e => e.EventDate.HasValue && months.Contains(e.EventDate.Value.Month))
             .ApplySorting()
             .ToHistoricalEventSummaryDto()
             .ToListResultAsync(cancellationToken);
         return result;
-    }
-    private static int[] GetMonthsRange(int startMonth, int numMonths)
-    {
-        var months = new List<int>();
-        for (int i = 0; i <= numMonths; i++)
-        {
-            int month = ((startMonth - 1 + i) % 12) + 1;
-            months.Add(month);
-        }
-        return [.. months];
     }
 }

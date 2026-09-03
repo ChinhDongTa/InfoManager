@@ -1,0 +1,47 @@
+﻿@using InfoManager.Shared.Dtos.FamilyEvents
+@inject NavigationManager navigationManager
+@inject IFamilyService familyService
+
+<FluentStack Style="width:100%; margin: 5px;" Orientation="Orientation.Vertical">
+    <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold" Color="Color.Accent">
+        @title
+    </FluentLabel>
+    @if (items is null)
+    {
+        <FluentProgressRing />
+    }
+    else
+    {
+        <FluentDataGrid Items="@items" TGridItem="FamilyEventReportDto" Style="width:100%;">
+            <PropertyColumn Property="@(item => item.FullName)" Title="Họ và tên" Style="min-width:200px;" />
+            <PropertyColumn Property="@(item => item.EventName)" Title="Sự kiện" />
+            <PropertyColumn Property="@(item => item.EventDate)" Format="dd-MM-yyyy" Title="Ngày" />
+            <TemplateColumn Title="Hành động" Context="context">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => navigationManager.NavigateTo($"/families/events/details/{context.Id}")) />
+            </TemplateColumn>
+        </FluentDataGrid>
+    }
+</FluentStack>
+
+    @code {
+    [Parameter]
+    public int NumMonth { get; set; } = 2;
+    IQueryable<FamilyEventReportDto>? items;
+    string? title;
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await familyService.GetFamilyEventReportAsync(NumMonth);
+
+        if (result.Success && result.Data != null)  
+        {
+            items = result.Data.AsQueryable();
+            var now = DateTime.Now.AddMonths(NumMonth);
+            title = $"Các sự kiện gia đình từ đây đến tháng {now:MM/yyyy}";
+        }
+        else
+        {
+            items = Enumerable.Empty<FamilyEventReportDto>().AsQueryable();
+            title = "Error: Không thể tải dữ liệu sự kiện gia đình.";
+        }
+    }
+}

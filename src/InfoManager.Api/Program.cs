@@ -1,6 +1,8 @@
 using InfoManager.Api;
 using InfoManager.Application;
 using InfoManager.Infrastructure;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -43,6 +45,7 @@ builder.Host.UseSerilog((context, services, configuration) =>
             outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
         );
 });
+
 var app = builder.Build();
 //if (app.Environment.IsDevelopment())
 //{

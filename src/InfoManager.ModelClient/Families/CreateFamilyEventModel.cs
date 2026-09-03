@@ -13,6 +13,7 @@ public class CreateFamilyEventModel
     /// </summary>
     [Required]
     public DateOnly EventDate { get; set; }
+    public bool IsActive { get; set; }=true;
 
     /// <summary>
     /// Tên sự kiện 
@@ -31,15 +32,13 @@ public class CreateFamilyEventModel
     [MaxLength(100)]
     public string? Location { get; set; }
 
-    public CreateFamilyEventRequest CreateRequest()
+    public CreateFamilyEventRequest CreateRequest() => new()
     {
-        return new CreateFamilyEventRequest
-        {
-            FamilyMemberId = this.FamilyMemberId,
-            EventDate = this.EventDate,
-            Title = this.Title,
-            EventType = this.EventType,
-            Location = this.Location
-        };
-    }
+        FamilyMemberId = this.FamilyMemberId,
+        EventDate = this.EventDate,
+        IsActive = this.IsActive,
+        Title = this.Title,
+        EventType = this.EventType,
+        Location = this.Location
+    };
 }

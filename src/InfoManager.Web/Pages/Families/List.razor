@@ -4,7 +4,7 @@
 @using InfoManager.Shared.Dtos.FamilyMembers
 
 <PageHeader Title="Danh sách gia đình" />
-
+<Alert @ref="alertComponent" />
 <AuthorizeView>
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
@@ -18,6 +18,8 @@
             <TemplateColumn TGridItem="FamilyMemberSummaryDto" Context="item" Title="Actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+                <FluentIcon Title="Tạo sự kiện mặc định" Value="@(new Icons.Filled.Size20.AddCircle())" @onclick=@(() => CreateHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.List())" Title="Xem sự kiện" @onclick=@(() => ListHandler(item.Id)) />
             </TemplateColumn>
         </PaginatedTable>
     </Authorized>
@@ -28,6 +30,7 @@
 
 @code {
     PaginatedList<FamilyMemberSummaryDto>? paginatedList;
+    Alert? alertComponent;
     bool isLoading = false;
     int pageSize = Models.Constants.PageSize;
     protected override async Task OnInitializedAsync()
@@ -40,13 +43,19 @@
             {
                 paginatedList = result.Data;
             }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Family members"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
         }
         finally
         {
             isLoading = false;
         }
     }
+
     private int currentPage = 1;
+
     private async Task LoadPageAsync(int page)
     {
         currentPage = page;
@@ -60,8 +69,26 @@
             //items = paginatedList.Items.AsQueryable();
             //Console.WriteLine($"Total: {paginatedList.TotalCount} families.");
         }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Family members"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
         isLoading = false;
         //StateHasChanged();
+    }
+    private async Task CreateHandler(string id)
+    {
+        isLoading = true;
+        var result = await familyService.CreateDefaultFamilyEventsAsync(id);
+        if (result.Success)
+        {
+            alertComponent?.AddAlert("Tạo sự kiện mặc định cho thành viên thành công!", AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Family members"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
     }
 
     private void ViewHandler(string id)
@@ -72,5 +99,10 @@
     private void EditHandler(string id)
     {
         navigationManager.NavigateTo($"/families/update/{id}");
+    }
+
+    private void ListHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/events/list/{id}");
     }
 }

@@ -1,5 +1,4 @@
-﻿using InfoManager.Application.Common.Interfaces;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace InfoManager.Api.Services;
 

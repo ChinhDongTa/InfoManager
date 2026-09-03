@@ -14,7 +14,7 @@
                 <strong>Nội dung giao dịch:</strong> @dto?.Description
             </FluentLabel>
             <FluentLabel>
-                <strong>Tổng số tiền:</strong> @dto?.Amount
+                <strong>Tổng số tiền:</strong> @dto?.Amount.ToVND()
             </FluentLabel>
             <FluentLabel>
                 <strong>Ngày giao dịch:</strong> @dto?.TransactionDate?.ToString("dd/MM/yyyy")

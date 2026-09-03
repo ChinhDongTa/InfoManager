@@ -1,8 +1,8 @@
 ﻿<FluentStack Orientation="Orientation.Horizontal">
-    <FluentDatePicker @bind-Value="SelectedDate" Label="@Label" Placeholder="@Placeholder" DayFormat="DayFormat.TwoDigit" Immediate="@Immediate" Required="@Required" />
+    <FluentDatePicker @bind-Value="SelectedDate" Label="@Label" Placeholder="@Placeholder" DayFormat="DayFormat.TwoDigit" Immediate="@Immediate" Required="@Required" Style="width:130px" />
     @if (WithTime)
     {
-        <FluentTimePicker @bind-Value="SelectedTime" TimeDisplay="TimeDisplay.HourMinute" />
+        <FluentTimePicker @bind-Value="SelectedTime" TimeDisplay="TimeDisplay.HourMinute" Style="width:130px" />
     }
 
     <!-- Clear button -->

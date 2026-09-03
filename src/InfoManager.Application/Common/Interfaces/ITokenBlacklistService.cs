@@ -1,6 +1,4 @@
-﻿using InfoManager.Enum;
-using InfoManager.Shared.Dtos.TokenBlacklists;
-using InfoManager.Shared.Models;
+﻿using InfoManager.Shared.Dtos.TokenBlacklists;
 
 namespace InfoManager.Application.Common.Interfaces;
 

@@ -1,8 +1,10 @@
-﻿namespace InfoManager.Application.Features.FamilyEvents.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyEvents.Commands;
 public record CreateFamilyEventCommand : IRequest<Result<string>>
 {
     public required string FamilyMemberId { get; init; }
-    public DateTime EventDate { get; init; }
+    public DateOnly EventDate { get; init; }
     public string Title { get; init; } = string.Empty;
     public FamilyEventType EventType { get; init; }
     public string? Location { get; init; } = string.Empty;
@@ -18,20 +20,31 @@ public class CreateFamilyEventCommandHandler : BaseCreateCommandHandler<CreateFa
     }
     protected override async Task AddEntityAsync(FamilyEvent entity, CancellationToken cancellationToken)
     {
+        // Thêm nhắc nhở mặc định
+        entity.Reminders.Add(new FamilyEventReminder
+        {
+            FamilyEventId = entity.Id,
+            DaysBefore = 7,
+            RemindTime = new TimeOnly(8, 0),
+            Channel = ReminderChannel.Push,
+            Note="Được tạo mặc định khi tạo sự kiện"
+        });
+
         await Context.FamilyEvents.AddAsync(entity, cancellationToken);
     }
-    protected override FamilyEvent CreateEntity(CreateFamilyEventCommand request)
+    protected override async Task<FamilyEvent> CreateEntity(CreateFamilyEventCommand request)
     {
         return new FamilyEvent
         {
             FamilyMemberId = request.FamilyMemberId,
-            EventDate = request.EventDate.ToDateOnly(),
+            EventDate = request.EventDate,
             Title = request.Title.Trim(),
             EventType = request.EventType,
             Location = request.Location?.Trim()
         };
     }
 }
+
 public class CreateFamilyEventCommandValidator : AbstractValidator<CreateFamilyEventCommand>
 {
     public CreateFamilyEventCommandValidator()

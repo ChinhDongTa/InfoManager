@@ -38,7 +38,7 @@ public abstract class BaseCreateCommandHandler<TCommand, TEntity> : IRequestHand
             }
 
             // 2. Create entity
-            var entity = CreateEntity(request);
+            var entity = await CreateEntity(request);
 
             // 3. Add to context (call abstract method for specific addition logic)
             await AddEntityAsync(entity, cancellationToken);
@@ -64,7 +64,7 @@ public abstract class BaseCreateCommandHandler<TCommand, TEntity> : IRequestHand
     /// Creates a new entity instance based on the command.
     /// Override this method to customize entity creation and property mapping.
     /// </summary>
-    protected abstract TEntity CreateEntity(TCommand request);
+    protected abstract Task<TEntity> CreateEntity(TCommand request);
 
     /// <summary>
     /// Adds the entity to the database context.

@@ -1,4 +1,4 @@
-﻿using InfoManager.Domain.Entities;
+﻿using InfoManager.Domain.Entities.Personal;
 
 namespace InfoManager.Domain.Events;
 

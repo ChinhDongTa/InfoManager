@@ -8,8 +8,5 @@ public record UserDetailDto
 
     public string? PhoneNumber { get; init; }
 
-    public string? FullName { get; init; }
-    public long? TelegramId { get; init; }
-
-    public IEnumerable<string>? Roles { get; init; }
+    public List<string> Roles { get; init; } = [];
 }

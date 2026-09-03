@@ -1,5 +1,6 @@
 ﻿@using InfoManager.Shared.Dtos.Common
 @inject IHttpClientFactory HttpFactory
+
 @if (IsLoading)
 {
     <FluentProgressRing />
@@ -14,10 +15,9 @@ else if (Items.Any())
 {
     <FluentSelect TOption="SelectListItemDto"
                   Items="@Items"
-                  Value="@(_selectedOption?.Id ?? string.Empty)"
-                  @bind-SelectedOption="SelectedOption"
+                  @bind-Value="Value"
                   OptionValue="@(item => item.Id ?? string.Empty)"
-                  OptionText="@(item=>item.Name??string.Empty)"
+                  OptionText="@(item => item.Name ?? string.Empty)"
                   Label="@Label"
                   Required="@Required"
                   Placeholder="@(string.IsNullOrEmpty(Placeholder) ? "Chọn..." : Placeholder)"
@@ -25,9 +25,6 @@ else if (Items.Any())
                   Style="@Style"
                   Class="@Class"
                   @attributes="AdditionalAttributes" />
-
-    <!-- Test label trong child -->
-    @* <label>Id selected: @SelectedOption?.Id </label> *@
 }
 else
 {
@@ -35,8 +32,7 @@ else
 }
 
 @code {
-    [Parameter] public required string Route { get; set; }
-    [Parameter] public string? DefaultId { get; set; }
+    [Parameter] public required string Route { get; set; } = string.Empty;   // ← đã bỏ required
     [Parameter] public string? Label { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public string? Placeholder { get; set; }
@@ -46,23 +42,23 @@ else
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private List<SelectListItemDto> Items { get; set; } = new();
-    private SelectListItemDto? _selectedOption;
+    private string? _value;
 
     [Parameter]
-    public SelectListItemDto? SelectedOption
+    public string? Value
     {
-        get => _selectedOption;
+        get => _value;
         set
         {
-            if (EqualityComparer<SelectListItemDto?>.Default.Equals(_selectedOption, value)) return;
-            _selectedOption = value;
-            _ = SelectedOptionChanged.InvokeAsync(value);
+            if (_value == value) return;
+            _value = value;
+            _ = ValueChanged.InvokeAsync(value);
         }
     }
 
-    [Parameter] public EventCallback<SelectListItemDto?> SelectedOptionChanged { get; set; }
+    [Parameter] public EventCallback<string?> ValueChanged { get; set; }
 
+    private List<SelectListItemDto> Items { get; set; } = new();
     private bool IsLoading { get; set; } = true;
     private bool HasError { get; set; }
     private string? ErrorMessage { get; set; }
@@ -79,15 +75,6 @@ else
         await LoadItems();
     }
 
-    // Xử lý khi DefaultId thay đổi từ parent
-    protected override async Task OnParametersSetAsync()
-    {
-        if (Items.Any() && !string.IsNullOrEmpty(DefaultId))
-        {
-            await ApplyDefaultSelection();
-        }
-    }
-
     private async Task LoadItems()
     {
         try
@@ -98,12 +85,6 @@ else
             if (apiResult != null)
             {
                 Items = apiResult.OrderBy(x => x.Name).ToList();
-
-                // Áp dụng default selection sau khi load items
-                if (!string.IsNullOrEmpty(DefaultId))
-                {
-                    await ApplyDefaultSelection();
-                }
             }
             else
             {
@@ -120,28 +101,6 @@ else
         {
             IsLoading = false;
             StateHasChanged();
-        }
-    }
-
-    private async Task ApplyDefaultSelection()
-    {
-        if (string.IsNullOrWhiteSpace(DefaultId))
-        {
-            // Nếu DefaultId null hoặc rỗng → không chọn gì
-            if (_selectedOption != null)
-            {
-                _selectedOption = null;
-                await SelectedOptionChanged.InvokeAsync(null);
-            }
-            return;
-        }
-
-        var defaultItem = Items.FirstOrDefault(x => (x.Id ?? string.Empty) == DefaultId);
-
-        if (defaultItem != null && !EqualityComparer<SelectListItemDto?>.Default.Equals(_selectedOption, defaultItem))
-        {
-            _selectedOption = defaultItem;
-            await SelectedOptionChanged.InvokeAsync(_selectedOption);
         }
     }
 }

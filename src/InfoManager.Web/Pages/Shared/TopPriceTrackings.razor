@@ -1,0 +1,37 @@
+﻿@using InfoManager.Shared.Dtos.PriceTrackings
+@inject IPriceTrackingService priceTrackingService
+@inject NavigationManager navigationManager
+
+<FluentStack Style="width:100%; margin:5px;" Orientation="Orientation.Vertical">
+    <LoadingOverlay IsLoading="@isLoading" />
+    <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold" Color="Color.Info">
+        Top các sản phẩm đang theo dõi giá
+    </FluentLabel>
+   
+    <FluentDataGrid Items="@items" TGridItem="PriceTrackingSummaryDto" Style="width:100%;">
+        <PropertyColumn Property="@(item => item.ProductName)" Title="Sản phẩm" Style="min-width:300px" />
+        <PropertyColumn Property="@(item => item.CurrentPrice)" Format="C0" Title="Giá hiện tại" />
+        <TemplateColumn Context="item" Title="Link">
+            <a href="@item.ProductUrl" target="_blank">link</a>
+        </TemplateColumn>
+        <TemplateColumn Title="Hành động" Context="context">
+            <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => navigationManager.NavigateTo($"/priceTrackings/details/{context.Id}")) />
+        </TemplateColumn>
+    </FluentDataGrid>
+</FluentStack>
+@code {
+    [Parameter]
+    public int Top { get; set; } = 5;
+    IQueryable<PriceTrackingSummaryDto>? items;
+    bool isLoading = false;
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        var result = await priceTrackingService.GetTopPriceTrackingsAsync(Top);
+        if (result.Success && result.Data != null)
+        {
+            items = result.Data.AsQueryable();
+        }
+        isLoading = false;
+    }
+}

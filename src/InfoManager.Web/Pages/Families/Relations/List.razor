@@ -12,8 +12,8 @@
         <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/families/relations/create"))>Tạo mới</FluentButton>
 
         <PaginatedTable TItem="FamilyRelationDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
-            <PropertyColumn TGridItem="FamilyRelationDto" TProp="string" Title="Tên quan hệ" Property="@(x => x.Name)" />
-            <PropertyColumn TGridItem="FamilyRelationDto" TProp="string" Title="Mô tả" Property="@(x => x.Description)" Sortable="true" />
+            <PropertyColumn TGridItem="FamilyRelationDto" TProp="string" Title="Tên quan hệ" Property="@(x => x.Name)" Sortable="true" />
+            <PropertyColumn TGridItem="FamilyRelationDto" TProp="string" Title="Mô tả" Property="@(x => x.Description)" />
             <TemplateColumn TGridItem="FamilyRelationDto" Context="item" Title="Actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />

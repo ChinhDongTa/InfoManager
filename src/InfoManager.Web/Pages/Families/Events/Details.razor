@@ -17,6 +17,9 @@
                 <strong>Ngày</strong>: @dto?.EventDate
             </FluentLabel>
             <FluentLabel>
+                <strong>Hoạt động ?</strong>: @(dto?.IsActive == true ? "Có" : "Không")
+            </FluentLabel>
+            <FluentLabel>
                 <strong>Địa điểm</strong>: @dto?.Location
             </FluentLabel>
             <EntityActions EntityId="@Id" Folder="families/events" OnDeleteClick="DeleteHandler" />

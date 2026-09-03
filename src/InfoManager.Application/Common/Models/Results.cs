@@ -1,7 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens.Experimental;
-using System.Text.Json.Serialization;
-
-namespace InfoManager.Application.Common.Models;
+﻿namespace InfoManager.Application.Common.Models;
 
 public class Result
 {
@@ -9,7 +6,7 @@ public class Result
     public ResultStatus Status { get; protected set; }
     public IEnumerable<string>? Errors { get; protected set; }
     public string? SuccessMessage { get; protected set; } 
-    public string? Location { get;  protected set; }
+    public string? Location { get; protected set; }
     public Result() { }
     public Result(string successMessage)
     {
@@ -20,20 +17,20 @@ public class Result
         Status = status;
         SuccessMessage = successMessage;
     }
-    public Result(ResultStatus status, IEnumerable<string> errors, string? successMessage=null ,string? location=null)
+    public Result(ResultStatus status, IEnumerable<string> errors, string? successMessage = null, string? location = null)
     {
         Status = status;
         Errors = errors;
         SuccessMessage = successMessage;
-        Location=location;
+        Location = location;
     }
     public static Result Error(params string[] errorMessage) => new(ResultStatus.Error, errorMessage);
     public static Result Success(ResultStatus resultStatus) => new(resultStatus);
     //public static Result NotFound(ResultStatus resultStatus) => new(resultStatus);
     public static Result NotFound(string message) => new(ResultStatus.NotFound, [message]);
     public static Result NotFound(string entityName, object entityId) => new(ResultStatus.NotFound, [ErrorHelpers.GetErrorNotFoundWithId(entityName,entityId)]);
-
 }
+
 public partial class Result<T> : Result
 {
     public T? Value { get; init; }
@@ -53,7 +50,6 @@ public partial class Result<T> : Result
     {
     }
 
-    
     public string? CorrelationId { get; protected set; } 
 
     /// <summary>
@@ -134,14 +130,14 @@ public partial class Result<T> : Result
 
     /// <summary>
     /// The parameters to the call were correct, but the user does not have permission to perform some action.
-    /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+    /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
     /// <returns>A Result<typeparamref name="T"/></returns>
     public static Result<T> Forbidden() => new(ResultStatus.Forbidden);
 
     /// <summary>
     /// The parameters to the call were correct, but the user does not have permission to perform some action.
-    /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+    /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
     /// <param name="errorMessages">A list of string error messages.</param> 
     /// <returns>A Result<typeparamref name="T"/></returns>
@@ -149,14 +145,14 @@ public partial class Result<T> : Result
 
     /// <summary>
     /// This is similar to Forbidden, but should be used when the user has not authenticated or has attempted to authenticate but failed.
-    /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+    /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
     /// <returns>A Result<typeparamref name="T"/></returns>
     public static Result<T> Unauthorized() => new(ResultStatus.Unauthorized);
 
     /// <summary>
     /// This is similar to Forbidden, but should be used when the user has not authenticated or has attempted to authenticate but failed.
-    /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+    /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
     /// <param name="errorMessages">A list of string error messages.</param>  
     /// <returns>A Result<typeparamref name="T"/></returns>
@@ -165,7 +161,7 @@ public partial class Result<T> : Result
     /// <summary>
     /// Represents a situation where a service is in conflict due to the current state of a resource,
     /// such as an edit conflict between multiple concurrent updates.
-    /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+    /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
     /// <returns>A Result<typeparamref name="T"/></returns>
     public static Result<T> Conflict() => new(ResultStatus.Conflict);
@@ -174,7 +170,7 @@ public partial class Result<T> : Result
     /// Represents a situation where a service is in conflict due to the current state of a resource,
     /// such as an edit conflict between multiple concurrent updates.
     /// Error messages may be provided and will be exposed via the Errors property.
-    /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#4xx_client_errors
+    /// See also HTTP 409 Conflict: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
     /// <param name="errorMessages">A list of string error messages.</param>
     /// <returns>A Result<typeparamref name="T"/></returns>
@@ -183,7 +179,7 @@ public partial class Result<T> : Result
     /// <summary>
     /// Represents a critical error that occurred during the execution of the service.
     /// Everything provided by the user was valid, but the service was unable to complete due to an exception.
-    /// See also HTTP 500 Internal Server Error: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
+    /// See also HTTP 500 Internal Server Error: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#5xx_server_errors
     /// </summary>
     /// <param name="errorMessages">A list of string error messages.</param>
     /// <returns>A Result<typeparamref name="T"/></returns>
@@ -192,7 +188,7 @@ public partial class Result<T> : Result
     /// <summary>
     /// Represents a situation where a service is unavailable, such as when the underlying data store is unavailable.
     /// Errors may be transient, so the caller may wish to retry the operation.
-    /// See also HTTP 503 Service Unavailable: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#5xx_server_errors
+    /// See also HTTP 503 Service Unavailable: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#5xx_server_errors
     /// </summary>
     /// <param name="errorMessages">A list of string error messages</param>
     /// <returns></returns>

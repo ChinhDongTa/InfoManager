@@ -1,0 +1,17 @@
+﻿@* @using System.Globalization
+
+<FluentLabel Style="@Style">@FormattedValue</FluentLabel>
+
+@code {
+    [Parameter]
+    public decimal? Value { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    private static readonly CultureInfo ViCulture = new("vi-VN");
+
+    private string FormattedValue => Value.HasValue
+        ? Value.Value.ToString("N0", ViCulture) + " đ"
+        : string.Empty;
+} *@

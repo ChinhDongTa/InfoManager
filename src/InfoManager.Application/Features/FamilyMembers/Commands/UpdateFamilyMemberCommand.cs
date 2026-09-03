@@ -1,11 +1,13 @@
-﻿namespace InfoManager.Application.Features.FamilyMembers.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyMembers.Commands;
 public record UpdateFamilyMemberCommand : IRequest<Result>
 {
     public required string Id { get; init; }
     public  string? FullName { get; init; }
     public string? FamilyRelationId { get; init; }
-    public DateTime? BirthDate { get; init; }
-    public DateTime? DeathDate { get; init; }
+    public DateOnly? BirthDate { get; init; }
+    public DateOnly? DeathDate { get; init; }
     public Gender? Gender { get; init; }
     public string? Email { get; init; }
     public string? PhoneNumber { get; init; }
@@ -22,7 +24,7 @@ public class UpdateFamilyMemberCommandHandler:BaseUpdateCommandHandler<UpdateFam
     {
         return await Context.FamilyMembers.FindAsync([request.Id], cancellationToken);
     }
-    protected override void UpdateEntityProperties(FamilyMember entity, UpdateFamilyMemberCommand request)
+    protected override async Task UpdateEntityProperties(FamilyMember entity, UpdateFamilyMemberCommand request)
     {
         if (request.FullName .HasValueAndIsDifferentFrom(entity.FullName))
             entity.FullName = request.FullName!;
@@ -30,11 +32,11 @@ public class UpdateFamilyMemberCommandHandler:BaseUpdateCommandHandler<UpdateFam
         if (request.FamilyRelationId.IsDifferentFrom(entity.FamilyRelationId))
             entity.FamilyRelationId = request.FamilyRelationId;
 
-        if (request.BirthDate.ToDateOnly().HasValueAndIsDifferentFrom(entity.BirthDate))
-            entity.BirthDate = request.BirthDate.ToDateOnly()!.Value;
+        if (request.BirthDate.HasValueAndIsDifferentFrom(entity.BirthDate))
+            entity.BirthDate = request.BirthDate!.Value;
 
-        if ((request.DeathDate.ToDateOnly()).IsDifferentFrom(entity.DeathDate))
-            entity.DeathDate = (request.DeathDate.ToDateOnly())!.Value;
+        if (request.DeathDate.HasValueAndIsDifferentFrom(entity.DeathDate))
+            entity.DeathDate = request.DeathDate!.Value;
 
         if (request.Gender.HasValueAndIsDifferentFrom(entity.Gender))
             entity.Gender = request.Gender!.Value;

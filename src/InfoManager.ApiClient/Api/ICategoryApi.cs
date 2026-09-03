@@ -17,13 +17,13 @@ public interface ICategoryApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Put("/api/Categories/{id}")]
-    Task<ApiResponse<MessageResponse>> UpdateCategoryAsync(string id, [Body] UpdateCategoryRequest request, CancellationToken ct);
+    Task<IApiResponse> UpdateCategoryAsync(string id, [Body] UpdateCategoryRequest request, CancellationToken ct);
 
     /// <param name="id">id parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Delete("/api/Categories/{id}")]
-    Task<ApiResponse<MessageResponse>> DeleteCategoryAsync(string id, CancellationToken ct);
+    Task<IApiResponse> DeleteCategoryAsync(string id, CancellationToken ct);
 
     /// <param name="group">group parameter</param>
     /// <param name="keyname">keyname parameter</param>

@@ -1,0 +1,162 @@
+﻿@page "/account/roles/manager"
+@inject IIdentityService identityService
+@using InfoManager.ModelClient.Auths
+
+<PageHeader Title="Quản lý Role" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        @if (roles is null)
+        {
+            <FluentProgressRing />
+        }
+        else
+        {
+            <FluentMultiSplitter>
+                <FluentMultiSplitterPane Size="34%">
+                    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px">
+                        <FluentLabel Typo="Typography.H3" Color="Color.Success">Danh sách Role</FluentLabel>
+                        <FluentListbox Items="roles"
+                                       TOption="UpdateRoleModel"
+                                       OptionText="@(i => i.Name)"
+                                       OptionValue="@(i => i.Id)"
+                                       @bind-SelectedOption="@selectedRole" />
+                        <label>Selected role: @selectedRole?.Name</label>
+                        <label>Selected ID: @selectedRole?.Id</label>
+                    </FluentStack>
+                </FluentMultiSplitterPane>
+                <FluentMultiSplitterPane Size="33%">
+                    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px">
+                        <FluentLabel Typo="Typography.H3" Color="Color.Success">Cập nhật Role</FluentLabel>
+                        @if (selectedRole != null)
+                        {
+                            <FluentTextField Label="Tên" @bind-Value="@selectedRole.Name" />
+                            <FluentButton Appearance="Appearance.Accent" OnClick="HandleUpdateRole" Disabled="@IsSaving">
+                                @if (IsSaving)
+                                {
+                                    <span>Đang lưu...</span>
+                                }
+                                else
+                                {
+                                    <span>Lưu</span>
+                                }
+                            </FluentButton>
+                        }
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px; margin-top:10px">
+                        <FluentLabel Typo="Typography.H3" Color="Color.Success">Tạo mới Role</FluentLabel>
+                        <FluentTextField Label="Tên" @bind-Value="@newRoleModel.Name" />
+                        <FluentButton Appearance="Appearance.Accent" OnClick="HandleAddRole" Disabled="@IsSaving">
+                            @if (IsSaving)
+                            {
+                                <span>Đang lưu...</span>
+                            }
+                            else
+                            {
+                                <span>Lưu</span>
+                            }
+                        </FluentButton>
+
+                    </FluentStack>
+                </FluentMultiSplitterPane>
+                <FluentMultiSplitterPane Size="33%">
+                    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px">
+                        <FluentLabel Typo="Typography.H3" Color="Color.Success">Xóa Role</FluentLabel>
+                        <FluentTextField Label="Tên" />
+                        <FluentButton Appearance="Appearance.Accent" OnClick="HandleDeleteRole" Disabled="@IsSaving">
+                            @if (IsSaving)
+                            {
+                                <span>Đang lưu...</span>
+                            }
+                            else
+                            {
+                                <span>Lưu</span>
+                            }
+                        </FluentButton>
+
+                    </FluentStack>
+                </FluentMultiSplitterPane>
+            </FluentMultiSplitter>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    List<UpdateRoleModel>? roles;
+    UpdateRoleModel? selectedRole;
+    CreateRoleModel newRoleModel=new CreateRoleModel();
+    Alert? alertComponent;
+    bool IsSaving = false;
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await GetRolesAsync();
+    }
+
+
+    private async Task<List<UpdateRoleModel>> GetRolesAsync()
+    {
+        var result = await identityService.GetRolesAsync();
+        if (result.Success && result.Data is not null)
+        {
+            return roles = result.Data.Select(x => new UpdateRoleModel { Id = x.Id, Name = x.Name }).ToList();
+        }
+        else
+        {
+            alertComponent?.AddAlert($"Không thể lấy danh sách Role: {result.ErrorMessage?.ToLine() ?? "Unknown error"}", AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        return new List<UpdateRoleModel>();
+    }
+
+    private async Task HandleUpdateRole()
+    {
+        IsSaving = true;
+        if (selectedRole != null)
+        {
+            var result = await identityService.UpdateRoleAsync(selectedRole.Id, selectedRole.ToRequest());
+            if (result.Success)
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(ActionType.Update, selectedRole.Name), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotAction(ActionType.Update, selectedRole.Name), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom("Không có Role nào được chọn để cập nhật"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private void HandleDeleteRole()
+    {
+        throw new NotImplementedException();
+    }
+
+    private async Task HandleAddRole()
+    {
+        IsSaving = true;
+        if(newRoleModel != null)
+        {
+            var result = await identityService.CreateRoleAsync(newRoleModel.ToRequest());
+            if (result.Success && result.Data is not null)
+            {
+                roles?.Add(new UpdateRoleModel { Id = result.Data, Name = newRoleModel.Name });
+                alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(ActionType.Create, newRoleModel.Name), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+                newRoleModel = new CreateRoleModel();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotAction(ActionType.Create, newRoleModel.Name), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }   
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom("Model tạo mới Role không hợp lệ"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

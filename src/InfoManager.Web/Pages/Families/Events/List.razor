@@ -1,4 +1,6 @@
-﻿@page "/families/events/list"
+﻿@page "/families/events/list/{familyMemberId}"
+@page "/families/events/list"
+
 @inject IFamilyService familyService
 @inject NavigationManager navigationManager
 @using InfoManager.Shared.Dtos.FamilyEvents
@@ -14,9 +16,12 @@
             <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="string" Title="Họ và tên" Property="@(x => x.FamilyMemberFullName)" />
             <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="string" Title="Sự kiện" Property="@(x => x.EventName)" Sortable="true" />
             <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="DateOnly?" Title="Ngày diễn ra" Property="@(x => x.EventDate)" Sortable="true" />
+            <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="bool" Title="Còn hoạt động ?" Property="@(x => x.IsActive)" />   
             <TemplateColumn TGridItem="FamilyEventSummaryDto" Context="item" Title="Actions">
-                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
-                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) Title="Xem chi tiết" />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) Title="Cập nhật" />
+                <FluentIcon Value="@(new Icons.Filled.Size20.CalendarAdd())" @onclick=@(() => AddOccurrenceHandler(item.Id)) Title="Dự kiến tổ chức sự kiện" />
+                <FluentIcon Value="@(new @Icons.Filled.Size20.Alert())" Color="Color.Accent" @onclick=@(() => CreateReminderHandler(item.Id)) Title="Tạo thông báo" />
             </TemplateColumn>
         </PaginatedTable>
     </Authorized>
@@ -26,6 +31,8 @@
 </AuthorizeView>
 
 @code {
+    [Parameter]
+    public string? familyMemberId { get; set; }
     PaginatedList<FamilyEventSummaryDto>? paginatedList;
     bool isLoading = false;
     private int currentPage = 1;
@@ -37,14 +44,30 @@
         isLoading = true;
         try
         {
-            var result = await familyService.GetFamilyEventsAsync(null, currentPage, pageSize);
-            if (result.Success && result.Data != null)
+            if (string.IsNullOrEmpty(familyMemberId))
             {
-                paginatedList = result.Data;
+
+                var result = await familyService.GetFamilyEventsAsync(null, currentPage, pageSize);
+                if (result.Success && result.Data != null)
+                {
+                    paginatedList = result.Data;
+                }
+                else
+                {
+                    alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("FamilyEventSummaryDto"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+                }
             }
             else
             {
-                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("FamilyEventSummaryDto"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+                var result = await familyService.GetFamilyEventsByMemberIdAsync(familyMemberId, currentPage, pageSize);
+                if (result.Success && result.Data != null)
+                {
+                    paginatedList = result.Data;
+                }
+                else
+                {
+                    alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("FamilyEventSummaryDto"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+                }
             }
         }
         finally
@@ -83,5 +106,15 @@
     private void ViewHandler(string id)
     {
         navigationManager.NavigateTo($"/families/events/details/{id}");
+    }
+
+    private void AddOccurrenceHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/eventOccurrences/create/{id}");
+    }
+
+    private void CreateReminderHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/eventReminders/create/{id}");
     }
 }

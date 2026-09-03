@@ -1,0 +1,67 @@
+﻿@page "/families/eventReminders/details/{Id}"
+@inject IFamilyEventReminderService service
+
+<PageHeader Title="Chi tiết tổ chức sự kiện" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Họ tên:</strong> @dto?.MemberName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Địa điểm:</strong> @dto?.EventTitle
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Kênh thông báo:</strong> @dto?.Channel.ToDisplayName()
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Thông báo trước:</strong> @dto?.DaysBefore
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Đang bật ?:</strong> @dto?.IsEnabled  
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Thời gian nhắc:</strong> @dto?.RemindTime
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ghi chú:</strong> @dto?.Note
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="families/eventReminders" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    Alert? alertComponent;
+    bool isLoading = false;
+    InfoManager.Shared.Dtos.FamilyEventReminders.FamilyEventReminderDto? dto;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        var result = await service.GetFamilyEventReminderByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Family event reminder", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        var s = $"Xóa Family Event Reminder (ID: {dto?.Id}) thành công.";
+        //call service to delete the category
+        alertComponent?.AddAlert(s, AlertType.Success, Constants.DismissAlertAfter10Seconds);
+    }
+}

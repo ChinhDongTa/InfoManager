@@ -45,7 +45,7 @@ public abstract class BaseUpdateCommandHandler<TCommand, TEntity> : IRequestHand
             }
 
             // 3. Update entity properties
-            UpdateEntityProperties(entity, request);
+            await UpdateEntityProperties(entity, request);
 
             // 4. Save changes (AuditableEntityInterceptor will handle audit fields)
             await Context.SaveChangesAsync(cancellationToken);
@@ -74,7 +74,7 @@ public abstract class BaseUpdateCommandHandler<TCommand, TEntity> : IRequestHand
     /// Updates the entity properties based on the command.
     /// Override this method to customize property mapping from command to entity.
     /// </summary>
-    protected abstract void UpdateEntityProperties(TEntity entity, TCommand request);
+    protected abstract Task UpdateEntityProperties(TEntity entity, TCommand request);
 
     /// <summary>
     /// Gets the entity ID from the command for logging purposes.

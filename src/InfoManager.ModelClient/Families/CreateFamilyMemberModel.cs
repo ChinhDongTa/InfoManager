@@ -49,18 +49,15 @@ public class CreateFamilyMemberModel
     /// </summary>
     public string? Note { get; set; }
 
-    public CreateFamilyMemberRequest CreateRequest()
+    public CreateFamilyMemberRequest CreateRequest() => new()
     {
-        return new CreateFamilyMemberRequest
-        {
-            FullName = this.FullName,
-            FamilyRelationId = this.FamilyRelationId,
-            BirthDate = this.BirthDate,
-            DeathDate = this.DeathDate,
-            Gender = this.Gender,
-            Email = this.Email,
-            PhoneNumber = this.PhoneNumber,
-            Note = this.Note
-        };
-    }
+        FullName = this.FullName,
+        FamilyRelationId = this.FamilyRelationId,
+        BirthDate = this.BirthDate,
+        DeathDate = this.DeathDate,
+        Gender = this.Gender,
+        Email = this.Email,
+        PhoneNumber = this.PhoneNumber,
+        Note = this.Note
+    };
 }

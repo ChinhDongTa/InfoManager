@@ -13,10 +13,10 @@
         <PaginatedTable TItem="PriceTrackingSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
             <PropertyColumn TGridItem="PriceTrackingSummaryDto" TProp="string" Title="Tên sản phẩm" Property="@(x => x.ProductName)" />
             <PropertyColumn TGridItem="PriceTrackingSummaryDto" TProp="bool" Title="Hoàn thành" Property="@(x => x.IsPurchased)" Sortable="true" />
-            <PropertyColumn TGridItem="PriceTrackingSummaryDto" TProp="decimal" Title="Giá hiện tại" Property="@(x => x.CurrentPrice)" />
-            <PropertyColumn TGridItem="PriceTrackingSummaryDto" TProp="decimal?" Title="Giá thấp nhất đã thấy" Property="@(x => x.LowestPriceSeen)" />
+            <PropertyColumn TGridItem="PriceTrackingSummaryDto" TProp="string" Title="Giá hiện tại" Property="@(x => x.CurrentPrice.ToVND())" />
+            <PropertyColumn TGridItem="PriceTrackingSummaryDto" TProp="string" Title="Giá thấp nhất đã thấy" Property="@(x => x.LowestPriceSeen.ToVND())" />
             <TemplateColumn TGridItem="PriceTrackingSummaryDto" Context="item" Title="Xem sản phẩm">
-                <FluentAnchor Href="@item.ProductUrl">Xem</FluentAnchor>
+                <FluentAnchor Href="@item.ProductUrl" Target="_blank">Xem</FluentAnchor>
             </TemplateColumn>
             <TemplateColumn TGridItem="PriceTrackingSummaryDto" Context="item" Title="Actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />

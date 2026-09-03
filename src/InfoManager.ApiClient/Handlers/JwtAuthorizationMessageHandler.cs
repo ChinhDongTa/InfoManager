@@ -1,5 +1,4 @@
 ﻿using InfoManager.ApiClient.Abstractions;
-using InfoManager.ApiClient.Api;
 using System.Net;
 using System.Net.Http.Headers;
 

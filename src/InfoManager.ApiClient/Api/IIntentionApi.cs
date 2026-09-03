@@ -53,11 +53,11 @@ public interface IIntentionApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Put("/api/Intentions/{id}")]
-    Task<ApiResponse<MessageResponse>> UpdateIntentionAsync(string id, [Body] UpdateIntentionRequest request, CancellationToken ct);
+    Task<IApiResponse> UpdateIntentionAsync(string id, [Body] UpdateIntentionRequest request, CancellationToken ct);
 
     /// <param name="id">id parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Delete("/api/Intentions/{id}")]
-    Task<ApiResponse<MessageResponse>> DeleteIntentionAsync(string id, CancellationToken ct);
+    Task<IApiResponse> DeleteIntentionAsync(string id, CancellationToken ct);
 }

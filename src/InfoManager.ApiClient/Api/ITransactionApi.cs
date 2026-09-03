@@ -1,5 +1,4 @@
-﻿using InfoManager.Shared.Dtos.Intentions;
-using InfoManager.Shared.Dtos.Transactions;
+﻿using InfoManager.Shared.Dtos.Transactions;
 
 namespace InfoManager.ApiClient.Api;
 
@@ -9,12 +8,18 @@ public interface ITransactionApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Delete("/api/PriceTrackings/{id}")]
-    Task<ApiResponse<MessageResponse>> DeletePriceTrackingAsync(string id, CancellationToken ct);
+    Task<IApiResponse> DeletePriceTrackingAsync(string id, CancellationToken ct);
 
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/Transactions/pending")]
     Task<ApiResponse<List<TransactionSummaryDto>>> GetTransactionsPendingAsync(CancellationToken ct);
+
+    [Get("/api/Transactions/financial-summary-report")]
+    Task<ApiResponse<FinancialSummaryReportDto>> GetFinancialSummaryReportAsync([Query, AliasAs("Month")] int month,
+                                                                                 [Query, AliasAs("Year")] int year,
+                                                                                 CancellationToken ct);
+
 
     /// <param name="request">request parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
@@ -47,7 +52,7 @@ public interface ITransactionApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Delete("/api/Transactions/{id}")]
-    Task<ApiResponse<MessageResponse>> DeleteTransactionAsync(string id, CancellationToken ct);
+    Task<IApiResponse> DeleteTransactionAsync(string id, CancellationToken ct);
 
     /// <param name="minAmount">minAmount parameter</param>
     /// <param name="maxAmount">maxAmount parameter</param>

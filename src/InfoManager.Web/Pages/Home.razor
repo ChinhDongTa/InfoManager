@@ -1,6 +1,36 @@
 ﻿@page "/"
-
-
-<PageTitle>Home</PageTitle>
+@using InfoManager.Web.Pages.Shared
 
 <PageHeader Title="Tổng hợp thông tin" />
+<AuthorizeView>
+    <Authorized>
+        <FluentMultiSplitter Style="width:100%;max-height:80%">
+            <FluentMultiSplitterPane Size="30%"  Max="50%">
+                <FluentMultiSplitter Orientation="Orientation.Vertical">
+                    <FluentMultiSplitterPane Collapsible="true">
+                        <FinancialSummaryReport Year="@DateTime.Now.Year" Month="@DateTime.Now.Month" />
+                    </FluentMultiSplitterPane>
+                    <FluentMultiSplitterPane Collapsible="true">
+                        <TopHistoricalEvents NumMonth="1" />
+                    </FluentMultiSplitterPane>
+                </FluentMultiSplitter>
+            </FluentMultiSplitterPane>
+            <FluentMultiSplitterPane Size="40%" Max="50%">
+                <FluentMultiSplitter  Orientation="Orientation.Vertical">
+                    <FluentMultiSplitterPane Collapsible="true">
+                        <TopPriceTrackings Top="5"/>
+                    </FluentMultiSplitterPane>
+                    <FluentMultiSplitterPane Collapsible="true">
+                        <TopIntentions Top="5" />
+                    </FluentMultiSplitterPane>
+                </FluentMultiSplitter>
+            </FluentMultiSplitterPane>
+            <FluentMultiSplitterPane Size="30%" Max="50%">
+                <FamilyEventSummaryReport NumMonth="2" />
+            </FluentMultiSplitterPane>
+        </FluentMultiSplitter>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>

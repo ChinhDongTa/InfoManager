@@ -40,6 +40,7 @@ public class AuditableEntityInterceptor(IUser user, TimeProvider dateTime) : Sav
                 entry.Entity.LastModifiedBy = user.Id;
                 entry.Entity.LastModified = utcNow;
             }
+            
         }
 
         // Normalize all DateTimeOffset properties to UTC across all entities

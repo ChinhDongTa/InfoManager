@@ -11,7 +11,8 @@ public record FamilyMemberDto(
     string? PhoneNumber,
     string? Note,
     string? FamilyRelationId,
-    Gender Gender
+    Gender Gender,
+    string? FamilyId
 );
 public record FamilyMemberSummaryDto(
     string Id,

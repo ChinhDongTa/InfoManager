@@ -3,23 +3,59 @@
     <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
     <nav class="sitenav" aria-labelledby="main-menu">
         <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true">
-             <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
-             <FluentNavLink Href="categories/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Danh mục</FluentNavLink>
-            <FluentNavLink Href="experiences/list" Icon="@(new Icons.Regular.Size20.LearningApp())" IconColor="Color.Accent">Kinh nghiệm</FluentNavLink>
-            <FluentNavGroup Title="Gia đình" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
-                <FluentNavLink Href="families/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Thành viên gia đình</FluentNavLink>
-                <FluentNavLink Href="families/Events/list" Icon="@(new Icons.Regular.Size20.FoodCake())" IconColor="Color.Accent">Sự kiện gia đình</FluentNavLink>
-                <FluentNavLink Href="families/Relations/list" Icon="@(new Icons.Regular.Size20.PeopleCommunity())" IconColor="Color.Accent">Mối quan hệ gia đình</FluentNavLink>
+            <FluentNavGroup Title="Nông trại thông minh" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+                <FluentNavGroup Title="Nông trại" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+                    <FluentNavLink Href="farms/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Nông trại</FluentNavLink>
+                </FluentNavGroup>
+                <FluentNavGroup Title="Cây trồng" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+                    <FluentNavLink Href="crops/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Danh sách</FluentNavLink>
+                </FluentNavGroup>
+
+                <FluentNavLink Href="crops/harvests/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Thu hoạch</FluentNavLink>
+                <FluentNavLink Href="crops/harvests/transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch thu hoạch</FluentNavLink>
+                <FluentNavGroup Title="Vật tư" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+                    <FluentNavGroup Title="Phân bón" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+
+                    </FluentNavGroup>
+                    <FluentNavGroup Title="Thuốc BVTV" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+
+                    </FluentNavGroup>
+                    <FluentNavGroup Title="Thiết bị" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+
+                    </FluentNavGroup>
+                </FluentNavGroup>
+                <FluentNavGroup Title="Quản lý kho" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+
+                </FluentNavGroup>
             </FluentNavGroup>
-            <FluentNavLink Href="HistoricalEvents/list" Icon="@(new Icons.Regular.Size20.History())" IconColor="Color.Accent">Sự kiện lịch sử</FluentNavLink>
-            <FluentNavLink Href="Intentions/list" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">Ý định</FluentNavLink>
-            <FluentNavLink Href="PriceTrackings/list" Icon="@(new Icons.Regular.Size20.Money())" IconColor="Color.Accent">Theo dõi giá</FluentNavLink>
-            <FluentNavLink Href="Transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch</FluentNavLink>
-            <FluentNavGroup Title="Quản lý người dùng" Icon="@(new Icons.Regular.Size20.Person())" IconColor="Color.Accent">
-                <FluentNavLink Href="account/users/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Danh sách người dùng</FluentNavLink>
-                <FluentNavLink Href="account/roles/list" Icon="@(new Icons.Regular.Size20.ShieldPerson())" IconColor="Color.Accent">Danh sách vai trò</FluentNavLink>
+            <FluentNavGroup Title="Tiện ích cá nhân" Icon="@(new Icons.Regular.Size20.Apps())" IconColor="Color.Accent">
+                <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
+                <FluentNavLink Href="categories/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Danh mục</FluentNavLink>
+                <FluentNavLink Href="experiences/list" Icon="@(new Icons.Regular.Size20.LearningApp())" IconColor="Color.Accent">Kinh nghiệm</FluentNavLink>
+                <FluentNavGroup Title="Gia đình" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
+                    <FluentNavLink Href="families/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Thành viên gia đình</FluentNavLink>
+                    <FluentNavLink Href="families/Events/list" Icon="@(new Icons.Regular.Size20.FoodCake())" IconColor="Color.Accent">Sự kiện gia đình</FluentNavLink>
+                    <FluentNavLink Href="families/EventOccurrences/list" Icon="@(new Icons.Regular.Size20.Calendar())" IconColor="Color.Accent">Diễn biến sự kiện</FluentNavLink>
+                    <FluentNavLink Href="families/EventReminders/list" Icon="@(new Icons.Regular.Size20.Alert())" IconColor="Color.Accent">Nhắc nhở sự kiện</FluentNavLink>
+                    <FluentNavLink Href="families/Relations/list" Icon="@(new Icons.Regular.Size20.PeopleCommunity())" IconColor="Color.Accent">Mối quan hệ gia đình</FluentNavLink>
+                </FluentNavGroup>
+                <FluentNavLink Href="HistoricalEvents/list" Icon="@(new Icons.Regular.Size20.History())" IconColor="Color.Accent">Sự kiện lịch sử</FluentNavLink>
+                <FluentNavLink Href="Intentions/list" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">Ý định</FluentNavLink>
+                <FluentNavLink Href="PriceTrackings/list" Icon="@(new Icons.Regular.Size20.Money())" IconColor="Color.Accent">Theo dõi giá</FluentNavLink>
+                <FluentNavLink Href="Transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch</FluentNavLink>
+              
+            </FluentNavGroup>
+            <FluentNavGroup Title=" Quản trị hệ thống" Icon="@(new Icons.Regular.Size20.Toolbox())" IconColor="Color.Accent">
+                <FluentNavGroup Title="Famer" Icon="@(new Icons.Regular.Size20.Person())" IconColor="Color.Accent">
+                    <FluentNavLink Href="SFMS/Famers/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Danh sách nông dân</FluentNavLink>
+                </FluentNavGroup>
+                <FluentNavGroup Title="Quản lý tài khoản" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
+                    <FluentNavLink Href="account/users/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Danh sách người dùng</FluentNavLink>
+                    <FluentNavLink Href="account/roles/manager" Icon="@(new Icons.Regular.Size20.ShieldPerson())" IconColor="Color.Accent">Quản lý Role</FluentNavLink>
+                </FluentNavGroup>
             </FluentNavGroup>
         </FluentNavMenu>
+       
     </nav>
 </div>
 

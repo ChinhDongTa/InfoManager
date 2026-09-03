@@ -13,12 +13,9 @@ public class CreateFamilyRelationModel
 
     public string? Description { get; set; }
 
-    public CreateFamilyRelationRequest CreateRequest()
+    public CreateFamilyRelationRequest CreateRequest() => new()
     {
-        return new CreateFamilyRelationRequest
-        {
-            Name = this.Name,
-            Description = this.Description
-        };
-    }
+        Name = this.Name,
+        Description = this.Description
+    };
 }

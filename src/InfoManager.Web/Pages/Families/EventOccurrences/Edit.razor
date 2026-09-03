@@ -1,0 +1,164 @@
+﻿@page "/families/eventoccurrences/update/{Id}"
+@page "/families/eventoccurrences/create/{familyEventId}"
+
+@inject IFamilyEventOccurrenceService service
+@inject NavigationManager navigationManager
+@using InfoManager.ModelClient.Families
+
+<PageHeader Title="Quản lý sự kiện gia đình" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <DateTimePicker @bind-Value="occurrenceDate" WithTime="false" />
+                        <FluentTextField @bind-Value="updateModel.Location" Label="Địa điểm" />
+                        <CurrencyNumberField @bind-Value="updateModel.Cost" Label="Chi phí" />
+                        <FluentTextArea @bind-Value="updateModel.Notes" Label="Ghi chú" Class="Width70ch" />
+
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary /> 
+                        <FluentTextField @bind-Value="@createModel.FamilyEventId" Label="Family Event ID" ReadOnly="true"/>
+                        <DateTimePicker @bind-Value="occurrenceDate" WithTime="false" />
+                        <FluentTextField @bind-Value="createModel.Location" Label="Địa điểm" />
+                        <CurrencyNumberField @bind-Value="createModel.Cost" Label="Chi phí" />
+                        <FluentTextArea @bind-Value="createModel.Notes" Label="Ghi chú" Class="Width70ch" />
+                        @* Action : create, update *@
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; } 
+    [Parameter]
+    public string? familyEventId { get; set; } 
+
+    private UpdateFamilyEventOccurrenceModel? updateModel;
+    private CreateFamilyEventOccurrenceModel? createModel;
+    private UpdateFamilyEventOccurrenceModel? originModel;
+
+    
+    DateTime? occurrenceDate;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        try
+        {
+            if (!string.IsNullOrEmpty(Id))
+            {
+                title = "Cập nhật sự kiện gia đình";
+                var result = await service.GetFamilyEventOccurrenceByIdAsync(Id);
+                if (result.Success && result.Data != null)
+                {
+                    updateModel = new UpdateFamilyEventOccurrenceModel(result.Data);
+                    originModel = new UpdateFamilyEventOccurrenceModel(result.Data);
+                 
+                }
+                else
+                {
+                    alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Family event occurrence"));
+                }
+            }
+            else
+            {
+                if(!string.IsNullOrEmpty(familyEventId))
+                {
+                    title = "Tạo mới sự kiện gia đình ";
+                    createModel = new CreateFamilyEventOccurrenceModel() { FamilyEventId = familyEventId };
+                }
+                else
+                {
+                    alertComponent?.AddAlert(ErrorHelpers.GetErrorNotEmpty("familyEventId"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+                }
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.OccurrenceDate = occurrenceDate?.ToDateOnly();
+        var result = await service.UpdateFamilyEventOccurrenceAsync(Id!, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Family Event Occurrence"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        createModel.OccurrenceDate = occurrenceDate?.ToDateOnly();
+        var result = await service.CreateFamilyEventOccurrenceAsync(createModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Family Event Occurrence"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;   
+    }
+}

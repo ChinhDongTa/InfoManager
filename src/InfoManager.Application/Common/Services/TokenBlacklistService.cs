@@ -1,4 +1,5 @@
-﻿using InfoManager.Enum;
+﻿using InfoManager.Domain.Entities.Authentication;
+using InfoManager.Enum;
 using InfoManager.Helper;
 using InfoManager.Shared.Dtos.TokenBlacklists;
 using InfoManager.Shared.Models;

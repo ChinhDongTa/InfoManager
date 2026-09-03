@@ -34,11 +34,12 @@ public abstract class BaseDeleteCommandHandler<TCommand, TEntity> : IRequestHand
             {
                 var entityName = typeof(TEntity).Name;
                 var entityId = GetEntityId(request);
-                return Result.NotFound($"Entity {entityName} with Id {entityId} not found.");
+                return Result.NotFound(entityName, entityId);
             }
 
             // 2. Delete entity (call abstract method for specific deletion logic)
-            DeleteEntity(entity, cancellationToken);
+            //DeleteEntity(entity, cancellationToken);
+            entity.IsDeleted = true; // Mark as deleted if using soft delete
 
             // 3. Save changes
             await Context.SaveChangesAsync(cancellationToken);
@@ -48,12 +49,12 @@ public abstract class BaseDeleteCommandHandler<TCommand, TEntity> : IRequestHand
         catch (DbUpdateException ex)
         {
             Logger.LogError(ex, "Database error occurred while deleting {EntityName}", typeof(TEntity).Name);
-            return Result.NotFound($"An error occurred while deleting {typeof(TEntity).Name}.");
+            return Result.NotFound(typeof(TEntity).Name, GetEntityId(request));
         }
         catch (Exception ex)
         {
             Logger.LogError(ex, "Error occurred while deleting {EntityName} with Id: {Id}", typeof(TEntity).Name, GetEntityId(request));
-            return Result.NotFound($"An error occurred while deleting {typeof(TEntity).Name}.");
+            return Result.NotFound(typeof(TEntity).Name, GetEntityId(request));
         }
     }
 
@@ -73,7 +74,7 @@ public abstract class BaseDeleteCommandHandler<TCommand, TEntity> : IRequestHand
     ///       Context.Categories.Remove(entity);
     ///   }
     /// </summary>
-    protected abstract void DeleteEntity(TEntity entity, CancellationToken cancellationToken);
+    //protected abstract void DeleteEntity(TEntity entity, CancellationToken cancellationToken);
 
     /// <summary>
     /// Gets the entity ID from the command for logging purposes.

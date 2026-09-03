@@ -1,12 +1,17 @@
-﻿using InfoManager.Shared.Dtos.Transactions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.Transactions;
 
 namespace InfoManager.Application.Features.Transactions.Queries;
 
 public static class QueryableExtensions
 {
+    /// <summary>
+    /// Applies sorting to the query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by TransactionDate in descending order.
+    /// </summary>
+    /// <param name="query">The queryable collection of Transaction entities to sort.</param>
+    /// <param name="sortBy">The field (amount) to sort by. If null or empty, defaults to sorting by TransactionDate.</param>
+    /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
+    /// <returns>The sorted queryable collection of Transaction entities.</returns>
     public static IQueryable<Transaction> ApplySorting(this IQueryable<Transaction> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))

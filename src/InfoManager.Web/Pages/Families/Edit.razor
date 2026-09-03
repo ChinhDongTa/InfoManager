@@ -13,18 +13,18 @@
         </FluentLabel>
         @if (updateModel != null)
         {
-              <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+              <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Họ và tên" @bind-Value="updateModel.FullName" Maxlength="100" />
+                        <FluentTextField Label="Họ và tên" @bind-Value="updateModel.FullName" />
                         <DateTimePicker @bind-Value="@birthDate" WithTime="false" Label="Ngày sinh"  />
                         <DateTimePicker @bind-Value="@deathDate" WithTime="false" Label="Ngày mất" />
-                        <SelectList Label="Giới tính" @bind-SelectedOption="@genderSelected" Route="api/enums/gender" DefaultId="@updateModel.Gender.ToIntString()" />
-                        <SelectList Label="Quan hệ gia đình" @bind-SelectedOption="@familyRelationSelected" Route="api/selectList/familyRelation" DefaultId="@updateModel.FamilyRelationId" />
-                        <FluentTextField Label="Email" @bind-Value="updateModel.Email" Maxlength="200" />
+                        <SelectList Label="Giới tính" @bind-Value="@genderSelected" Route="api/enums/gender" />
+                        <SelectList Label="Quan hệ gia đình" @bind-Value="@updateModel.FamilyRelationId" Route="api/selectList/familyRelation" />
+                        <FluentTextField Label="Email" @bind-Value="updateModel.Email" />
                         <FluentTextField Label="Phone" @bind-Value="updateModel.PhoneNumber" Maxlength="50" />
-                        <FluentTextArea Label="Ghi chú" @bind-Value="updateModel.Note" />
+                        <FluentTextArea Label="Ghi chú" @bind-Value="updateModel.Note" class="Width70ch" />
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/list" />
                 </FluentStack>
             </EditForm>
@@ -35,14 +35,14 @@
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" Maxlength="100" Required="true" />
-                    <DateTimePicker @bind-Value="@birthDate" WithTime="false" Label="Ngày sinh" Required="true"  />
+                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" />
+                    <DateTimePicker @bind-Value="@birthDate" WithTime="false" Label="Ngày sinh"   />
                     <DateTimePicker @bind-Value="@deathDate" WithTime="false" Label="Ngày mất" />
-                    <SelectList Label="Giới tính" @bind-SelectedOption="@genderSelected" Route="api/enums/gender" DefaultId="@createModel.Gender.ToIntString()" />
-                    <SelectList Label="Quan hệ gia đình" @bind-SelectedOption="@familyRelationSelected" Route="api/selectList/familyRelation" DefaultId="@createModel.FamilyRelationId" />
+                    <SelectList Label="Giới tính" @bind-Value="@genderSelected" Route="api/enums/gender" />
+                    <SelectList Label="Quan hệ gia đình" @bind-Value="@createModel.FamilyRelationId" Route="api/selectList/familyRelation" />
                     <FluentTextField Label="Email" @bind-Value="createModel.Email" Maxlength="200" />
                     <FluentTextField Label="Phone" @bind-Value="createModel.PhoneNumber" Maxlength="50" />
-                    <FluentTextArea Label="Ghi chú" @bind-Value="createModel.Note" />
+                    <FluentTextArea Label="Ghi chú" @bind-Value="createModel.Note" class="Width70ch" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/list" />
                 </FluentStack>
@@ -67,7 +67,7 @@
     bool IsLoading = false;
     string? title = null;
 
-    SelectListItemDto? genderSelected, familyRelationSelected;
+    string? genderSelected;
     private DateTime? birthDate, deathDate;
 
     protected override async Task OnParametersSetAsync()
@@ -80,9 +80,12 @@
             if (result.Success && result.Data != null)
             {
                 updateModel = new UpdateFamilyMemberModel(result.Data);
-
                 originalModel = new UpdateFamilyMemberModel(result.Data);   
+
                 birthDate = result.Data.BirthDate.ToDateTime();
+                deathDate = result.Data.DeathDate.ToDateTime();
+                genderSelected = result.Data.Gender.ToIntString();
+                Console.WriteLine($"BirthDate: {birthDate}, DeathDate: {deathDate}, Gender: {genderSelected}, categoryId: {updateModel?.FamilyRelationId}" );
             }
             else
             {
@@ -112,10 +115,12 @@
             IsSaving = false;
             return;
         }
+
         updateModel.BirthDate = birthDate.ToDateOnly();
         updateModel.DeathDate = deathDate.ToDateOnly();
-        updateModel.FamilyRelationId = familyRelationSelected?.Id;
-        updateModel.Gender = GetGenderFromString(genderSelected!.Id);
+        //updateModel.FamilyRelationId = familyRelationSelected?.Id;
+        updateModel.Gender = Enum.Parse<Gender>(genderSelected!);
+
         var updateResult = updateModel.CreateRequest();
         var result = await familyService.UpdateFamilyMemberAsync(Id, updateResult);
         if (result.Success)
@@ -141,15 +146,16 @@
 
         createModel.BirthDate = new DateOnly(birthDate.Value.Year, birthDate.Value.Month, birthDate.Value.Day);
         createModel.DeathDate = deathDate.ToDateOnly();
-        createModel.FamilyRelationId = familyRelationSelected?.Id;
+        //createModel.FamilyRelationId = familyRelationSelected?.Id;
 
-        createModel.Gender = GetGenderFromString(genderSelected!.Id);
+        createModel.Gender = Enum.Parse<Gender>(genderSelected!);
 
         var createRequest = createModel.CreateRequest();
         var result = await familyService.CreateFamilyMemberAsync(createRequest);
         if (result.Success)
         {
             alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "family member"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+            alertComponent?.AddAlert($"Id của thành viên mới tạo: {result.Data}", AlertType.Info, Constants.DismissAlertAfter10Seconds);
         }
         else
         {
@@ -157,7 +163,5 @@
         }
         IsSaving = false;
     }
-    private Gender GetGenderFromString(string intString) {
-        return (Gender)int.Parse(intString);
-    }
+    
 }

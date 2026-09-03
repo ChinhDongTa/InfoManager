@@ -123,6 +123,17 @@ code {
     color: #c02d76;
 }
 
+fluent-text-field {
+    width: 70ch;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.Width70ch {
+    width: 70ch;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 @media (max-width: 600px) {
     .header-gutters {
         margin: 0.5rem 3rem 0.5rem 1.5rem !important;

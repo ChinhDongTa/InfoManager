@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.FamilyMembers.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyMembers.Commands;
 public record CreateFamilyMemberCommand : IRequest<Result<string>>
 {
     public required string FullName { get; init; } 
@@ -23,7 +25,7 @@ public class CreateFamilyMemberCommandHandler : BaseCreateCommandHandler<CreateF
         await Context.FamilyMembers.AddAsync(entity, cancellationToken);
     }
 
-    protected override FamilyMember CreateEntity(CreateFamilyMemberCommand request)
+    protected override async Task<FamilyMember> CreateEntity(CreateFamilyMemberCommand request)
     {
         return new FamilyMember
         {
@@ -38,6 +40,7 @@ public class CreateFamilyMemberCommandHandler : BaseCreateCommandHandler<CreateF
         };
     }
 }
+
 public class CreateFamilyMemberCommandValidator : AbstractValidator<CreateFamilyMemberCommand>
 {
     public CreateFamilyMemberCommandValidator()

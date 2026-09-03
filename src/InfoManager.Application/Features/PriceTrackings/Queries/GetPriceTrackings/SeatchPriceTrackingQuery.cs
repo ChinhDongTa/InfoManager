@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.PriceTrackings;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.PriceTrackings;
 using InfoManager.Shared.Models;
 
 namespace InfoManager.Application.Features.PriceTrackings.Queries.GetPriceTrackings;

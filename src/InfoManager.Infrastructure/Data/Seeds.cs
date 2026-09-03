@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Infrastructure.Data;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Infrastructure.Data;
 
 internal static class Seeds
 {

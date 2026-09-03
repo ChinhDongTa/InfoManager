@@ -30,6 +30,7 @@ public sealed class AuthService(IAuthApi authApi, IProtectAuthApi protectAuthApi
         }
         return ApiResult<LoginResponse?>.Fail([ErrorHelpers.GetErrorUnknown]);
     }
+
     public async Task<ApiResult<TokenResponse?>> RefreshTokenAsync(string refreshToken, CancellationToken ct = default)
     {
         var request = new RefreshRequest ( RefreshToken : refreshToken );

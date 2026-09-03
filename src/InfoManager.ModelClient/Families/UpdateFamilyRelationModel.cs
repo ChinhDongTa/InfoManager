@@ -4,6 +4,7 @@ namespace InfoManager.ModelClient.Families;
 
 public class UpdateFamilyRelationModel
 {
+    [Required]
     public string Id { get; set; } = string.Empty;
 
     /// <summary>
@@ -18,17 +19,12 @@ public class UpdateFamilyRelationModel
         Name = dto.Name;
         Description = dto.Description;
     }
-    public UpdateFamilyRelationRequest CreateRequest()
+    public UpdateFamilyRelationRequest CreateRequest() => new()
     {
-        return new UpdateFamilyRelationRequest
-        {
-            Id = this.Id,
-            Name = this.Name,
-            Description = this.Description
-        };
-    }
+        Id = this.Id,
+        Name = this.Name,
+        Description = this.Description
+    };
     public bool HasChanges(UpdateFamilyRelationModel originalModel)
-    {
-        return ClientUpdateHelper.HasChanges(this, originalModel);
-    }
+        => ClientUpdateHelper.HasChanges(this, originalModel);
 }

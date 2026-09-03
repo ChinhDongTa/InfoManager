@@ -1,3 +1,5 @@
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var apiService = builder.AddProject<Projects.InfoManager_Api>("apiservice")
@@ -8,5 +10,4 @@ builder.AddProject<Projects.InfoManager_Web>("webfrontend")
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WaitFor(apiService);
-
 builder.Build().Run();

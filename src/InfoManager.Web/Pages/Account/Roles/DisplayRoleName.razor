@@ -1,0 +1,27 @@
+﻿@inject IIdentityService identityService
+@if (items is null)
+{
+    <FluentProgressRing />
+}
+else
+{
+    <FluentLabel Color="Color.Success" Typo="Typography.H3" Weight="FontWeight.Bold">
+        <strong>Roles: </strong> @string.Join(", ", items)
+    </FluentLabel>
+}
+
+@code {
+    IQueryable<string>? items;
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await identityService.GetRoleNamesAsync();
+        if (result.Success && result.Data is not null)
+        {
+            items = result.Data.AsQueryable();
+        }
+        else
+        {
+            Console.WriteLine("Failed to retrieve role names: " + result.ErrorMessage?.ToLine());
+        }
+    }
+}

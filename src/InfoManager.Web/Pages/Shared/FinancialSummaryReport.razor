@@ -1,0 +1,68 @@
+﻿@using InfoManager.Shared.Dtos.Transactions
+@inject ITransactionService transactionService
+@inject NavigationManager navigationManager
+
+<FluentStack Style="width:100%; margin: 5px;" Orientation="Orientation.Vertical">
+    <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold" Color="Color.Success">
+        @title
+    </FluentLabel>
+    @if (summary is null)
+    {
+        <FluentProgressRing />
+    }
+    else
+    {
+        <FluentLabel>
+            <strong>Tổng thu tháng</strong>: @summary.TotalIncomeMonth.ToString("C0") <br />
+            <strong>Tổng chi tháng</strong>:  @summary.TotalExpenseMonth.ToString("C0") <br />
+            <strong>Số dư</strong>: @summary.BalanceMonth.ToString("C0") <br />
+        </FluentLabel>
+        <FluentLabel>
+            <strong>Tổng thu quý @quarter</strong>: @summary.TotalIncomeQuarter.ToString("C0") <br />
+            <strong>Tổng chi quý @quarter</strong>: @summary.TotalExpenseQuarter.ToString("C0") <br />
+            <strong>Số dư</strong>: @summary.BalanceQuarter.ToString("C0") <br />
+        </FluentLabel>
+        <FluentLabel>
+            <strong>Tổng thu năm</strong>: @summary.TotalIncomeYear.ToString("C0") <br />
+            <strong>Tổng chi năm</strong>: @summary.TotalExpenseYear.ToString("C0") <br />
+            <strong>Số dư</strong>: @summary.BalanceYear.ToString("C0") <br />
+        </FluentLabel>
+        <!-- Container để đẩy nút sang phải -->
+        <FluentButton Appearance="Appearance.Outline"
+                      @onclick="@( () => navigationManager.NavigateTo("/transactions/create/"))">
+            Create new
+        </FluentButton>
+    }
+</FluentStack>
+
+@code {
+    [Parameter]
+    public int Year { get; set; }
+    [Parameter]
+    public int Month { get; set; }
+    string? title;
+    FinancialSummaryReportDto? summary;
+    byte quarter => (byte)((Month - 1) / 3 + 1);
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var result = await transactionService.GetFinancialSummaryReportAsync(Month, Year);
+            if (result.Success && result.Data != null)
+            {
+                summary = result.Data;
+                title = $"Tổng kết tài chính tháng {Month}/{Year}";
+            }
+            else
+            {
+                title = "Lỗi khi tải dữ liệu: " + result.ErrorMessage;
+            }
+        }
+        catch (Exception ex)
+        {
+            //summary = new FinancialSummaryReportDto();
+            title = "Lỗi khi tải dữ liệu: " + ex.Message;
+        }
+    }
+}

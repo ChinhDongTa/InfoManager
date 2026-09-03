@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.Transactions.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.Transactions.Commands;
 
 public record UpdateTransactionCommand : IRequest<Result>
 {
@@ -21,7 +23,7 @@ public class UpdateTransactionCommandHandler : BaseUpdateCommandHandler<UpdateTr
     {
         return await Context.Transactions.FindAsync([request.Id], cancellationToken);
     }
-    protected override void UpdateEntityProperties(Transaction entity, UpdateTransactionCommand request)
+    protected override async Task UpdateEntityProperties(Transaction entity, UpdateTransactionCommand request)
     {
         if (request.Amount.HasValue && request.Amount.Value != entity.Amount)
             entity.Amount = request.Amount.Value;

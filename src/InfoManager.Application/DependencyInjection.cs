@@ -23,6 +23,6 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(PerformanceBehaviour<,>));
         });
         builder.Services.AddScoped<ITokenBlacklistService, TokenBlacklistService>();
-       
+       builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
     }
 }

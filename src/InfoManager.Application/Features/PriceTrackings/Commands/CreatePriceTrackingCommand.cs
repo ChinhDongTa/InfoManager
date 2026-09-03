@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.PriceTrackings.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.PriceTrackings.Commands;
 public record CreatePriceTrackingCommand : IRequest<Result<string>>
 {
     public string ProductName { get; init; } = string.Empty;
@@ -18,7 +20,7 @@ public class CreatePriceTrackingCommandHandler : BaseCreateCommandHandler<Create
                                              ILogger<CreatePriceTrackingCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override PriceTracking CreateEntity(CreatePriceTrackingCommand request)
+    protected override async Task<PriceTracking> CreateEntity(CreatePriceTrackingCommand request)
     {
         return new PriceTracking
         {

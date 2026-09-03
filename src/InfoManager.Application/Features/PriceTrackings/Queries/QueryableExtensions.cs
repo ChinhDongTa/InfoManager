@@ -1,8 +1,4 @@
 ﻿using InfoManager.Shared.Dtos.PriceTrackings;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 
 namespace InfoManager.Application.Features.PriceTrackings.Queries;
 
@@ -34,6 +30,13 @@ public static class QueryableExtensions
             ProductUrl: pt.ProductUrl
         ));
     }
+    /// <summary>
+    /// Applies sorting to the PriceTracking query based on the provided sortBy parameter.
+    /// </summary>
+    /// <param name="query">The queryable collection of PriceTracking entities to sort.</param>
+    /// <param name="sortBy">The field (currentPrice, desiredPrice, lowestPriceSeen) to sort by. If null or empty, defaults to sorting by LastCheckedDate in descending order.</param>
+    /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
+    /// <returns>The sorted queryable collection of PriceTracking entities.</returns>
     public static IQueryable<PriceTracking> ApplySorting(this IQueryable<PriceTracking> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))

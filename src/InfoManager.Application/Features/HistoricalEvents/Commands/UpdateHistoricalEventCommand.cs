@@ -1,9 +1,11 @@
-﻿namespace InfoManager.Application.Features.HistoricalEvents.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.HistoricalEvents.Commands;
 
 public record UpdateHistoricalEventCommand : IRequest<Result>
 {
     public required string Id { get; init; }
-    public DateTime? EventDate { get; init; }
+    public DateOnly? EventDate { get; init; }
     public  string? Title { get; init; }
     public HistoricalEventType? EventType { get; init; }
     public string? Location { get; init; }
@@ -21,11 +23,10 @@ public class UpdateHistoricalEventCommandHandler :BaseUpdateCommandHandler<Updat
     {
         return await Context.HistoricalEvents.FindAsync([request.Id], cancellationToken);
     }
-    protected override void UpdateEntityProperties(HistoricalEvent entity, UpdateHistoricalEventCommand request)
+    protected override async Task UpdateEntityProperties(HistoricalEvent entity, UpdateHistoricalEventCommand request)
     {
-        var eventDate = request.EventDate.ToDateOnly();
-        if (eventDate.HasValueAndIsDifferentFrom(entity.EventDate))
-            entity.EventDate = eventDate!.Value;
+        if (request.EventDate.IsDifferentFrom(entity.EventDate))
+            entity.EventDate = request.EventDate!.Value;
 
         if (request.Title.HasValueAndIsDifferentFrom(entity.Title))
             entity.Title = request.Title!;

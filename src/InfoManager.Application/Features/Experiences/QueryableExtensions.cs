@@ -21,6 +21,13 @@ public static class QueryableExtensions
                 e.Content,
                 e.ExperienceDate));
     }
+    /// <summary>
+    /// Applies sorting to the query based on the provided sortBy parameter.
+    /// </summary>
+    /// <param name="query">The queryable collection of Experience entities to sort.</param>
+    /// <param name="sortBy">The field (content, date) to sort by. If null or empty, defaults to sorting by ExperienceDate.</param>
+    /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
+    /// <returns>The sorted queryable collection of Experience entities.</returns>
     public static IQueryable<Experience> ApplySorting(this IQueryable<Experience> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))

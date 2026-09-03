@@ -30,19 +30,19 @@ public interface IHistoricalEventApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Put("/api/HistoricalEvents/{id}")]
-    Task<ApiResponse<MessageResponse>> UpdateHistoricalEventAsync(string id, [Body] UpdateHistoricalEventRequest request, CancellationToken ct);
+    Task<IApiResponse> UpdateHistoricalEventAsync(string id, [Body] UpdateHistoricalEventRequest request, CancellationToken ct);
 
     /// <param name="id">id parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Delete("/api/HistoricalEvents/{id}")]
-    Task<ApiResponse<MessageResponse>> DeleteHistoricalEventAsync(string id, CancellationToken ct);
+    Task<IApiResponse> DeleteHistoricalEventAsync(string id, CancellationToken ct);
 
     /// <param name="numMonths">numMonths parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/HistoricalEvents/next/{numMonths}")]
-    Task<ApiResponse<HistoricalEventSummaryDto>> GetNextMonthHistoricalEventsAsync(int numMonths, CancellationToken ct);
+    Task<ApiResponse<List<HistoricalEventSummaryDto>>> GetNextMonthHistoricalEventsAsync(int numMonths, CancellationToken ct);
 
     /// <param name="searchTerm">searchTerm parameter</param>
     /// <param name="startDate">startDate parameter</param>

@@ -1,0 +1,40 @@
+﻿@using InfoManager.Shared.Dtos.Intentions
+@inject NavigationManager navigationManager
+@inject IIntentionService intentionService
+<FluentStack Style="width:100%; margin:5px;" Orientation="Orientation.Vertical">
+    <LoadingOverlay IsLoading="@isLoading" />
+    <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold" Color="Color.Warning">
+        Các dự định hàng đầu
+    </FluentLabel>
+    
+        <FluentDataGrid Items="@items" TGridItem="IntentionSummaryDto" Style="width:100%;">
+            <PropertyColumn Property="@(item => item.Content)" Title="Sự kiện" Style="min-width:300px;" />
+            <PropertyColumn Property="@(item => item.PriorityName)" Title="Ưu tiên" />
+            <PropertyColumn Property="@(item => item.IsCompleted)" Title="Hoàn thành ?" />
+            <TemplateColumn Title="Hành động" Context="context">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(context.Id)) />
+            </TemplateColumn>
+        </FluentDataGrid>
+</FluentStack>
+    @code {
+    [Parameter] public int Top { get; set; } = 5;
+
+    IQueryable<IntentionSummaryDto>? items;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        var result = await intentionService.GetTopIntentionsAsync(Top);
+        if (result.Success && result.Data != null)
+        {
+            items = result.Data.AsQueryable();
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/intentions/details/{id}");
+    }
+}

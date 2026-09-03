@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.Categories.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.Categories.Commands;
 
 public record UpdateCategoryCommand () : IRequest<Result>
 {
@@ -23,7 +25,7 @@ public class UpdateCategoryCommandHandler : BaseUpdateCommandHandler<UpdateCateg
         return await Context.Categories.FindAsync([request.Id], cancellationToken);
     }
 
-    protected override void UpdateEntityProperties(Category entity, UpdateCategoryCommand request)
+    protected override async Task UpdateEntityProperties(Category entity, UpdateCategoryCommand request)
     {
         if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;

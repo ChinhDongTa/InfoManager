@@ -1,8 +1,10 @@
-﻿namespace InfoManager.Application.Features.HistoricalEvents.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.HistoricalEvents.Commands;
 
 public record CreateHistoricalEventCommand : IRequest<Result<string>>
 {
-    public DateTime EventDate { get; init; }
+    public DateOnly? EventDate { get; init; }
     public required string Title { get; init; }
     public HistoricalEventType EventType { get; init; }
     public string? Location { get; init; }
@@ -16,11 +18,11 @@ public class CreateHistoricalEventCommandHandler : BaseCreateCommandHandler<Crea
                                             ILogger<CreateHistoricalEventCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override HistoricalEvent CreateEntity(CreateHistoricalEventCommand request)
+    protected override async Task<HistoricalEvent> CreateEntity(CreateHistoricalEventCommand request)
     {
         return new HistoricalEvent
         {
-            EventDate = request.EventDate.ToDateOnly(),
+            EventDate = request.EventDate,
             Title = request.Title.Trim(),
             EventType = request.EventType,
             Location = request.Location?.Trim(),
@@ -37,9 +39,6 @@ public class CreateHistoricalEventCommandValidator : AbstractValidator<CreateHis
 {
     public CreateHistoricalEventCommandValidator()
     {
-        RuleFor(x => x.EventDate)
-            .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Ngày diễn ra sự kiện"));
-            
         RuleFor(x => x.Title)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Tên sự kiện"))
             .MaximumLength(500).WithMessage(ErrorHelpers.GetErrorMaxLength("Tên sự kiện", 500));

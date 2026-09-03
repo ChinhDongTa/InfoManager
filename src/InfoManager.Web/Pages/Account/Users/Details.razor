@@ -1,0 +1,217 @@
+﻿@page "/account/users/details/{id}"
+@using InfoManager.Shared.Dtos.Auths
+@using InfoManager.Web.Pages.Account.Roles
+@inject NavigationManager navigationManager
+@inject IIdentityService IdentityService
+<PageHeader Title="Chi tiết user" />
+<Alert @ref="alert" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="@isLoad" />
+        <FluentMultiSplitter>
+            <FluentMultiSplitterPane Size="33%">
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left: 5px; margin-right:5px">
+                    <FluentLabel Typo="Typography.H3" Color="Color.Info">Chi tiết User</FluentLabel>
+                       
+                    <FluentLabel>
+                        <strong>UsernameOrEmail: </strong>@userDto?.UserNameOrEmail
+                    </FluentLabel>
+                    <FluentLabel>
+                        <strong>Phone: </strong>@userDto?.PhoneNumber
+                    </FluentLabel>
+                    <FluentLabel>
+                        <strong>Roles: </strong>@userDto?.Roles.ToLine()
+                    </FluentLabel>
+                  
+                    <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="width:100%; margin-top:10px;">
+                        <FluentButton Appearance="Appearance.Outline" OnClick="BtnBackToList">
+                            Back to List
+                        </FluentButton>
+                    </FluentStack>
+                </FluentStack>
+            </FluentMultiSplitterPane>
+            <FluentMultiSplitterPane Size="34%">
+                    <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left: 5px; margin-right:5px">
+                      
+                    <DisplayRoleName />
+                    <FluentLabel Typo="Typography.H3" Color="Color.Info">Thêm role cho user</FluentLabel>
+                    <FluentTextField Label="Nhập tên role" @bind-Value="@addRoleName" />
+                    <FluentButton Appearance="Appearance.Accent" OnClick="HandleAddRoleToUser" Disabled="@isSaving">
+                        @if (isSaving)
+                        {
+                            <span>Đang lưu...</span>
+                        }
+                        else
+                        {
+                            <span>Thêm</span>
+                        }
+
+                    </FluentButton>
+
+                    <FluentLabel Typo="Typography.H3" Color="Color.Warning">Xóa role khỏi user</FluentLabel>
+                    <FluentTextField Label="Nhập tên role" @bind-Value="@removeRoleName" />
+                    <FluentButton Appearance="Appearance.Accent" OnClick="HandleRemoveRoleToUser" Disabled="@isSaving">
+                        @if (isSaving)
+                        {
+                            <span>Đang lưu...</span>
+                        }
+                        else
+                        {
+                            <span>Xóa</span>
+                        }
+
+                    </FluentButton>
+                </FluentStack>
+            </FluentMultiSplitterPane>
+            <FluentMultiSplitterPane Size="33%">
+                <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left: 5px; margin-right:5px">
+                Delete user 
+                </FluentStack>
+            </FluentMultiSplitterPane>
+        </FluentMultiSplitter>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+    UserDetailDto? userDto;
+    Alert? alert;
+    string? addRoleName, removeRoleName;
+    bool isSaving = false;
+    bool isLoad = false;
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoad = true;
+        await LoadUserDetails();
+        isLoad = false;
+    }
+    private void BtnBackToList()
+    {
+        navigationManager.NavigateTo("/account/users/list");
+    }
+
+    private async Task HandleAddRoleToUser()
+    {
+        isSaving = true;
+        if (string.IsNullOrEmpty(addRoleName))
+        {
+            isSaving = false;
+            alert?.AddAlert(
+                ErrorHelpers.GetErrorNotEmpty("Tên role"),
+                AlertType.Error,
+                dismissMs: 3000
+            );
+            return;
+        }
+        try
+        {
+            // TODO: Call service to add role
+            var result = await IdentityService.AddToRoleAsync(new RoleActionDto(Id, addRoleName));
+            if(result.Success)
+            {
+                alert?.AddAlert(
+                    $"Đã thêm role '{addRoleName}' cho user thành công!",
+                    AlertType.Success,
+                    dismissMs: 3000
+                );
+
+              
+                //Nếu đã add role thành công thì chỉ cần cập nhật roles của userDto mà không cần gọi lại API để lấy chi tiết user
+                userDto.Roles.Add(addRoleName);
+                Console.WriteLine($"Tổng cộng Role:{userDto.Roles.ToLine()} ");
+                //StateHasChanged();
+                // Clear input
+                addRoleName = string.Empty;
+            }
+            else
+            {
+                alert?.AddAlert(
+                    $"Lỗi: Không thể thêm role '{addRoleName}' cho user. {result.ErrorMessage.ToLine(" | ")}",
+                    AlertType.Error, dismissMs: 3000
+                );
+            }
+
+            // Refresh user data
+            //await LoadUserDetails();
+        }
+        catch
+        {
+            alert?.AddAlert(
+                $"Lỗi: Không thể thêm role '{addRoleName}' cho user.",
+                AlertType.Error, dismissMs: 3000
+            );
+        }
+        finally
+        {
+            isSaving = false;
+        }
+
+    }
+
+    private async Task HandleRemoveRoleToUser()
+    {
+        isSaving = true;
+        if (string.IsNullOrEmpty(removeRoleName))
+        {
+            isSaving = false;
+            alert?.AddAlert(
+                ErrorHelpers.GetErrorNotEmpty("Tên role"),
+                AlertType.Error,
+                dismissMs: 3000
+            );
+            return;
+        }
+        try
+        {
+            // TODO: Call service to remove role
+            var result= await IdentityService.RemoveFromRoleAsync(new RoleActionDto(Id, removeRoleName));
+            if (result.Success)
+            {
+                alert?.AddAlert(
+                    $"Đã xóa role '{removeRoleName}' khỏi user thành công!",
+                    AlertType.Success,
+                    dismissMs: 3000
+                );
+                userDto.Roles.Remove(removeRoleName);
+                //StateHasChanged();
+                // Clear input
+                removeRoleName = string.Empty;
+            }
+          
+
+            // Refresh user data
+            //await LoadUserDetails();
+        }
+        catch
+        {
+            alert?.AddAlert(
+                $"Lỗi: Không thể xóa role '{removeRoleName}' khỏi user.",
+                AlertType.Error
+            );
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    async Task LoadUserDetails()
+    {
+        var result = await IdentityService.GetUserDetailsByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            userDto = result.Data;
+        }
+        else
+        {
+            alert?.AddAlert("Không thể tải chi tiết user.", AlertType.Error, Constants.DismissAlertAfter5Seconds);
+        }
+    }
+
+   
+}

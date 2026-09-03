@@ -1,5 +1,4 @@
 ﻿using InfoManager.Shared.Dtos.Experiences;
-using InfoManager.Shared.Models;
 
 namespace InfoManager.Application.Features.Experiences.Queries.GetExperiences;
 
@@ -15,18 +14,13 @@ public class SearchExperiencesQueryHandler(IApplicationDbContext context) : IReq
     public async Task<Result<PaginatedList<ExperienceSummaryDto>>> Handle(SearchExperiencesQuery request, CancellationToken ct)
     {
         // Note: User filtering is now handled automatically by global query filter in DbContext
-        var paginated = await context.Experiences
-            .ApplySearchFilter(request.Keyword, request.CategoryId)
-            .ApplySorting()
-            .ToSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
+        var query = BuildSearchQuery(context.Experiences.AsQueryable(), request.Keyword, request.CategoryId);
+        var paginated = await query.ApplySorting()
+             .ToSummaryDto()
+             .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<ExperienceSummaryDto>>.Success(paginated);
     }
-}
-
-static class SearchExperiencesQueryExtensions
-{
-    public static IQueryable<Experience> ApplySearchFilter(this IQueryable<Experience> query, string? keyword, string? categoryId)
+    static IQueryable<Experience> BuildSearchQuery(IQueryable<Experience> query, string? keyword, string? categoryId)
     {
         if (!string.IsNullOrEmpty(keyword))
         {

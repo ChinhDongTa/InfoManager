@@ -1,4 +1,5 @@
-﻿namespace InfoManager.Application.Features.Experiences.Commands;
+﻿
+namespace InfoManager.Application.Features.Experiences.Commands;
 public record UpdateExperienceCommand() : IRequest<Result>
 {
     public required string Id { get; init; }
@@ -20,7 +21,7 @@ public class UpdateExperienceCommandHandler : BaseUpdateCommandHandler<UpdateExp
         return await Context.Experiences.FindAsync([request.Id], cancellationToken);
     }
 
-    protected override void UpdateEntityProperties(Experience entity, UpdateExperienceCommand request)
+    protected override async Task UpdateEntityProperties(Experience entity, UpdateExperienceCommand request)
     {
         if (request.Content.HasValueAndIsDifferentFrom(entity.Content))
             entity.Content = request.Content!;

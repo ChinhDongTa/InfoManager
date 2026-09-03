@@ -1,0 +1,52 @@
+﻿@using InfoManager.Shared.Dtos.HistoricalEvents
+@inject IHistoricalEventService historicalEventService
+@inject NavigationManager navigationManager
+
+<FluentStack Style="width:100%; margin: 5px;" Orientation="Orientation.Vertical">
+    <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold" Color="Color.Info">
+        @title
+    </FluentLabel>
+    @if (items is null)
+    {
+        <FluentProgressRing />
+    }
+    else
+    {
+        <FluentDataGrid Items="@items" TGridItem="HistoricalEventSummaryDto" Style="width:100%;">
+            <PropertyColumn Property="@(item => item.Title)" Title="Sự kiện" Style="min-width:250px" />
+            <PropertyColumn Property="@(item => item.EventDate)" Format="dd-MM-yyyy" Title="Ngày"  />
+            <TemplateColumn Title="Hành động" Context="context">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => navigationManager.NavigateTo($"/historicalEvents/details/{context.Id}")) />
+            </TemplateColumn>
+        </FluentDataGrid>
+    }
+</FluentStack>
+
+@code {
+    [Parameter] public int NumMonth { get; set; } = 1;
+    private IQueryable<HistoricalEventSummaryDto>? items;
+    string? title;
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var result = await historicalEventService.GetNextMonthHistoricalEventsAsync(NumMonth);
+
+            if (result.Success && result.Data != null)
+            {
+                items = result.Data.AsQueryable();
+            }
+            else
+            {
+                items = Enumerable.Empty<HistoricalEventSummaryDto>().AsQueryable();
+            }
+            var now = DateTime.Now.AddMonths(NumMonth);
+            title = $"Các sự kiện từ đây đến tháng {now:MM/yyyy}";
+        }
+        catch (Exception ex)
+        {
+            title = "Lỗi khi tải dữ liệu: " + ex.Message;
+            items = Enumerable.Empty<HistoricalEventSummaryDto>().AsQueryable();
+        }
+    }
+}

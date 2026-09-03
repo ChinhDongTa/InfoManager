@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.Transactions;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.Transactions;
 
 namespace InfoManager.Application.Features.Transactions.Queries.GetTransactions;
 

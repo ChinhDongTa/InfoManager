@@ -21,7 +21,7 @@
                         <FluentTextField Label="Tên sản phẩm" @bind-Value="updateModel.ProductName" />
                         <FluentTextField Label="Liên kết sản phẩm" @bind-Value="updateModel.ProductUrl" />
                         <FluentTextField Label="Tên cửa hàng" @bind-Value="updateModel.StoreName"/>
-                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <FluentTextArea Label="Mô tả" @bind-Value="updateModel.Description" Cols="100" Rows="5"/>
                         <CurrencyNumberField Label="Giá hiện tại" @bind-Value="updateModel.CurrentPrice" />
                         <CurrencyNumberField Label="Giá mong muốn" @bind-Value="updateModel.DesiredPrice" />
                         <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="updateModel.LowestPriceSeen" />
@@ -41,7 +41,7 @@
                         <FluentTextField Label="Tên sản phẩm" @bind-Value="createModel.ProductName" />
                         <FluentTextField Label="Liên kết sản phẩm" @bind-Value="createModel.ProductUrl" />
                         <FluentTextField Label="Tên cửa hàng" @bind-Value="createModel.StoreName" />
-                        <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                        <FluentTextArea Label="Mô tả" @bind-Value="createModel.Description" Cols="100" Rows="5"/>
                         <CurrencyNumberField Label="Giá hiện tại" @bind-Value="createModel.CurrentPrice" /> 
                         <CurrencyNumberField Label="Giá mong muốn" @bind-Value="createModel.DesiredPrice" />
                         <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="createModel.LowestPriceSeen" />
@@ -68,8 +68,8 @@
     private UpdatePriceTrackingModel? originModel;
 
     private DateTime? LastCheckedDate ;
-    private SelectListItemDto? prioritySelected, categorySelected;
-    bool isCompleted = false;
+    
+    //bool isCompleted = false;
     Alert? alertComponent;
     bool IsSaving = false;
     bool IsLoading = false;

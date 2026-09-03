@@ -8,5 +8,5 @@ public record UserDto
 
     public string? PhoneNumber { get; init; }
 
-    public IEnumerable<string>? Roles { get; init; }
+    public List<string> Roles { get; init; } = [];
 }

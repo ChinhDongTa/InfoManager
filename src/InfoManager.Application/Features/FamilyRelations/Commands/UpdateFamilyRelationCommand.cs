@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.FamilyRelations.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyRelations.Commands;
 public record UpdateFamilyRelationCommand(string Id,string? Name, string? Description) : IRequest<Result>;
 public class UpdateFamilyRelationCommandHandler : BaseUpdateCommandHandler<UpdateFamilyRelationCommand, FamilyRelation>
 {
@@ -12,7 +14,7 @@ public class UpdateFamilyRelationCommandHandler : BaseUpdateCommandHandler<Updat
         return await Context.FamilyRelations.FindAsync([request.Id], ct);
     }
 
-    protected override void UpdateEntityProperties(FamilyRelation entity, UpdateFamilyRelationCommand request)
+    protected override async Task UpdateEntityProperties(FamilyRelation entity, UpdateFamilyRelationCommand request)
     {
         if(request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;

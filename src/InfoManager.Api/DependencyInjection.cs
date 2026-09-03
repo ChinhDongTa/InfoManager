@@ -1,6 +1,6 @@
 ﻿using InfoManager.Api.Services;
 using InfoManager.Application.Common.Services;
-using InfoManager.Domain.Entities;
+using InfoManager.Domain.Entities.Authentication;
 using InfoManager.Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,13 +45,35 @@ public static class DependencyInjection
         builder.Services.AddOpenApiDocument((configure, sp) =>
         {
             configure.Title = "InfoManager API";
-            //configure.AddSecurity("JWT", new NSwag.OpenApiSecurityScheme
-            //{
-            //    Type = NSwag.OpenApiSecuritySchemeType.ApiKey,
-            //    Name = "Authorization",
-            //    In = NSwag.OpenApiSecurityApiKeyLocation.Header,
-            //    Description = "Type into the textbox: Bearer {your JWT token}."
-            //});
+            configure.Description = """
+                                    InfoManager - Smart Farm Management System
+
+                                    Nhấp vào nút "Authorize" ở trên cùng bên phải để nhập JWT token
+                                    """;
+
+            // ✅ Thêm JWT Bearer security scheme
+            configure.AddSecurity("Bearer", new NSwag.OpenApiSecurityScheme
+            {
+                Type = NSwag.OpenApiSecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                Name = "Authorization",
+                In = NSwag.OpenApiSecurityApiKeyLocation.Header,
+                Description = """
+                              Nhập JWT token.
+
+                              Cách lấy token:
+                              1. Gọi endpoint POST /auth/login với credentials
+                              2. Sao chép token từ response
+                              3. Dán vào ô Authorization ở đây với tiền tố "Bearer "
+
+                              Ví dụ: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              """
+            });
+
+            // ✅ Áp dụng security requirement cho tất cả operations
+            configure.OperationProcessors.Add(
+                new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("Bearer"));
         });
 
         builder.Services.AddAuthentication()

@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.FamilyRelations;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.FamilyRelations;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,13 @@ public static class QueryableExtensions
             Description : fr.Description
         ));
     }
+    /// <summary>
+    /// Applies sorting to the query based on the specified sortBy parameter.
+    /// </summary>
+    /// <param name="query">The queryable collection of FamilyRelation entities to sort.</param>
+    /// <param name="sortBy">The field (name) to sort by. If null or empty, defaults to sorting by Name.</param>
+    /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
+    /// <returns>The sorted queryable collection of FamilyRelation entities.</returns>
     public static IQueryable<FamilyRelation> ApplySorting(this IQueryable<FamilyRelation> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))

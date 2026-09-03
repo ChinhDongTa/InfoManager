@@ -40,7 +40,7 @@ public sealed class CustomAuthStateProvider(ITokenStorage tokenStorage) : Authen
             }
 
             var claims = jwt.Claims;
-            var identity = new ClaimsIdentity(claims, "Bearer");
+            var identity = new ClaimsIdentity(claims, "Bearer", nameType:"nameid", roleType:"role");
             var user = new ClaimsPrincipal(identity);
 
             //Console.WriteLine($"[GetAuthenticationStateAsync] User authenticated: {user.Identity?.Name}");

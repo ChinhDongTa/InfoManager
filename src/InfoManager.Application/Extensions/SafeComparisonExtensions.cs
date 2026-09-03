@@ -25,8 +25,8 @@ public static class SafeComparisonExtensions
     /// <param name="newValue"></param>
     /// <param name="currentValue"></param>
     /// <returns></returns>
-    public static bool HasValueAndIsDifferentFrom<T>(this T? newValue, T currentValue) where T : struct
+    public static bool HasValueAndIsDifferentFrom<T>(this T? newValue, T? currentValue) where T : struct
     {
-        return newValue.HasValue && !EqualityComparer<T>.Default.Equals(newValue.Value, currentValue);
+        return newValue.HasValue && !Nullable.Equals(newValue, currentValue);
     }
 }

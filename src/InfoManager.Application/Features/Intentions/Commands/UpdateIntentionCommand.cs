@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.Intentions.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.Intentions.Commands;
 
 public record UpdateIntentionCommand : IRequest<Result>
 {
@@ -21,7 +23,7 @@ public class UpdateIntentionCommandHandler : BaseUpdateCommandHandler<UpdateInte
     {
         return await Context.Intentions.FindAsync([request.Id], cancellationToken);
     }
-    protected override void UpdateEntityProperties(Intention entity, UpdateIntentionCommand request)
+    protected override async Task UpdateEntityProperties(Intention entity, UpdateIntentionCommand request)
     {
         if (request.Content.HasValueAndIsDifferentFrom(entity.Content))
             entity.Content = request.Content!;

@@ -1,6 +1,4 @@
-﻿using InfoManager.Helper;
-
-namespace InfoManager.ApiClient.Handlers;
+﻿namespace InfoManager.ApiClient.Handlers;
 
 public static class ApiResponseHandler
 {
@@ -8,46 +6,64 @@ public static class ApiResponseHandler
     {
         if (response.IsSuccessStatusCode)
         {
-            // Nếu có content thì trả về Ok với dữ liệu
-            if (response.Content != null)
-                return ApiResult<T>.Ok(response.Content);
-
-            return ApiResult<T>.Ok(default!);
+            return response.Content is not null
+                ? ApiResult<T>.Ok(response.Content)
+                : ApiResult<T>.Ok(default!);
         }
 
-        IEnumerable<string> errorMessages = await GetErrors(response);
-        
-        return ApiResult<T>.Fail(errorMessages,ResultStatus.Error);
+        var errors = await ExtractErrors(response);
+        return ApiResult<T>.Fail(errors, ResultStatus.Error);
     }
 
-    private static async Task<IEnumerable<string>> GetErrors<T>(ApiResponse<T> response)
+    public static async Task<ApiResult> HandleAsync(IApiResponse response)
     {
-        IEnumerable<string> errorMessages = ["Đã xảy ra lỗi."];
+        if (response.IsSuccessStatusCode)
+            return ApiResult.Ok();
+
+        var errors = await ExtractErrors(response);
+        return ApiResult.Fail(errors, ResultStatus.Error);
+    }
+
+    private static async Task<IReadOnlyList<string>> ExtractErrors(IApiResponse response)
+    {
+        var errors = new List<string>();
+
         if (response.Error is ApiException apiEx)
         {
-            var problem = await apiEx.GetContentAsAsync<ProblemDetails>();
-            errorMessages = errorMessages.Append(problem?.Detail ?? problem?.Title ?? apiEx.Message ?? errorMessages.ToLine());
+            try
+            {
+                var problem = await apiEx.GetContentAsAsync<ProblemDetails>();
 
+                if (problem is not null)
+                {
+                    if (!string.IsNullOrWhiteSpace(problem.Detail))
+                        errors.Add(problem.Detail);
+                    else if (!string.IsNullOrWhiteSpace(problem.Title))
+                        errors.Add(problem.Title);
+                }
+            }
+            catch
+            {
+                // Bỏ qua nếu không deserialize được ProblemDetails
+            }
+
+            // Fallback nếu chưa có message
+            if (errors.Count == 0)
+            {
+                if (!string.IsNullOrWhiteSpace(apiEx.Content))
+                    errors.Add(apiEx.Content);
+                else if (!string.IsNullOrWhiteSpace(apiEx.Message))
+                    errors.Add(apiEx.Message);
+            }
         }
-        else
-        {
-            errorMessages = errorMessages.Append(response.Error?.Message ?? errorMessages.ToLine());
-        }
-        errorMessages = errorMessages.Append($"Status Code:  {response.StatusCode}");
-        return errorMessages;
+
+        // Nếu vẫn không có lỗi nào
+        if (errors.Count == 0)
+            errors.Add("Đã xảy ra lỗi không xác định.");
+
+        // Thêm Status Code (nên giữ)
+        errors.Add($"Status Code: {response.StatusCode}");
+
+        return errors;
     }
-
-    // Phiên bản không có dữ liệu trả về (ví dụ: Logout)
-    //public static async Task<ApiResult> HandleAsync(ApiResponse<MessageResponse> response)
-    //{
-    //    if (response.IsSuccessStatusCode)
-    //    {
-    //        return ApiResult.Ok();
-    //    }
-
-    //    IEnumerable<string> errorMessages = await GetErrors(response);
-
-    //    return ApiResult.Fail(errorMessages, (int)response.StatusCode);
-    //}
-
 }

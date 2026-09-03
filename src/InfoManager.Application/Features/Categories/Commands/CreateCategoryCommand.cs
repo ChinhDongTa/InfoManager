@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.Categories.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.Categories.Commands;
 public record CreateCategoryCommand : IRequest<Result<string>>
 {
     public required string Name { get; init; }
@@ -15,7 +17,7 @@ public class CreateCategoryCommandHandler : BaseCreateCommandHandler<CreateCateg
     {
     }
 
-    protected override Category CreateEntity(CreateCategoryCommand request)
+    protected override async Task<Category> CreateEntity(CreateCategoryCommand request)
     {
         return new Category
         {

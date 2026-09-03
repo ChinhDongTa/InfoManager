@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.FamilyRelations.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.FamilyRelations.Commands;
 
 public record CreateFamilyRelationCommand(string Name, string? Description) : IRequest<Result<string>>;
 public class CreateFamilyRelationCommandHandler :BaseCreateCommandHandler<CreateFamilyRelationCommand, FamilyRelation>
@@ -6,7 +8,7 @@ public class CreateFamilyRelationCommandHandler :BaseCreateCommandHandler<Create
     public CreateFamilyRelationCommandHandler(IApplicationDbContext context, IValidator<CreateFamilyRelationCommand> validator, ILogger<CreateFamilyRelationCommandHandler> logger) : base(context, validator, logger   )
     {
     }
-     protected override FamilyRelation CreateEntity(CreateFamilyRelationCommand request)
+     protected override async Task<FamilyRelation> CreateEntity(CreateFamilyRelationCommand request)
     {
          return new FamilyRelation
          {

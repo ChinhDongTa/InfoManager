@@ -18,6 +18,9 @@ public class SelectList: EndpointGroupBase
         group.MapGet(GetSlFamilyEventByMemberIdAsync, "FamilyEvent/{familyMemberId}");
         group.MapGet(GetSlFamilyRelationsAsync, "FamilyRelation");
         group.MapGet(GetSlFamilyMemberAsync, "FamilyMember");
+        group.MapGet(GetSelectListCrops, "Crop");
+        group.MapGet(GetSelectListCropVarieties, "CropVariety");
+        group.MapGet(GetSelectListCropSchedules, "CropSchedule");
     }
 
     /// <summary>
@@ -98,10 +101,28 @@ public class SelectList: EndpointGroupBase
         return result.ToHttpResult();
     }
 
-
     public async Task<IResult> GetSlFamilyMemberAsync([FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var query = new GetSelectListFamilyMemberQuery();
+        var result = await sender.Send(query, cancellationToken);
+        return result.ToHttpResult();
+    }
+
+    public async Task<IResult> GetSelectListCrops([FromServices] ISender sender, CancellationToken cancellationToken)
+    {
+        var query = new GetSelectListCropsQuery();
+        var result = await sender.Send(query, cancellationToken);
+        return result.ToHttpResult();
+    }
+    public async Task<IResult> GetSelectListCropVarieties([FromServices] ISender sender, [FromQuery] string? cropId, CancellationToken cancellationToken)
+    {
+        var query = new SelectListCropVarietiesQuery(cropId);
+        var result = await sender.Send(query, cancellationToken);
+        return result.ToHttpResult();
+    }
+    public async Task<IResult> GetSelectListCropSchedules([FromServices] ISender sender, [FromQuery] string? cropId, CancellationToken cancellationToken)
+    {
+        var query = new GetSelectListCropSchedulesQuery(cropId);
         var result = await sender.Send(query, cancellationToken);
         return result.ToHttpResult();
     }

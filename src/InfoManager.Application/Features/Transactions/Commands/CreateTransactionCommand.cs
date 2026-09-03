@@ -1,11 +1,13 @@
-﻿namespace InfoManager.Application.Features.Transactions.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.Transactions.Commands;
 public record CreateTransactionCommand : IRequest<Result<string>>
 {
     public decimal Amount { get; init; }
     public string? CategoryId    {        get; init;    }
     public string? Description { get; init; }
     public PaymentMethod PaymentMethod { get; init; }
-    public DateTime? TransactionDate { get; init; }
+    public DateTimeOffset? TransactionDate { get; init; }
     public TransactionType TransactionType { get; init; }
 }
 public class CreateTransactionCommandHandler : BaseCreateCommandHandler<CreateTransactionCommand, Transaction>
@@ -15,7 +17,7 @@ public class CreateTransactionCommandHandler : BaseCreateCommandHandler<CreateTr
                                             ILogger<CreateTransactionCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override Transaction CreateEntity(CreateTransactionCommand request)
+    protected override async Task<Transaction> CreateEntity(CreateTransactionCommand request)
     {
         return new Transaction
         {

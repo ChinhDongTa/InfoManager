@@ -10,17 +10,17 @@ public static class DependencyInjection
         services.AddTransient<JwtAuthorizationMessageHandler>();
 
         // ==================== IAuthApi (NO auth handler!) ====================
-        services.AddRefitClient<IAuthApi>()
+        services.AddRefitGeneratedClient<IAuthApi>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
         // ISelectListApi stays without auth handler (as you had)
-        services.AddRefitClient<ISelectListApi>()
+        services.AddRefitGeneratedClient<ISelectListApi>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
         // ← Do NOT add JwtAuthorizationMessageHandler here
 
         // ==================== Authenticated APIs ====================
         void AddAuthenticatedClient<T>() where T : class
         {
-            services.AddRefitClient<T>()
+            services.AddRefitGeneratedClient<T>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl))
                 .AddHttpMessageHandler(sp => sp.GetRequiredService<JwtAuthorizationMessageHandler>());
         }
@@ -34,6 +34,10 @@ public static class DependencyInjection
         AddAuthenticatedClient<IPriceTrackingApi>();
         AddAuthenticatedClient<ITransactionApi>();
         AddAuthenticatedClient<IProtectAuthApi>();
+        AddAuthenticatedClient<IFamilyEventOccurrenceApi>();
+        AddAuthenticatedClient<IFamilyEventReminderApi>();
+        AddAuthenticatedClient<IUserProfileApi>();
+        AddAuthenticatedClient<ISocialAccountApi>();
 
         //====================== Services ======================
         services.AddScoped<ISelectListService, SelectListService>();
@@ -45,6 +49,10 @@ public static class DependencyInjection
         services.AddScoped<IIntentionService, IntentionService>();
         services.AddScoped<IPriceTrackingService, PriceTrackingService>();
         services.AddScoped<ITransactionService, TransactionService>();
+        services.AddScoped<IFamilyEventReminderService, FamilyEventReminderService>();
+        services.AddScoped<IFamilyEventOccurrenceService, FamilyEventOccurrenceService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
+        services.AddScoped<ISocialAccountService, SocialAccountService>();
 
         return services;
     }

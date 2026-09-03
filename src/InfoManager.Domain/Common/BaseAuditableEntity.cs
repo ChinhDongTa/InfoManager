@@ -4,7 +4,7 @@ public abstract class BaseAuditableEntity :BaseEntity
 {
     public DateTimeOffset Created { get; set; }
 
-    public string? CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }//UserId
 
     public DateTimeOffset LastModified { get; set; }
 

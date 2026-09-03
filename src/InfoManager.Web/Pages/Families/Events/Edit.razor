@@ -18,16 +18,17 @@
             {
                 <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
 
-                    <FluentTextArea Label="Mô tả sự kiện" @bind-Value="updateModel.Title" Maxlength="300" />
-                    <SelectList Label="Thành viên gia đình" Route="api/selectlist/familyMember" @bind-SelectedOption="familyMemberSelected" DefaultId="@updateModel.FamilyMemberId"/>
-                    <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày sự kiện" />
-                    <SelectList Label="Loại sự kiện" Route="api/enums/familyEventType" @bind-SelectedOption="eventTypeSelected" DefaultId="@updateModel.EventType.ToIntString()" />
-                    <FluentTextField Label="Địa điểm" @bind-Value="updateModel.Location" Maxlength="100" />
+                        <FluentTextArea Label="Mô tả sự kiện" @bind-Value="updateModel.Title" Maxlength="300" />
+                        <SelectList Label="Thành viên gia đình" Route="api/selectlist/familyMember" @bind-Value="@updateModel.FamilyMemberId"/>
+                        <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày sự kiện" />
+                        <FluentCheckbox Label="Còn hoạt động ?" @bind-Value="updateModel.IsActive" />
+                        <SelectList Label="Loại sự kiện" Route="api/enums/familyEventType" @bind-Value="eventTypeSelected" />
+                        <FluentTextField Label="Địa điểm" @bind-Value="updateModel.Location" Maxlength="100" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />
                     </FluentStack>
                 </EditForm>
             }
@@ -35,14 +36,15 @@
             {
                 <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    @* <DataAnnotationsValidator />
-                    <ValidationSummary /> 
- *@
-                    <FluentTextArea Label="Mô tả sự kiện" @bind-Value="createModel.Title" Maxlength="300" Required="true" />
-                    <SelectList Route="api/selectlist/familyMember" @bind-SelectedOption="familyMemberSelected" Required="true" />
-                    <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày sự kiện" />
-                    <SelectList Route="api/enums/familyEventType" @bind-SelectedOption="eventTypeSelected" Required="true" />
-                    <FluentTextField Label="Địa điểm" @bind-Value="createModel.Location" Maxlength="100" />
+                        @* <DataAnnotationsValidator />
+                        <ValidationSummary /> 
+     *@
+                        <FluentTextArea Label="Mô tả sự kiện" @bind-Value="createModel.Title" Maxlength="300" Required="true" />
+                        <SelectList Route="api/selectlist/familyMember" @bind-Value="createModel.FamilyMemberId" Required="true" />
+                        <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày sự kiện" />
+                            <FluentCheckbox Label="Còn hoạt động ?" @bind-Value="createModel.IsActive" />
+                        <SelectList Route="api/enums/familyEventType" @bind-Value="eventTypeSelected" Required="true" />
+                        <FluentTextField Label="Địa điểm" @bind-Value="createModel.Location" Maxlength="100" />
 
                     @* Action : create, update *@
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />
@@ -55,6 +57,7 @@
         <NotAuthorizedMessage />
     </NotAuthorized>
 </AuthorizeView>
+
 @code {
     [Parameter]
     public string Id { get; set; } = string.Empty;
@@ -63,7 +66,7 @@
     private CreateFamilyEventModel? createModel;
     private UpdateFamilyEventModel? originModel;
 
-    SelectListItemDto? familyMemberSelected, eventTypeSelected;
+    string?  eventTypeSelected;
     DateTime? eventDate;
 
     Alert? alertComponent;
@@ -83,6 +86,8 @@
             {
                 updateModel = new UpdateFamilyEventModel(response.Data);
                 originModel = new UpdateFamilyEventModel(response.Data);
+                eventDate = updateModel.EventDate?.ToDateTime();
+                eventTypeSelected = updateModel.EventType.ToString();
             }
             else
             {
@@ -112,16 +117,15 @@
             IsSaving = false;
             return;
         }
-
+        updateModel.EventDate = eventDate?.ToDateOnly();
         if (!updateModel.HasChanges(originModel))
         {
             alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
             IsSaving = false;
             return;
         }
-        updateModel.EventDate = eventDate?.ToDateOnly();
-        updateModel.FamilyMemberId = familyMemberSelected?.Id;
-        updateModel.EventType = GetFamilyEventTypeFromSelectedOption(eventTypeSelected?.Id ?? string.Empty);
+        //updateModel.FamilyMemberId = familyMemberSelected;
+        updateModel.EventType = Enum.Parse<FamilyEventType>(eventTypeSelected ?? string.Empty);
         var result = await familyService.UpdateFamilyEventAsync(Id, updateModel.CreateRequest());
 
         if (result.Success)
@@ -145,8 +149,8 @@
             return;
         }
         createModel.EventDate =new DateOnly(eventDate.Value.Year, eventDate.Value.Month, eventDate.Value.Day);
-        createModel.FamilyMemberId = familyMemberSelected?.Id!;
-        createModel.EventType = GetFamilyEventTypeFromSelectedOption(eventTypeSelected?.Id ?? string.Empty);
+        //createModel.FamilyMemberId = familyMemberSelected!;
+        createModel.EventType = Enum.Parse<FamilyEventType>(eventTypeSelected ?? string.Empty);
         var result = await familyService.CreateFamilyEventAsync(createModel.CreateRequest());
         if (result.Success)
         {
@@ -158,8 +162,5 @@
         }
         IsSaving = false;
     }
-    private FamilyEventType GetFamilyEventTypeFromSelectedOption(string selectedOptionId)
-    {
-        return (FamilyEventType)int.Parse(selectedOptionId);
-    }
+   
 }

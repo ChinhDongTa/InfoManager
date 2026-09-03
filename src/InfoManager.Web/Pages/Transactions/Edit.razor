@@ -23,9 +23,9 @@
                         
                         <FluentTextArea Label="Nội dung giao dịch" @bind-Value="updateModel.Description" Cols="100" />
                         <CurrencyNumberField Label="Số tiền" @bind-Value="updateModel.Amount" />
-                        <SelectList @bind-SelectedOption="categorySelected" DefaultId="@updateModel.CategoryId" Route="api/selectlist/category" Label="Loại giao dịch" />
-                        <SelectList @bind-SelectedOption="paymentSelected" DefaultId="@updateModel.PaymentMethod.ToIntString()" Route="api/selectlist/paymentmethod" Label="Phương thức thanh toán" />
-                        <SelectList @bind-SelectedOption="transactionSelected" DefaultId="@updateModel.TransactionType.ToIntString()" Route="api/selectlist/transactiontype" Label="Loại giao dịch" />
+                        <SelectList @bind-Value="@updateModel.CategoryId" Route="api/selectlist/category" Label="Danh mục" />
+                        <SelectList @bind-Value="@paymentSelected" Route="api/selectlist/paymentmethod" Label="Phương thức thanh toán" />
+                        <SelectList @bind-Value="@transactionSelected" Route="api/selectlist/transactiontype" Label="Loại giao dịch" />
                         <DateTimePicker Label="Ngày giao dịch" @bind-Value="selectedDate" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/transactions/list" />
@@ -41,9 +41,9 @@
 
                         <FluentTextArea Label="Nội dung giao dịch" @bind-Value="createModel.Description" Cols="100" />
                         <CurrencyNumberField Label="Số tiền" @bind-Value="createModel.Amount" />
-                        <SelectList @bind-SelectedOption="categorySelected" Route="api/selectlist/category" Label="Loại giao dịch" />
-                        <SelectList @bind-SelectedOption="paymentSelected" DefaultId="@createModel.PaymentMethod.ToIntString()" Route="api/selectlist/paymentmethod" Label="Phương thức thanh toán" />
-                        <SelectList @bind-SelectedOption="transactionSelected" DefaultId="@createModel.TransactionType.ToIntString()" Route="api/selectlist/transactiontype" Label="Loại giao dịch" />
+                        <SelectList @bind-Value="@createModel.CategoryId" Route="api/selectlist/category" Label="Danh mục" />
+                        <SelectList @bind-Value="@paymentSelected" Route="api/selectlist/paymentmethod" Label="Phương thức thanh toán" />
+                        <SelectList @bind-Value="@transactionSelected" Route="api/selectlist/transactiontype" Label="Loại giao dịch" />
                         <DateTimePicker Label="Ngày giao dịch" @bind-Value="selectedDate" />
 
                         @* Action : create, update *@
@@ -67,9 +67,9 @@
     private UpdateTransactionModel? originModel;
 
     private DateTime? selectedDate = null;
-    private SelectListItemDto? categorySelected, paymentSelected, transactionSelected;
+    private string? paymentSelected, transactionSelected;
 
-    bool isCompleted = false;
+    //bool isCompleted = false;
     Alert? alertComponent;
     bool IsSaving = false;
     bool IsLoading = false;
@@ -121,9 +121,8 @@
             return;
         }
         updateModel.TransactionDate = selectedDate;
-        updateModel.CategoryId = categorySelected?.Id;
-        updateModel.TransactionType = Enum.Parse<TransactionType>(transactionSelected?.Id ?? string.Empty);
-        updateModel.PaymentMethod = Enum.Parse<PaymentMethod>(paymentSelected?.Id ?? string.Empty);
+        updateModel.TransactionType = Enum.Parse<TransactionType>(transactionSelected ?? "0");
+        updateModel.PaymentMethod = Enum.Parse<PaymentMethod>(paymentSelected ?? "0");
 
         var result = await transactionService.UpdateTransactionAsync(Id, updateModel.CreateRequest());
 
@@ -148,9 +147,8 @@
             return;
         }
         createModel.TransactionDate = selectedDate;
-        createModel.CategoryId = categorySelected?.Id;
-        createModel.TransactionType = Enum.Parse<TransactionType>(transactionSelected?.Id ?? string.Empty);
-        createModel.PaymentMethod = Enum.Parse<PaymentMethod>(paymentSelected?.Id ?? string.Empty);
+        createModel.TransactionType = Enum.Parse<TransactionType>(transactionSelected ?? "0");
+        createModel.PaymentMethod = Enum.Parse<PaymentMethod>(paymentSelected ?? "0");
 
         var result = await transactionService.CreateTransactionAsync(createModel.CreateRequest());
 

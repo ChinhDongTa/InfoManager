@@ -52,24 +52,19 @@ public class UpdateFamilyMemberModel
         Note = dto.Note;
     }
 
-    public UpdateFamilyMemberRequest CreateRequest()
+    public UpdateFamilyMemberRequest CreateRequest() => new()
     {
-        return new UpdateFamilyMemberRequest
-        {
-            Id = this.Id,
-            FullName = this.FullName,
-            FamilyRelationId = this.FamilyRelationId,
-            BirthDate = this.BirthDate,
-            DeathDate = this.DeathDate,
-            Gender = this.Gender,
-            Email = this.Email,
-            PhoneNumber = this.PhoneNumber,
-            Note = this.Note
-        };
-    }
+        Id = this.Id,
+        FullName = this.FullName,
+        FamilyRelationId = this.FamilyRelationId,
+        BirthDate = this.BirthDate,
+        DeathDate = this.DeathDate,
+        Gender = this.Gender,
+        Email = this.Email,
+        PhoneNumber = this.PhoneNumber,
+        Note = this.Note
+    };
 
-    public bool HasChanges(UpdateFamilyMemberModel originalModel)
-    {
-        return ClientUpdateHelper.HasChanges(this, originalModel);
-    }
+    public bool HasChanges(UpdateFamilyMemberModel originalModel) 
+        => ClientUpdateHelper.HasChanges(this, originalModel);
 }

@@ -1,0 +1,158 @@
+@page "/families/eventReminders/Update/{Id}"
+@page "/families/eventReminders/Create/{FamilyEventId}"
+@inject NavigationManager navigationManager
+@inject IFamilyEventReminderService service
+@using InfoManager.ModelClient.Families
+
+<PageHeader Title="Quản lý nhắc nhở sự kiện gia đình" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel Typo="Typography.H4">
+                @title
+            </FluentLabel>
+            @if (updateModel != null)
+            {
+                <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/eventReminders/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+            else if (createModel != null)
+            {
+                <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField @bind-Value="@createModel.FamilyEventId" Label="Family Event ID" ReadOnly="true" />
+                        <FluentNumberField @bind-Value="@createModel.DaysBefore" Label="Nhắc trước bao nhiêu ngày ?" />
+                        <FluentTimePicker @bind-Value="@timeReminder" Label="Thời gian nhắc" />
+                        <SelectList Route="api/selectList/ReminderChannel" @bind-Value="@channelSelected" />
+                        <FluentCheckbox @bind-Value="@createModel.IsEnabled" Label="Đang bật ?" />
+                        <FluentTextArea @bind-Value="@createModel.Note" Label="Ghi chú" Cols="150" Rows="5" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/eventReminders/list" />
+                    </FluentStack>
+                </EditForm>
+            }
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    [Parameter]
+    public string? Id { get; set; }
+    [Parameter]
+    public string? FamilyEventId { get; set; }
+
+    private UpdateFamilyEventReminderModel? updateModel;
+    private CreateFamilyEventReminderModel? createModel;
+    private UpdateFamilyEventReminderModel? originModel;
+
+    string? channelSelected;
+    DateTime? timeReminder;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật nhắc nhở sự kiện gia đình";
+            var result = await service.GetFamilyEventReminderByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateFamilyEventReminderModel(result.Data);
+                originModel = new UpdateFamilyEventReminderModel(result.Data);
+
+                timeReminder = result.Data.RemindTime.ToDateTimeNullable();
+                channelSelected = result.Data.Channel.ToIntString();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorNotFoundWithId("Family event reminder", Id), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+            if (!string.IsNullOrEmpty(FamilyEventId))
+            {
+                title = "Tạo mới nhắc nhở sự kiện gia đình";
+                createModel = new CreateFamilyEventReminderModel
+                    {
+                        FamilyEventId = FamilyEventId
+                    };
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("FamilyEventId"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || originModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(originModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.RemindTime = timeReminder.ToTimeOnlyNullable();
+        updateModel.Channel = Enum.Parse<ReminderChannel>(channelSelected ?? "Email");
+
+        var result = await service.UpdateFamilyEventReminderAsync(Id!, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Family Event Reminder"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        createModel.RemindTime = timeReminder.ToTimeOnlyNullable();
+        createModel.Channel = Enum.Parse<ReminderChannel>(channelSelected ?? "Email");
+        var result = await service.CreateFamilyEventReminderAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Family Event Reminder"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

@@ -17,6 +17,16 @@ public static class DateTimeHelper
         return new DateTime(dateOnly.Year, dateOnly.Month, dateOnly.Day);
     }
 
+    public static TimeOnly? ToTimeOnlyNullable(this DateTime? dateTime)
+    {
+        return dateTime.HasValue ? new TimeOnly(dateTime.Value.Hour, dateTime.Value.Minute, dateTime.Value.Second) : null;
+    }
+
+    public static DateTime? ToDateTimeNullable(this TimeOnly? timeOnly)
+    {
+        return timeOnly.HasValue ? DateTime.Today.Add(timeOnly.Value.ToTimeSpan()) : null;
+    }
+
     public static DateTime? ToDateTime(this DateOnly? dateOnly)
     {
         return dateOnly.HasValue ? dateOnly.Value.ToDateTime() : null;

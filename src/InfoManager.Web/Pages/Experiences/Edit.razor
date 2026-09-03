@@ -21,7 +21,7 @@
                         <FluentTextArea @bind-Value="@updateModel.Content" Label="Nội dung kinh nghiệm" Cols="150" Rows="5" Maxlength="500" />
                         <FluentTextArea @bind-Value="@updateModel.Description" Label="Mô tả" Cols="150" Rows="10" />
                         <DateTimePicker @bind-Value="@experienceDate" WithTime="false" Label="Ngày kinh nghiệm" />
-                        <SelectList @bind-SelectedOption="selectedCategory" DefaultId="@updateModel.CategoryId" Route="api/selectList/category" Label="Danh mục" />
+                        <SelectList @bind-Value="@updateModel.CategoryId" Route="api/selectList/category" Label="Danh mục" />
                     
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/experiences/list" />
                     </FluentStack>
@@ -36,7 +36,7 @@
                     <FluentTextArea @bind-Value="@createModel.Content" Cols="150" Rows="5" Label="Nội dung kinh nghiệm" Required Maxlength="500" />
                     <FluentTextArea @bind-Value="@createModel.Description" Cols="150" Rows="10" Label="Mô tả" />
                     <DateTimePicker @bind-Value="@experienceDate" WithTime="false" Label="Ngày kinh nghiệm" />
-                    <SelectList @bind-SelectedOption="selectedCategory" Route="api/selectList/category" Label="Danh mục" />
+                    <SelectList @bind-Value="@createModel.CategoryId" Route="api/selectList/category" Label="Danh mục" />
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/experiences/list" />
                      </FluentStack>
                 </EditForm>
@@ -55,7 +55,7 @@
     private UpdateExperienceModel? originModel;
     private CreateExperienceModel? createModel;
 
-    private InfoManager.Shared.Dtos.Common.SelectListItemDto? selectedCategory;
+    //private InfoManager.Shared.Dtos.Common.SelectListItemDto? selectedCategory;
     private DateTime? experienceDate;
 
     Alert? alertComponent;
@@ -109,7 +109,7 @@
         }
 
         updateModel.ExperienceDate = experienceDate.ToDateOnly();
-        updateModel.CategoryId = selectedCategory?.Id;
+        //updateModel.CategoryId = selectedCategory?.Id;
 
         var updateRequest = updateModel.CreateRequest();
 
@@ -135,7 +135,7 @@
             return;
         }
         createModel.ExperienceDate = experienceDate.ToDateOnly();
-        createModel.CategoryId = selectedCategory?.Id;
+        //createModel.CategoryId = selectedCategory?.Id;
         var createRequest = createModel.CreateRequest();
         var result = await experienceService.CreateExperienceAsync(createRequest);
         if (result.Success)

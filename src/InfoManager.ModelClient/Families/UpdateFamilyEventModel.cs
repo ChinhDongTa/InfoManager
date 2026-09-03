@@ -11,6 +11,9 @@ public class UpdateFamilyEventModel
     /// Ngày diễn ra sự kiện 
     /// </summary>
     public DateOnly? EventDate { get; set; }
+
+    public bool IsActive { get; set; }
+
     /// <summary>
     /// Tên sự kiện 
     /// </summary>
@@ -31,25 +34,22 @@ public class UpdateFamilyEventModel
         Id = dto.Id;
         FamilyMemberId = dto.FamilyMemberId;
         EventDate = dto.EventDate;
+        IsActive = dto.IsActive;
         Title = dto.Title;
         EventType = dto.EventType;
         Location = dto.Location;
     }
 
-    public UpdateFamilyEventRequest CreateRequest()
+    public UpdateFamilyEventRequest CreateRequest() => new()
     {
-        return new UpdateFamilyEventRequest
-        {
-            Id = this.Id,
-            FamilyMemberId = this.FamilyMemberId,
-            EventDate = this.EventDate,
-            Title = this.Title,
-            EventType = this.EventType,
-            Location = this.Location
-        };
-    }
-    public bool HasChanges(UpdateFamilyEventModel originalModel)
-    {
-        return ClientUpdateHelper.HasChanges(this, originalModel);
-    }
+        Id = this.Id,
+        FamilyMemberId = this.FamilyMemberId,
+        EventDate = this.EventDate,
+        IsActive = this.IsActive,
+        Title = this.Title,
+        EventType = this.EventType,
+        Location = this.Location
+    };
+    public bool HasChanges(UpdateFamilyEventModel originalModel) 
+        => ClientUpdateHelper.HasChanges(this, originalModel);
 }

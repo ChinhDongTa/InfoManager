@@ -14,13 +14,13 @@
                 <strong>Trạng thái mua:</strong> @dto?.IsPurchased ? "Đã mua" : "Chưa mua"
             </FluentLabel>
             <FluentLabel>
-                <strong>Giá hiện tại:</strong> @dto?.CurrentPrice
+                <strong>Giá hiện tại:</strong> @dto?.CurrentPrice.ToVND()
             </FluentLabel>
             <FluentLabel>
-                <strong>Giá mong muốn:</strong> @dto?.DesiredPrice
+                <strong>Giá mong muốn:</strong> @dto?.DesiredPrice.ToVND()
             </FluentLabel>
             <FluentLabel>
-                <strong>Giá thấp nhất đã thấy:</strong> @dto?.LowestPriceSeen
+                <strong>Giá thấp nhất đã thấy:</strong> @dto?.LowestPriceSeen.ToVND()
             </FluentLabel>
             <FluentLabel>
                 <strong>Ngày kiểm tra cuối cùng:</strong> @dto?.LastCheckedDate

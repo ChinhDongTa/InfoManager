@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.HistoricalEvents;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.HistoricalEvents;
 
 namespace InfoManager.Application.Features.HistoricalEvents.Queries;
 
@@ -26,6 +27,13 @@ public static class QueryableExtensions
             EventType: e.EventType.ToDisplayName()
         ));
     }
+    /// <summary>
+    /// Applies sorting to the HistoricalEvent query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by EventDate in descending order.
+    /// </summary>
+    /// <param name="query">The queryable collection of HistoricalEvent entities to sort.</param>
+    /// <param name="sortBy">The field (eventdate, title, eventtype) to sort by. If null or empty, defaults to sorting by EventDate in descending order.</param>
+    /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
+    /// <returns>The sorted queryable collection of HistoricalEvent entities.</returns>
     public static IQueryable<HistoricalEvent> ApplySorting(this IQueryable<HistoricalEvent> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))

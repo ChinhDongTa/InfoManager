@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InfoManager.Domain.Entities.Personal;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,7 +20,7 @@ public class CreateIntentionCommandHandler : BaseCreateCommandHandler<CreateInte
                                           ILogger<CreateIntentionCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override Intention CreateEntity(CreateIntentionCommand request)
+    protected override async Task<Intention> CreateEntity(CreateIntentionCommand request)
     {
         return new Intention
         {

@@ -3,7 +3,7 @@
 public record ApiResult
 {
     public bool Success { get; init; }
-    public IEnumerable<string>? ErrorMessage { get; init; }
+    public IEnumerable<string> ErrorMessage { get; init; } = [];
     public ResultStatus StatusCode { get; init; }
     public static ApiResult Ok(ResultStatus statusCode = ResultStatus.Ok) =>
         new() { Success = true, StatusCode = statusCode };

@@ -14,7 +14,7 @@
     private PaginationState PState { get; set; } = new();
 
     [Parameter] public PaginatedList<TItem>? Data { get; set; }
-    [Parameter] public int PageSize { get; set; } = 5;
+    [Parameter] public int PageSize { get; set; } = 20;
     [Parameter] public int CurrentPage { get; set; } = 1;
     [Parameter] public EventCallback<int> OnPageChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }

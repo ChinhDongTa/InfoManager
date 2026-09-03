@@ -13,7 +13,7 @@
         </FluentButton>
         <PaginatedTable TItem="HistoricalEventSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
             <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Tên" Property="@(x => x.Title)" Sortable="true" />
-            <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Ngày" Property="@(x => x.EventDate.ToString("dd/MM/yyyy"))" />
+            <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="DateOnly?" Title="Ngày" Property="@(x => x.EventDate)" />
             <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Loại" Property="@(x => x.EventType)" />
             <TemplateColumn TGridItem="HistoricalEventSummaryDto" Context="item" Title="Actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
@@ -59,7 +59,7 @@
 
     private void EditHandler(string id)
     {
-        navigationManager.NavigateTo($"/historicalEvents/edit/{id}");
+        navigationManager.NavigateTo($"/historicalEvents/update/{id}");
     }
    
 }

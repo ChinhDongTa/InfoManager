@@ -10,6 +10,6 @@ public interface IIntentionService
 
     Task<ApiResult<PaginatedList<IntentionSummaryDto>>> SearchIntentionsAsync(SearchIntentionRequest request, CancellationToken ct = default);
     Task<ApiResult<string>> CreateIntentionAsync(CreateIntentionRequest request, CancellationToken ct = default);
-    Task<ApiResult<MessageResponse>> UpdateIntentionAsync(string id, UpdateIntentionRequest request, CancellationToken ct = default);
-    Task<ApiResult<MessageResponse>> DeleteIntentionAsync(string id, CancellationToken ct = default);
+    Task<ApiResult> UpdateIntentionAsync(string id, UpdateIntentionRequest request, CancellationToken ct = default);
+    Task<ApiResult> DeleteIntentionAsync(string id, CancellationToken ct = default);
 }

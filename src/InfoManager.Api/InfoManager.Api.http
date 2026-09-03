@@ -1,7 +1,7 @@
 @InfoManager.Api_HostAddress = https://localhost:7217
 
 
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJmZTYxYzI4ZC0zZWJkLTQyZWYtYTcyMS04NTQwNzk0Yjk4YmMiLCJlbWFpbCI6ImR0Y2hpbmhraHRuQHlhaG9vLmNvbSIsImp0aSI6ImRhMWI4NTliLTdkODUtNDY0Yy1hMzFkLWVkY2QzNDYwY2FjYiIsIm5iZiI6MTc4MzU2NjQ2MywiZXhwIjoxNzgzNTY3MzYzLCJpYXQiOjE3ODM1NjY0NjN9.1yynrcTXyrZLis5t2U1-yXSGo05NvHeupWOhdmqlAOc
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5Y2RhMDIzNi1kY2YxLTRkNmYtYjdkZC1kOGVlOWIxNTQ4NzgiLCJlbWFpbCI6ImRhbnRoQGdtYWlsLmNvbSIsImp0aSI6ImZkYmMzYTM1LWZiZjMtNDgyZi1hNzI0LTYzYmY1ODQ2MjNkMiIsInJvbGUiOiJmYW1pbHlhZG1pbiIsIm5iZiI6MTc4NjY4NjEzOCwiZXhwIjoxNzg2Njg3MDM4LCJpYXQiOjE3ODY2ODYxMzh9.yowp2gVe1n0T0tn5NZA2VY4s5PINaQkB6UU5z1CwpSg
 
 ###
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 POST {{InfoManager.Api_HostAddress}}/api/Identities/login
 Content-Type: application/json
 {
-   "email": "dtchinhkhtn@yahoo.com",
+     "email":"danth@gmail.com",
    "password": "P@ssw0rd"
 }
 
@@ -43,4 +43,12 @@ Content-Type: application/json
     "group": null,
     "keyName": "sale"
  }
+###
+
+GET {{InfoManager.Api_HostAddress}}/api/FamilyMembers?PageNumber=1&PageSize=20
+Authorization: Bearer {{token}}
+###
+
+GET {{InfoManager.Api_HostAddress}}/api/FamilyMembers/7e627112-96bb-4f03-803f-0fc14bbbdbc6
+Authorization: Bearer {{token}}
 ###

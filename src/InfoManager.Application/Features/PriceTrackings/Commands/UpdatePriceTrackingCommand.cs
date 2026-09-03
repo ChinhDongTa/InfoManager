@@ -1,4 +1,6 @@
-﻿namespace InfoManager.Application.Features.PriceTrackings.Commands;
+﻿using InfoManager.Domain.Entities.Personal;
+
+namespace InfoManager.Application.Features.PriceTrackings.Commands;
 
 public record UpdatePriceTrackingCommand : IRequest<Result>
 {
@@ -24,7 +26,7 @@ public class UpdatePriceTrackingCommandHandler : BaseUpdateCommandHandler<Update
     {
         return await Context.PriceTrackings.FindAsync([request.Id], cancellationToken);
     }
-    protected override void UpdateEntityProperties(PriceTracking entity, UpdatePriceTrackingCommand request)
+    protected override async Task UpdateEntityProperties(PriceTracking entity, UpdatePriceTrackingCommand request)
     {
         if (request.ProductName.HasValueAndIsDifferentFrom(entity.ProductName))
             entity.ProductName = request.ProductName!;

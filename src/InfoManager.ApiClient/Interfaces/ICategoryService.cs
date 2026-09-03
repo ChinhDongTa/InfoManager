@@ -8,6 +8,6 @@ public interface ICategoryService
     Task<ApiResult<CategoryDto?>> GetCategoryByIdAsync(string id, CancellationToken ct = default);
     Task<ApiResult<List<SelectListItemDto>>> GetSelectListCategoriesAsync(CancellationToken ct = default);
     Task<ApiResult<string>> CreateCategoryAsync(CreateCategoryRequest request, CancellationToken ct = default);
-    Task<ApiResult<MessageResponse>> UpdateCategoryAsync(string id, UpdateCategoryRequest request, CancellationToken ct = default);
-    Task<ApiResult<MessageResponse>> DeleteCategoryAsync(string id, CancellationToken ct = default);
+    Task<ApiResult> UpdateCategoryAsync(string id, UpdateCategoryRequest request, CancellationToken ct = default);
+    Task<ApiResult> DeleteCategoryAsync(string id, CancellationToken ct = default);
 }

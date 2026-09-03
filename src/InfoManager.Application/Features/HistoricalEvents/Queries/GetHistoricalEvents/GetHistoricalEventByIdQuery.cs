@@ -1,4 +1,5 @@
-﻿using InfoManager.Shared.Dtos.HistoricalEvents;
+﻿using InfoManager.Domain.Entities.Personal;
+using InfoManager.Shared.Dtos.HistoricalEvents;
 
 namespace InfoManager.Application.Features.HistoricalEvents.Queries.GetHistoricalEvents;
 

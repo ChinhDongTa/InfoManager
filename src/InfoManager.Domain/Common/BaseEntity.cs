@@ -6,6 +6,9 @@ public abstract class BaseEntity
 {
     [Key]
     public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    public bool IsDeleted { get; set; } = false;
+
     private readonly List<BaseEvent> _domainEvents = [];
 
     [NotMapped]

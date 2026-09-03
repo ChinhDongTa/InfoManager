@@ -70,6 +70,7 @@ public static class ErrorHelpers
     }
     public static string GetErrorUnknown => Resources.ErrorUnknown;
     public static string GetErrorBusinessRule => Resources.ErrorBusinessRule;
+
     /// <summary>
     /// Lấy thông báo lỗi tùy chọn
     /// </summary>

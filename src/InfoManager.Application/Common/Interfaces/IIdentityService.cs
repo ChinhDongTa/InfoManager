@@ -8,11 +8,11 @@ public interface IIdentityService
 {
     Task<Result<string?>> GetUserNameAsync(string userId, CancellationToken ct = default);
 
-    Task<Result<bool>> IsInRoleAsync(string userId, string role, CancellationToken ct = default);
+    Task<Result<bool>> IsInRoleAsync(RoleActionDto dto, CancellationToken ct = default);
 
     Task<Result<bool>> AuthorizeAsync(string userId, string policyName, CancellationToken ct = default);
 
-    Task<Result<string>> CreateUserAsync(string userName, string password, CancellationToken ct = default);
+    Task<Result<string>> CreateUserAsync(LoginRequest request, CancellationToken ct = default);
 
     Task<Result> DeleteUserAsync(string userId, CancellationToken ct = default);
 
@@ -20,7 +20,7 @@ public interface IIdentityService
 
     Task<Result> UpdateUserInfoAsync(string userId, UpdateUserDto dto, CancellationToken ct = default);
 
-    Task<Result> AddToRoleAsync(string userId, string role, CancellationToken ct = default);
+    Task<Result> AddToRoleAsync(RoleActionDto dto, CancellationToken ct = default);
 
     Task<Result<UserDto?>> GetUserDtoByIdAsync(string userId, CancellationToken ct = default);
 
@@ -32,7 +32,7 @@ public interface IIdentityService
 
     Task<Result<IEnumerable<RoleDto>>> GetRolesAsync(CancellationToken ct = default);
 
-    Task<Result<UserDto?>> AuthenticateAsync(string email, string password, CancellationToken ct = default);
+    Task<Result<UserDto?>> AuthenticateAsync(LoginRequest request, CancellationToken ct = default);
 
     string GenerateAccessToken(UserDto user, int expiresInMinutes = 15);
 
@@ -42,5 +42,7 @@ public interface IIdentityService
 
     ClaimsPrincipal? ValidateToken(string token);
 
-    Task<Result> RemoveFromRoleAsync(string userId, string role, CancellationToken ct = default);
+    Task<Result> RemoveFromRoleAsync(RoleActionDto dto, CancellationToken ct = default);
+
+    Task<Result> UpdateRoleAsync(string id, UpdateRoleDto request, CancellationToken ct);
 }

@@ -2,7 +2,7 @@
 
 public record HistoricalEventDto(
     string Id,
-    DateOnly EventDate,
+    DateOnly? EventDate,
     string Title,
     string? EventName,
     string? Location,
@@ -12,7 +12,7 @@ public record HistoricalEventDto(
 );
 public record HistoricalEventSummaryDto(
     string Id,
-    DateOnly EventDate,
+    DateOnly? EventDate,
     string Title,
     string? EventType
 );
@@ -23,7 +23,7 @@ public record SearchHistoricalEventRequest(string? SearchTerm,
                                            int PageSize = 20);
 public record CreateHistoricalEventRequest
 {
-    public DateOnly EventDate { get; init; }
+    public DateOnly? EventDate { get; init; }
     public required string Title { get; init; }
     public HistoricalEventType EventType { get; init; }
     public string? Location { get; init; }

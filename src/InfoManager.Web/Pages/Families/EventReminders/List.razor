@@ -1,0 +1,87 @@
+﻿@page "/families/eventReminders/list/{familyMemberId}"
+@page "/families/eventReminders/list"
+@inject NavigationManager navigationManager
+@inject IFamilyEventReminderService service
+@using InfoManager.Shared.Dtos.FamilyEventReminders
+
+
+<PageHeader Title="Danh sách nhắc nhở sự kiện gia đình" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/families/eventReminders/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="FamilyEventReminderSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="string" Title="Họ tên" Property="@(x => x.MemberName)" Sortable="true" />
+            <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="string" Title="Sự kiện" Property="@(x => x.EventTitle)" />
+            <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="int?" Title="Số ngày nhắc trước" Property="@(x => x.DaysBefore)" />
+            <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="TimeOnly?" Title="Thời gian nhắc" Property="@(x => x.RemindTime)" />
+            <TemplateColumn TGridItem="FamilyEventReminderSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public string? familyMemberId { get; set; }
+    PaginatedList<FamilyEventReminderSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+    int currentPage = 1;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadPageAsync(currentPage);
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+        if (string.IsNullOrEmpty(familyMemberId))
+        {
+            var result = await service.GetFamilyEventRemindersAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Family event reminders"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            var result = await service.GetFamilyEventRemindersByMemberIdAsync(familyMemberId, currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? $"Family event reminders for Family Member ID: {familyMemberId}"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/eventReminders/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/families/eventReminders/edit/{id}");
+    }
+}
