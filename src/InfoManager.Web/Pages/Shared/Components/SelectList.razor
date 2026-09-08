@@ -1,5 +1,5 @@
 ﻿@using InfoManager.Shared.Dtos.Common
-@inject IHttpClientFactory HttpFactory
+@inject ISelectListService service
 
 @if (IsLoading)
 {
@@ -32,7 +32,8 @@ else
 }
 
 @code {
-    [Parameter] public required string Route { get; set; } = string.Empty;   // ← đã bỏ required
+    [Parameter] public required string Route { get; set; } = string.Empty;  
+    [Parameter] public bool UsePublicApi { get; set; }
     [Parameter] public string? Label { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public string? Placeholder { get; set; }
@@ -79,8 +80,9 @@ else
     {
         try
         {
-            var client = HttpFactory.CreateClient(Constants.PublicHttpClient);
-            var apiResult = await client.GetFromJsonAsync<IEnumerable<SelectListItemDto>>(Route);
+            var kind = UsePublicApi ? ApiClientKind.Public : ApiClientKind.Protected;
+
+            var apiResult = await service.GetAsync(Route, kind);
 
             if (apiResult != null)
             {

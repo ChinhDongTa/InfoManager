@@ -6,3 +6,5 @@ global using InfoManager.ApiClient.Interfaces;
 global using InfoManager.ApiClient.Api;
 global using InfoManager.ApiClient.Models;
 global using InfoManager.ApiClient.Handlers;
+global using InfoManager.Enum.SFMS;
+global using InfoManager.Shared.Dtos.SFMS.Agricultural;

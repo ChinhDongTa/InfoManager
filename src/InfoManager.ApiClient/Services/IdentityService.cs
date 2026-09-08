@@ -28,8 +28,8 @@ public class IdentityService(IIdentityApi identityApi) : IIdentityService
     public async Task<ApiResult> RemoveFromRoleAsync(RoleActionDto request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await identityApi.RemoveFromRoleAsync(request, ct));
 
-    public async Task<ApiResult<List<UserDto>>> SearchUserByEmailAsync(string email, CancellationToken ct = default)
-        => await ApiResponseHandler.HandleAsync(await identityApi.SearchUserByEmailAsync(email, ct));
+    public async Task<ApiResult<List<UserDto>>> SearchUserByEmailOrRoleAsync(string emailOrRole, CancellationToken ct = default)
+        => await ApiResponseHandler.HandleAsync(await identityApi.SearchUserByEmailOrRoleAsync(emailOrRole, ct));
 
     public async Task<ApiResult> UpdateRoleAsync(string id, UpdateRoleDto request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await identityApi.UpdateRoleAsync(id, request, ct));

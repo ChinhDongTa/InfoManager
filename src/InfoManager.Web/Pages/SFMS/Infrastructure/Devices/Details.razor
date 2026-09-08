@@ -1,0 +1,117 @@
+﻿@page "/sfms/Infrastructure/devices/details/{Id}"
+@inject IDeviceService service
+
+<PageHeader Title="Thông tin chi tiết thiết bị" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Tên thiết bị:</strong> @dto?.Name
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Loại thiết bị:</strong> @dto?.DeviceTypeName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Model:</strong> @dto?.Model
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Địa chỉ MAC:</strong> @dto?.MacAddress
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Nông trại:</strong>
+                @if (!string.IsNullOrWhiteSpace(dto?.FarmId))
+                {
+                    <a href="/sfms/Infrastructure/farms/details/@dto.FarmId">@(dto?.FarmName ?? dto?.FarmId)</a>
+                }
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Trạng thái:</strong> @dto?.StatusName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Địa chỉ IP:</strong> @dto?.IpAddress
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Giao thức truyền thông:</strong> @dto?.CommunicationProtocol
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Lần đồng bộ dữ liệu gần nhất:</strong> @dto?.LastDataSyncTime?.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Phiên bản firmware:</strong> @dto?.FirmwareVersion
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Mức pin:</strong> @(dto?.BatteryLevel is null ? null : $"{dto.BatteryLevel}%")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Dung lượng lưu trữ:</strong> @FormatStorage(dto?.StorageUsed, dto?.StorageCapacity)
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày lắp đặt:</strong> @dto?.InstallationDate.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày bảo trì gần nhất:</strong> @dto?.LastMaintenanceDate?.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ghi chú:</strong> @dto?.Notes
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/devices" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+
+    bool isLoading = false;
+    DeviceDto? dto;
+    Alert? alertComponent;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (string.IsNullOrEmpty(Id))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorRequired("Id"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+            isLoading = false;
+            return;
+        }
+
+        var result = await service.GetDeviceByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("Device"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+        }
+
+        isLoading = false;
+    }
+
+    private static string? FormatStorage(decimal? used, decimal? capacity)
+    {
+        if (used is null && capacity is null)
+            return null;
+
+        if (used is not null && capacity is not null)
+            return $"{used} / {capacity}";
+
+        return (used ?? capacity)?.ToString();
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support !");
+    }
+}

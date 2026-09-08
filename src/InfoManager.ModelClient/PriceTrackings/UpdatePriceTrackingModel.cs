@@ -41,7 +41,7 @@ public class UpdatePriceTrackingModel
     /// <summary>
     /// Trạng thái mua sản phẩm
     /// </summary>
-    public bool? IsPurchased { get; set; }
+    public bool IsPurchased { get; set; }
     /// <summary>
     /// Ngày kiểm tra giá sản phẩm lần cuối
     /// </summary>

@@ -62,6 +62,6 @@ public static class EquipmentMappings
                LastMaintenanceDateTo: request.LastMaintenanceDateTo,
                NextMaintenanceDateFrom: request.NextMaintenanceDateFrom,
                NextMaintenanceDateTo: request.NextMaintenanceDateFrom,
-               PageNumeber: request.PageNumeber,
+               PageNumeber: request.PageNumber,
                PageSize: request.PageSize);
 }

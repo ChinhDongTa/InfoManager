@@ -56,7 +56,7 @@
 
 @code {
     [Parameter]
-    public required string Id { get; set; }
+    public string? Id { get; set; }
 
     private UpdateFamilyMemberModel? updateModel;
     private UpdateFamilyMemberModel? originalModel;
@@ -85,7 +85,7 @@
                 birthDate = result.Data.BirthDate.ToDateTime();
                 deathDate = result.Data.DeathDate.ToDateTime();
                 genderSelected = result.Data.Gender.ToIntString();
-                Console.WriteLine($"BirthDate: {birthDate}, DeathDate: {deathDate}, Gender: {genderSelected}, categoryId: {updateModel?.FamilyRelationId}" );
+                //Console.WriteLine($"BirthDate: {birthDate}, DeathDate: {deathDate}, Gender: {genderSelected}, categoryId: {updateModel?.FamilyRelationId}" );
             }
             else
             {
@@ -109,7 +109,7 @@
             IsSaving = false;
             return;
         }
-        if (updateModel.Equals(originalModel))
+        if (updateModel.HasChanges(originalModel))
         {
             alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Warning, Constants.DismissAlertAfter10Seconds);
             IsSaving = false;
@@ -163,5 +163,4 @@
         }
         IsSaving = false;
     }
-    
 }

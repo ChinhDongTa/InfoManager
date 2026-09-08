@@ -9,7 +9,7 @@ public record EquipmentDto(
 
     /// <summary>Tên thiết bị</summary>
     string? Name,
-
+    EquipmentType EquipmentType,
     /// <summary>Loại thiết bị (Tractor, Pump, Sprayer...)</summary>
     string? EquipmentTypeName,
 
@@ -40,7 +40,8 @@ public record EquipmentDto(
 
     /// <summary>Giá trị hiện tại / giá trị sổ sách</summary>
     decimal? CurrentValue,
-
+    /// <summary>Trạng thái thiết bị (mã)</summary>
+    EquipmentStatus Status,
     /// <summary>Trạng thái thiết bị (Active, Idle, UnderMaintenance, Retired)</summary>
     string? StatusName,
 
@@ -109,7 +110,7 @@ public record SearchEquipmentsRequest(
     DateTimeOffset? NextMaintenanceDateFrom,
     /// <summary>Ngày bảo trì kế tiếp đến</summary>
     DateTimeOffset? NextMaintenanceDateTo,
-    int PageNumeber,
+    int PageNumber,
     int PageSize
 );
 

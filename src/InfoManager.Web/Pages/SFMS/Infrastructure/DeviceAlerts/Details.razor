@@ -1,0 +1,85 @@
+﻿@page "/sfms/Infrastructure/devicealerts/details/{Id}"
+@inject IDeviceAlertService service
+
+<PageHeader Title="Quản lý cảnh báo thiết bị" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Thiết bị:</strong>
+                @if (!string.IsNullOrWhiteSpace(dto?.DeviceId))
+                {
+                    <a href="/sfms/Infrastructure/devices/details/@dto.DeviceId">@(dto?.DeviceName ?? dto?.DeviceId)</a>
+                }
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Loại cảnh báo:</strong> @dto?.AlertTypeName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Mức độ:</strong> @dto?.SeverityName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Nội dung:</strong> @dto?.Message
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Thời điểm cảnh báo:</strong> @dto?.AlertTime.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Trạng thái xử lý:</strong> @(dto?.IsResolved == true ? "Đã xử lý" : "Chưa xử lý")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Thời điểm xử lý:</strong> @dto?.ResolvedTime?.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ghi chú xử lý:</strong> @dto?.ResolutionNotes
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/devicealerts" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+
+    bool isLoading = false;
+    DeviceAlertDto? dto;
+    Alert? alertComponent;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (string.IsNullOrEmpty(Id))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorRequired("Id"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+            isLoading = false;
+            return;
+        }
+
+        var result = await service.GetDeviceAlertByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("DeviceAlert"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+        }
+
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support !");
+    }
+}

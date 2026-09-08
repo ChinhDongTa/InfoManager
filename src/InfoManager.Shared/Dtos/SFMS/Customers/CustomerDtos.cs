@@ -9,6 +9,7 @@ public record CustomerDto(
     string? FarmName,
     string? CustomerCode,
     string Name,
+    CustomerType CustomerType,
     string CustomerTypeName,
     string? Phone,
     string? Email,
@@ -16,6 +17,7 @@ public record CustomerDto(
     string? TaxCode,
     string? ContactPerson,
     decimal? CreditLimit,
+    CustomerStatus Status,
     string StatusName,
     string? Notes,
     DateTimeOffset Created

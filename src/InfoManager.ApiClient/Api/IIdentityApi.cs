@@ -33,8 +33,8 @@ public interface IIdentityApi
     /// <param name="email">email parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
-    [Get("/api/Identities/users/search/{email}")]
-    Task<ApiResponse<List<UserDto?>>> SearchUserByEmailAsync(string email, CancellationToken ct = default);
+    [Get("/api/Identities/users/search/{emailOrRole}")]
+    Task<ApiResponse<List<UserDto>>> SearchUserByEmailOrRoleAsync(string emailOrRole, CancellationToken ct = default);
 
     /// <param name="request">request parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>

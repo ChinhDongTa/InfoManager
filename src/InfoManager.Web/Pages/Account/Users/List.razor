@@ -2,6 +2,7 @@
 @using InfoManager.Shared.Dtos.Auths
 @inject NavigationManager navigationManager
 @inject IIdentityService IdentityService
+
 <PageHeader Title="Danh sách user" Description="@des"/>
 <Alert @ref="alert" />
 
@@ -11,7 +12,7 @@
             <FluentSearch @ref=fluentSearch
                           @bind-Value="@searchValue"
                           @bind-Value:after=HandleSearchInput
-                          Placeholder="Search for email" />
+                          Placeholder="Search for email or role" />
             @if (items != null)
             {
                 <FluentDataGrid Items="items" TGridItem="UserDto">
@@ -20,6 +21,7 @@
                     <PropertyColumn Property="@(item => item.Roles.ToLine(" | "))" Title="Roles" /> 
                     <TemplateColumn Context="item" Title="Thao tác" Align="Align.End">
                         <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                        <FluentIcon Title="Khởi tạo dữ liệu nông dân" Value="@(new Icons.Filled.Size20.AddCircle())" @onclick=@(() => navigationManager.NavigateTo($"/account/InitFarmerData/{item.Id}")) />
                     </TemplateColumn>
                 </FluentDataGrid>
             }
@@ -76,7 +78,7 @@
 
             if (searchTerm.Length > 0)
             {
-                var result = await IdentityService.SearchUserByEmailAsync(searchTerm);
+                var result = await IdentityService.SearchUserByEmailOrRoleAsync(searchTerm);
                 if (result.Success && result.Data != null)
                 {
                     des = $"Tổng cộng: {result.Data.Count}";

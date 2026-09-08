@@ -5,11 +5,13 @@
 public record DeviceDto(
     string Id,
     string Name,
+    DeviceType DeviceType,
     string DeviceTypeName,
     string? Model,
     string? MacAddress,
     string FarmId,
     string? FarmName,
+    DeviceStatus Status,
     string StatusName,
     string? IpAddress,
     string? CommunicationProtocol,

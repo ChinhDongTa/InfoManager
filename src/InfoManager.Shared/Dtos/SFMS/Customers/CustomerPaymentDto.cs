@@ -13,6 +13,7 @@ public record CustomerPaymentDto(
     decimal Amount,
     DateTimeOffset PaymentDate,
     string? PaymentMethod,
+    PaymentStatus PaymentStatus,
     string PaymentStatusName,
     string? ReferenceNumber,
     string? Notes,

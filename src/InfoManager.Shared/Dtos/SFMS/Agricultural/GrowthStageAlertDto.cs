@@ -8,8 +8,10 @@ public record GrowthStageAlertDto(
     string? CropPlantingName,          // hoặc thông tin Field/Crop nếu cần
     string GrowthStageId,
     string? GrowthStageName,
+    GrowthAlertType AlertType,
     string? AlertTypeName,
     string Message,
+    AlertSeverity Severity,
     string? SeverityName,
     DateTimeOffset AlertTime,
     DateTimeOffset? ExpectedAchievementDate,

@@ -18,7 +18,7 @@ public class Identities : EndpointGroupBase
         // User operations
         api.MapGet(GetUserByIdAsync, "users/{id}");
         api.MapGet(GetUserDetailsByIdAsync, "user-detail/{id}");
-        api.MapGet(SearchUserByEmailAsync, pattern: "users/search/{email}");
+        api.MapGet(SearchUserByEmailOrRoleAsync, pattern: "users/search/{emailOrRole}");
         api.MapDelete(DeleteUserAsync, "users/{id}");
         //api.MapPut(UpdateUserAsync, "users/{id}");
 
@@ -66,16 +66,16 @@ public class Identities : EndpointGroupBase
     /// <summary>
     /// Searches for users by email address
     /// </summary>
-    /// <param name="email">Email address to search for</param>
+    /// <param name="emailOrRole">Email address to search for</param>
     /// <response code="200">Search completed, results returned</response>
     /// <response code="400">Invalid email or search error</response>
-    public async Task<IResult> SearchUserByEmailAsync([FromRoute] string email, IIdentityService identityService, CancellationToken ct)
+    public async Task<IResult> SearchUserByEmailOrRoleAsync([FromRoute] string emailOrRole, IIdentityService identityService, CancellationToken ct)
     {
-        email = email?.Trim() ?? string.Empty;
-        if (string.IsNullOrWhiteSpace(email))
+        emailOrRole = emailOrRole?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(emailOrRole))
             return TypedResults.BadRequest(ErrorHelpers.GetErrorRequired("Email"));
 
-        var result = await identityService.SearchAsync(email, ct);
+        var result = await identityService.SearchAsync(emailOrRole, ct);
         return result.Succeeded ? TypedResults.Ok(result.Value) : TypedResults.BadRequest(result.Errors?.ToLine() ?? "Search failed");
     }
 

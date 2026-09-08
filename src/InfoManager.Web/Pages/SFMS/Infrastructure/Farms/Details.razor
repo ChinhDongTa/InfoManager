@@ -1,0 +1,94 @@
+﻿@page "/sfms/Infrastructure/farms/details/{Id}"
+@inject IFarmService service
+
+<PageHeader Title="Thông tin chi tiết nông trại" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Tên nông trại:</strong> @dto?.Name
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Mô tả:</strong> @dto?.Description
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Tổng diện tích:</strong> @dto?.TotalArea
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Diện tích canh tác:</strong> @dto?.CultivableArea
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Vị trí:</strong> @dto?.Location
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Vĩ độ:</strong> @dto?.Latitude
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Kinh độ:</strong> @dto?.Longitude
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Chủ hộ:</strong>
+                @if (!string.IsNullOrWhiteSpace(dto?.FarmerId))
+                {
+                    <a href="/sfms/Infrastructure/farmers/details/@dto.FarmerId">@(dto?.FarmerName ?? dto?.FarmerId)</a>
+                }
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Số giấy phép:</strong> @dto?.LicenseNumber
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Trạng thái:</strong> @dto?.StatusName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày thành lập:</strong> @dto?.EstablishedDate?.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/farms" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+
+    bool isLoading = false;
+    FarmDto? dto;
+    Alert? alertComponent;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (string.IsNullOrEmpty(Id))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorRequired("Id"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+            isLoading = false;
+            return;
+        }
+
+        var result = await service.GetFarmByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("Farm"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+        }
+
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support !");
+    }
+}

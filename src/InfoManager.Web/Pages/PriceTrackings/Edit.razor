@@ -25,7 +25,7 @@
                         <CurrencyNumberField Label="Giá hiện tại" @bind-Value="updateModel.CurrentPrice" />
                         <CurrencyNumberField Label="Giá mong muốn" @bind-Value="updateModel.DesiredPrice" />
                         <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="updateModel.LowestPriceSeen" />
-                        <FluentCheckbox Label="Đã mua" @bind-Checked="updateModel.IsPurchased" />
+                        <FluentCheckbox Label="Đã mua" @bind-Value="updateModel.IsPurchased" />
                         <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
                     </FluentStack>
@@ -45,7 +45,7 @@
                         <CurrencyNumberField Label="Giá hiện tại" @bind-Value="createModel.CurrentPrice" /> 
                         <CurrencyNumberField Label="Giá mong muốn" @bind-Value="createModel.DesiredPrice" />
                         <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="createModel.LowestPriceSeen" />
-                        <FluentCheckbox Label="Đã mua" @bind-Checked="createModel.IsPurchased" />
+                        <FluentCheckbox Label="Đã mua" @bind-Value="createModel.IsPurchased" />
                         <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
                         @* Action : create, update *@
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
@@ -68,7 +68,7 @@
     private UpdatePriceTrackingModel? originModel;
 
     private DateTime? LastCheckedDate ;
-    
+
     //bool isCompleted = false;
     Alert? alertComponent;
     bool IsSaving = false;
@@ -110,7 +110,7 @@
             IsSaving = false;
             return;
         }
-
+        //Console.WriteLine($"originModel:{originModel.IsPurchased} ---- updateModel:{updateModel.IsPurchased} ");
         if (!updateModel.HasChanges(originModel))
         {
             alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);

@@ -1,7 +1,4 @@
 ﻿using InfoManager.Shared.Dtos.Transactions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace InfoManager.ApiClient.Services;
 

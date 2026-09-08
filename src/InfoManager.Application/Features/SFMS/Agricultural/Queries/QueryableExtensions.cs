@@ -75,6 +75,7 @@ internal static class QueryableExtensions
             PlantedArea: a.PlantedArea,
             QuantityPlanted: a.QuantityPlanted,
             PlantedUnit: a.PlantedUnit,
+            Status: a.Status,
             StatusName: a.Status.ToDisplayName(),
             Notes: a.Notes,
             Created: a.Created
@@ -242,8 +243,10 @@ internal static class QueryableExtensions
             CropPlantingName: a.CropPlanting != null ? a.CropPlanting.PlantingCode : null,
             GrowthStageId: a.GrowthStageId,
             GrowthStageName: a.GrowthStage!=null?a.GrowthStage.StageName : null,
+            AlertType: a.AlertType,
             AlertTypeName: a.AlertType.ToDisplayName(),
             Message: a.Message,
+            Severity: a.Severity,
             SeverityName: a.Severity.ToDisplayName(),
             AlertTime: a.AlertTime,
             ExpectedAchievementDate: a.ExpectedAchievementDate,

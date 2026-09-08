@@ -1,0 +1,159 @@
+﻿@page "/sfms/infrastructure/farms/update/{Id}"
+@page "/sfms/infrastructure/farms/create/"
+@inject IFarmService farmservice
+
+<PageHeader Title="Quản lý nông dân" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Họ và tên" @bind-Value="updateModel.Name" />
+                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                    <FluentNumberField Label="Tổng diện tích" @bind-Value="updateModel.TotalArea" />
+                    <FluentNumberField Label="Diện tích canh tác" @bind-Value="updateModel.CultivableArea" />
+                    <FluentTextField Label="Vị trí" @bind-Value="updateModel.Location" />
+                    <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
+                    <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
+                    <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="updateModel.FarmerId" />
+                    <FluentTextField Label="Giấy phép" @bind-Value="updateModel.LicenseNumber" />
+                    <SelectList Route="/api/enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
+                    <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
+                    
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.Name" />
+                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                    <FluentNumberField Label="Tổng diện tích" @bind-Value="createModel.TotalArea" />
+                    <FluentNumberField Label="Diện tích canh tác" @bind-Value="createModel.CultivableArea" />
+                    <FluentTextField Label="Vị trí" @bind-Value="createModel.Location" />
+                    <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
+                    <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
+                    <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="createModel.FarmerId" />
+                    <FluentTextField Label="Giấy phép" @bind-Value="createModel.LicenseNumber" />
+                    <SelectList Route="/api/enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
+                    <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateFarmModel? updateModel;
+    private UpdateFarmModel? orginalModel;
+    private CreateFarmModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+    DateTime? establishedDate;
+    string? farmStatusSelected;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật trang trại";
+            var result = await farmservice.GetFarmByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateFarmModel(Id,result.Data);
+                orginalModel = new UpdateFarmModel(Id,result.Data);
+                establishedDate = updateModel.EstablishedDate.ToLocalDateTime();
+                farmStatusSelected = updateModel.Status.ToIntString();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Farm"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới trang trại";
+            createModel = new CreateFarmModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"),InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.EstablishedDate = establishedDate.ToUtcOffset();
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        updateModel.EstablishedDate = establishedDate.ToUtcOffset();
+        updateModel.Status = Enum.Parse<InfoManager.Enum.SFMS.FarmStatus>(farmStatusSelected ?? "0");
+        var result = await farmservice.UpdateFarmAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Trang trại"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+        createModel.EstablishedDate = establishedDate.ToUtcOffset();
+        createModel.Status = Enum.Parse<InfoManager.Enum.SFMS.FarmStatus>(farmStatusSelected ?? "0");
+        var result = await farmservice.CreateFarmAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Farm"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

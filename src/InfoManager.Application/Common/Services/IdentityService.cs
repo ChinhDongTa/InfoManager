@@ -284,9 +284,9 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
             : Result.Error(ErrorHelpers.GetErrorCannotAction(ActionType.Delete, dto.Role));
     }
 
-    public async Task<Result<IEnumerable<UserDto>>> SearchAsync(string email, CancellationToken ct = default)
+    public async Task<Result<IEnumerable<UserDto>>> SearchAsync(string emailOrRole, CancellationToken ct = default)
     {
-        var pattern = $"%{email}%";
+        var pattern = $"%{emailOrRole}%";
 
         // Single SQL query with ARRAY_AGG to fetch users + roles in one roundtrip
         var results = await dbContext.SqlQueryRaw<UserDto>($"""
@@ -304,7 +304,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
                      "AspNetUserRoles" ur ON u."Id" = ur."UserId"
                  LEFT JOIN 
                      "AspNetRoles" r ON ur."RoleId" = r."Id"
-                 WHERE u."Email" ILIKE '{pattern}' OR u."UserName" ILIKE '{pattern}'
+                 WHERE u."Email" ILIKE '{pattern}' OR u."UserName" ILIKE '{pattern}' OR r."Name" ILIKE '{pattern}'
                  GROUP BY 
                      u."Id", u."UserName", u."Email", u."PhoneNumber"
                  ORDER BY 
@@ -398,5 +398,6 @@ internal class RoleConstants
 {
     public const string FamilyAdmin = "familyadmin";
     public const string FamilyMember = "familymember";
+    public const string Farmer = "farmer";
     public const string Admin = "admin";
 }

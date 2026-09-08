@@ -18,6 +18,8 @@ public record CropHealthDto(
     /// <summary>Ngày đánh giá</summary>
     DateTimeOffset AssessmentDate,
 
+    /// <summary>Tình trạng sức khỏe. Bắt buộc.</summary>
+    HealthStatus HealthStatus,
     /// <summary>Tên tình trạng sức khỏe</summary>
     string? HealthStatusName,
 

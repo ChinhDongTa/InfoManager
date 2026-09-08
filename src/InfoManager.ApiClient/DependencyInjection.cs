@@ -13,8 +13,8 @@ public static class DependencyInjection
         services.AddRefitGeneratedClient<IAuthApi>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
         // ISelectListApi stays without auth handler (as you had)
-        services.AddRefitGeneratedClient<ISelectListApi>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
+        //services.AddRefitGeneratedClient<ISelectListApi>()
+        //    .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
         // ← Do NOT add JwtAuthorizationMessageHandler here
 
         // ==================== Authenticated APIs ====================
@@ -24,7 +24,6 @@ public static class DependencyInjection
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl))
                 .AddHttpMessageHandler(sp => sp.GetRequiredService<JwtAuthorizationMessageHandler>());
         }
-
         AddAuthenticatedClient<ICategoryApi>();
         AddAuthenticatedClient<IExperienceApi>();
         AddAuthenticatedClient<IFamilyApi>();
@@ -38,9 +37,17 @@ public static class DependencyInjection
         AddAuthenticatedClient<IFamilyEventReminderApi>();
         AddAuthenticatedClient<IUserProfileApi>();
         AddAuthenticatedClient<ISocialAccountApi>();
+        AddAuthenticatedClient<IAgriculturalApi>();
+        AddAuthenticatedClient<ICustomerApi>();
+        AddAuthenticatedClient<IDeviceAlertApi>();
+        AddAuthenticatedClient<IDeviceApi>();
+        AddAuthenticatedClient<IFarmApi>();
+        AddAuthenticatedClient<IFarmerApi>();
+        AddAuthenticatedClient<IFieldApi>();
+        AddAuthenticatedClient<ISensorApi>();
+        AddAuthenticatedClient<IEquipmentApi>();
 
         //====================== Services ======================
-        services.AddScoped<ISelectListService, SelectListService>();
         services.AddScoped<IExperienceService, ExperienceService>();
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<ICategoryService, CategoryService>();
@@ -53,6 +60,15 @@ public static class DependencyInjection
         services.AddScoped<IFamilyEventOccurrenceService, FamilyEventOccurrenceService>();
         services.AddScoped<IUserProfileService, UserProfileService>();
         services.AddScoped<ISocialAccountService, SocialAccountService>();
+        services.AddScoped<IAgriculturalService, AgriculturalService>();
+        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IDeviceAlertService, DeviceAlertService>();
+        services.AddScoped<IDeviceService, DeviceService>();
+        services.AddScoped<IFarmService, FarmService>();
+        services.AddScoped<IFarmerService, FarmerService>();
+        services.AddScoped<IFieldService, FieldService>();
+        services.AddScoped<ISensorService, SensorService>();
+        services.AddScoped<IEquipmentService, EquipmentService>();
 
         return services;
     }

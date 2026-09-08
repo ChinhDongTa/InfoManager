@@ -14,9 +14,11 @@ public record FarmDto(
     string FarmerId,
     string? FarmerName, 
     string? LicenseNumber,
+    FarmStatus Status,
     string StatusName,
     DateTimeOffset? EstablishedDate,
     DateTimeOffset Created
+
 );
 
 public record FarmSummaryDto(

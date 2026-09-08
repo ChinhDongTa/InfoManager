@@ -38,7 +38,7 @@ public interface IIdentityService
 
     string GenerateRefreshToken(UserDto user, int expiresInDays = 7);
 
-    Task<Result<IEnumerable<UserDto>>> SearchAsync(string email, CancellationToken ct = default);
+    Task<Result<IEnumerable<UserDto>>> SearchAsync(string emailOrRole, CancellationToken ct = default);
 
     ClaimsPrincipal? ValidateToken(string token);
 

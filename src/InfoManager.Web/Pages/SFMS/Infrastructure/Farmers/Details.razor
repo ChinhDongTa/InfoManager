@@ -1,0 +1,66 @@
+﻿@page "/sfms/Infrastructure/farmers/details/{Id}"
+@inject IFarmerService service
+
+<PageHeader Title="Thông tin chi tiết nông dân" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Mã chủ hộ:</strong>@dto?.FarmerCode
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Họ tên:</strong> @dto?.FullName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>CCCD,...:</strong> @dto?.IdentityNumber
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Email:</strong> <a href="mailto:@dto?.Email">@dto?.Email</a>
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Điện thoại:</strong>  @dto?.Phone
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ghi chú:</strong> @dto?.Notes
+            </FluentLabel>
+            <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/farmers" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    [Parameter]
+    public required string Id{ get; set; }
+    bool isLoading = false;
+    FarmerDto? dto;
+    Alert? alertComponent;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (string.IsNullOrEmpty(Id))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorRequired("Id"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+            isLoading = false;
+            return;
+        }
+        var result = await service.GetFarmerByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("Farmer"),AlertType.Error,Models.Constants.DismissAlertAfter5Seconds);
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support !");
+    }
+}

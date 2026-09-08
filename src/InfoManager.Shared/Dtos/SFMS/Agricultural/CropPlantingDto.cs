@@ -19,6 +19,7 @@ public record CropPlantingDto(
     decimal PlantedArea,
     decimal? QuantityPlanted,
     string? PlantedUnit,
+    PlantingStatus Status,
     string? StatusName,
     string? Notes,
     DateTimeOffset Created

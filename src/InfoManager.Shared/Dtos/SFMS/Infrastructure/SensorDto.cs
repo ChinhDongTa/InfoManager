@@ -5,6 +5,7 @@
 public record SensorDto(
     string Id,
     string Name,
+    SensorType SensorType,
     string SensorTypeName,
     string? Model,
     string? SerialNumber,
@@ -15,6 +16,7 @@ public record SensorDto(
     decimal? Latitude,
     decimal? Longitude,
     decimal? Depth,
+    DeviceStatus Status,
     string StatusName,
     DateTimeOffset? LastReadingTime,
     decimal? BatteryLevel,

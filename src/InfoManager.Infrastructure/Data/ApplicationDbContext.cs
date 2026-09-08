@@ -214,12 +214,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         var roles = user?.Roles ?? [];
         //Console.WriteLine("======roles: " + string.Join(", ", roles));
-        //// ====================== Admin / SuperUser bỏ qua toàn bộ filter ======================
-        //if (roles.Intersect(["admin", "superuser"]).Any())
-        //{
-        // Console.WriteLine("====Admin/SuperUser detected, skipping global query filters.====");
-        //    return;
-        //}
+        // ====================== Admin / SuperUser bỏ qua toàn bộ filter ======================
+        if (roles.Intersect(["admin", "superuser"]).Any())
+        {
+            Console.WriteLine("====Admin/SuperUser detected, skipping global query filters.====");
+            return;
+        }
 
         //if (string.IsNullOrEmpty(_currentUserId))
         //{

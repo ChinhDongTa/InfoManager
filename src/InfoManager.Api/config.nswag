@@ -15,5 +15,13 @@
       "defaultResponseReferenceTypeNullHandling": "Null"
     }
   },
-  "codeGenerators": {}
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "generateClientClasses": true,
+      "generateClientInterfaces": true,
+      "generateMultipleClients": true,
+      "clientBaseClass": "ApiClientBase",
+      "useHttpClientCreationMethod": true
+    }
+  }
 }

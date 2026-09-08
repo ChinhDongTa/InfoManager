@@ -1,5 +1,6 @@
 ﻿using InfoManager.ApiClient;
 using InfoManager.ApiClient.Abstractions;
+using InfoManager.ApiClient.Handlers;
 using InfoManager.ApiClient.Interfaces;
 using InfoManager.Web.Models;
 using InfoManager.Web.Services;
@@ -12,19 +13,28 @@ public static class DependencyInjection
     public static IServiceCollection AddBlazorServices(this IServiceCollection services, IConfiguration configuration)
     {
         var hostAddress = configuration["ApiBaseUrl"] ?? "https://localhost:7217";
+
+        //Add Refit (Protect HttpClient)
         services.AddApiClient(hostAddress);
-      
+
+        //Add Public HttpClient
         services.AddHttpClient(Constants.PublicHttpClient, client =>
         {
             client.BaseAddress = new Uri(hostAddress);
         });
+
+        //Add Protect HttpClient
+        services.AddHttpClient(Constants.ProtectHttpClient, client =>
+        {
+            client.BaseAddress = new Uri(hostAddress);
+        }).AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
 
         services.AddScoped<ITokenStorage, TokenStorage>();
         // Vì AuthService liên quan đến CustomAuthStateProvider nên phải thực hiện nó ở ngay Blazor.
         services.AddScoped<IAuthService, AuthService>();
 
         
-
+        services.AddScoped<ISelectListService ,SelectListService>();
 
         // Register CustomAuthStateProvider - CRITICAL
         services.AddScoped<CustomAuthStateProvider>();

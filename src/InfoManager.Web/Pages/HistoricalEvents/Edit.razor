@@ -78,6 +78,7 @@
                 updateModel = new UpdateHistoricalEventModel(result.Data);
                 originModel = new UpdateHistoricalEventModel(result.Data);
                 eventDate = result.Data.EventDate.ToDateTime();
+                eventTypeSelected = updateModel.EventType.ToIntString();
             }
             else
             {

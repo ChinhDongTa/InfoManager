@@ -1,0 +1,63 @@
+﻿@* Từ danh sách user bấm nút "Khởi tạo" đẻ lấy UserId qua màn hình khởi tạo *@
+@page "/account/InitFarmerData/{UserId}"
+@inject NavigationManager navigationManager
+@inject IAuthService authService
+@inject IFarmerService farmerService
+
+<PageHeader Title="Khởi tạo dữ liệu cho nông dân" />
+<Alert @ref="alertComponent" />
+
+<EditForm Model="@createModel" OnValidSubmit="@HandleValidSubmit">
+    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" Required />
+        <FluentTextField @bind-Value="@createModel.FarmerCode" Label="Mã nông dân" />
+        <SelectList Label="Là thành viên gia đình" @bind-Value="@familyMemberId" Route="api/SelectList/FamilyMember" />
+        <FluentTextField Label="CCCD/Thông hành" @bind-Value="@createModel.IdentityNumber"  />
+        <FluentTextField Label="Email" @bind-Value="createModel.Email" TextFieldType="TextFieldType.Email"   />
+        <FluentTextField Label="Phone" @bind-Value="createModel.Phone" Maxlength="50" />
+        <FluentButton Appearance="Appearance.Accent" Type="ButtonType.Submit">
+            @if (IsSaving)
+            {
+                <span>Đang lưu...</span>
+            }
+            else
+            {
+                <span>Lưu</span>
+            }                                   
+        </FluentButton> 
+    </FluentStack>
+</EditForm>
+
+@code {
+    [Parameter]
+    public required string UserId{ get; set; }
+    Alert? alertComponent;
+    bool IsSaving = false;
+
+    CreateFarmerModel createModel = new ();
+
+    private DateTime? birthDate;
+    string familyMemberId = string.Empty;
+    string? confirmPassword;
+
+    protected override void OnParametersSet()
+    {
+        if (string.IsNullOrEmpty(UserId))
+            alertComponent?.AddAlert("UserId là bắt buộc", AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+    }
+    private async Task HandleValidSubmit()
+    {
+        IsSaving = true;
+
+        var result = await farmerService.CreateFarmerAsync(createModel.CreateRequest(), CancellationToken.None);
+        if (result.Success && result.Data != null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(ActionType.Create, "Farmer"), AlertType.Success, Models.Constants.DismissAlertAfter5Seconds);
+        }
+        else
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotAction(ActionType.Create,"Farmer"),AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+        IsSaving = false;
+    }
+}

@@ -1,0 +1,19 @@
+﻿@page "/sfms/agricultural/crops/list"
+@inject NavigationManager navigationManager
+@inject IAgriculturalService service
+
+<PageHeader Title="Danh sách giống cây trồng" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    Alert? alertComponent;
+
+}

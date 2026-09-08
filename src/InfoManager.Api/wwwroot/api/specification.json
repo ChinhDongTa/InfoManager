@@ -1655,7 +1655,7 @@
             "x-position": 8
           },
           {
-            "name": "PageNumeber",
+            "name": "PageNumber",
             "in": "query",
             "required": true,
             "schema": {
@@ -1687,10 +1687,10 @@
         ]
       }
     },
-    "/api/Farmerers/{id}": {
+    "/api/Farmers/{id}": {
       "get": {
         "tags": [
-          "Farmerers"
+          "Farmers"
         ],
         "operationId": "GetFarmerByIdAsync",
         "parameters": [
@@ -1717,7 +1717,7 @@
       },
       "put": {
         "tags": [
-          "Farmerers"
+          "Farmers"
         ],
         "operationId": "UpdateFarmerAsync",
         "parameters": [
@@ -1756,7 +1756,7 @@
       },
       "delete": {
         "tags": [
-          "Farmerers"
+          "Farmers"
         ],
         "operationId": "DeleteFarmerAsync",
         "parameters": [
@@ -1782,10 +1782,10 @@
         ]
       }
     },
-    "/api/Farmerers": {
+    "/api/Farmers": {
       "get": {
         "tags": [
-          "Farmerers"
+          "Farmers"
         ],
         "operationId": "GetFarmersAsync",
         "parameters": [
@@ -1823,7 +1823,7 @@
       },
       "post": {
         "tags": [
-          "Farmerers"
+          "Farmers"
         ],
         "operationId": "CreateFarmerAsync",
         "requestBody": {
@@ -1850,10 +1850,10 @@
         ]
       }
     },
-    "/api/Farmerers/search": {
+    "/api/Farmers/search": {
       "get": {
         "tags": [
-          "Farmerers"
+          "Farmers"
         ],
         "operationId": "SearchFarmersAsync",
         "parameters": [
@@ -7201,15 +7201,15 @@
         ]
       }
     },
-    "/api/Identities/users/search/{email}": {
+    "/api/Identities/users/search/{emailOrRole}": {
       "get": {
         "tags": [
           "Identities"
         ],
-        "operationId": "SearchUserByEmailAsync",
+        "operationId": "SearchUserByEmailOrRoleAsync",
         "parameters": [
           {
-            "name": "email",
+            "name": "emailOrRole",
             "in": "path",
             "required": true,
             "schema": {

@@ -9,12 +9,14 @@ public record MaintenanceDto(
 
     /// <summary>ID thiết bị liên quan</summary>
     string EquipmentId,
+    string? EquipmentName,
 
     /// <summary>Ngày thực hiện bảo trì</summary>
     DateTimeOffset MaintenanceDate,
 
     /// <summary>Loại bảo trì (Routine, Repair, Inspection, Overhaul)</summary>
-    int MaintenanceType,
+    MaintenanceType MaintenanceType,
+    string MaintenanceTypeName,
 
     /// <summary>Mô tả công việc bảo trì</summary>
     string Description,
@@ -32,8 +34,8 @@ public record MaintenanceDto(
     decimal? OperatingHours,
 
     /// <summary>Trạng thái bảo trì (mã)</summary>
-    int Status,
-
+    MaintenanceStatus Status,
+    string StatusName,
     /// <summary>Ghi chú thêm</summary>
     string? Notes,
 
@@ -52,13 +54,13 @@ public record MaintenanceSummaryDto(
     string Id,
 
     /// <summary>ID thiết bị liên quan</summary>
-    string EquipmentId,
+    string EquipmentName,
 
     /// <summary>Ngày thực hiện bảo trì</summary>
     DateTimeOffset MaintenanceDate,
 
     /// <summary>Loại bảo trì (mã)</summary>
-    int MaintenanceType,
+    string MaintenanceTypeName,
 
     /// <summary>Tên nhà cung cấp dịch vụ / kỹ thuật viên</summary>
     string? ServiceProvider,
@@ -84,7 +86,7 @@ public record CreateMaintenanceRequest(
     DateTimeOffset MaintenanceDate,
 
     /// <summary>Loại bảo trì (Routine, Repair, Inspection, Overhaul)</summary>
-    int MaintenanceType,
+    MaintenanceType MaintenanceType,
 
     /// <summary>Mô tả công việc bảo trì</summary>
     string Description,
@@ -102,7 +104,7 @@ public record CreateMaintenanceRequest(
     decimal? OperatingHours,
 
     /// <summary>Trạng thái bảo trì (mã)</summary>
-    int? Status,
+    MaintenanceStatus? Status,
 
     /// <summary>Ghi chú thêm</summary>
     string? Notes,
@@ -125,7 +127,7 @@ public record UpdateMaintenanceRequest(
     DateTimeOffset? MaintenanceDate,
 
     /// <summary>Loại bảo trì (mã)</summary>
-    int? MaintenanceType,
+    MaintenanceType? MaintenanceType,
 
     /// <summary>Mô tả công việc bảo trì</summary>
     string? Description,
@@ -143,7 +145,7 @@ public record UpdateMaintenanceRequest(
     decimal? OperatingHours,
 
     /// <summary>Trạng thái bảo trì (mã)</summary>
-    int? Status,
+    MaintenanceStatus? Status,
 
     /// <summary>Ghi chú thêm</summary>
     string? Notes,

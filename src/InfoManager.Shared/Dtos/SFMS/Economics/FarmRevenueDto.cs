@@ -17,6 +17,7 @@ public record FarmRevenueDto(
     string? Currency,
     DateTimeOffset RevenueDate,
     string? BuyerName,
+    PaymentStatus PaymentStatus,
     string PaymentStatusName,
     DateTimeOffset? PaymentReceivedDate,
     string? Notes,

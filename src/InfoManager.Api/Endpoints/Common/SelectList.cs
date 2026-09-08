@@ -7,7 +7,6 @@ using InfoManager.Shared.Dtos.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace InfoManager.Api.Endpoints.Common;
-
 public class SelectList: EndpointGroupBase
 {
     public override string GroupName => "SelectList";

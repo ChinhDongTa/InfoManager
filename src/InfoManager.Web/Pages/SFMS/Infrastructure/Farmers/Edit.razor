@@ -1,0 +1,148 @@
+﻿@page "/sfms/infrastructure/farmers/update/{Id}"
+@page "/sfms/infrastructure/farmers/create/"
+@inject IFarmerService farmerService
+
+<PageHeader Title="Quản lý nông dân" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Họ và tên" @bind-Value="updateModel.FullName" />
+                    <FluentTextField Label="Mã chủ hộ/nông dân" @bind-Value="updateModel.FarmerCode" />
+                    <SelectList Route="api/SelectList/FamilyMember" @bind-Value="updateModel.FamilyMemberId" Placeholder="Chọn thành viên" />
+                    <FluentTextField Label="Điện thoại" @bind-Value="updateModel.Phone" />
+                    <FluentTextField Label="CCCD/Thông hành" @bind-Value="updateModel.IdentityNumber" />
+                    <FluentTextField Label="Email" @bind-Value="updateModel.Email" />
+                    <FluentTextArea Label="Ghi chú" @bind-Value="updateModel.Notes"/>
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farmers/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" />
+                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" />
+                    <FluentTextField Label="Mã chủ hộ/nông dân" @bind-Value="createModel.FarmerCode" />
+                    <SelectList Route="api/SelectList/FamilyMember" @bind-Value="createModel.FamilyMemberId" Placeholder="Chọn thành viên" />
+                    <FluentTextField Label="Điện thoại" @bind-Value="createModel.Phone" />
+                    <FluentTextField Label="CCCD/Thông hành" @bind-Value="createModel.IdentityNumber" />
+                    <FluentTextField Label="Email" @bind-Value="createModel.Email" />
+                    <FluentTextArea Label="Ghi chú" @bind-Value="createModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farmers/list" />
+                    
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateFarmerModel? updateModel;
+    private UpdateFarmerModel? orginalModel;
+    private CreateFarmerModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if(!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật nông dân";
+            var result = await farmerService.GetFarmerByIdAsync(Id, CancellationToken.None);
+            if(result.Success&&result.Data!=null)
+            {
+                updateModel = new UpdateFarmerModel(Id,result.Data);
+                orginalModel = new UpdateFarmerModel(Id,result.Data);
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Ge tFarmer"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới nông dân";
+            createModel = new CreateFarmerModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await farmerService.UpdateFarmerAsync(Id, updateModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Farmer"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await farmerService.CreateFarmerAsync(createModel.CreateRequest());
+
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Transaction"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

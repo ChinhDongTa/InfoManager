@@ -1,0 +1,173 @@
+﻿@page "/sfms/Infrastructure/fields/details/{Id}"
+@inject IFieldService service
+@using System.Globalization
+
+<PageHeader Title="Thông tin chi tiết thửa đất" />
+<Alert @ref="alertComponent" />
+
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentLabel>
+                <strong>Tên thửa đất:</strong> @dto?.Name
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Mô tả:</strong> @dto?.Description
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Diện tích:</strong> @dto?.Area
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Nông trại:</strong>
+                @if (!string.IsNullOrWhiteSpace(dto?.FarmId))
+                {
+                    <a href="/sfms/Infrastructure/farms/details/@dto.FarmId">@(dto?.FarmName ?? dto?.FarmId)</a>
+                }
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Loại đất:</strong> @dto?.SoilType
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Tình trạng đất:</strong> @dto?.SoilConditionName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Độ cao:</strong> @dto?.Elevation
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Vĩ độ:</strong> @dto?.Latitude
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Kinh độ:</strong> @dto?.Longitude
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Trạng thái:</strong> @dto?.StatusName
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày làm đất gần nhất:</strong> @dto?.LastPreparationDate?.ToString("dd/MM/yyyy")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Điều kiện thoát nước:</strong> @dto?.DrainageCondition
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Có hệ thống tưới:</strong> @(dto?.HasIrrigation == true ? "Có" : "Không")
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Số lần trồng cây:</strong> @dto?.CropPlantingCount
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Số cảm biến:</strong> @dto?.SensorCount
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Số lần phân tích đất:</strong> @dto?.SoilAnalysisCount
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Số công việc:</strong> @dto?.TaskCount
+            </FluentLabel>
+            <FluentLabel>
+                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
+            </FluentLabel>
+
+            <FluentLabel>
+                <strong>Bản đồ vị trí</strong>
+            </FluentLabel>
+            @if (HasCoordinates)
+            {
+                <div style="width:100%; height:320px; border-radius:8px; overflow:hidden; border:1px solid var(--neutral-stroke-rest);">
+                    <iframe title="Field location map"
+                            src="@MapEmbedUrl"
+                            width="100%"
+                            height="320"
+                            style="border:0;"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <FluentLabel>
+                    <a href="@MapExternalUrl" target="_blank" rel="noopener noreferrer">Mở bản đồ lớn</a>
+                </FluentLabel>
+            }
+            else
+            {
+                <FluentLabel>Chưa có tọa độ để hiển thị bản đồ.</FluentLabel>
+            }
+
+            <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/fields" OnDeleteClick="DeleteHandler" />
+        </FluentStack>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public required string Id { get; set; }
+
+    bool isLoading = false;
+    FieldDto? dto;
+    Alert? alertComponent;
+
+    bool HasCoordinates => dto?.Latitude is not null && dto?.Longitude is not null;
+
+    string MapEmbedUrl
+    {
+        get
+        {
+            if (!HasCoordinates) return string.Empty;
+
+            var lat = dto!.Latitude!.Value;
+            var lng = dto.Longitude!.Value;
+            var delta = 0.008m;
+
+            var minLng = (lng - delta).ToString(CultureInfo.InvariantCulture);
+            var minLat = (lat - delta).ToString(CultureInfo.InvariantCulture);
+            var maxLng = (lng + delta).ToString(CultureInfo.InvariantCulture);
+            var maxLat = (lat + delta).ToString(CultureInfo.InvariantCulture);
+            var latText = lat.ToString(CultureInfo.InvariantCulture);
+            var lngText = lng.ToString(CultureInfo.InvariantCulture);
+
+            return $"https://www.openstreetmap.org/export/embed.html?bbox={minLng}%2C{minLat}%2C{maxLng}%2C{maxLat}&layer=mapnik&marker={latText}%2C{lngText}";
+        }
+    }
+
+    string MapExternalUrl
+    {
+        get
+        {
+            if (!HasCoordinates) return "#";
+
+            var latText = dto!.Latitude!.Value.ToString(CultureInfo.InvariantCulture);
+            var lngText = dto.Longitude!.Value.ToString(CultureInfo.InvariantCulture);
+            return $"https://www.openstreetmap.org/?mlat={latText}&mlon={lngText}#map=16/{latText}/{lngText}";
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLoading = true;
+        if (string.IsNullOrEmpty(Id))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorRequired("Id"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+            isLoading = false;
+            return;
+        }
+
+        var result = await service.GetFieldByIdAsync(Id);
+        if (result.Success && result.Data != null)
+        {
+            dto = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData("Field"), AlertType.Error, Models.Constants.DismissAlertAfter5Seconds);
+        }
+
+        isLoading = false;
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support !");
+    }
+}

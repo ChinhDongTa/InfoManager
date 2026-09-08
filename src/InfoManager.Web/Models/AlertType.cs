@@ -7,3 +7,9 @@ public enum AlertType
     Error = 2,
     Info = 3,
 }
+
+public enum ApiClientKind
+{
+    Public,
+    Protected
+}

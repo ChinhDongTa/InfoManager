@@ -10,7 +10,7 @@ public record FarmerDto(
     string? FarmerCode,
     /// <summary>Họ tên</summary>
     string FullName,
-
+    string? FamilyMemberId,
     /// <summary>Số điện thoại</summary>
     string? Phone,
 
