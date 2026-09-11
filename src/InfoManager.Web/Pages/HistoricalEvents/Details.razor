@@ -7,24 +7,12 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Tên:</strong> @dto?.Title
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Tóm tắt:</strong> @dto?.Summary
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Loại:</strong> @dto?.EventName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày:</strong> @dto?.EventDate
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Địa điểm:</strong> @dto?.Location
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Nguồn tham khảo:</strong> @dto?.ReferenceSource
-            </FluentLabel>
+            <DetailItem Label="Tên" Value="@dto?.Title" />
+            <DetailItem Label="Tóm tắt" Value="@dto?.Summary" />
+            <DetailItem Label="Loại" Value="@dto?.EventName" />
+            <DetailItem Label="Ngày" Value="@dto?.EventDate?.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Địa điểm" Value="@dto?.Location" />
+            <DetailItem Label="Nguồn tham khảo" Value="@dto?.ReferenceSource" />
             <EntityActions EntityId="@Id" Folder="historicalEvents" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

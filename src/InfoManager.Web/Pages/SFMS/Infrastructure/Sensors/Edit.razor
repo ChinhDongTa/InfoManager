@@ -1,0 +1,178 @@
+﻿@page "/sfms/infrastructure/sensors/update/{Id}"
+@page "/sfms/infrastructure/sensors/create/"
+@inject ISensorService sensorService
+
+<PageHeader Title="Quản lý cảm biến" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên cảm biến" @bind-Value="updateModel.Name" />
+                    <SelectList Route="/api/enums/SensorType" Label="Loại cảm biến" @bind-Value="sensorTypeSelected" />
+                    <FluentTextField Label="Model cảm biến" @bind-Value="updateModel.Model" />
+                    <FluentTextField Label="Số serial" @bind-Value="updateModel.SerialNumber" />
+                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="updateModel.FieldId" />
+                    <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="updateModel.DeviceId" />
+                    <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
+                    <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
+                    <FluentNumberField Label="Độ sâu lắp đặt" @bind-Value="updateModel.Depth" />
+                    <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                    <DateTimePicker Label="Thời điểm đọc dữ liệu gần nhất" @bind-Value="lastReadingTime" />
+                    <FluentNumberField Label="Mức pin" @bind-Value="updateModel.BatteryLevel" />
+                    <FluentNumberField Label="Cường độ tín hiệu" @bind-Value="updateModel.SignalStrength" />
+                    <DateTimePicker Label="Ngày hiệu chuẩn tiếp theo" @bind-Value="nextCalibrationDate" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/sensors/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên cảm biến" @bind-Value="createModel.Name" />
+                    <SelectList Route="/api/enums/SensorType" Label="Loại cảm biến" @bind-Value="sensorTypeSelected" />
+                    <FluentTextField Label="Model cảm biến" @bind-Value="createModel.Model" />
+                    <FluentTextField Label="Số serial" @bind-Value="createModel.SerialNumber" />
+                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="createModel.FieldId" />
+                    <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="createModel.DeviceId" />
+                    <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
+                    <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
+                    <FluentNumberField Label="Độ sâu lắp đặt" @bind-Value="createModel.Depth" />
+                    <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                    <DateTimePicker Label="Ngày lắp đặt" @bind-Value="installationDate" />
+                    <DateTimePicker Label="Ngày hiệu chuẩn tiếp theo" @bind-Value="nextCalibrationDate" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/sensors/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateSensorModel? updateModel;
+    private UpdateSensorModel? orginalModel;
+    private CreateSensorModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? sensorTypeSelected;
+    string? statusSelected;
+    DateTime? installationDate;
+    DateTime? nextCalibrationDate;
+    DateTime? lastReadingTime;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật cảm biến";
+            var result = await sensorService.GetSensorByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateSensorModel(Id, result.Data);
+                orginalModel = new UpdateSensorModel(Id, result.Data);
+                sensorTypeSelected = updateModel.SensorType?.ToIntString();
+                statusSelected = updateModel.Status?.ToIntString();
+                lastReadingTime = updateModel.LastReadingTime?.ToLocalDateTime();
+                nextCalibrationDate = updateModel.NextCalibrationDate?.ToLocalDateTime();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Sensor"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới cảm biến";
+            createModel = new CreateSensorModel();
+            installationDate = DateTime.UtcNow;
+            statusSelected = ((int)InfoManager.Enum.SFMS.DeviceStatus.Active).ToString();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.SensorType = Enum.Parse<InfoManager.Enum.SFMS.SensorType>(sensorTypeSelected ?? "0");
+        updateModel.Status = Enum.Parse<InfoManager.Enum.SFMS.DeviceStatus>(statusSelected ?? "0");
+        updateModel.LastReadingTime = lastReadingTime.ToUtcOffset();
+        updateModel.NextCalibrationDate = nextCalibrationDate.ToUtcOffset();
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await sensorService.UpdateSensorAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Cảm biến"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.SensorType = Enum.Parse<InfoManager.Enum.SFMS.SensorType>(sensorTypeSelected ?? "0");
+        createModel.Status = Enum.Parse<InfoManager.Enum.SFMS.DeviceStatus>(statusSelected ?? "0");
+        createModel.InstallationDate = installationDate.ToUtcOffset()!.Value;
+        createModel.NextCalibrationDate = nextCalibrationDate.ToUtcOffset();
+
+        var result = await sensorService.CreateSensorAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Cảm biến"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

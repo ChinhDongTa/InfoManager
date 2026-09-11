@@ -2,8 +2,161 @@
 @page "/sfms/agricultural/crops/create"
 @inject IAgriculturalService service
 
+<PageHeader Title="Quản lý cây trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên thường gọi" @bind-Value="updateModel.CommonName" />
+                    <FluentTextField Label="Tên khoa học" @bind-Value="updateModel.ScientificName" />
+                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                    <FluentTextField Label="Họ thực vật" @bind-Value="updateModel.Family" />
+                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
+                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
+                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
+                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
+                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
+                    <FluentNumberField Label="pH đất tối thiểu" @bind-Value="updateModel.MinSoilPh" />
+                    <FluentNumberField Label="pH đất tối đa" @bind-Value="updateModel.MaxSoilPh" />
+                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
+                    <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="updateModel.SunLightHours" />
+                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
 
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên thường gọi" @bind-Value="createModel.CommonName" />
+                    <FluentTextField Label="Tên khoa học" @bind-Value="createModel.ScientificName" />
+                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                    <FluentTextField Label="Họ thực vật" @bind-Value="createModel.Family" />
+                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
+                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
+                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
+                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
+                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
+                    <FluentNumberField Label="pH đất tối thiểu" @bind-Value="createModel.MinSoilPh" />
+                    <FluentNumberField Label="pH đất tối đa" @bind-Value="createModel.MaxSoilPh" />
+                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
+                    <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="createModel.SunLightHours" />
+                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+    [Parameter]
+    public string? Id { get; set; }
 
+    private UpdateCropModel? updateModel;
+    private UpdateCropModel? orginalModel;
+    private CreateCropModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+    bool isActive;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật cây trồng";
+            var result = await service.GetCropByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateCropModel(Id, result.Data);
+                orginalModel = new UpdateCropModel(Id, result.Data);
+                isActive = updateModel.IsActive ?? false;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Crop"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới cây trồng";
+            createModel = new CreateCropModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.IsActive = isActive;
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateCropAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Cây trồng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.CreateCropAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Cây trồng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
 }

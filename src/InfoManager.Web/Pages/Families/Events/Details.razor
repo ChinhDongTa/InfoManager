@@ -7,21 +7,11 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Họ và tên</strong>: @dto?.FamilyMemberFullName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Tên sự kiện</strong>: @dto?.EventName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày</strong>: @dto?.EventDate
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Hoạt động ?</strong>: @(dto?.IsActive == true ? "Có" : "Không")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Địa điểm</strong>: @dto?.Location
-            </FluentLabel>
+            <DetailItem Label="Họ và tên" Value="@dto?.FamilyMemberFullName" />
+            <DetailItem Label="Tên sự kiện" Value="@dto?.EventName" />
+            <DetailItem Label="Ngày" Value="@dto?.EventDate.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Hoạt động" Value="@(dto?.IsActive == true ? "Có" : "Không")" />
+            <DetailItem Label="Địa điểm" Value="@dto?.Location" />
             <EntityActions EntityId="@Id" Folder="families/events" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

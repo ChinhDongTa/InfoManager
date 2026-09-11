@@ -7,18 +7,10 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Content</strong>: @dto?.Content
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Description</strong>: @dto?.Description
-            </FluentLabel>
-            <FluentLabel>
-                <strong>ExperienceDate</strong>: @dto?.ExperienceDate
-            </FluentLabel>
-            <FluentLabel>
-                <strong>CategoryName</strong>: @dto?.CategoryName
-            </FluentLabel>
+            <DetailItem Label="Content" Value="@dto?.Content" />
+            <DetailItem Label="Description" Value="@dto?.Description" />
+            <DetailItem Label="ExperienceDate" Value="@dto?.ExperienceDate?.ToString()" />
+            <DetailItem Label="CategoryName" Value="@dto?.CategoryName" />
             <EntityActions EntityId="@Id" Folder="Experiences" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

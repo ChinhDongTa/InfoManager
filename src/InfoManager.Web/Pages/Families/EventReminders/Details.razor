@@ -7,27 +7,13 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Họ tên:</strong> @dto?.MemberName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Địa điểm:</strong> @dto?.EventTitle
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Kênh thông báo:</strong> @dto?.Channel.ToDisplayName()
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Thông báo trước:</strong> @dto?.DaysBefore
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Đang bật ?:</strong> @dto?.IsEnabled  
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Thời gian nhắc:</strong> @dto?.RemindTime
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ghi chú:</strong> @dto?.Note
-            </FluentLabel>
+            <DetailItem Label="Họ tên" Value="@dto?.MemberName" />
+            <DetailItem Label="Địa điểm" Value="@dto?.EventTitle" />
+            <DetailItem Label="Kênh thông báo" Value="@dto?.Channel.ToDisplayName()" />
+            <DetailItem Label="Thông báo trước" Value="@dto?.DaysBefore.ToString()" />
+            <DetailItem Label="Đang bật" Value="@(dto?.IsEnabled == true ? "Có" : "Không")" />
+            <DetailItem Label="Thời gian nhắc" Value="@dto?.RemindTime?.ToString()" />
+            <DetailItem Label="Ghi chú" Value="@dto?.Note" />
             <EntityActions EntityId="@Id" Folder="families/eventReminders" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

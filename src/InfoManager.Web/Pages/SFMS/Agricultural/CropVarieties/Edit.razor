@@ -1,0 +1,158 @@
+﻿@page "/sfms/agricultural/crop-varieties/update/{Id}"
+@page "/sfms/agricultural/crop-varieties/create"
+@inject IAgriculturalService service
+
+<PageHeader Title="Quản lý giống cây trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên giống" @bind-Value="updateModel.VarietyName" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                    <FluentTextField Label="Tên đơn vị lai tạo" @bind-Value="updateModel.BreederName" />
+                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
+                    <FluentNumberField Label="Năng suất dự kiến" @bind-Value="updateModel.ExpectedYield" />
+                    <FluentTextField Label="Đơn vị năng suất" @bind-Value="updateModel.YieldUnit" />
+                    <FluentNumberField Label="Định mức hạt giống" @bind-Value="updateModel.SeedRate" />
+                    <FluentTextField Label="Khả năng kháng bệnh" @bind-Value="updateModel.DiseaseResistance" />
+                    <FluentTextField Label="Khả năng kháng sâu" @bind-Value="updateModel.PestResistance" />
+                    <FluentTextField Label="Khả năng thích nghi khí hậu" @bind-Value="updateModel.ClimateSuitability" />
+                    <FluentNumberField Label="Năm công nhận giống" @bind-Value="updateModel.YearOfRelease" />
+                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-varieties/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên giống" @bind-Value="createModel.VarietyName" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                    <FluentTextField Label="Tên đơn vị lai tạo" @bind-Value="createModel.BreederName" />
+                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
+                    <FluentNumberField Label="Năng suất dự kiến" @bind-Value="createModel.ExpectedYield" />
+                    <FluentTextField Label="Đơn vị năng suất" @bind-Value="createModel.YieldUnit" />
+                    <FluentNumberField Label="Định mức hạt giống" @bind-Value="createModel.SeedRate" />
+                    <FluentTextField Label="Khả năng kháng bệnh" @bind-Value="createModel.DiseaseResistance" />
+                    <FluentTextField Label="Khả năng kháng sâu" @bind-Value="createModel.PestResistance" />
+                    <FluentTextField Label="Khả năng thích nghi khí hậu" @bind-Value="createModel.ClimateSuitability" />
+                    <FluentNumberField Label="Năm công nhận giống" @bind-Value="createModel.YearOfRelease" />
+                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-varieties/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateCropVarietyModel? updateModel;
+    private UpdateCropVarietyModel? orginalModel;
+    private CreateCropVarietyModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+    bool isActive;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật giống cây trồng";
+            var result = await service.GetCropVarietyByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateCropVarietyModel(Id, result.Data);
+                orginalModel = new UpdateCropVarietyModel(Id, result.Data);
+                isActive = updateModel.IsActive ?? false;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Crop Variety"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới giống cây trồng";
+            createModel = new CreateCropVarietyModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.IsActive = isActive;
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateCropVarietyAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Giống cây trồng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.CreateCropVarietyAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Giống cây trồng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

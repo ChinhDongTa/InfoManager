@@ -1,0 +1,82 @@
+﻿@page "/sfms/agricultural/growth-stages/details/{Id}"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết giai đoạn sinh trưởng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (growthStage != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Tên giai đoạn" Value="@growthStage.StageName" />
+                <DetailItem Label="Cây trồng" Value="@growthStage.CropName" />
+                <DetailItem Label="Lịch canh tác" Value="@growthStage.CropScheduleName" />
+                <DetailItem Label="Thứ tự giai đoạn" Value="@growthStage.StageSequence.ToString()" />
+                <DetailItem Label="Số ngày sau trồng" Value="@growthStage.DaysAfterPlanting.ToString()" />
+                <DetailItem Label="Thời gian giai đoạn" Value="@(growthStage.StageDuration?.ToString() ?? "-")" />
+                <DetailItem Label="Mô tả" Value="@growthStage.Description" />
+                <DetailItem Label="Nhiệt độ tối thiểu" Value="@FormatNumber.FormatDecimal(growthStage.MinTemperature)" />
+                <DetailItem Label="Nhiệt độ tối đa" Value="@FormatNumber.FormatDecimal(growthStage.MaxTemperature)" />
+                <DetailItem Label="Độ ẩm tối thiểu" Value="@FormatNumber.FormatDecimal(growthStage.MinHumidity)" />
+                <DetailItem Label="Độ ẩm tối đa" Value="@FormatNumber.FormatDecimal(growthStage.MaxHumidity)" />
+                <DetailItem Label="Nhu cầu nước" Value="@FormatNumber.FormatDecimal(growthStage.WaterRequirement)" />
+                <DetailItem Label="Nhu cầu đạm (N)" Value="@FormatNumber.FormatDecimal(growthStage.NitrogenRequirement)" />
+                <DetailItem Label="Nhu cầu lân (P)" Value="@FormatNumber.FormatDecimal(growthStage.PhosphorusRequirement)" />
+                <DetailItem Label="Nhu cầu kali (K)" Value="@FormatNumber.FormatDecimal(growthStage.PotassiumRequirement)" />
+                <DetailItem Label="Sâu hại phổ biến" Value="@growthStage.CommonPests" />
+                <DetailItem Label="Bệnh phổ biến" Value="@growthStage.CommonDiseases" />
+                <DetailItem Label="Hoạt động quản lý" Value="@growthStage.ManagementActivities" />
+                <DetailItem Label="Ngày tạo" Value="@growthStage.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/growth-stages" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    GrowthStageDto? growthStage;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetGrowthStageByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                growthStage = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "GrowthStage"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

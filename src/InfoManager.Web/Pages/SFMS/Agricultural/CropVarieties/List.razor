@@ -1,0 +1,86 @@
+﻿@page "/sfms/agricultural/crop-varieties/list"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách giống cây trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/agricultural/crop-varieties/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="CropVarietySummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="string" Title="Tên giống" Property="@(x => x.VarietyName)" />
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="string" Title="Cây trồng" Property="@(x => x.CropName)" />
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="string" Title="Đơn vị lai tạo" Property="@(x => x.BreederName)" />
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="int?" Title="Số ngày chín" Property="@(x => x.DaysToMaturity)" />
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="decimal?" Title="Năng suất dự kiến" Property="@(x => x.ExpectedYield)" />
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="string" Title="Đơn vị năng suất" Property="@(x => x.YieldUnit)" />
+            <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="bool" Title="Đang sử dụng" Property="@(x => x.IsActive)" />
+            <TemplateColumn TGridItem="CropVarietySummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<CropVarietySummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCropVarietiesAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crop varieties"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetCropVarietiesAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crop varieties"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/crop-varieties/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/crop-varieties/update/{id}");
+    }
+}

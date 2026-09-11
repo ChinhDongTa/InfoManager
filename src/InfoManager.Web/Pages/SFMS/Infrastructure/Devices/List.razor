@@ -1,0 +1,86 @@
+﻿@page "/sfms/Infrastructure/devices/list"
+@inject IDeviceService service
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách thiết bị" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/Infrastructure/devices/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="DeviceSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="string" Title="Tên" Property="@(x => x.Name)" />
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="string" Title="Loại thiết bị" Property="@(x => x.DeviceTypeName)" />
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="string" Title="Model" Property="@(x => x.Model)" />
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="string" Title="Trang trại" Property="@(x => x.FarmName)" />
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="decimal?" Title="Pin" Property="@(x => x.BatteryLevel)" />
+            <PropertyColumn TGridItem="DeviceSummaryDto" TProp="DateTimeOffset?" Title="Đồng bộ lần cuối" Property="@(x => x.LastDataSyncTime)" />
+            <TemplateColumn TGridItem="DeviceSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<DeviceSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetDevicesAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Devices"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetDevicesAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Devices"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/Infrastructure/devices/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/infrastructure/devices/update/{id}");
+    }
+}

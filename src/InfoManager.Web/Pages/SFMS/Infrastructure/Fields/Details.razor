@@ -9,88 +9,56 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Tên thửa đất:</strong> @dto?.Name
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Mô tả:</strong> @dto?.Description
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Diện tích:</strong> @dto?.Area
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Nông trại:</strong>
+            <DetailItem Label="Tên thửa đất" Value="@dto?.Name" />
+            <DetailItem Label="Mô tả" Value="@dto?.Description" />
+            <DetailItem Label="Diện tích" Value="@(FormatNumber.FormatDecimal(dto?.Area))" />
+            <DetailItem Label="Nông trại">
                 @if (!string.IsNullOrWhiteSpace(dto?.FarmId))
                 {
                     <a href="/sfms/Infrastructure/farms/details/@dto.FarmId">@(dto?.FarmName ?? dto?.FarmId)</a>
                 }
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Loại đất:</strong> @dto?.SoilType
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Tình trạng đất:</strong> @dto?.SoilConditionName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Độ cao:</strong> @dto?.Elevation
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Vĩ độ:</strong> @dto?.Latitude
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Kinh độ:</strong> @dto?.Longitude
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Trạng thái:</strong> @dto?.StatusName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày làm đất gần nhất:</strong> @dto?.LastPreparationDate?.ToString("dd/MM/yyyy")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Điều kiện thoát nước:</strong> @dto?.DrainageCondition
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Có hệ thống tưới:</strong> @(dto?.HasIrrigation == true ? "Có" : "Không")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Số lần trồng cây:</strong> @dto?.CropPlantingCount
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Số cảm biến:</strong> @dto?.SensorCount
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Số lần phân tích đất:</strong> @dto?.SoilAnalysisCount
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Số công việc:</strong> @dto?.TaskCount
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
-            </FluentLabel>
+                else
+                {
+                    <text>-</text>
+                }
+            </DetailItem>
+            <DetailItem Label="Loại đất" Value="@dto?.SoilType" />
+            <DetailItem Label="Tình trạng đất" Value="@dto?.SoilConditionName" />
+            <DetailItem Label="Độ cao" Value="@dto?.Elevation?.ToString()" />
+            <DetailItem Label="Vĩ độ" Value="@dto?.Latitude?.ToString()" />
+            <DetailItem Label="Kinh độ" Value="@dto?.Longitude?.ToString()" />
+            <DetailItem Label="Trạng thái" Value="@dto?.StatusName" />
+            <DetailItem Label="Ngày làm đất gần nhất" Value="@dto?.LastPreparationDate?.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Điều kiện thoát nước" Value="@dto?.DrainageCondition" />
+            <DetailItem Label="Có hệ thống tưới" Value="@(dto?.HasIrrigation == true ? "Có" : "Không")" />
+            <DetailItem Label="Số lần trồng cây" Value="@dto?.CropPlantingCount.ToString()" />
+            <DetailItem Label="Số cảm biến" Value="@dto?.SensorCount.ToString()" />
+            <DetailItem Label="Số lần phân tích đất" Value="@dto?.SoilAnalysisCount.ToString()" />
+            <DetailItem Label="Số công việc" Value="@dto?.TaskCount.ToString()" />
+            <DetailItem Label="Ngày tạo" Value="@dto?.Created.ToString("dd/MM/yyyy HH:mm")" />
 
-            <FluentLabel>
-                <strong>Bản đồ vị trí</strong>
-            </FluentLabel>
-            @if (HasCoordinates)
-            {
-                <div style="width:100%; height:320px; border-radius:8px; overflow:hidden; border:1px solid var(--neutral-stroke-rest);">
-                    <iframe title="Field location map"
-                            src="@MapEmbedUrl"
-                            width="100%"
-                            height="320"
-                            style="border:0;"
-                            loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-                <FluentLabel>
-                    <a href="@MapExternalUrl" target="_blank" rel="noopener noreferrer">Mở bản đồ lớn</a>
-                </FluentLabel>
-            }
-            else
-            {
-                <FluentLabel>Chưa có tọa độ để hiển thị bản đồ.</FluentLabel>
-            }
+            <DetailItem Label="Bản đồ vị trí">
+                @if (HasCoordinates)
+                {
+                    <div>
+                        <div style="width:100%; height:320px; border-radius:8px; overflow:hidden; border:1px solid var(--neutral-stroke-rest);">
+                            <iframe title="Field location map"
+                                    src="@MapEmbedUrl"
+                                    width="100%"
+                                    height="320"
+                                    style="border:0;"
+                                    loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                        <a href="@MapExternalUrl" target="_blank" rel="noopener noreferrer">Mở bản đồ lớn</a>
+                    </div>
+                }
+                else
+                {
+                    <text>Chưa có tọa độ để hiển thị bản đồ.</text>
+                }
+            </DetailItem>
 
             <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/fields" OnDeleteClick="DeleteHandler" />
         </FluentStack>

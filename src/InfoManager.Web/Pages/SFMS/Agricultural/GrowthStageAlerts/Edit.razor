@@ -1,0 +1,172 @@
+﻿@page "/sfms/agricultural/growth-stage-alerts/update/{Id}"
+@page "/sfms/agricultural/growth-stage-alerts/create"
+@inject IAgriculturalService service
+
+<PageHeader Title="Quản lý cảnh báo giai đoạn sinh trưởng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/enums/GrowthAlertType" Label="Loại cảnh báo" @bind-Value="alertTypeSelected" />
+                    <FluentTextField Label="Nội dung cảnh báo" @bind-Value="updateModel.Message" />
+                    <SelectList Route="/api/enums/AlertSeverity" Label="Mức độ cảnh báo" @bind-Value="severitySelected" />
+                    <DateTimePicker Label="Ngày đạt giai đoạn dự kiến" @bind-Value="expectedAchievementDate" />
+                    <DateTimePicker Label="Ngày đạt giai đoạn thực tế" @bind-Value="actualAchievementDate" />
+                    <FluentCheckbox Label="Đã xử lý" @bind-Value="isResolved" />
+                    <FluentTextField Label="Hành động đã thực hiện" @bind-Value="updateModel.ActionTaken" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stage-alerts/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/selectlist/cropplanting" Label="Chọn lượt trồng" @bind-Value="createModel.CropPlantingId" />
+                    <SelectList Route="/api/selectlist/growthstage" Label="Chọn giai đoạn sinh trưởng" @bind-Value="createModel.GrowthStageId" />
+                    <SelectList Route="/api/enums/GrowthAlertType" Label="Loại cảnh báo" @bind-Value="alertTypeSelected" />
+                    <FluentTextField Label="Nội dung cảnh báo" @bind-Value="createModel.Message" />
+                    <SelectList Route="/api/enums/AlertSeverity" Label="Mức độ cảnh báo" @bind-Value="severitySelected" />
+                    <DateTimePicker Label="Thời điểm cảnh báo" @bind-Value="alertTime" />
+                    <DateTimePicker Label="Ngày đạt giai đoạn dự kiến" @bind-Value="expectedAchievementDate" />
+                    <DateTimePicker Label="Ngày đạt giai đoạn thực tế" @bind-Value="actualAchievementDate" />
+                    <FluentCheckbox Label="Đã xử lý" @bind-Value="createModel.IsResolved" />
+                    <FluentTextField Label="Hành động đã thực hiện" @bind-Value="createModel.ActionTaken" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stage-alerts/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateGrowthStageAlertModel? updateModel;
+    private UpdateGrowthStageAlertModel? orginalModel;
+    private CreateGrowthStageAlertModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? alertTypeSelected;
+    string? severitySelected;
+    DateTime? alertTime;
+    DateTime? expectedAchievementDate;
+    DateTime? actualAchievementDate;
+    bool isResolved;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật cảnh báo giai đoạn sinh trưởng";
+            var result = await service.GetGrowthStageAlertByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateGrowthStageAlertModel(Id, result.Data);
+                orginalModel = new UpdateGrowthStageAlertModel(Id, result.Data);
+                alertTypeSelected = updateModel.AlertType?.ToIntString();
+                severitySelected = updateModel.Severity?.ToIntString();
+                expectedAchievementDate = updateModel.ExpectedAchievementDate?.ToLocalDateTime();
+                actualAchievementDate = updateModel.ActualAchievementDate?.ToLocalDateTime();
+                isResolved = updateModel.IsResolved ?? false;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Growth Stage Alert"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới cảnh báo giai đoạn sinh trưởng";
+            createModel = new CreateGrowthStageAlertModel();
+            alertTime = DateTime.Now;
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.AlertType = Enum.Parse<InfoManager.Enum.SFMS.GrowthAlertType>(alertTypeSelected ?? "0");
+        updateModel.Severity = Enum.Parse<InfoManager.Enum.SFMS.AlertSeverity>(severitySelected ?? "0");
+        updateModel.ExpectedAchievementDate = expectedAchievementDate.ToUtcOffset();
+        updateModel.ActualAchievementDate = actualAchievementDate.ToUtcOffset();
+        updateModel.IsResolved = isResolved;
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateGrowthStageAlertAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Cảnh báo giai đoạn sinh trưởng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.AlertType = Enum.Parse<InfoManager.Enum.SFMS.GrowthAlertType>(alertTypeSelected ?? "0");
+        createModel.Severity = Enum.Parse<InfoManager.Enum.SFMS.AlertSeverity>(severitySelected ?? "0");
+        createModel.AlertTime = alertTime.ToUtcOffset()!.Value;
+        createModel.ExpectedAchievementDate = expectedAchievementDate.ToUtcOffset();
+        createModel.ActualAchievementDate = actualAchievementDate.ToUtcOffset();
+
+        var result = await service.CreateGrowthStageAlertAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Cảnh báo giai đoạn sinh trưởng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

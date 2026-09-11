@@ -1,0 +1,181 @@
+﻿@page "/sfms/infrastructure/devices/update/{Id}"
+@page "/sfms/infrastructure/devices/create/"
+@inject IDeviceService deviceService
+
+<PageHeader Title="Quản lý thiết bị" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên thiết bị" @bind-Value="updateModel.Name" />
+                    <SelectList Route="/api/enums/DeviceType" Label="Loại thiết bị" @bind-Value="deviceTypeSelected" />
+                    <FluentTextField Label="Model thiết bị" @bind-Value="updateModel.Model" />
+                    <FluentTextField Label="Địa chỉ MAC" @bind-Value="updateModel.MacAddress" />
+                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
+                    <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                    <FluentTextField Label="Địa chỉ IP" @bind-Value="updateModel.IpAddress" />
+                    <FluentTextField Label="Giao thức truyền thông" @bind-Value="updateModel.CommunicationProtocol" />
+                    <DateTimePicker Label="Thời điểm đồng bộ gần nhất" @bind-Value="lastDataSyncTime" />
+                    <FluentTextField Label="Phiên bản firmware" @bind-Value="updateModel.FirmwareVersion" />
+                    <FluentNumberField Label="Mức pin" @bind-Value="updateModel.BatteryLevel" />
+                    <FluentNumberField Label="Dung lượng lưu trữ" @bind-Value="updateModel.StorageCapacity" />
+                    <FluentNumberField Label="Dung lượng đã dùng" @bind-Value="updateModel.StorageUsed" />
+                    <DateTimePicker Label="Ngày bảo trì gần nhất" @bind-Value="lastMaintenanceDate" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devices/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên thiết bị" @bind-Value="createModel.Name" />
+                    <SelectList Route="/api/enums/DeviceType" Label="Loại thiết bị" @bind-Value="deviceTypeSelected" />
+                    <FluentTextField Label="Model thiết bị" @bind-Value="createModel.Model" />
+                    <FluentTextField Label="Địa chỉ MAC" @bind-Value="createModel.MacAddress" />
+                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
+                    <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                    <FluentTextField Label="Địa chỉ IP" @bind-Value="createModel.IpAddress" />
+                    <FluentTextField Label="Giao thức truyền thông" @bind-Value="createModel.CommunicationProtocol" />
+                    <FluentTextField Label="Phiên bản firmware" @bind-Value="createModel.FirmwareVersion" />
+                    <FluentNumberField Label="Mức pin" @bind-Value="createModel.BatteryLevel" />
+                    <FluentNumberField Label="Dung lượng lưu trữ" @bind-Value="createModel.StorageCapacity" />
+                    <FluentNumberField Label="Dung lượng đã dùng" @bind-Value="createModel.StorageUsed" />
+                    <DateTimePicker Label="Ngày lắp đặt" @bind-Value="installationDate" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devices/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateDeviceModel? updateModel;
+    private UpdateDeviceModel? orginalModel;
+    private CreateDeviceModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? deviceTypeSelected;
+    string? statusSelected;
+    DateTime? installationDate;
+    DateTime? lastDataSyncTime;
+    DateTime? lastMaintenanceDate;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật thiết bị";
+            var result = await deviceService.GetDeviceByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateDeviceModel(Id, result.Data);
+                orginalModel = new UpdateDeviceModel(Id, result.Data);
+
+                deviceTypeSelected = updateModel.DeviceType?.ToIntString();
+                statusSelected = updateModel.Status?.ToIntString();
+                lastDataSyncTime = updateModel.LastDataSyncTime?.ToLocalDateTime();
+                lastMaintenanceDate = updateModel.LastMaintenanceDate?.ToLocalDateTime();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Device"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới thiết bị";
+            createModel = new CreateDeviceModel();
+            installationDate = DateTime.UtcNow;
+            statusSelected = ((int)InfoManager.Enum.SFMS.DeviceStatus.Active).ToString();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.DeviceType = Enum.Parse<InfoManager.Enum.SFMS.DeviceType>(deviceTypeSelected ?? "0");
+        updateModel.Status = Enum.Parse<InfoManager.Enum.SFMS.DeviceStatus>(statusSelected ?? "0");
+        updateModel.LastDataSyncTime = lastDataSyncTime.ToUtcOffset();
+        updateModel.LastMaintenanceDate = lastMaintenanceDate.ToUtcOffset();
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await deviceService.UpdateDeviceAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Thiết bị"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.DeviceType = Enum.Parse<InfoManager.Enum.SFMS.DeviceType>(deviceTypeSelected ?? "0");
+        createModel.Status = Enum.Parse<InfoManager.Enum.SFMS.DeviceStatus>(statusSelected ?? "0");
+        createModel.InstallationDate = installationDate.ToUtcOffset()!.Value;
+
+        var result = await deviceService.CreateDeviceAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Thiết bị"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

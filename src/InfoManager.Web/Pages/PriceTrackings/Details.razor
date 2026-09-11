@@ -1,41 +1,29 @@
 ﻿@page "/priceTrackings/details/{id}"
 @inject IPriceTrackingService PriceTrackingService
 
-<PageHeader Title="Theo dõi giá của sản phẩm" />
+<PageHeader Title="Thông tin chi tiết" />
 <Alert @ref="alertComponent" />
 <AuthorizeView>
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
-        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Sản phẩm:</strong> @dto?.ProductName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Trạng thái mua:</strong> @dto?.IsPurchased ? "Đã mua" : "Chưa mua"
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Giá hiện tại:</strong> @dto?.CurrentPrice.ToVND()
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Giá mong muốn:</strong> @dto?.DesiredPrice.ToVND()
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Giá thấp nhất đã thấy:</strong> @dto?.LowestPriceSeen.ToVND()
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày kiểm tra cuối cùng:</strong> @dto?.LastCheckedDate
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Liên kết sản phẩm:</strong> <a href="@dto?.ProductUrl" target="_blank">xem sản phẩm</a>
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Cửa hàng:</strong> @dto?.StoreName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Mô tả:</strong> @dto?.Description
-            </FluentLabel>
-            <EntityActions EntityId="@Id" Folder="priceTrackings" OnDeleteClick="DeleteHandler" />
-        </FluentStack>
+        @if (dto != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Sản phẩm" Value="@dto.ProductName" />
+                <DetailItem Label="Trạng thái mua" Value=@(dto.IsPurchased ? "Đã mua" : "Chưa mua") />
+                <DetailItem Label="Giá hiện tại" Value=@dto.CurrentPrice.ToVND() />
+                <DetailItem Label="Giá mong muốn" Value=@dto.DesiredPrice.ToVND() />
+                <DetailItem Label="Giá thấp nhất đã thấy" Value=@dto.LowestPriceSeen.ToVND() />
+                <DetailItem Label="Ngày kiểm tra cuối cùng" Value=@dto.LastCheckedDate.ToString() />
+                <DetailItem Label="Liên kết sản phẩm" Value="">
+                    <a href="@dto?.ProductUrl" target="_blank">xem sản phẩm</a>
+                </DetailItem>
+                <DetailItem Label="Cửa hàng" Value="@dto.StoreName" />
+                <DetailItem Label="Mô tả" Value="@dto?.Description" />
+
+                <EntityActions EntityId="@Id" Folder="priceTrackings" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
     </Authorized>
     <NotAuthorized>
         <NotAuthorizedMessage />

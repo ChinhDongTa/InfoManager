@@ -1,0 +1,165 @@
+﻿@page "/sfms/customers/update/{Id}"
+@page "/sfms/customers/create/"
+@inject ICustomerService server
+
+<PageHeader Title="Quản lý khách hàng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
+                    <FluentTextField Label="Mã khách hàng" @bind-Value="updateModel.CustomerCode" />
+                    <FluentTextField Label="Tên khách hàng" @bind-Value="updateModel.Name" />
+                    <SelectList Route="/api/enums/CustomerType" Label="Loại khách hàng" @bind-Value="customerTypeSelected" />
+                    <FluentTextField Label="Số điện thoại" @bind-Value="updateModel.Phone" />
+                    <FluentTextField Label="Email" @bind-Value="updateModel.Email" />
+                    <FluentTextField Label="Địa chỉ" @bind-Value="updateModel.Address" />
+                    <FluentTextField Label="Mã số thuế" @bind-Value="updateModel.TaxCode" />
+                    <FluentTextField Label="Người liên hệ" @bind-Value="updateModel.ContactPerson" />
+                    <FluentNumberField Label="Hạn mức tín dụng" @bind-Value="updateModel.CreditLimit" />
+                    <SelectList Route="/api/enums/CustomerStatus" Label="Trạng thái khách hàng" @bind-Value="statusSelected" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
+                    <FluentTextField Label="Mã khách hàng" @bind-Value="createModel.CustomerCode" />
+                    <FluentTextField Label="Tên khách hàng" @bind-Value="createModel.Name" />
+                    <SelectList Route="/api/enums/CustomerType" Label="Loại khách hàng" @bind-Value="customerTypeSelected" />
+                    <FluentTextField Label="Số điện thoại" @bind-Value="createModel.Phone" />
+                    <FluentTextField Label="Email" @bind-Value="createModel.Email" />
+                    <FluentTextField Label="Địa chỉ" @bind-Value="createModel.Address" />
+                    <FluentTextField Label="Mã số thuế" @bind-Value="createModel.TaxCode" />
+                    <FluentTextField Label="Người liên hệ" @bind-Value="createModel.ContactPerson" />
+                    <FluentNumberField Label="Hạn mức tín dụng" @bind-Value="createModel.CreditLimit" />
+                    <SelectList Route="/api/enums/CustomerStatus" Label="Trạng thái khách hàng" @bind-Value="statusSelected" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateCustomerModel? updateModel;
+    private UpdateCustomerModel? orginalModel;
+    private CreateCustomerModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? customerTypeSelected;
+    string? statusSelected;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật khách hàng";
+            var result = await server.GetCustomerByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateCustomerModel(Id, result.Data);
+                orginalModel = new UpdateCustomerModel(Id, result.Data);
+                customerTypeSelected = updateModel.CustomerType?.ToIntString();
+                statusSelected = updateModel.Status?.ToIntString();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Customer"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới khách hàng";
+            createModel = new CreateCustomerModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.CustomerType = Enum.Parse<InfoManager.Enum.SFMS.CustomerType>(customerTypeSelected ?? "0");
+        updateModel.Status = Enum.Parse<InfoManager.Enum.SFMS.CustomerStatus>(statusSelected ?? "0");
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await server.UpdateCustomerAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Khách hàng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.CustomerType = Enum.Parse<InfoManager.Enum.SFMS.CustomerType>(customerTypeSelected ?? "0");
+        createModel.Status = Enum.Parse<InfoManager.Enum.SFMS.CustomerStatus>(statusSelected ?? "0");
+
+        var result = await server.CreateCustomerAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Khách hàng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

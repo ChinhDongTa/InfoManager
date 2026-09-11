@@ -2,12 +2,14 @@
 using InfoManager.Application.Features.FamilyEvents.Queries.GetFamilyEvents;
 using InfoManager.Application.Features.FamilyMembers.Queries.GetFamilyMembers;
 using InfoManager.Application.Features.FamilyRelations.Queries.GetFamilyRelations;
+using InfoManager.Application.Features.SFMS.Infrastructure.Queries.Gets;
 using InfoManager.Enum;
 using InfoManager.Shared.Dtos.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace InfoManager.Api.Endpoints.Common;
-public class SelectList: EndpointGroupBase
+
+public class SelectList : EndpointGroupBase
 {
     public override string GroupName => "SelectList";
     public override void Map(RouteGroupBuilder group)
@@ -17,9 +19,23 @@ public class SelectList: EndpointGroupBase
         group.MapGet(GetSlFamilyEventByMemberIdAsync, "FamilyEvent/{familyMemberId}");
         group.MapGet(GetSlFamilyRelationsAsync, "FamilyRelation");
         group.MapGet(GetSlFamilyMemberAsync, "FamilyMember");
+
+        //=============================Agricultural===========================
         group.MapGet(GetSelectListCrops, "Crop");
         group.MapGet(GetSelectListCropVarieties, "CropVariety");
         group.MapGet(GetSelectListCropSchedules, "CropSchedule");
+
+        //===============================Infrastructure======================================
+        group.MapGet(GetSelectListDevices, "Device");
+        group.MapGet(GetSelectListFarms, "Farm");
+        group.MapGet(GetSelectListFarmers, "Farmer");
+        group.MapGet(GetSelectListFields, "Field");
+
+        //===================================Customer===============================================
+        group.MapGet(GetSelectListCustomers, "Customer");
+
+
+
     }
 
     /// <summary>
@@ -58,8 +74,7 @@ public class SelectList: EndpointGroupBase
     /// <returns>HTTP 200 on success, or HTTP 400/404/500 on error.</returns>
     public async Task<IResult> GetSlCategoriesAsync([FromServices] ISender sender, CancellationToken cancellationToken, string? group = null, string? keyname = null)
     {
-        var query = new GetSelectListCategoriesQuery(group, keyname);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new GetSelectListCategoriesQuery(group, keyname), cancellationToken);
         return result.ToHttpResult();
     }
 
@@ -77,8 +92,7 @@ public class SelectList: EndpointGroupBase
         {
             return Results.BadRequest(ErrorHelpers.GetErrorNotEmpty(nameof(familyMemberId)));
         }
-        var query = new GetSelectListFamilyEventQuery(familyMemberId);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new GetSelectListFamilyEventQuery(familyMemberId), cancellationToken);
         return result.ToHttpResult();
     }
 
@@ -95,34 +109,56 @@ public class SelectList: EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetSlFamilyRelationsAsync([FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
-        var query = new GetSelectListFamilyRelationsQuery();
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new GetSelectListFamilyRelationsQuery(), cancellationToken);
         return result.ToHttpResult();
     }
 
     public async Task<IResult> GetSlFamilyMemberAsync([FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
-        var query = new GetSelectListFamilyMemberQuery();
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new GetSelectListFamilyMemberQuery(), cancellationToken);
         return result.ToHttpResult();
     }
 
     public async Task<IResult> GetSelectListCrops([FromServices] ISender sender, CancellationToken cancellationToken)
     {
-        var query = new GetSelectListCropsQuery();
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new GetSelectListCropsQuery(), cancellationToken);
         return result.ToHttpResult();
     }
     public async Task<IResult> GetSelectListCropVarieties([FromServices] ISender sender, [FromQuery] string? cropId, CancellationToken cancellationToken)
     {
-        var query = new SelectListCropVarietiesQuery(cropId);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new SelectListCropVarietiesQuery(cropId), cancellationToken);
         return result.ToHttpResult();
     }
     public async Task<IResult> GetSelectListCropSchedules([FromServices] ISender sender, [FromQuery] string? cropId, CancellationToken cancellationToken)
     {
-        var query = new GetSelectListCropSchedulesQuery(cropId);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(new GetSelectListCropSchedulesQuery(cropId), cancellationToken);
+        return result.ToHttpResult();
+    }
+
+    public async Task<IResult> GetSelectListDevices([FromServices] ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new GetSelectListDevicesQuery(), ct);
+        return result.ToHttpResult();
+    }
+
+    public async Task<IResult> GetSelectListFarms([FromServices] ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new GetSelectListFarmsQuery(), ct);
+        return result.ToHttpResult();
+    }
+    public async Task<IResult> GetSelectListFarmers([FromServices] ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new GetSelectListFarmersQuery(), ct);
+        return result.ToHttpResult();
+    }
+    public async Task<IResult> GetSelectListFields([FromServices] ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new GetSelectListFieldsQuery(), ct);
+        return result.ToHttpResult();
+    }
+    public async Task<IResult> GetSelectListCustomers([FromServices] ISender sender, CancellationToken ct)
+    {
+        var result = await sender.Send(new GetSelectListCustomersQuery(), ct);
         return result.ToHttpResult();
     }
 }

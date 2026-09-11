@@ -1,0 +1,74 @@
+﻿@page "/sfms/customers/customer-payment/details/{Id}"
+@inject ICustomerService server
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết thanh toán khách hàng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (customerPayment != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Khách hàng" Value="@customerPayment.CustomerName" />
+                <DetailItem Label="Nông trại" Value="@customerPayment.FarmName" />
+                <DetailItem Label="Mã đơn bán" Value="@customerPayment.SaleId" />
+                <DetailItem Label="Mã doanh thu" Value="@customerPayment.FarmRevenueId" />
+                <DetailItem Label="Số tiền" Value="@FormatNumber.FormatDecimal(customerPayment.Amount)" />
+                <DetailItem Label="Ngày thanh toán" Value="@customerPayment.PaymentDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <DetailItem Label="Phương thức thanh toán" Value="@customerPayment.PaymentMethod" />
+                <DetailItem Label="Trạng thái thanh toán" Value="@customerPayment.PaymentStatusName" />
+                <DetailItem Label="Số tham chiếu" Value="@customerPayment.ReferenceNumber" />
+                <DetailItem Label="Ghi chú" Value="@customerPayment.Notes" />
+                <DetailItem Label="Ngày tạo" Value="@customerPayment.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <EntityActions EntityId="@Id" Folder="/sfms/customers/customer-payment" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    CustomerPaymentDto? customerPayment;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await server.GetCustomerPaymentByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                customerPayment = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "CustomerPayment"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

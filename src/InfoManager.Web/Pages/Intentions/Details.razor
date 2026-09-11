@@ -7,24 +7,12 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Nội dung:</strong> @dto?.Content
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Danh mục:</strong> @dto?.CategoryName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày dự kiến:</strong> @dto?.PlannDate?.ToString("dd/MM/yyyy")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Hoàn thành:</strong> @(dto?.IsCompleted == true ? "Đã hoàn thành" : "Chưa hoàn thành")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ưu tiên:</strong> @dto?.PriorityName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Mô tả:</strong> @dto?.Description
-            </FluentLabel>
+            <DetailItem Label="Nội dung" Value="@dto?.Content" />
+            <DetailItem Label="Danh mục" Value="@dto?.CategoryName" />
+            <DetailItem Label="Ngày dự kiến" Value="@dto?.PlannDate?.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Hoàn thành" Value="@(dto?.IsCompleted == true ? "Đã hoàn thành" : "Chưa hoàn thành")" />
+            <DetailItem Label="Ưu tiên" Value="@dto?.PriorityName" />
+            <DetailItem Label="Mô tả" Value="@dto?.Description" />
             <EntityActions EntityId="@Id" Folder="intentions" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

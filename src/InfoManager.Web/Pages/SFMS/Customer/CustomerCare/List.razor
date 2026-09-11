@@ -1,0 +1,85 @@
+﻿@page "/sfms/customers/customer-care/list"
+@inject ICustomerService service
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách chăm sóc khách hàng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/customers/customer-care/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="CustomerCareSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="CustomerCareSummaryDto" TProp="string" Title="Khách hàng" Property="@(x => x.CustomerName)" />
+            <PropertyColumn TGridItem="CustomerCareSummaryDto" TProp="string" Title="Loại chăm sóc" Property="@(x => x.CareTypeName)" />
+            <PropertyColumn TGridItem="CustomerCareSummaryDto" TProp="string" Title="Tiêu đề" Property="@(x => x.Subject)" />
+            <PropertyColumn TGridItem="CustomerCareSummaryDto" TProp="DateTimeOffset" Title="Ngày chăm sóc" Property="@(x => x.CareDate)" />
+            <PropertyColumn TGridItem="CustomerCareSummaryDto" TProp="DateTimeOffset?" Title="Ngày follow-up" Property="@(x => x.NextFollowUpDate)" />
+            <PropertyColumn TGridItem="CustomerCareSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
+            <TemplateColumn TGridItem="CustomerCareSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<CustomerCareSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCustomerCaresAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Customer cares"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetCustomerCaresAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Customer cares"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/customers/customer-care/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/customers/customer-care/update/{id}");
+    }
+}

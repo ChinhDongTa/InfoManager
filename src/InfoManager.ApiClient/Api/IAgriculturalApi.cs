@@ -244,6 +244,129 @@ public interface IAgriculturalApi
                                              [Query, AliasAs("PageNumber")] int pageNumber,
                                              [Query, AliasAs("PageSize")] int pageSize, CancellationToken ct = default);
 
+
+    /// <param name="pageNumber">pageNumber parameter</param>
+    /// <param name="pageSize">pageSize parameter</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Status</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>200</term>
+    /// <description>A server side error occurred.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    [Get("/api/CropSchedules")]
+    Task<ApiResponse<PaginatedList<CropScheduleSummaryDto>>> GetCropSchedulesAsync([Query] int pageNumber, [Query] int pageSize, CancellationToken ct = default);
+
+    /// <param name="request">request parameter</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Status</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>200</term>
+    /// <description>A server side error occurred.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    [Headers("Content-Type: application/json")]
+    [Post("/api/CropSchedules")]
+    Task<ApiResponse<string>> CreateCropScheduleAsync([Body] CreateCropScheduleRequest request, CancellationToken ct = default);
+
+    /// <param name="id">id parameter</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Status</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>200</term>
+    /// <description>A server side error occurred.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    [Get("/api/CropSchedules/{id}")]
+    Task<ApiResponse<CropScheduleDto?>> GetCropScheduleByIdAsync(string id, CancellationToken ct = default);
+
+    /// <param name="id">id parameter</param>
+    /// <param name="request">request parameter</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Status</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>200</term>
+    /// <description>A server side error occurred.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    [Headers("Content-Type: application/json")]
+    [Put("/api/CropSchedules/{id}")]
+    Task<ApiResponse<MessageResponse>> UpdateCropScheduleAsync(string id, [Body] UpdateCropScheduleRequest request, CancellationToken ct = default);
+
+    /// <param name="id">id parameter</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Status</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>200</term>
+    /// <description>A server side error occurred.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    [Delete("/api/CropSchedules/{id}")]
+    Task<IApiResponse> DeleteCropScheduleAsync(string id, CancellationToken ct = default);
+
+    /// <param name="term">term parameter</param>
+    /// <param name="minDaysToHarvest">minDaysToHarvest parameter</param>
+    /// <param name="maxDaysToHarvest">maxDaysToHarvest parameter</param>
+    /// <param name="minExpectedYield">minExpectedYield parameter</param>
+    /// <param name="maxExpectedYield">maxExpectedYield parameter</param>
+    /// <param name="isActive">isActive parameter</param>
+    /// <param name="pageNumber">pageNumber parameter</param>
+    /// <param name="pageSize">pageSize parameter</param>
+    /// <returns>
+    /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:
+    /// <list type="table">
+    /// <listheader>
+    /// <term>Status</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item>
+    /// <term>200</term>
+    /// <description>A server side error occurred.</description>
+    /// </item>
+    /// </list>
+    /// </returns>
+    [Get("/api/CropSchedules/search")]
+    Task<ApiResponse<PaginatedList<CropScheduleSummaryDto>>> SearchCropSchedulesAsync([Query, AliasAs("Term")] string? term,
+                                                [Query, AliasAs("MinDaysToHarvest")] int? minDaysToHarvest,
+                                                [Query, AliasAs("MaxDaysToHarvest")] int? maxDaysToHarvest,
+                                                [Query, AliasAs("MinExpectedYield")] decimal? minExpectedYield,
+                                                [Query, AliasAs("MaxExpectedYield")] decimal? maxExpectedYield,
+                                                [Query, AliasAs("IsActive")] bool? isActive,
+                                                [Query, AliasAs("PageNumber")] int pageNumber,
+                                                [Query, AliasAs("PageSize")] int pageSize,
+                                                CancellationToken ct = default);
+
+
     /// <param name="pageNumber">pageNumber parameter</param>
     /// <param name="pageSize">pageSize parameter</param>
     /// <returns>

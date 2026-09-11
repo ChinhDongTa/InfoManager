@@ -8,24 +8,14 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Mã chủ hộ:</strong>@dto?.FarmerCode
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Họ tên:</strong> @dto?.FullName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>CCCD,...:</strong> @dto?.IdentityNumber
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Email:</strong> <a href="mailto:@dto?.Email">@dto?.Email</a>
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Điện thoại:</strong>  @dto?.Phone
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ghi chú:</strong> @dto?.Notes
-            </FluentLabel>
+            <DetailItem Label="Mã chủ hộ" Value="@dto?.FarmerCode" />
+            <DetailItem Label="Họ tên" Value="@dto?.FullName" />
+            <DetailItem Label="CCCD" Value="@dto?.IdentityNumber" />
+            <DetailItem Label="Email">
+                <a href="mailto:@dto?.Email">@dto?.Email</a>
+            </DetailItem>
+            <DetailItem Label="Điện thoại" Value="@dto?.Phone" />
+            <DetailItem Label="Ghi chú" Value="@dto?.Notes" />
             <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/farmers" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

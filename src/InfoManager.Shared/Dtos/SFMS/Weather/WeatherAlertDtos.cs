@@ -11,10 +11,16 @@ public record WeatherAlertDto(
     string FarmId,
 
     /// <summary>Loại cảnh báo (mã)</summary>
+    WeatherAlertType AlertType,
+
+    /// <summary>Loại cảnh báo (mã)</summary>
     string AlertTypeName,
 
     /// <summary>Mô tả cảnh báo</summary>
     string Description,
+
+    /// <summary>Mức độ nghiêm trọng (mã)</summary>
+    AlertSeverity Severity,
 
     /// <summary>Mức độ nghiêm trọng (mã)</summary>
     string SeverityName,
@@ -27,6 +33,9 @@ public record WeatherAlertDto(
 
     /// <summary>Thời điểm phát cảnh báo</summary>
     DateTimeOffset AlertIssuedTime,
+
+    /// <summary>Trạng thái cảnh báo (mã)</summary>
+    WeatherAlertStatus? Status,
 
     /// <summary>Trạng thái cảnh báo (mã)</summary>
     string StatusName,

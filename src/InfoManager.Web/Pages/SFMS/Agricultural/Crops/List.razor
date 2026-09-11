@@ -1,12 +1,25 @@
 ﻿@page "/sfms/agricultural/crops/list"
-@inject NavigationManager navigationManager
 @inject IAgriculturalService service
-
-<PageHeader Title="Danh sách giống cây trồng" />
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách cây trồng" />
 <Alert @ref="alertComponent" />
-
 <AuthorizeView>
     <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/agricultural/crops/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="CropSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="CropSummaryDto" TProp="string" Title="Tên thường gọi" Property="@(x => x.CommonName)" />
+            <PropertyColumn TGridItem="CropSummaryDto" TProp="string" Title="Tên khoa học" Property="@(x => x.ScientificName)" />
+            <PropertyColumn TGridItem="CropSummaryDto" TProp="string" Title="Họ" Property="@(x => x.Family)" />
+            <PropertyColumn TGridItem="CropSummaryDto" TProp="int?" Title="Số ngày thu hoạch" Property="@(x => x.DaysToMaturity)" />
+            <PropertyColumn TGridItem="CropSummaryDto" TProp="bool" Title="Đang sử dụng" Property="@(x => x.IsActive)" />
+            <TemplateColumn TGridItem="CropSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
     </Authorized>
     <NotAuthorized>
         <NotAuthorizedMessage />
@@ -14,6 +27,58 @@
 </AuthorizeView>
 
 @code {
+    PaginatedList<CropSummaryDto>? paginatedList;
     Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
 
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCropsAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crops"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetCropsAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crops"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/crops/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/crops/update/{id}");
+    }
 }

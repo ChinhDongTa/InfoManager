@@ -1,0 +1,86 @@
+﻿@page "/sfms/Infrastructure/equipments/list"
+@inject IEquipmentService service
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách máy móc thiết bị" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/Infrastructure/equipments/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="EquipmentSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="string" Title="Tên" Property="@(x => x.Name)" />
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="string" Title="Loại thiết bị" Property="@(x => x.EquipmentTypeName)" />
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="string" Title="Trang trại" Property="@(x => x.FarmName)" />
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="decimal?" Title="Giờ vận hành" Property="@(x => x.OperatingHours)" />
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="DateTimeOffset?" Title="Bảo trì gần nhất" Property="@(x => x.LastMaintenanceDate)" />
+            <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="string" Title="Vị trí lưu trữ" Property="@(x => x.StorageLocation)" />
+            <TemplateColumn TGridItem="EquipmentSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<EquipmentSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetEquipmentsAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Equipments"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetEquipmentsAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Equipments"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/Infrastructure/equipments/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/infrastructure/equipments/update/{id}");
+    }
+}

@@ -1,0 +1,76 @@
+﻿@page "/sfms/agricultural/crop-varieties/details/{Id}"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết giống cây trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (cropVariety != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Tên giống" Value="@cropVariety.VarietyName" />
+                <DetailItem Label="Cây trồng" Value="@cropVariety.CropName" />
+                <DetailItem Label="Tên nhà lai tạo" Value="@cropVariety.BreederName" />
+                <DetailItem Label="Số ngày chín" Value="@(cropVariety.DaysToMaturity?.ToString() ?? "-")" />
+                <DetailItem Label="Năng suất dự kiến" Value="@FormatNumber.FormatDecimal(cropVariety.ExpectedYield)" />
+                <DetailItem Label="Đơn vị năng suất" Value="@cropVariety.YieldUnit" />
+                <DetailItem Label="Lượng giống gieo" Value="@FormatNumber.FormatDecimal(cropVariety.SeedRate)" />
+                <DetailItem Label="Khả năng kháng bệnh" Value="@cropVariety.DiseaseResistance" />
+                <DetailItem Label="Khả năng kháng sâu hại" Value="@cropVariety.PestResistance" />
+                <DetailItem Label="Thích hợp khí hậu" Value="@cropVariety.ClimateSuitability" />
+                <DetailItem Label="Năm phát hành" Value="@(cropVariety.YearOfRelease?.ToString() ?? "-")" />
+                <DetailItem Label="Đang sử dụng" Value="@(cropVariety.IsActive ? "Có" : "Không")" />
+                <DetailItem Label="Ngày tạo" Value="@cropVariety.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-varieties" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    CropVarietyDto? cropVariety;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCropVarietyByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                cropVariety = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "CropVariety"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

@@ -1,0 +1,165 @@
+﻿@page "/sfms/infrastructure/devicealerts/update/{Id}"
+@page "/sfms/infrastructure/devicealerts/create/"
+@inject IDeviceAlertService deviceAlertService
+
+<PageHeader Title="Quản lý cảnh báo thiết bị" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/enums/AlertType" Label="Loại cảnh báo" @bind-Value="alertTypeSelected" />
+                    <FluentTextField Label="Nội dung cảnh báo" @bind-Value="updateModel.Message" />
+                    <SelectList Route="/api/enums/AlertSeverity" Label="Mức độ cảnh báo" @bind-Value="severitySelected" />
+                    <DateTimePicker Label="Thời điểm xử lý" @bind-Value="resolvedTime" />
+                    <FluentCheckbox Label="Đã xử lý" @bind-Value="isResolved" />
+                    <FluentTextField Label="Ghi chú xử lý" @bind-Value="updateModel.ResolutionNotes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devicealerts/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="createModel.DeviceId" />
+                    <SelectList Route="/api/enums/AlertType" Label="Loại cảnh báo" @bind-Value="alertTypeSelected" />
+                    <FluentTextField Label="Nội dung cảnh báo" @bind-Value="createModel.Message" />
+                    <SelectList Route="/api/enums/AlertSeverity" Label="Mức độ cảnh báo" @bind-Value="severitySelected" />
+                    <DateTimePicker Label="Thời điểm cảnh báo" @bind-Value="alertTime" />
+                    <FluentCheckbox Label="Đã xử lý" @bind-Value="createModel.IsResolved" />
+                    <FluentTextField Label="Ghi chú xử lý" @bind-Value="createModel.ResolutionNotes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devicealerts/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateDeviceAlertModel? updateModel;
+    private UpdateDeviceAlertModel? orginalModel;
+    private CreateDeviceAlertModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? alertTypeSelected;
+    string? severitySelected;
+    DateTime? alertTime;
+    DateTime? resolvedTime;
+    bool isResolved;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật cảnh báo thiết bị";
+            var result = await deviceAlertService.GetDeviceAlertByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateDeviceAlertModel(Id, result.Data);
+                orginalModel = new UpdateDeviceAlertModel(Id, result.Data);
+
+                alertTypeSelected = updateModel.AlertType?.ToIntString();
+                severitySelected = updateModel.Severity?.ToIntString();
+                resolvedTime = updateModel.ResolvedTime?.ToLocalDateTime();
+                isResolved = updateModel.IsResolved ?? false;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Device Alert"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới cảnh báo thiết bị";
+            createModel = new CreateDeviceAlertModel();
+            alertTime = DateTime.UtcNow;
+            severitySelected = ((int)InfoManager.Enum.SFMS.AlertSeverity.Info).ToString();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.AlertType = Enum.Parse<InfoManager.Enum.SFMS.AlertType>(alertTypeSelected ?? "0");
+        updateModel.Severity = Enum.Parse<InfoManager.Enum.SFMS.AlertSeverity>(severitySelected ?? "0");
+        updateModel.ResolvedTime = resolvedTime.ToUtcOffset();
+        updateModel.IsResolved = isResolved;
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await deviceAlertService.UpdateDeviceAlertAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Cảnh báo thiết bị"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.AlertType = Enum.Parse<InfoManager.Enum.SFMS.AlertType>(alertTypeSelected ?? "0");
+        createModel.Severity = Enum.Parse<InfoManager.Enum.SFMS.AlertSeverity>(severitySelected ?? "0");
+        createModel.AlertTime = alertTime.ToUtcOffset()!.Value;
+
+        var result = await deviceAlertService.CreateDeviceAlertAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Cảnh báo thiết bị"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

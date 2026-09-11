@@ -1,0 +1,85 @@
+﻿@page "/sfms/agricultural/growth-stages/list"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách giai đoạn sinh trưởng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/agricultural/growth-stages/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="GrowthStageSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="string" Title="Tên giai đoạn" Property="@(x => x.StageName)" />
+            <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="string" Title="Cây trồng" Property="@(x => x.CropName)" />
+            <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="int" Title="Thứ tự" Property="@(x => x.StageSequence)" />
+            <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="int" Title="Ngày sau gieo" Property="@(x => x.DaysAfterPlanting)" />
+            <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="int?" Title="Thời gian giai đoạn" Property="@(x => x.StageDuration)" />
+            <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="string" Title="Mô tả" Property="@(x => x.Description)" />
+            <TemplateColumn TGridItem="GrowthStageSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<GrowthStageSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetGrowthStagesAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Growth stages"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetGrowthStagesAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Growth stages"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/growth-stages/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/growth-stages/update/{id}");
+    }
+}

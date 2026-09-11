@@ -1,0 +1,74 @@
+﻿@page "/sfms/agricultural/growth-stage-alerts/details/{Id}"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết cảnh báo giai đoạn sinh trưởng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (growthStageAlert != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Lần trồng" Value="@growthStageAlert.CropPlantingName" />
+                <DetailItem Label="Giai đoạn sinh trưởng" Value="@growthStageAlert.GrowthStageName" />
+                <DetailItem Label="Loại cảnh báo" Value="@growthStageAlert.AlertTypeName" />
+                <DetailItem Label="Nội dung" Value="@growthStageAlert.Message" />
+                <DetailItem Label="Mức độ" Value="@growthStageAlert.SeverityName" />
+                <DetailItem Label="Thời điểm cảnh báo" Value="@growthStageAlert.AlertTime.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <DetailItem Label="Ngày đạt dự kiến" Value="@(growthStageAlert.ExpectedAchievementDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                <DetailItem Label="Ngày đạt thực tế" Value="@(growthStageAlert.ActualAchievementDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                <DetailItem Label="Đã xử lý" Value="@(growthStageAlert.IsResolved ? "Có" : "Không")" />
+                <DetailItem Label="Hành động đã thực hiện" Value="@growthStageAlert.ActionTaken" />
+                <DetailItem Label="Ngày tạo" Value="@growthStageAlert.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/growth-stage-alerts" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    GrowthStageAlertDto? growthStageAlert;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetGrowthStageAlertByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                growthStageAlert = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "GrowthStageAlert"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

@@ -1,8 +1,9 @@
 ﻿namespace InfoManager.Shared.Dtos.SFMS.Resources;
 
-public record FertilizerDtos(
+public record FertilizerDto(
     string Id,
     string Name,
+    FertilizerType FertilizerType,
     string FertilizerTypeName,
     decimal? NitrogenPercent,
     decimal? PhosphorusPercent,

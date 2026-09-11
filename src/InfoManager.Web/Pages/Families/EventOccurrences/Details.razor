@@ -6,24 +6,12 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Họ tên:</strong> @dto?.MemberName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày tổ chức:</strong> @dto?.OccurrenceDate?.ToString("dd/MM/yyyy")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Sự kiện:</strong> @dto?.EventTitle
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Địa điểm:</strong> @dto?.Location
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Chi phí:</strong> @dto?.Cost.ToVND()
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ghi chú:</strong> @dto?.Notes
-            </FluentLabel>
+            <DetailItem Label="Họ tên" Value="@dto?.MemberName" />
+            <DetailItem Label="Ngày tổ chức" Value="@dto?.OccurrenceDate?.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Sự kiện" Value="@dto?.EventTitle" />
+            <DetailItem Label="Địa điểm" Value="@dto?.Location" />
+            <DetailItem Label="Chi phí" Value="@dto?.Cost.ToVND()" />
+            <DetailItem Label="Ghi chú" Value="@dto?.Notes" />
             <EntityActions EntityId="@Id" Folder="families/eventOccurrences" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

@@ -2,7 +2,6 @@
 using InfoManager.Application.Features.SFMS.Agricultural.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
-
 public static class CropVarietyMappings
 {
     public static CreateCropVarietyCommand ToCreateCommand(CreateCropVarietyRequest request)

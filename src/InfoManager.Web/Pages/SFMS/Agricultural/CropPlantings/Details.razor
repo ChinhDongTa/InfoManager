@@ -1,0 +1,77 @@
+﻿@page "/sfms/agricultural/crop-plantings/details/{Id}"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết lần trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (cropPlanting != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Mã trồng" Value="@cropPlanting.PlantingCode" />
+                <DetailItem Label="Ruộng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.FieldName) ? "-" : cropPlanting.FieldName)" />
+                <DetailItem Label="Cây trồng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropName) ? cropPlanting.CropId : cropPlanting.CropName)" />
+                <DetailItem Label="Giống" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropVarietyName) ? "-" : cropPlanting.CropVarietyName)" />
+                <DetailItem Label="Lịch canh tác" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropScheduleName) ? "-" : cropPlanting.CropScheduleName)" />
+                <DetailItem Label="Ngày trồng" Value="@cropPlanting.PlantingDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <DetailItem Label="Ngày thu hoạch dự kiến" Value="@(cropPlanting.ExpectedHarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                <DetailItem Label="Ngày thu hoạch thực tế" Value="@(cropPlanting.ActualHarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                <DetailItem Label="Diện tích trồng" Value="@FormatNumber.FormatDecimal(cropPlanting.PlantedArea)" />
+                <DetailItem Label="Số lượng trồng" Value="@(cropPlanting.QuantityPlanted.HasValue ? FormatNumber.FormatDecimal(cropPlanting.QuantityPlanted.Value) : "-")" />
+                <DetailItem Label="Đơn vị trồng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.PlantedUnit) ? "-" : cropPlanting.PlantedUnit)" />
+                <DetailItem Label="Trạng thái" Value="@cropPlanting.StatusName" />
+                <DetailItem Label="Ngày tạo" Value="@cropPlanting.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <DetailItem Label="Ghi chú" Value="@(string.IsNullOrWhiteSpace(cropPlanting.Notes) ? "-" : cropPlanting.Notes)" />
+                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-plantings" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    CropPlantingDto? cropPlanting;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCropPlantingByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                cropPlanting = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "CropPlanting"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

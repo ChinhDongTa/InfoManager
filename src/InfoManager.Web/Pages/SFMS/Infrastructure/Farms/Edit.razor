@@ -47,7 +47,7 @@
                     <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
                     <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="createModel.FarmerId" />
                     <FluentTextField Label="Giấy phép" @bind-Value="createModel.LicenseNumber" />
-                    <SelectList Route="/api/enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
+                    <SelectList Route="api/Enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
                     <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />

@@ -1,0 +1,76 @@
+﻿@page "/sfms/customers/details/{Id}"
+@inject ICustomerService server
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết khách hàng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (customer != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Nông trại" Value="@customer.FarmName" />
+                <DetailItem Label="Mã khách hàng" Value="@customer.CustomerCode" />
+                <DetailItem Label="Tên khách hàng" Value="@customer.Name" />
+                <DetailItem Label="Loại khách hàng" Value="@customer.CustomerTypeName" />
+                <DetailItem Label="Số điện thoại" Value="@customer.Phone" />
+                <DetailItem Label="Email" Value="@customer.Email" />
+                <DetailItem Label="Địa chỉ" Value="@customer.Address" />
+                <DetailItem Label="Mã số thuế" Value="@customer.TaxCode" />
+                <DetailItem Label="Người liên hệ" Value="@customer.ContactPerson" />
+                <DetailItem Label="Hạn mức tín dụng" Value="@FormatNumber.FormatDecimal(customer.CreditLimit)" />
+                <DetailItem Label="Trạng thái" Value="@customer.StatusName" />
+                <DetailItem Label="Ghi chú" Value="@customer.Notes" />
+                <DetailItem Label="Ngày tạo" Value="@customer.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                <EntityActions EntityId="@Id" Folder="/sfms/customers" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    CustomerDto? customer;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await server.GetCustomerByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                customer = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Customer"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

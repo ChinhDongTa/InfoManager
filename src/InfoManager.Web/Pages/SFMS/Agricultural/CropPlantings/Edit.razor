@@ -1,0 +1,175 @@
+﻿@page "/sfms/agricultural/crop-plantings/update/{Id}"
+@page "/sfms/agricultural/crop-plantings/create"
+@inject IAgriculturalService service
+
+<PageHeader Title="Quản lý lượt trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Mã lượt trồng" @bind-Value="updateModel.PlantingCode" />
+                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="updateModel.FieldId" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="updateModel.CropVarietyId" />
+                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="updateModel.CropScheduleId" />
+                    <DateTimePicker Label="Ngày gieo trồng" @bind-Value="plantingDate" />
+                    <DateTimePicker Label="Ngày thu hoạch dự kiến" @bind-Value="expectedHarvestDate" />
+                    <DateTimePicker Label="Ngày thu hoạch thực tế" @bind-Value="actualHarvestDate" />
+                    <FluentNumberField Label="Diện tích trồng" @bind-Value="updateModel.PlantedArea" />
+                    <FluentNumberField Label="Số lượng đã trồng" @bind-Value="updateModel.QuantityPlanted" />
+                    <FluentTextField Label="Đơn vị trồng" @bind-Value="updateModel.PlantedUnit" />
+                    <SelectList Route="/api/enums/PlantingStatus" Label="Trạng thái trồng" @bind-Value="statusSelected" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-plantings/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="createModel.FieldId" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="createModel.CropVarietyId" />
+                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="createModel.CropScheduleId" />
+                    <DateTimePicker Label="Ngày gieo trồng" @bind-Value="plantingDate" />
+                    <DateTimePicker Label="Ngày thu hoạch dự kiến" @bind-Value="expectedHarvestDate" />
+                    <DateTimePicker Label="Ngày thu hoạch thực tế" @bind-Value="actualHarvestDate" />
+                    <FluentNumberField Label="Diện tích trồng" @bind-Value="createModel.PlantedArea" />
+                    <FluentNumberField Label="Số lượng đã trồng" @bind-Value="createModel.QuantityPlanted" />
+                    <FluentTextField Label="Đơn vị trồng" @bind-Value="createModel.PlantedUnit" />
+                    <SelectList Route="/api/enums/PlantingStatus" Label="Trạng thái trồng" @bind-Value="statusSelected" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-plantings/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateCropPlantingModel? updateModel;
+    private UpdateCropPlantingModel? orginalModel;
+    private CreateCropPlantingModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? statusSelected;
+    DateTime? plantingDate;
+    DateTime? expectedHarvestDate;
+    DateTime? actualHarvestDate;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật lượt trồng";
+            var result = await service.GetCropPlantingByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateCropPlantingModel(Id, result.Data);
+                orginalModel = new UpdateCropPlantingModel(Id, result.Data);
+                statusSelected = updateModel.Status?.ToIntString();
+                plantingDate = updateModel.PlantingDate?.ToLocalDateTime();
+                expectedHarvestDate = updateModel.ExpectedHarvestDate?.ToLocalDateTime();
+                actualHarvestDate = updateModel.ActualHarvestDate?.ToLocalDateTime();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Crop Planting"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới lượt trồng";
+            createModel = new CreateCropPlantingModel();
+            plantingDate = DateTime.Now;
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.Status = Enum.Parse<InfoManager.Enum.SFMS.PlantingStatus>(statusSelected ?? "0");
+        updateModel.PlantingDate = plantingDate.ToUtcOffset();
+        updateModel.ExpectedHarvestDate = expectedHarvestDate.ToUtcOffset();
+        updateModel.ActualHarvestDate = actualHarvestDate.ToUtcOffset();
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateCropPlantingAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Lượt trồng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.Status = Enum.Parse<InfoManager.Enum.SFMS.PlantingStatus>(statusSelected ?? "0");
+        createModel.PlantingDate = plantingDate.ToUtcOffset()!.Value;
+        createModel.ExpectedHarvestDate = expectedHarvestDate.ToUtcOffset();
+        createModel.ActualHarvestDate = actualHarvestDate.ToUtcOffset();
+
+        var result = await service.CreateCropPlantingAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Lượt trồng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

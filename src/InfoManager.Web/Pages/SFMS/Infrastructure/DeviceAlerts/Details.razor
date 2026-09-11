@@ -1,4 +1,4 @@
-﻿@page "/sfms/Infrastructure/devicealerts/details/{Id}"
+﻿@page "/sfms/Infrastructure/device-alerts/details/{Id}"
 @inject IDeviceAlertService service
 
 <PageHeader Title="Quản lý cảnh báo thiết bị" />
@@ -8,37 +8,24 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Thiết bị:</strong>
+            <DetailItem Label="Thiết bị">
                 @if (!string.IsNullOrWhiteSpace(dto?.DeviceId))
                 {
                     <a href="/sfms/Infrastructure/devices/details/@dto.DeviceId">@(dto?.DeviceName ?? dto?.DeviceId)</a>
                 }
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Loại cảnh báo:</strong> @dto?.AlertTypeName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Mức độ:</strong> @dto?.SeverityName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Nội dung:</strong> @dto?.Message
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Thời điểm cảnh báo:</strong> @dto?.AlertTime.ToString("dd/MM/yyyy HH:mm")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Trạng thái xử lý:</strong> @(dto?.IsResolved == true ? "Đã xử lý" : "Chưa xử lý")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Thời điểm xử lý:</strong> @dto?.ResolvedTime?.ToString("dd/MM/yyyy HH:mm")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ghi chú xử lý:</strong> @dto?.ResolutionNotes
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
-            </FluentLabel>
+                else
+                {
+                    <text>-</text>
+                }
+            </DetailItem>
+            <DetailItem Label="Loại cảnh báo" Value="@dto?.AlertTypeName" />
+            <DetailItem Label="Mức độ" Value="@dto?.SeverityName" />
+            <DetailItem Label="Nội dung" Value="@dto?.Message" />
+            <DetailItem Label="Thời điểm cảnh báo" Value="@dto?.AlertTime.ToString("dd/MM/yyyy HH:mm")" />
+            <DetailItem Label="Trạng thái xử lý" Value="@(dto?.IsResolved == true ? "Đã xử lý" : "Chưa xử lý")" />
+            <DetailItem Label="Thời điểm xử lý" Value="@dto?.ResolvedTime?.ToString("dd/MM/yyyy HH:mm")" />
+            <DetailItem Label="Ghi chú xử lý" Value="@dto?.ResolutionNotes" />
+            <DetailItem Label="Ngày tạo" Value="@dto?.Created.ToString("dd/MM/yyyy HH:mm")" />
             <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/devicealerts" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

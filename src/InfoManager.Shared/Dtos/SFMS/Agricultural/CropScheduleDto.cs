@@ -74,7 +74,7 @@ public record UpdateCropScheduleRequest(
     bool? IsActive,
     string? Notes
 );
-public record SearchCropScheduleRequest(
+public record SearchCropSchedulesRequest(
     string? Term ,
     int? MinDaysToHarvest ,
     int? MaxDaysToHarvest,

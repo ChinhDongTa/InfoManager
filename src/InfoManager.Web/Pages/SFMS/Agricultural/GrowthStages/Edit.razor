@@ -1,0 +1,166 @@
+﻿@page "/sfms/agricultural/growth-stages/update/{Id}"
+@page "/sfms/agricultural/growth-stages/create"
+@inject IAgriculturalService service
+
+<PageHeader Title="Quản lý giai đoạn sinh trưởng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên giai đoạn" @bind-Value="updateModel.StageName" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="updateModel.CropScheduleId" />
+                    <FluentNumberField Label="Thứ tự giai đoạn" @bind-Value="updateModel.StageSequence" />
+                    <FluentNumberField Label="Số ngày sau khi trồng" @bind-Value="updateModel.DaysAfterPlanting" />
+                    <FluentNumberField Label="Thời gian kéo dài giai đoạn" @bind-Value="updateModel.StageDuration" />
+                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
+                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
+                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
+                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
+                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
+                    <FluentNumberField Label="Nhu cầu đạm" @bind-Value="updateModel.NitrogenRequirement" />
+                    <FluentNumberField Label="Nhu cầu lân" @bind-Value="updateModel.PhosphorusRequirement" />
+                    <FluentNumberField Label="Nhu cầu kali" @bind-Value="updateModel.PotassiumRequirement" />
+                    <FluentTextField Label="Sâu hại thường gặp" @bind-Value="updateModel.CommonPests" />
+                    <FluentTextField Label="Bệnh thường gặp" @bind-Value="updateModel.CommonDiseases" />
+                    <FluentTextField Label="Hoạt động quản lý" @bind-Value="updateModel.ManagementActivities" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stages/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên giai đoạn" @bind-Value="createModel.StageName" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="createModel.CropScheduleId" />
+                    <FluentNumberField Label="Thứ tự giai đoạn" @bind-Value="createModel.StageSequence" />
+                    <FluentNumberField Label="Số ngày sau khi trồng" @bind-Value="createModel.DaysAfterPlanting" />
+                    <FluentNumberField Label="Thời gian kéo dài giai đoạn" @bind-Value="createModel.StageDuration" />
+                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
+                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
+                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
+                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
+                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
+                    <FluentNumberField Label="Nhu cầu đạm" @bind-Value="createModel.NitrogenRequirement" />
+                    <FluentNumberField Label="Nhu cầu lân" @bind-Value="createModel.PhosphorusRequirement" />
+                    <FluentNumberField Label="Nhu cầu kali" @bind-Value="createModel.PotassiumRequirement" />
+                    <FluentTextField Label="Sâu hại thường gặp" @bind-Value="createModel.CommonPests" />
+                    <FluentTextField Label="Bệnh thường gặp" @bind-Value="createModel.CommonDiseases" />
+                    <FluentTextField Label="Hoạt động quản lý" @bind-Value="createModel.ManagementActivities" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stages/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateGrowthStageModel? updateModel;
+    private UpdateGrowthStageModel? orginalModel;
+    private CreateGrowthStageModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật giai đoạn sinh trưởng";
+            var result = await service.GetGrowthStageByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateGrowthStageModel(Id, result.Data);
+                orginalModel = new UpdateGrowthStageModel(Id, result.Data);
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Growth Stage"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới giai đoạn sinh trưởng";
+            createModel = new CreateGrowthStageModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateGrowthStageAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Giai đoạn sinh trưởng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.CreateGrowthStageAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Giai đoạn sinh trưởng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

@@ -8,46 +8,27 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Tên nông trại:</strong> @dto?.Name
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Mô tả:</strong> @dto?.Description
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Tổng diện tích:</strong> @dto?.TotalArea
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Diện tích canh tác:</strong> @dto?.CultivableArea
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Vị trí:</strong> @dto?.Location
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Vĩ độ:</strong> @dto?.Latitude
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Kinh độ:</strong> @dto?.Longitude
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Chủ hộ:</strong>
+            <DetailItem Label="Tên nông trại" Value="@dto?.Name" />
+            <DetailItem Label="Mô tả" Value="@dto?.Description" />
+            <DetailItem Label="Tổng diện tích" Value="@(FormatNumber.FormatDecimal(dto?.TotalArea))" />
+            <DetailItem Label="Diện tích canh tác" Value="@(FormatNumber.FormatDecimal(dto?.CultivableArea))" />
+            <DetailItem Label="Vị trí" Value="@dto?.Location" />
+            <DetailItem Label="Vĩ độ" Value="@(FormatNumber.FormatDecimal(dto?.Latitude))" />
+            <DetailItem Label="Kinh độ" Value="@(FormatNumber.FormatDecimal(dto?.Longitude))" />
+            <DetailItem Label="Chủ hộ">
                 @if (!string.IsNullOrWhiteSpace(dto?.FarmerId))
                 {
                     <a href="/sfms/Infrastructure/farmers/details/@dto.FarmerId">@(dto?.FarmerName ?? dto?.FarmerId)</a>
                 }
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Số giấy phép:</strong> @dto?.LicenseNumber
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Trạng thái:</strong> @dto?.StatusName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày thành lập:</strong> @dto?.EstablishedDate?.ToString("dd/MM/yyyy")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày tạo:</strong> @dto?.Created.ToString("dd/MM/yyyy HH:mm")
-            </FluentLabel>
+                else
+                {
+                    <text>-</text>
+                }
+            </DetailItem>
+            <DetailItem Label="Số giấy phép" Value="@dto?.LicenseNumber" />
+            <DetailItem Label="Trạng thái" Value="@dto?.StatusName" />
+            <DetailItem Label="Ngày thành lập" Value="@dto?.EstablishedDate?.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Ngày tạo" Value="@dto?.Created.ToString("dd/MM/yyyy HH:mm")" />
             <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/farms" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

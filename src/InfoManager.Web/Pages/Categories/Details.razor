@@ -6,15 +6,9 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Name:</strong> @dto?.Name
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Group:</strong> @dto?.Group
-            </FluentLabel>
-            <FluentLabel>
-                <strong>KeyName:</strong> @dto?.KeyName
-            </FluentLabel>
+            <DetailItem Label="Name" Value="@dto?.Name" />
+            <DetailItem Label="Group" Value="@dto?.Group" />
+            <DetailItem Label="KeyName" Value="@dto?.KeyName" />
             <EntityActions EntityId="@Id" Folder="categories"  OnDeleteClick="DeleteHandler"/>
         </FluentStack>
     </Authorized>

@@ -1,0 +1,85 @@
+﻿@page "/sfms/agricultural/crop-plantings/list"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+<PageHeader Title="Danh sách đợt gieo trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/agricultural/crop-plantings/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="CropPlantingSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="CropPlantingSummaryDto" TProp="string" Title="Mã gieo trồng" Property="@(x => x.PlantingCode)" />
+            <PropertyColumn TGridItem="CropPlantingSummaryDto" TProp="string" Title="Giống cây" Property="@(x => x.CropVarietyName)" />
+            <PropertyColumn TGridItem="CropPlantingSummaryDto" TProp="DateTimeOffset" Title="Ngày gieo" Property="@(x => x.PlantingDate)" />
+            <PropertyColumn TGridItem="CropPlantingSummaryDto" TProp="DateTimeOffset?" Title="Ngày thu hoạch dự kiến" Property="@(x => x.ExpectedHarvestDate)" />
+            <PropertyColumn TGridItem="CropPlantingSummaryDto" TProp="decimal" Title="Diện tích gieo" Property="@(x => x.PlantedArea)" />
+            <PropertyColumn TGridItem="CropPlantingSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
+            <TemplateColumn TGridItem="CropPlantingSummaryDto" Context="item" Title="Actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<CropPlantingSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCropPlantingsAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crop plantings"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetCropPlantingsAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crop plantings"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/crop-plantings/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/agricultural/crop-plantings/update/{id}");
+    }
+}

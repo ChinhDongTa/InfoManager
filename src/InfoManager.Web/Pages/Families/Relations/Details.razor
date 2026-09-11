@@ -7,12 +7,8 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Họ và tên</strong>: @dto?.Name
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Tên sự kiện</strong>: @dto?.Description
-            </FluentLabel>
+            <DetailItem Label="Họ và tên" Value="@dto?.Name" />
+            <DetailItem Label="Tên sự kiện" Value="@dto?.Description" />
             <EntityActions EntityId="@Id" Folder="families/relations" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

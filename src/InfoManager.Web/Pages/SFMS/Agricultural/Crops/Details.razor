@@ -1,5 +1,78 @@
 ﻿@page "/sfms/agricultural/crops/details/{Id}"
+@inject IAgriculturalService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết cây trồng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (crop != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                    <DetailItem Label="Tên thường gọi" Value="@crop.CommonName" />
+                    <DetailItem Label="Tên khoa học" Value="@crop.ScientificName" />
+                    <DetailItem Label="Họ" Value="@crop.Family" />
+                    <DetailItem Label="Số ngày chín" Value="@(crop.DaysToMaturity?.ToString() ?? "-")" />
+                    <DetailItem Label="Nhiệt độ tối thiểu" Value="@(FormatNumber.FormatDecimal(crop.MinTemperature))" />
+                    <DetailItem Label="Nhiệt độ tối đa" Value="@(FormatNumber.FormatDecimal(crop.MaxTemperature))" />
+                    <DetailItem Label="Độ ẩm tối thiểu" Value="@(FormatNumber.FormatDecimal(crop.MinHumidity))" />
+                    <DetailItem Label="Độ ẩm tối đa" Value="@(FormatNumber.FormatDecimal(crop.MaxHumidity))" />
+                    <DetailItem Label="pH đất tối thiểu" Value="@(FormatNumber.FormatDecimal(crop.MinSoilPh))" />
+                    <DetailItem Label="pH đất tối đa" Value="@(FormatNumber.FormatDecimal(crop.MaxSoilPh))" />
+                    <DetailItem Label="Nhu cầu nước" Value="@(FormatNumber.FormatDecimal(crop.WaterRequirement))" />
+                    <DetailItem Label="Số giờ nắng" Value="@(FormatNumber.FormatDecimal(crop.SunLightHours))" />
+                    <DetailItem Label="Đang sử dụng" Value="@(crop.IsActive ? "Có" : "Không")" />
+                    <DetailItem Label="Ngày tạo" Value="@crop.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <DetailItem Label="Mô tả" Value="@(string.IsNullOrWhiteSpace(crop.Description) ? "-" : crop.Description)" />
+                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crops" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
 
+    CropDto? crop;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetCropByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                crop = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Crop"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
 }

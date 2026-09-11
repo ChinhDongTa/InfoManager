@@ -1,0 +1,160 @@
+﻿@page "/sfms/customers/customer-payment/update/{Id}"
+@page "/sfms/customers/customer-payment/create/"
+@inject ICustomerService server
+
+<PageHeader Title="Quản lý thanh toán khách hàng" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentNumberField Label="Số tiền thanh toán" @bind-Value="updateModel.Amount" />
+                    <DateTimePicker Label="Ngày thanh toán" @bind-Value="paymentDate" />
+                    <SelectList Route="/api/selectlist/sale" Label="Chọn đơn bán" @bind-Value="updateModel.SaleId" />
+                    <SelectList Route="/api/selectlist/farmrevenue" Label="Chọn doanh thu nông trại" @bind-Value="updateModel.FarmRevenueId" />
+                    <FluentTextField Label="Phương thức thanh toán" @bind-Value="updateModel.PaymentMethod" />
+                    <SelectList Route="/api/enums/PaymentStatus" Label="Trạng thái thanh toán" @bind-Value="paymentStatusSelected" />
+                    <FluentTextField Label="Số chứng từ tham chiếu" @bind-Value="updateModel.ReferenceNumber" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/customer-payment/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <SelectList Route="/api/selectlist/customer" Label="Chọn khách hàng" @bind-Value="createModel.CustomerId" />
+                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
+                    <FluentNumberField Label="Số tiền thanh toán" @bind-Value="createModel.Amount" />
+                    <DateTimePicker Label="Ngày thanh toán" @bind-Value="paymentDate" />
+                    <SelectList Route="/api/selectlist/sale" Label="Chọn đơn bán" @bind-Value="createModel.SaleId" />
+                    <SelectList Route="/api/selectlist/farmrevenue" Label="Chọn doanh thu nông trại" @bind-Value="createModel.FarmRevenueId" />
+                    <FluentTextField Label="Phương thức thanh toán" @bind-Value="createModel.PaymentMethod" />
+                    <SelectList Route="/api/enums/PaymentStatus" Label="Trạng thái thanh toán" @bind-Value="paymentStatusSelected" />
+                    <FluentTextField Label="Số chứng từ tham chiếu" @bind-Value="createModel.ReferenceNumber" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/customer-payment/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateCustomerPaymentModel? updateModel;
+    private UpdateCustomerPaymentModel? orginalModel;
+    private CreateCustomerPaymentModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? paymentStatusSelected;
+    DateTime? paymentDate;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật thanh toán khách hàng";
+            var result = await server.GetCustomerPaymentByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateCustomerPaymentModel(Id, result.Data);
+                orginalModel = new UpdateCustomerPaymentModel(Id, result.Data);
+                paymentStatusSelected = updateModel.PaymentStatus?.ToIntString();
+                paymentDate = updateModel.PaymentDate?.ToLocalDateTime();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Customer Payment"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới thanh toán khách hàng";
+            createModel = new CreateCustomerPaymentModel();
+            paymentDate = DateTime.UtcNow;
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.PaymentStatus = Enum.Parse<InfoManager.Enum.SFMS.PaymentStatus>(paymentStatusSelected ?? "0");
+        updateModel.PaymentDate = paymentDate.ToUtcOffset();
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await server.UpdateCustomerPaymentAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Thanh toán khách hàng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.PaymentStatus = Enum.Parse<InfoManager.Enum.SFMS.PaymentStatus>(paymentStatusSelected ?? "0");
+        createModel.PaymentDate = paymentDate.ToUtcOffset()!.Value;
+
+        var result = await server.CreateCustomerPaymentAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Thanh toán khách hàng"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

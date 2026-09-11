@@ -1,0 +1,166 @@
+﻿@page "/sfms/agricultural/crop-schedules/update/{Id}"
+@page "/sfms/agricultural/crop-schedules/create"
+@inject IAgriculturalService service
+
+<PageHeader Title="Quản lý lịch canh tác" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên lịch canh tác" @bind-Value="updateModel.ScheduleName" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="updateModel.CropVarietyId" />
+                    <FluentTextField Label="Mùa vụ" @bind-Value="updateModel.PlantingSeason" />
+                    <FluentTextField Label="Khoảng thời gian gieo trồng" @bind-Value="updateModel.PlantingDateRange" />
+                    <FluentTextField Label="Khoảng thời gian thu hoạch" @bind-Value="updateModel.HarvestDateRange" />
+                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToHarvest" />
+                    <FluentNumberField Label="Khoảng cách cây" @bind-Value="updateModel.PlantSpacing" />
+                    <FluentNumberField Label="Khoảng cách hàng" @bind-Value="updateModel.RowSpacing" />
+                    <FluentTextField Label="Lịch tưới" @bind-Value="updateModel.IrrigationSchedule" />
+                    <FluentTextField Label="Lịch bón phân" @bind-Value="updateModel.FertilizationSchedule" />
+                    <FluentTextField Label="Lịch phun thuốc" @bind-Value="updateModel.PesticideSchedule" />
+                    <FluentNumberField Label="Năng suất dự kiến" @bind-Value="updateModel.ExpectedYield" />
+                    <FluentNumberField Label="Chi phí ước tính" @bind-Value="updateModel.EstimatedCost" />
+                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-schedules/list" />
+                </FluentStack>
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+                    <FluentTextField Label="Tên lịch canh tác" @bind-Value="createModel.ScheduleName" />
+                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="createModel.CropVarietyId" />
+                    <FluentTextField Label="Mùa vụ" @bind-Value="createModel.PlantingSeason" />
+                    <FluentTextField Label="Khoảng thời gian gieo trồng" @bind-Value="createModel.PlantingDateRange" />
+                    <FluentTextField Label="Khoảng thời gian thu hoạch" @bind-Value="createModel.HarvestDateRange" />
+                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToHarvest" />
+                    <FluentNumberField Label="Khoảng cách cây" @bind-Value="createModel.PlantSpacing" />
+                    <FluentNumberField Label="Khoảng cách hàng" @bind-Value="createModel.RowSpacing" />
+                    <FluentTextField Label="Lịch tưới" @bind-Value="createModel.IrrigationSchedule" />
+                    <FluentTextField Label="Lịch bón phân" @bind-Value="createModel.FertilizationSchedule" />
+                    <FluentTextField Label="Lịch phun thuốc" @bind-Value="createModel.PesticideSchedule" />
+                    <FluentNumberField Label="Năng suất dự kiến" @bind-Value="createModel.ExpectedYield" />
+                    <FluentNumberField Label="Chi phí ước tính" @bind-Value="createModel.EstimatedCost" />
+                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
+                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+
+                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-schedules/list" />
+                </FluentStack>
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateCropScheduleModel? updateModel;
+    private UpdateCropScheduleModel? orginalModel;
+    private CreateCropScheduleModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+    bool isActive;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật lịch canh tác";
+            var result = await service.GetCropScheduleByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateCropScheduleModel(Id, result.Data);
+                orginalModel = new UpdateCropScheduleModel(Id, result.Data);
+                isActive = updateModel.IsActive ?? false;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Crop Schedule"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới lịch canh tác";
+            createModel = new CreateCropScheduleModel();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.IsActive = isActive;
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateCropScheduleAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Lịch canh tác"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.CreateCropScheduleAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Lịch canh tác"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

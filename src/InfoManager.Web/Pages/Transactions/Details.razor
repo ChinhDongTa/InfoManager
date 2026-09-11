@@ -7,24 +7,12 @@
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Danh mục:</strong> @dto?.CategoryName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Nội dung giao dịch:</strong> @dto?.Description
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Tổng số tiền:</strong> @dto?.Amount.ToVND()
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày giao dịch:</strong> @dto?.TransactionDate?.ToString("dd/MM/yyyy")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Loại giao dịch:</strong> @dto?.TransactionTypeName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Phương thức thanh toán:</strong> @dto?.PaymentMethodName
-            </FluentLabel>
+            <DetailItem Label="Danh mục" Value="@dto?.CategoryName" />
+            <DetailItem Label="Nội dung giao dịch" Value="@dto?.Description" />
+            <DetailItem Label="Tổng số tiền" Value="@dto?.Amount.ToVND()" />
+            <DetailItem Label="Ngày giao dịch" Value="@dto?.TransactionDate?.ToString("dd/MM/yyyy")" />
+            <DetailItem Label="Loại giao dịch" Value="@dto?.TransactionTypeName" />
+            <DetailItem Label="Phương thức thanh toán" Value="@dto?.PaymentMethodName" />
             <EntityActions EntityId="@Id" Folder="transactions" OnDeleteClick="DeleteHandler" />
         </FluentStack>
     </Authorized>

@@ -14,6 +14,7 @@ public record PesticidePlanDto(
     decimal PlannedQuantity,
     string Unit,
     string? ApplicationMethod,
+    PesticidePlanStatus? Status,
     string StatusName,
     string? Notes,
     DateTimeOffset Created
@@ -24,24 +25,25 @@ public record CreatePesticidePlanRequest(
     string PesticideId,
     string PlanName,
     DateTimeOffset PlannedDate,
-    string? CropPlantingId = null,
-    string? GrowthStageId = null,
-    string? Target = null,
-    decimal PlannedQuantity = 0,
-    string Unit = "lít",
-    string? ApplicationMethod = null,
-    string? Notes = null
+    string? CropPlantingId ,
+    string? GrowthStageId ,
+    string? Target ,
+    decimal PlannedQuantity ,
+    string Unit,
+    string? ApplicationMethod ,
+    PesticidePlanStatus? Status,
+    string? Notes 
 );
 
 public record UpdatePesticidePlanRequest(
     string Id,
-    string? PesticideId = null,
-    string? PlanName = null,
-    string? Target = null,
-    DateTimeOffset? PlannedDate = null,
-    decimal? PlannedQuantity = null,
-    string? Unit = null,
-    string? ApplicationMethod = null,
-    PesticidePlanStatus? Status = null,
-    string? Notes = null
+    string? PesticideId ,
+    string? PlanName ,
+    string? Target ,
+    DateTimeOffset? PlannedDate ,
+    decimal? PlannedQuantity ,
+    string? Unit ,
+    string? ApplicationMethod ,
+    PesticidePlanStatus? Status ,
+    string? Notes 
 );

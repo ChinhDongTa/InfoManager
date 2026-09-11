@@ -5,36 +5,25 @@
 <AuthorizeView>
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
-        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <FluentLabel>
-                <strong>Họ tên:</strong> @dto?.FullName
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ngày sinh:</strong> @dto?.BirthDate.ToString("dd/MM/yyyy")
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Giới tính:</strong> @dto?.Gender
-            </FluentLabel>
-            @if(dto?.DeathDate != null)
-            {
-                <FluentLabel>
-                    <strong>Ngày mất:</strong> @dto?.DeathDate?.ToString("dd/MM/yyyy")
-                </FluentLabel>
-            }
-            <FluentLabel>
-                <strong>Mối quan hệ:</strong> @dto?.Relationship
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Email:</strong> <a href="mailto:@dto?.Email">@dto?.Email</a>
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Điện thoại:</strong> @dto?.PhoneNumber
-            </FluentLabel>
-            <FluentLabel>
-                <strong>Ghi chú:</strong> @dto?.Note
-            </FluentLabel>
-            <EntityActions EntityId="@Id" Folder="families" OnDeleteClick="DeleteHandler" />
-        </FluentStack>
+        @if (dto != null)
+        {
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+                <DetailItem Label="Họ tên" Value="@dto?.FullName" />
+                <DetailItem Label="Ngày sinh" Value="@dto?.BirthDate.ToString("dd/MM/yyyy")" />
+                <DetailItem Label="Giới tính" Value="@dto?.Gender.ToDisplayName()" />
+                @if (dto?.DeathDate != null)
+                {
+                    <DetailItem Label="Ngày mất" Value="@dto.DeathDate?.ToString("dd/MM/yyyy")" />
+                }
+                <DetailItem Label="Mối quan hệ" Value="@dto?.Relationship" />
+                <DetailItem Label="Email">
+                    <a href="mailto:@dto?.Email">@dto?.Email</a>
+                </DetailItem>
+                <DetailItem Label="Điện thoại" Value="@dto?.PhoneNumber" />
+                <DetailItem Label="Ghi chú" Value="@dto?.Note" />
+                <EntityActions EntityId="@Id" Folder="families" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
+        }
     </Authorized>
     <NotAuthorized>
         <NotAuthorizedMessage />

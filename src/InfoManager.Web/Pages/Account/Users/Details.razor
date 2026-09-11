@@ -12,17 +12,12 @@
             <FluentMultiSplitterPane Size="33%">
                 <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left: 5px; margin-right:5px">
                     <FluentLabel Typo="Typography.H3" Color="Color.Info">Chi tiết User</FluentLabel>
-                       
-                    <FluentLabel>
-                        <strong>UsernameOrEmail: </strong>@userDto?.UserNameOrEmail
-                    </FluentLabel>
-                    <FluentLabel>
-                        <strong>Phone: </strong>@userDto?.PhoneNumber
-                    </FluentLabel>
-                    <FluentLabel>
-                        <strong>Roles: </strong>@userDto?.Roles.ToLine()
-                    </FluentLabel>
-                  
+                    
+                    <DetailItem Label="UsernameOrEmail" Value="@userDto?.UserNameOrEmail" />
+                    
+                    <DetailItem Label="Phone" Value="@userDto?.PhoneNumber" />
+                    
+                    <DetailItem Label="Roles" Value="@userDto?.Roles.ToLine()" />
                     <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="width:100%; margin-top:10px;">
                         <FluentButton Appearance="Appearance.Outline" OnClick="BtnBackToList">
                             Back to List

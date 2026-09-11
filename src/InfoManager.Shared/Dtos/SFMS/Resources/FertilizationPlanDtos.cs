@@ -16,6 +16,7 @@ public record FertilizationPlanDto(
     decimal PlannedQuantity,
     string Unit,
     string? ApplicationMethod,
+    FertilizationPlanStatus Status,
     string StatusName,
     string? Notes,
     DateTimeOffset Created
