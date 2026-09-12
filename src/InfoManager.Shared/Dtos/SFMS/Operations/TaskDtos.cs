@@ -136,7 +136,6 @@ public record TaskSummaryDto(
     /// </summary>
     string TaskName,
 
-
     /// <summary>
     /// Tên thửa ruộng / ô ruộng liên quan
     /// </summary>
@@ -177,6 +176,22 @@ public record TaskSummaryDto(
     /// </summary>
     decimal? CompletionPercentage
 );
+
+/// <summary>
+/// Request tìm kiếm công việc / hoạt động trên nông trại
+/// </summary>
+/// <param name="Term"></param>
+/// <param name="TaskType"></param>
+/// <param name="ScheduledtDate"></param>
+/// <param name="Priority"></param>
+/// <param name="PageNumber"></param>
+/// <param name="PageSize"></param>
+public record SearchTaskDtoRequest(string? Term,
+                                   TaskType? TaskType,
+                                   DateTimeOffset? ScheduledtDate,
+                                   TaskPriority? Priority,
+                                   int PageNumber,
+                                   int PageSize);
 
 /// <summary>
 /// Request tạo công việc / hoạt động trên nông trại
@@ -360,67 +375,3 @@ public record UpdateTaskDtoRequest(
     string? Notes
 );
 
-/// <summary>
-/// Request tìm kiếm công việc / hoạt động trên nông trại
-/// </summary>
-public record SearchTaskDtoRequest(
-    /// <summary>
-    /// Tên công việc. [MaxLength(200)]
-    /// </summary>
-    string? TaskName,
-
-    /// <summary>
-    /// ID thửa ruộng / ô ruộng liên quan
-    /// </summary>
-    string? FieldId,
-
-    /// <summary>
-    /// ID lần trồng (CropPlanting) liên quan (tùy chọn)
-    /// </summary>
-    string? CropPlantingId,
-
-    /// <summary>
-    /// Loại công việc (Planting, Weeding, Spraying, Harvesting, ...)
-    /// </summary>
-    TaskType? TaskType,
-
-    /// <summary>
-    /// ID thiết bị liên quan (tùy chọn)
-    /// </summary>
-    string? EquipmentId,
-
-    /// <summary>
-    /// Trạng thái công việc
-    /// </summary>
-    TaskStatus? Status,
-
-    /// <summary>
-    /// Ngày bắt đầu dự kiến (từ)
-    /// </summary>
-    DateTimeOffset? ScheduledStartDateFrom,
-
-    /// <summary>
-    /// Ngày bắt đầu dự kiến (đến)
-    /// </summary>
-    DateTimeOffset? ScheduledStartDateTo,
-
-    /// <summary>
-    /// Ngày kết thúc dự kiến (từ)
-    /// </summary>
-    DateTimeOffset? ScheduledEndDateFrom,
-
-    /// <summary>
-    /// Ngày kết thúc dự kiến (đến)
-    /// </summary>
-    DateTimeOffset? ScheduledEndDateTo,
-
-    /// <summary>
-    /// Người được phân công / chịu trách nhiệm. [MaxLength(100)]
-    /// </summary>
-    string? AssignedTo,
-
-    /// <summary>
-    /// Mức độ ưu tiên
-    /// </summary>
-    TaskPriority? Priority
-);

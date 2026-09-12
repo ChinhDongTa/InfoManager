@@ -46,7 +46,7 @@ public record CreateFarmExpenseRequest(
     string Description,
     decimal Amount ,
     string? Category,
-    DateTimeOffset ExpenseDatet,
+    DateTimeOffset ExpenseDate,
     string? Vendor,
     string? InvoiceNumber,
     string? PaymentMethod,

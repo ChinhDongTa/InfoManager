@@ -93,7 +93,7 @@ public class CreateFarmExpenseModel
             Description: this.Description,
             Amount: this.Amount,
             Category: this.Category,
-            ExpenseDatet: this.ExpenseDate,
+            ExpenseDate: this.ExpenseDate,
             Vendor: this.Vendor,
             InvoiceNumber: this.InvoiceNumber,
             PaymentMethod: this.PaymentMethod,

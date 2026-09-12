@@ -52,6 +52,21 @@ public static class QueryExtensions
         ));
     }
 
+    public static IQueryable<CropCycle> ApplySorting(this IQueryable<CropCycle> query, string? sortBy = null, bool ascending = true)
+    {
+        if (string.IsNullOrEmpty(sortBy))
+        {
+            return query.OrderBy(x=>x.CycleName).OrderByDescending(a => a.Created);
+        }
+        return sortBy.ToLower() switch
+        {
+            "status" => ascending ? query.OrderBy(a => a.Status) : query.OrderByDescending(a => a.Status),
+            "plannedarea" => ascending ? query.OrderBy(a => a.PlannedArea) : query.OrderByDescending(a => a.PlannedArea),
+            "plannedharvestdate" => ascending ? query.OrderBy(a => a.PlannedHarvestDate) : query.OrderByDescending(a => a.PlannedHarvestDate),
+            _ => query
+        };
+    }
+
 
     //========================================= Harvest Plan ======================================================
 
