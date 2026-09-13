@@ -82,6 +82,12 @@ public record PlantingPlanSummaryDto(
     string? StatusName
 );
 
+
+public record SearchPlantingPlanRequest(string? Term,
+                                        PlanStatus? Status,
+                                        int PageNumber,
+                                        int PageSize);
+
 /// <summary>
 /// Request tạo kế hoạch trồng
 /// </summary>

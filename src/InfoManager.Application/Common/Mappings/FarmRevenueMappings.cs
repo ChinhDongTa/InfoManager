@@ -1,4 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.Economics.Commands;
+using InfoManager.Application.Features.SFMS.Economics.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
 
@@ -21,6 +22,16 @@ public static class FarmRevenueMappings
         Notes = request.Notes
     };
 
+    public static SearchFarmRevenuesQuery ToSearchQuery(SearchFarmRevenuesRequest request) =>new(request.Term,
+                                                                                                 request.FarmId,
+                                                                                                 request.CropPlantingId,
+                                                                                                 request.HarvestId,
+                                                                                                 request.SaleId,
+                                                                                                 request.PaymentStatus,
+                                                                                                 request.StartRevenueDate,
+                                                                                                 request.EndRevenueDate,
+                                                                                                 request.PageNumber,
+                                                                                                 request.PageSize);
     public static UpdateFarmRevenueCommand ToUpdateCommand(UpdateFarmRevenueRequest request, string id)
         => new()
         {

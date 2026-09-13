@@ -1,4 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.Economics.Commands;
+using InfoManager.Application.Features.SFMS.Economics.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
 
@@ -23,6 +24,17 @@ public static class FarmExpenseMappings
         AttachmentUrl = request.AttachmentUrl,
         Notes = request.Notes
     };
+    public static SearchFarmExpensesQuery ToSearchQuery(SearchFarmExpensesRequest request) 
+        => new(request.Term,
+               request.FarmId,
+               request.CropPlantingId,
+               request.ExpenseType,
+               request.PaymentStatus,
+               request.ApprovalStatus,
+               request.StartExpenseDate,
+               request.EndExpenseDate,
+               request.PageNumber,
+               request.PageSize);
 
     public static UpdateFarmExpenseCommand ToUpdateCommand(UpdateFarmExpenseRequest request, string id)
         => new()

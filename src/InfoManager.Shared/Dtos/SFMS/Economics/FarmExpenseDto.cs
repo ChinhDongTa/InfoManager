@@ -38,7 +38,17 @@ public record FarmExpenseSummaryDto(
     string PaymentStatusName,
     string ApprovalStatusName
 );
-
+public record SearchFarmExpensesRequest(
+    string? Term,
+    string? FarmId,
+    string? CropPlantingId,
+    ExpenseType? ExpenseType,
+    PaymentStatus? PaymentStatus,
+    ApprovalStatus? ApprovalStatus,
+    DateTimeOffset? StartExpenseDate,
+    DateTimeOffset? EndExpenseDate,
+    int PageNumber,
+    int PageSize);
 public record CreateFarmExpenseRequest(
     string FarmId,
     string? CropPlantingId,

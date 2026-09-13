@@ -35,6 +35,18 @@ public record FarmRevenueSummaryDto(
     string PaymentStatusName
 );
 
+public record SearchFarmRevenuesRequest(
+    string? Term,
+    string? FarmId,
+    string? CropPlantingId,
+    string? HarvestId,
+    string? SaleId,
+    PaymentStatus? PaymentStatus,
+    DateTimeOffset? StartRevenueDate,
+    DateTimeOffset? EndRevenueDate,
+    int PageNumber,
+    int PageSize);
+
 public record CreateFarmRevenueRequest(
     string FarmId,
     string? CropPlantingId ,

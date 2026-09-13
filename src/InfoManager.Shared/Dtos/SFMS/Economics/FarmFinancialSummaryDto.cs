@@ -33,6 +33,14 @@ public record FarmFinancialSummarySummaryDto(
     decimal? HealthScore
 );
 
+public record SearchFarmFinancialSummariesRequest(
+    string? Term,
+    string? FarmId,
+    int? Year,
+    int? Month,
+    int PageNumber,
+    int PageSize);
+
 public record CreateFarmFinancialSummaryRequest(
     string FarmId,
     int Year,

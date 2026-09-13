@@ -1,12 +1,14 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Economics.Queries.Gets;
 
-public record GetCostAnalysisByIdQuery(string Id) : IRequest<Result<CostAnalysisDto>>;
-//public class GetCostAnalysesQueryHandler (IApplicationDbContext context): IRequestHandler<GetCostAnalysesQuery, Result<PaginatedList<CostAnalysisSummaryDto>>>
-//{
-//    public async Task<Result<PaginatedList<CostAnalysisSummaryDto>>> Handle(GetCostAnalysesQuery request, CancellationToken cancellationToken)
-//    {
-        
-
-//        return Result<PaginatedList<CostAnalysisSummaryDto>>.Success();
-//    }
-//}
+public record GetCostAnalysisByIdQuery(string Id) : IRequest<Result<CostAnalysisDto?>>;
+public record GetCostAnalysisByIdQueryHandler(IApplicationDbContext Context) : IRequestHandler<GetCostAnalysisByIdQuery, Result<CostAnalysisDto?>>
+{
+    public async Task<Result<CostAnalysisDto?>> Handle(GetCostAnalysisByIdQuery request, CancellationToken cancellationToken)
+    {
+        var result = await Context.CostAnalyses
+           .Where(x => x.Id == request.Id)
+           .ToCostAnalysisDto()
+           .SingleOrNotFoundAsync(nameof(CostAnalysis), request.Id, cancellationToken);
+        return result;
+    }
+}

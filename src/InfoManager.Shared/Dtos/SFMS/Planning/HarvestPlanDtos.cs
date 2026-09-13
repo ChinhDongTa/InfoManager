@@ -97,6 +97,13 @@ public record HarvestPlanSummaryDto(
     string? StatusName
 );
 
+
+public record SearchHarvestPlanRequest(string? Term,
+                                       DateTimeOffset? ExpectedDate,
+                                       PlanStatus? Status,
+                                       int PageNumber,
+                                       int PageSize);
+
 /// <summary>
 /// Request tạo kế hoạch thu hoạch
 /// </summary>

@@ -40,7 +40,16 @@ public record CostAnalysisSummaryDto(
     decimal ProfitMargin,
     decimal ROI
 );
-
+public record SearchCostAnalysesDtoRequest(
+    string? Term,
+    string? FarmId,
+    string? CropPlantingId,
+    DateTimeOffset? StartAnalysisDate,
+    DateTimeOffset? EndAnalysisDate,
+    DateTimeOffset? StartFromDate,
+    DateTimeOffset? EndToDate,
+    int PageNumber,
+    int PageSize);
 public record CreateCostAnalysisRequest(
     string FarmId,
     string? CropPlantingId ,

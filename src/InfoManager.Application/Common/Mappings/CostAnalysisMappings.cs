@@ -1,4 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.Economics.Commands;
+using InfoManager.Application.Features.SFMS.Economics.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
 
@@ -26,6 +27,17 @@ public static class CostAnalysisMappings
         Recommendations = request.Recommendations,
         PreparedBy = request.PreparedBy
     };
+
+    public static SearchCostAnalysesQuery ToSearchQuery(SearchCostAnalysesDtoRequest request)
+        => new(request.Term,
+                       request.FarmId,
+                       request.CropPlantingId,
+                       request.StartAnalysisDate,
+                       request.EndAnalysisDate,
+                       request.StartFromDate,
+                       request.EndToDate,
+                       request.PageNumber,
+                       request.PageSize);
 
     public static UpdateCostAnalysisCommand ToUpdateCommand(UpdateCostAnalysisRequest request, string id)
         => new()

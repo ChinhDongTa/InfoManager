@@ -109,6 +109,12 @@ public record CropCycleSummaryDto(
     string? StatusName
 );
 
+public record SearchCropCycleRequest(string? Term,
+                                     int? StartYear,
+                                     CropCycleStatus? Status,
+                                     int PageNumber,
+                                     int PageSize);
+
 /// <summary>
 /// Request tạo chu kỳ trồng
 /// </summary>
