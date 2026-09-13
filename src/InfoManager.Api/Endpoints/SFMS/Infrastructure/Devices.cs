@@ -40,7 +40,7 @@ public class Devices : EndpointGroupBase
     public async Task<IResult> CreateDeviceAsync(CreateDeviceRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(DeviceMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateDeviceAsync(string id, UpdateDeviceRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

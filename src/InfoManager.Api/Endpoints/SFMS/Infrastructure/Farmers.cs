@@ -41,7 +41,7 @@ public class Farmers : EndpointGroupBase
     public async Task<IResult> CreateFarmerAsync(CreateFarmerRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(FarmerMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateFarmerAsync(string id, UpdateFarmerRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

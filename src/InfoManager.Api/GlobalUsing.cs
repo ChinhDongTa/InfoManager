@@ -9,6 +9,7 @@ global using InfoManager.Application.Features.SFMS.Agricultural.Queries.Gets;
 global using InfoManager.Application.Features.SFMS.Customer.Commands;
 global using InfoManager.Application.Features.SFMS.Customer.Queries.Gets;
 global using InfoManager.Application.Features.SFMS.Inventory.Commands;
+
 //global using InfoManager.Application.Features.SFMS.Inventory.Queries.Gets;
 global using InfoManager.Application.Common.Mappings;
 
@@ -22,3 +23,7 @@ global using InfoManager.Shared.Dtos.SFMS.Planning;
 global using InfoManager.Shared.Dtos.SFMS.Production;
 global using InfoManager.Shared.Dtos.SFMS.Resources;
 global using InfoManager.Shared.Dtos.SFMS.Weather;
+global using InfoManager.Application.Features.SFMS.Economics.Commands;
+global using InfoManager.Application.Features.SFMS.Economics.Queries.Gets;
+global using InfoManager.Application.Features.SFMS.Planning.Commands;
+global using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;

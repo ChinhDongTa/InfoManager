@@ -40,7 +40,7 @@ public class Farms : EndpointGroupBase
     public async Task<IResult> CreateFarmAsync(CreateFarmRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(FarmMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateFarmAsync(string id, UpdateFarmRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

@@ -40,7 +40,7 @@ public class Sensors : EndpointGroupBase
     public async Task<IResult> CreateSensorAsync(CreateSensorRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(SensorMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateSensorAsync(string id, UpdateSensorRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

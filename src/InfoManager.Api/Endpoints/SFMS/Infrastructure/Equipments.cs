@@ -40,7 +40,7 @@ public class Equipments : EndpointGroupBase
     public async Task<IResult> CreateEquipmentAsync(CreateEquipmentRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(EquipmentMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateEquipmentAsync(string id, UpdateEquipmentRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

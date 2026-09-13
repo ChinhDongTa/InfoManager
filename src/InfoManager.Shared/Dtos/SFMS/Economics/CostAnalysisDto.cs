@@ -40,7 +40,7 @@ public record CostAnalysisSummaryDto(
     decimal ProfitMargin,
     decimal ROI
 );
-public record SearchCostAnalysesDtoRequest(
+public record SearchCostAnalysesRequest(
     string? Term,
     string? FarmId,
     string? CropPlantingId,

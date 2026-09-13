@@ -98,7 +98,7 @@ public record HarvestPlanSummaryDto(
 );
 
 
-public record SearchHarvestPlanRequest(string? Term,
+public record SearchHarvestPlansRequest(string? Term,
                                        DateTimeOffset? ExpectedDate,
                                        PlanStatus? Status,
                                        int PageNumber,

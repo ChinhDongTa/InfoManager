@@ -29,7 +29,7 @@ public static   class CropCycleMappings
         Notes = request.Notes
     };
 
-    public static SearchCropCyclesQuery ToSearchQuery(SearchCropCycleRequest request)
+    public static SearchCropCyclesQuery ToSearchQuery(SearchCropCyclesRequest request)
     => new(request.Term, request.StartYear, request.Status, request.PageNumber, request.PageSize);
 
     public static UpdateCropCycleCommand ToUpdateCommand(UpdateCropCycleRequest request, string id)

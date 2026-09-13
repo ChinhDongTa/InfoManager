@@ -109,7 +109,7 @@ public record CropCycleSummaryDto(
     string? StatusName
 );
 
-public record SearchCropCycleRequest(string? Term,
+public record SearchCropCyclesRequest(string? Term,
                                      int? StartYear,
                                      CropCycleStatus? Status,
                                      int PageNumber,

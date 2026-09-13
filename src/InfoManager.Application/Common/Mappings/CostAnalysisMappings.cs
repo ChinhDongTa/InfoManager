@@ -28,7 +28,7 @@ public static class CostAnalysisMappings
         PreparedBy = request.PreparedBy
     };
 
-    public static SearchCostAnalysesQuery ToSearchQuery(SearchCostAnalysesDtoRequest request)
+    public static SearchCostAnalysesQuery ToSearchQuery(SearchCostAnalysesRequest request)
         => new(request.Term,
                        request.FarmId,
                        request.CropPlantingId,

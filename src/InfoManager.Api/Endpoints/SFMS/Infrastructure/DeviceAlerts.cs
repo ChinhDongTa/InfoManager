@@ -40,7 +40,7 @@ public class DeviceAlerts : EndpointGroupBase
     public async Task<IResult> CreateDeviceAlertAsync(CreateDeviceAlertRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(DeviceAlertMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateDeviceAlertAsync(string id, UpdateDeviceAlertRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

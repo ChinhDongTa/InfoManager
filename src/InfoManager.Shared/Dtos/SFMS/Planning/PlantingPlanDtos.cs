@@ -83,7 +83,7 @@ public record PlantingPlanSummaryDto(
 );
 
 
-public record SearchPlantingPlanRequest(string? Term,
+public record SearchPlantingPlansRequest(string? Term,
                                         PlanStatus? Status,
                                         int PageNumber,
                                         int PageSize);

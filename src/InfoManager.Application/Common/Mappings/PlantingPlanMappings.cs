@@ -25,7 +25,7 @@ public static class PlantingPlanMappings
         Notes = request.Notes
     };
 
-    public static SearchPlantingPlansQuery ToSearchQuery(SearchPlantingPlanRequest request)
+    public static SearchPlantingPlansQuery ToSearchQuery(SearchPlantingPlansRequest request)
     => new(request.Term, request.Status, request.PageNumber, request.PageSize);
 
     public static UpdatePlantingPlanCommand ToUpdateCommand(UpdatePlantingPlanRequest request, string id)

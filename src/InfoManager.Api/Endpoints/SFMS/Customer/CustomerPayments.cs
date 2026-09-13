@@ -2,7 +2,7 @@
 
 public class CustomerPayments : EndpointGroupBase
 {
-    public override string? GroupName => "CustomerPayments";
+    public override string GroupName => "CustomerPayments";
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -38,7 +38,7 @@ public class CustomerPayments : EndpointGroupBase
     public async Task<IResult> CreateCustomerPaymentAsync(CreateCustomerPaymentRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(CustomerPaymentMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateCustomerPaymentAsync(string id, UpdateCustomerPaymentRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {

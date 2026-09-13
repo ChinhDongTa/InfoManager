@@ -40,7 +40,7 @@ public class Fields : EndpointGroupBase
     public async Task<IResult> CreateFieldAsync(CreateFieldRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
         var result = await sender.Send(FieldMappings.ToCreateCommand(request), cancellationToken);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
     public async Task<IResult> UpdateFieldAsync(string id, UpdateFieldRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
     {
