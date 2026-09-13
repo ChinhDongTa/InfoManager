@@ -1,4 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.Planning.Commands;
+using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
 using InfoManager.Shared.Dtos.SFMS.Planning;
 
 namespace InfoManager.Application.Common.Mappings;
@@ -23,6 +24,9 @@ public static class PlantingPlanMappings
         Status = request.Status,
         Notes = request.Notes
     };
+
+    public static SearchPlantingPlansQuery ToSearchQuery(SearchPlantingPlanRequest request)
+    => new(request.Term, request.Status, request.PageNumber, request.PageSize);
 
     public static UpdatePlantingPlanCommand ToUpdateCommand(UpdatePlantingPlanRequest request, string id)
         => new()

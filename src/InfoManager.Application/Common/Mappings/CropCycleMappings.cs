@@ -1,4 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.Planning.Commands;
+using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
 using InfoManager.Shared.Dtos.SFMS.Planning;
 
 namespace InfoManager.Application.Common.Mappings;
@@ -27,6 +28,9 @@ public static   class CropCycleMappings
         TargetSellingPrice = request.TargetSellingPrice,
         Notes = request.Notes
     };
+
+    public static SearchCropCyclesQuery ToSearchQuery(SearchCropCycleRequest request)
+    => new(request.Term, request.StartYear, request.Status, request.PageNumber, request.PageSize);
 
     public static UpdateCropCycleCommand ToUpdateCommand(UpdateCropCycleRequest request, string id)
     => new()

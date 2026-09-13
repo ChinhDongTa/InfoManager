@@ -37,3 +37,4 @@ global using InfoManager.Shared.Dtos.SFMS.HR;
 global using InfoManager.Shared.Dtos.SFMS.Economics;
 global using InfoManager.Shared.Dtos.SFMS.Monitoring;
 global using InfoManager.Shared.Dtos.SFMS.Infrastructure;
+global using InfoManager.Shared.Dtos.SFMS.Planning;

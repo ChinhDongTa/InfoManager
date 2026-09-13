@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Features\SFMS\Inventory\Queries\Gets\" />
-    <Folder Include="Features\SFMS\Planning\Queries\Gets\" />
   </ItemGroup>
 
 </Project>
