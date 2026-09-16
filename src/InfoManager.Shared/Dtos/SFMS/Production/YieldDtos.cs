@@ -214,3 +214,4 @@ public record UpdateYieldRequest(
     /// <summary>Khuyến nghị vụ sau. Tối đa 1000 ký tự.</summary>
     string? Recommendations
 );
+public record SearchYieldsRequest(string? Term, string? CropPlantingId, string? HarvestId, int PageNumber, int PageSize);

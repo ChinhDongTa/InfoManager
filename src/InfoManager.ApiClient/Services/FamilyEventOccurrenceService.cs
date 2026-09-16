@@ -2,13 +2,13 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class FamilyEventOccurrenceService(IFamilyEventOccurrenceApi api ) : IFamilyEventOccurrenceService
+public class FamilyEventOccurrenceService(IFamilyEventOccurrenceApi api) : IFamilyEventOccurrenceService
 {
     public async Task<ApiResult<string>> CreateFamilyEventOccurrenceAsync(CreateFamilyEventOccurrenceRequest dto, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateFamilyEventOccurrenceAsync(dto, ct));
 
     public async Task<ApiResult> DeleteFamilyEventOccurrenceAsync(string id, CancellationToken ct = default)
-        => await ApiResponseHandler.HandleAsync(await api.DeleteFamilyEventOccurrenceAsync(id, ct));    
+        => await ApiResponseHandler.HandleAsync(await api.DeleteFamilyEventOccurrenceAsync(id, ct));
 
     public async Task<ApiResult<FamilyEventOccurrenceDto?>> GetFamilyEventOccurrenceByIdAsync(string id, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.GetFamilyEventOccurrenceByIdAsync(id, ct));

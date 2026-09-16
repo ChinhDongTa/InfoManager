@@ -15,15 +15,15 @@ public record CreateCustomerCommand : IRequest<Result<string>>
     public required CustomerStatus Status { get; init; }
     public string? Notes { get; init; }
 }
+
 public class CreateCustomerCommandHandler : BaseCreateCommandHandler<CreateCustomerCommand, Domain.Entities.SFMS.Customers.Customer>
 {
-
     public CreateCustomerCommandHandler(IApplicationDbContext context, IValidator<CreateCustomerCommand> validator, ILogger<CreateCustomerCommandHandler> logger) : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(Domain.Entities.SFMS.Customers.Customer entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(Domain.Entities.SFMS.Customers.Customer entity, CancellationToken ct)
     {
-        await Context.Customers.AddAsync(entity, cancellationToken);
+        await Context.Customers.AddAsync(entity, ct);
     }
 
     protected override async Task<Domain.Entities.SFMS.Customers.Customer> CreateEntity(CreateCustomerCommand request)
@@ -43,6 +43,7 @@ public class CreateCustomerCommandHandler : BaseCreateCommandHandler<CreateCusto
             Notes = request.Notes
         };
 }
+
 public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
 {
     public CreateCustomerCommandValidator()

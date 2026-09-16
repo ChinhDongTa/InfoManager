@@ -22,14 +22,16 @@ public record UpdateGrowthStageCommand : IRequest<Result>
     public string? CommonDiseases { get; init; }
     public string? ManagementActivities { get; init; }
 }
+
 public class UpdateGrowthStageCommandHandler : BaseUpdateCommandHandler<UpdateGrowthStageCommand, GrowthStage>
 {
     public UpdateGrowthStageCommandHandler(IApplicationDbContext context, IValidator<UpdateGrowthStageCommand> validator, ILogger<UpdateGrowthStageCommandHandler> logger) :
        base(context, validator, logger)
     { }
-    protected override async Task<GrowthStage?> GetEntityAsync(UpdateGrowthStageCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<GrowthStage?> GetEntityAsync(UpdateGrowthStageCommand request, CancellationToken ct)
     {
-        return await Context.GrowthStages.FindAsync(request.Id,cancellationToken);
+        return await Context.GrowthStages.FindAsync(request.Id, ct);
     }
 
     protected override async Task UpdateEntityProperties(GrowthStage entity, UpdateGrowthStageCommand request)
@@ -59,7 +61,7 @@ public class UpdateGrowthStageCommandHandler : BaseUpdateCommandHandler<UpdateGr
         if (request.MaxHumidity.IsDifferentFrom(entity.MaxHumidity))
             entity.MaxHumidity = request.MaxHumidity!;
         if (request.WaterRequirement.IsDifferentFrom(entity.WaterRequirement))
-            entity.WaterRequirement  = request.WaterRequirement!;
+            entity.WaterRequirement = request.WaterRequirement!;
         if (request.NitrogenRequirement.IsDifferentFrom(entity.NitrogenRequirement))
             entity.NitrogenRequirement = request.NitrogenRequirement!;
         if (request.PhosphorusRequirement.IsDifferentFrom(entity.PhosphorusRequirement))
@@ -74,10 +76,10 @@ public class UpdateGrowthStageCommandHandler : BaseUpdateCommandHandler<UpdateGr
             entity.ManagementActivities = request.ManagementActivities!;
     }
 }
+
 public class UpdateGrowthStageCommandValidator : AbstractValidator<UpdateGrowthStageCommand>
 {
     public UpdateGrowthStageCommandValidator()
     {
-        
     }
 }

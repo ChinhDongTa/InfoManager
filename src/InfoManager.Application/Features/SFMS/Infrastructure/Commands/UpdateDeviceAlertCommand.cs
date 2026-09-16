@@ -41,15 +41,16 @@ public record UpdateDeviceAlertCommand : IRequest<Result>
     /// </summary>
     public string? ResolutionNotes { get; init; }
 }
+
 public class UpdateDeviceAlertCommandHandler : BaseUpdateCommandHandler<UpdateDeviceAlertCommand, DeviceAlert>
 {
     public UpdateDeviceAlertCommandHandler(IApplicationDbContext context,
                                            IValidator<UpdateDeviceAlertCommand> validator,
                                            ILogger<UpdateDeviceAlertCommandHandler> logger) : base(context, validator, logger)
     { }
-   
-    protected override async Task<DeviceAlert?> GetEntityAsync(UpdateDeviceAlertCommand request, CancellationToken cancellationToken) 
-        => await Context.DeviceAlerts.FindAsync([request.Id], cancellationToken);
+
+    protected override async Task<DeviceAlert?> GetEntityAsync(UpdateDeviceAlertCommand request, CancellationToken ct)
+        => await Context.DeviceAlerts.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(DeviceAlert entity, UpdateDeviceAlertCommand request)
     {
@@ -67,6 +68,7 @@ public class UpdateDeviceAlertCommandHandler : BaseUpdateCommandHandler<UpdateDe
             entity.ResolutionNotes = request.ResolutionNotes!;
     }
 }
+
 public class UpdateDeviceAlertCommandValidator : AbstractValidator<UpdateDeviceAlertCommand>
 {
     public UpdateDeviceAlertCommandValidator()
@@ -74,11 +76,11 @@ public class UpdateDeviceAlertCommandValidator : AbstractValidator<UpdateDeviceA
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Id cảnh báo"));
         RuleFor(x => x.AlertType)
-            .IsInEnum().When(x => x.AlertType.HasValue)            ;
+            .IsInEnum().When(x => x.AlertType.HasValue);
         RuleFor(x => x.Severity)
-            .IsInEnum().When(x => x.Severity.HasValue)            ;
-         RuleFor(x => x.Message)
-            .MaximumLength(500).When(x => !string.IsNullOrEmpty(x.Message))
-            .WithMessage(ErrorHelpers.GetErrorMaxLength("Nội dung cảnh báo", 500));
+            .IsInEnum().When(x => x.Severity.HasValue);
+        RuleFor(x => x.Message)
+           .MaximumLength(500).When(x => !string.IsNullOrEmpty(x.Message))
+           .WithMessage(ErrorHelpers.GetErrorMaxLength("Nội dung cảnh báo", 500));
     }
 }

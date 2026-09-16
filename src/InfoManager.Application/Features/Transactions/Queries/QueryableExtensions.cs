@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.Transactions;
+﻿using InfoManager.Shared.Dtos.Transactions;
 
 namespace InfoManager.Application.Features.Transactions.Queries;
 
@@ -25,6 +24,7 @@ public static class QueryableExtensions
             _ => query
         };
     }
+
     public static IQueryable<TransactionDto> ToTransactionDto(this IQueryable<Transaction> query)
     {
         return query.Select(t => new TransactionDto(Id: t.Id,
@@ -36,8 +36,9 @@ public static class QueryableExtensions
                                                     CategoryId: t.CategoryId,
                                                     PaymentMethodName: t.PaymentMethod.ToDisplayName(),
                                                     PaymentMethod: t.PaymentMethod,
-                                                    TransactionType:t.TransactionType));
+                                                    TransactionType: t.TransactionType));
     }
+
     public static IQueryable<TransactionSummaryDto> ToTransactionSummaryDto(this IQueryable<Transaction> query)
     {
         return query.Select(t => new TransactionSummaryDto(Id: t.Id,

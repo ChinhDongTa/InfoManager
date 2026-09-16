@@ -74,9 +74,9 @@ public class CreateFarmRevenueCommandHandler : BaseCreateCommandHandler<CreateFa
         : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(FarmRevenue entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(FarmRevenue entity, CancellationToken ct)
     {
-        await Context.FarmRevenues.AddAsync(entity, cancellationToken);
+        await Context.FarmRevenues.AddAsync(entity, ct);
     }
 
     protected override async Task<FarmRevenue> CreateEntity(CreateFarmRevenueCommand request)

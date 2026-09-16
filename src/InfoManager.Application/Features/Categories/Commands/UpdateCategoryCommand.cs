@@ -1,15 +1,12 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.Categories.Commands;
 
-namespace InfoManager.Application.Features.Categories.Commands;
-
-public record UpdateCategoryCommand () : IRequest<Result>
+public record UpdateCategoryCommand() : IRequest<Result>
 {
     public required string Id { get; init; }
     public string? Name { get; init; }
     public string? Group { get; init; }
     public string? KeyName { get; init; }
 }
-
 
 public class UpdateCategoryCommandHandler : BaseUpdateCommandHandler<UpdateCategoryCommand, Category>
 {
@@ -20,9 +17,9 @@ public class UpdateCategoryCommandHandler : BaseUpdateCommandHandler<UpdateCateg
     {
     }
 
-    protected override async Task<Category?> GetEntityAsync(UpdateCategoryCommand request, CancellationToken cancellationToken)
+    protected override async Task<Category?> GetEntityAsync(UpdateCategoryCommand request, CancellationToken ct)
     {
-        return await Context.Categories.FindAsync([request.Id], cancellationToken);
+        return await Context.Categories.FindAsync([request.Id], ct);
     }
 
     protected override async Task UpdateEntityProperties(Category entity, UpdateCategoryCommand request)
@@ -37,6 +34,7 @@ public class UpdateCategoryCommandHandler : BaseUpdateCommandHandler<UpdateCateg
             entity.KeyName = request.KeyName;
     }
 }
+
 public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
 {
     public UpdateCategoryCommandValidator()

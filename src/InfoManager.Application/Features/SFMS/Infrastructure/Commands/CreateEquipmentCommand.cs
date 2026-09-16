@@ -90,6 +90,7 @@ public record CreateEquipmentCommand : IRequest<Result<string>>
     /// </summary>
     public string? Notes { get; init; }
 }
+
 public class CreateEquipmentCommandHandler : BaseCreateCommandHandler<CreateEquipmentCommand, Equipment>
 {
     public CreateEquipmentCommandHandler(IApplicationDbContext context,
@@ -98,9 +99,9 @@ public class CreateEquipmentCommandHandler : BaseCreateCommandHandler<CreateEqui
     {
     }
 
-    protected override async Task AddEntityAsync(Equipment entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(Equipment entity, CancellationToken ct)
     {
-        await Context.Equipments.AddAsync(entity,cancellationToken);
+        await Context.Equipments.AddAsync(entity, ct);
     }
 
     protected override async Task<Equipment> CreateEntity(CreateEquipmentCommand request)
@@ -115,18 +116,19 @@ public class CreateEquipmentCommandHandler : BaseCreateCommandHandler<CreateEqui
             SerialNumber = request.SerialNumber,
             PowerRating = request.PowerRating,
             Specifications = request.Specifications,
-            PurchaseDate= request.PurchaseDate,
-            PurchaseCost= request.PurchaseCost,
-            CurrentValue= request.CurrentValue,
-            Status=request.Status,
-            OperatingHours=request.OperatingHours,
-            LastMaintenanceDate= request.LastMaintenanceDate,
-            NextMaintenanceDate= request.NextMaintenanceDate,
-            StorageLocation=request.StorageLocation,
-            Notes=request.Notes,
+            PurchaseDate = request.PurchaseDate,
+            PurchaseCost = request.PurchaseCost,
+            CurrentValue = request.CurrentValue,
+            Status = request.Status,
+            OperatingHours = request.OperatingHours,
+            LastMaintenanceDate = request.LastMaintenanceDate,
+            NextMaintenanceDate = request.NextMaintenanceDate,
+            StorageLocation = request.StorageLocation,
+            Notes = request.Notes,
         };
     }
 }
+
 public class CreateEquipmentCommandValidator : AbstractValidator<CreateEquipmentCommand>
 {
     public CreateEquipmentCommandValidator()

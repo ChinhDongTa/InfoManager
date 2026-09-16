@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
+
 public record CreateCropCommand : IRequest<Result<string>>
 {
     public required string CommonName { get; init; }
@@ -16,14 +17,14 @@ public record CreateCropCommand : IRequest<Result<string>>
     public decimal? SunLightHours { get; init; } = null;
     public bool IsActive { get; init; } = true;
 }
+
 public class CreateCropCommandHandler : BaseCreateCommandHandler<CreateCropCommand, Crop>
 {
-
     public CreateCropCommandHandler(IApplicationDbContext context, IValidator<CreateCropCommand> validator, ILogger<CreateCropCommandHandler> logger) : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(Crop entity, CancellationToken cancellationToken)
-        => await Context.Crops.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(Crop entity, CancellationToken ct)
+        => await Context.Crops.AddAsync(entity, ct);
 
     protected override async Task<Crop> CreateEntity(CreateCropCommand request) => new()
     {
@@ -43,6 +44,7 @@ public class CreateCropCommandHandler : BaseCreateCommandHandler<CreateCropComma
         IsActive = request.IsActive
     };
 }
+
 public class CreateCropCommandValidator : AbstractValidator<CreateCropCommand>
 {
     public CreateCropCommandValidator()

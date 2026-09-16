@@ -1,15 +1,16 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
 
 public record DeleteCropScheduleCommand(string Id) : IRequest<Result>;
+
 public class DeleteCropScheduleCommandHandler : BaseDeleteCommandHandler<DeleteCropScheduleCommand, CropSchedule>
 {
     public DeleteCropScheduleCommandHandler(IApplicationDbContext context, ILogger<DeleteCropScheduleCommandHandler> logger)
         : base(context, logger)
     {
     }
-    protected override async Task<CropSchedule?> GetEntityAsync(DeleteCropScheduleCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<CropSchedule?> GetEntityAsync(DeleteCropScheduleCommand request, CancellationToken ct)
     {
-        return await Context.CropSchedules.FindAsync([request.Id], cancellationToken);
+        return await Context.CropSchedules.FindAsync([request.Id], ct);
     }
-    
 }

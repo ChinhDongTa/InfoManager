@@ -15,17 +15,20 @@ public record CreateCropVarietyCommand : IRequest<Result<string>>
     public int? YearOfRelease { get; init; }
     public bool IsActive { get; init; }
 }
-public class CreateCropVarietyCommandHandler:BaseCreateCommandHandler<CreateCropVarietyCommand, CropVariety>
+
+public class CreateCropVarietyCommandHandler : BaseCreateCommandHandler<CreateCropVarietyCommand, CropVariety>
 {
     public CreateCropVarietyCommandHandler(IApplicationDbContext context,
                                            IValidator<CreateCropVarietyCommand> validator,
                                            ILogger<CreateCropVarietyCommandHandler> logger) : base(context, validator, logger)
     {
     }
+
     protected override async Task AddEntityAsync(CropVariety entity, CancellationToken cancellationToken)
     {
         await Context.CropVarieties.AddAsync(entity, cancellationToken);
     }
+
     protected override async Task<CropVariety> CreateEntity(CreateCropVarietyCommand request)
     {
         return new CropVariety
@@ -45,6 +48,7 @@ public class CreateCropVarietyCommandHandler:BaseCreateCommandHandler<CreateCrop
         };
     }
 }
+
 public class CreateCropVarietyCommandValidator : AbstractValidator<CreateCropVarietyCommand>
 {
     public CreateCropVarietyCommandValidator()

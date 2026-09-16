@@ -9,12 +9,12 @@ public class CropSchedule : BaseAuditableEntity
     /// Tên lịch trình / kế hoạch trồng
     /// </summary>
     [MaxLength(200)]
-    public required string ScheduleName { get; set; }
+    public string ScheduleName { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public required string CropId { get; set; }
+    public string CropId { get; set; }
 
     /// <summary>
     /// ID giống cây trồng
@@ -93,6 +93,7 @@ public class CropSchedule : BaseAuditableEntity
 
     // Navigation properties
     public virtual Crop? Crop { get; set; }
+
     public virtual CropVariety? CropVariety { get; set; }
     public virtual ICollection<GrowthStage> GrowthStages { get; set; } = [];
     public virtual ICollection<CropPlanting> Plantings { get; set; } = [];

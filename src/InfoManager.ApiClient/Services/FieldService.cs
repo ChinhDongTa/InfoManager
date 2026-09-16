@@ -5,7 +5,7 @@ namespace InfoManager.ApiClient.Services;
 public class FieldService(IFieldApi api) : IFieldService
 {
     public async Task<ApiResult<string>> CreateFieldAsync(CreateFieldRequest request, CancellationToken ct = default)
-    => await ApiResponseHandler.HandleAsync( await api.CreateFieldAsync(request, ct));
+    => await ApiResponseHandler.HandleAsync(await api.CreateFieldAsync(request, ct));
 
     public async Task<ApiResult> DeleteFieldAsync(string id, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.DeleteFieldAsync(id, ct));

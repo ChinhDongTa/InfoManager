@@ -8,7 +8,7 @@ public class CostAnalysis : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// ID lần trồng cây liên quan (tùy chọn)
@@ -101,5 +101,6 @@ public class CostAnalysis : BaseAuditableEntity
 
     // Navigation properties
     public virtual Farm? Farm { get; set; }
+
     public virtual CropPlanting? CropPlanting { get; set; }
 }

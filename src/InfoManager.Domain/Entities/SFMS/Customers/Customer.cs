@@ -10,7 +10,7 @@ public class Customer : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Mã khách hàng
@@ -22,7 +22,7 @@ public class Customer : BaseAuditableEntity
     /// Tên khách hàng / tên công ty
     /// </summary>
     [MaxLength(200)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Loại khách hàng (Cá nhân, Doanh nghiệp)
@@ -76,13 +76,14 @@ public class Customer : BaseAuditableEntity
     public string? Notes { get; set; }
 
     /// <summary>
-    /// Khách hàng đăng ký tài khoản Identity thì gắn UserId. 
+    /// Khách hàng đăng ký tài khoản Identity thì gắn UserId.
     /// Tuy nhiên, không phải khách nào cũng có tài khoản (mua tại chỗ, khách quen, đại lý chưa tạo user)
     /// </summary>
     public string? UserId { get; set; }
 
     // Navigation
     public virtual Farm? Farm { get; set; }
+
     public virtual ApplicationUser? User { get; set; }
     public virtual ICollection<CustomerPayment> Payments { get; set; } = [];
     public virtual ICollection<CustomerCare> CareRecords { get; set; } = [];

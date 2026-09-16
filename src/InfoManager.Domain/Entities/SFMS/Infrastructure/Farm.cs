@@ -12,7 +12,7 @@ public class Farm : BaseAuditableEntity
     /// Tên nông trại
     /// </summary>
     [MaxLength(200)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Mô tả nông trại
@@ -49,7 +49,7 @@ public class Farm : BaseAuditableEntity
     /// <summary>
     /// Chủ hộ sở hữu nông trại.
     /// </summary>
-    public required string FarmerId { get; set; }
+    public string FarmerId { get; set; }
 
     /// <summary>
     /// Số đăng ký / giấy phép nông trại

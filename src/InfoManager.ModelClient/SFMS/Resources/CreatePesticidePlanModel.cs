@@ -80,7 +80,7 @@ public class CreatePesticidePlanModel
             PlannedQuantity: this.PlannedQuantity,
             Unit: this.Unit,
             ApplicationMethod: this.ApplicationMethod,
-            Status:this.Status,
+            Status: this.Status,
             Notes: this.Notes
         );
     }

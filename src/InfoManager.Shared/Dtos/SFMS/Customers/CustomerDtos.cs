@@ -1,5 +1,4 @@
-﻿
-namespace InfoManager.Shared.Dtos.SFMS.Customers;
+﻿namespace InfoManager.Shared.Dtos.SFMS.Customers;
 
 // ======================== Customer ========================
 

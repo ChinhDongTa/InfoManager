@@ -2,7 +2,6 @@
 
 using InfoManager.Enum.SFMS;
 
-
 /// <summary>
 /// DTO chi tiết công việc / hoạt động trên nông trại
 /// </summary>
@@ -374,4 +373,3 @@ public record UpdateTaskDtoRequest(
     /// </summary>
     string? Notes
 );
-

@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.Families.Commands;
+﻿namespace InfoManager.Application.Features.Families.Commands;
 
 public record UpdateFamilyCommand : IRequest<Result>
 {
@@ -10,6 +8,7 @@ public record UpdateFamilyCommand : IRequest<Result>
     public string? Address { get; init; }
     public string? Email { get; init; }
 }
+
 public class UpdateFamilyCommandHandler : BaseUpdateCommandHandler<UpdateFamilyCommand, Family>
 {
     public UpdateFamilyCommandHandler(IApplicationDbContext context,
@@ -18,10 +17,12 @@ public class UpdateFamilyCommandHandler : BaseUpdateCommandHandler<UpdateFamilyC
         : base(context, validator, logger)
     {
     }
-    protected override async Task<Family?> GetEntityAsync(UpdateFamilyCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<Family?> GetEntityAsync(UpdateFamilyCommand request, CancellationToken ct)
     {
-        return await Context.Families.FindAsync([request.Id], cancellationToken);
+        return await Context.Families.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(Family entity, UpdateFamilyCommand request)
     {
         if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
@@ -34,6 +35,7 @@ public class UpdateFamilyCommandHandler : BaseUpdateCommandHandler<UpdateFamilyC
             entity.Email = request.Email?.Trim();
     }
 }
+
 public class UpdateFamilyCommandValidator : AbstractValidator<UpdateFamilyCommand>
 {
     public UpdateFamilyCommandValidator()

@@ -1,6 +1,7 @@
 ﻿using InfoManager.Enum.SFMS;
 
 namespace InfoManager.ModelClient.SFMS.Infrastructure;
+
 public class UpdateDeviceModel
 {
     /// <summary>ID thiết bị. Bắt buộc.</summary>

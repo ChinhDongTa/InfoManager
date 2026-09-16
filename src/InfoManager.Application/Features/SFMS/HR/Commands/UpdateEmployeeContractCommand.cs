@@ -19,8 +19,8 @@ public class UpdateEmployeeContractCommandHandler : BaseUpdateCommandHandler<Upd
                                                 ILogger<UpdateEmployeeContractCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task<EmployeeContract?> GetEntityAsync(UpdateEmployeeContractCommand request, CancellationToken cancellationToken)
-        => await Context.EmployeeContracts.FindAsync([request.Id], cancellationToken);
+    protected override async Task<EmployeeContract?> GetEntityAsync(UpdateEmployeeContractCommand request, CancellationToken ct)
+        => await Context.EmployeeContracts.FindAsync([request.Id], ct);
 
     protected override Task UpdateEntityProperties(EmployeeContract entity, UpdateEmployeeContractCommand request)
     {

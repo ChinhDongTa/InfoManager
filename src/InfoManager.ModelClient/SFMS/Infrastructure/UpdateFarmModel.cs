@@ -5,7 +5,7 @@ namespace InfoManager.ModelClient.SFMS.Infrastructure;
 public record UpdateFarmModel
 {
     [Required]
-    public string Id { get; set; }= string.Empty;
+    public string Id { get; set; } = string.Empty;
     public string? Name { get; set; }
     public string? Description { get; set; }
     public decimal? TotalArea { get; set; }
@@ -22,9 +22,9 @@ public record UpdateFarmModel
     {
         Id = id;
         Name = dto.Name;
-        Description= dto.Description;
+        Description = dto.Description;
         TotalArea = dto.TotalArea;
-        CultivableArea= dto.CultivableArea;
+        CultivableArea = dto.CultivableArea;
         Location = dto.Location;
         Latitude = dto.Latitude;
         Longitude = dto.Longitude;
@@ -40,14 +40,14 @@ public record UpdateFarmModel
             Name: this.Name,
             Description: this.Description,
             TotalArea: this.TotalArea,
-            CultivableArea:this.CultivableArea,
-            Location:this.Location,
-            Latitude:this.Latitude,
-            Longitude:this.Longitude,
-            FarmerId:this.FarmerId,
-            LicenseNumber:this.LicenseNumber,
-            Status:this.Status,
-            EstablishedDate:this.EstablishedDate
+            CultivableArea: this.CultivableArea,
+            Location: this.Location,
+            Latitude: this.Latitude,
+            Longitude: this.Longitude,
+            FarmerId: this.FarmerId,
+            LicenseNumber: this.LicenseNumber,
+            Status: this.Status,
+            EstablishedDate: this.EstablishedDate
             );
     public bool HasChanges(UpdateFarmModel originalModel)
         => ClientUpdateHelper.HasChanges(this, originalModel);

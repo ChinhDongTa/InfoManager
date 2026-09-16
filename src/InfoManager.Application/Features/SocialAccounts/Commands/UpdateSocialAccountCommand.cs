@@ -10,6 +10,7 @@ public record UpdateSocialAccountCommand : IRequest<Result>
     public bool? IsPrimary { get; init; }
     public string? HomepageUrl { get; init; }
 }
+
 public class UpdateSocialAccountCommandHandler : BaseUpdateCommandHandler<UpdateSocialAccountCommand, SocialAccount>
 {
     public UpdateSocialAccountCommandHandler(IApplicationDbContext context,
@@ -17,10 +18,12 @@ public class UpdateSocialAccountCommandHandler : BaseUpdateCommandHandler<Update
                                              ILogger<UpdateSocialAccountCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<SocialAccount?> GetEntityAsync(UpdateSocialAccountCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<SocialAccount?> GetEntityAsync(UpdateSocialAccountCommand request, CancellationToken ct)
     {
-        return await Context.SocialAccounts.FindAsync([request.Id], cancellationToken);
+        return await Context.SocialAccounts.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(SocialAccount entity, UpdateSocialAccountCommand request)
     {
         if (request.UserId.HasValueAndIsDifferentFrom(entity.UserId))
@@ -37,6 +40,7 @@ public class UpdateSocialAccountCommandHandler : BaseUpdateCommandHandler<Update
             entity.HomepageUrl = request.HomepageUrl?.Trim();
     }
 }
+
 public class UpdateSocialAccountCommandValidator : AbstractValidator<UpdateSocialAccountCommand>
 {
     public UpdateSocialAccountCommandValidator()

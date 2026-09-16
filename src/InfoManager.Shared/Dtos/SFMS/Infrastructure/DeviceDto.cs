@@ -38,15 +38,15 @@ public record DeviceSummaryDto(
 );
 
 public record SearchDevicesRequest(
-    string? Term ,
-    DeviceType? DeviceType ,
-    DeviceStatus? DeviceStatus ,
+    string? Term,
+    DeviceType? DeviceType,
+    DeviceStatus? DeviceStatus,
     DateTimeOffset? StartInstallationDate,
     DateTimeOffset? EndInstallationDate,
     DateTimeOffset? StartLastMaintenanceDate,
     DateTimeOffset? EndLastMaintenanceDate,
     int PageNumber,
-    int PageSize 
+    int PageSize
 );
 
 public record CreateDeviceRequest(string Name,
@@ -66,19 +66,19 @@ public record CreateDeviceRequest(string Name,
 
 public record UpdateDeviceRequest(
     string Id,
-    string? Name ,
-    DeviceType? DeviceType ,
-    string? Model ,
-    string? MacAddress ,
-    string? FarmId ,
-    DeviceStatus? Status ,
-    string? IpAddress ,
-    string? CommunicationProtocol ,
-    DateTimeOffset? LastDataSyncTime ,
-    string? FirmwareVersion ,
-    decimal? BatteryLevel ,
-    decimal? StorageCapacity ,
-    decimal? StorageUsed ,
-    DateTimeOffset? LastMaintenanceDate ,
-    string? Notes 
+    string? Name,
+    DeviceType? DeviceType,
+    string? Model,
+    string? MacAddress,
+    string? FarmId,
+    DeviceStatus? Status,
+    string? IpAddress,
+    string? CommunicationProtocol,
+    DateTimeOffset? LastDataSyncTime,
+    string? FirmwareVersion,
+    decimal? BatteryLevel,
+    decimal? StorageCapacity,
+    decimal? StorageUsed,
+    DateTimeOffset? LastMaintenanceDate,
+    string? Notes
 );

@@ -14,6 +14,7 @@ public static class QueryableExtensions
                 e.Category != null ? e.Category.Name : null,
                 e.CategoryId));
     }
+
     public static IQueryable<ExperienceSummaryDto> ToSummaryDto(this IQueryable<Experience> query)
     {
         return query.Select(e => new ExperienceSummaryDto(
@@ -21,6 +22,7 @@ public static class QueryableExtensions
                 e.Content,
                 e.ExperienceDate));
     }
+
     /// <summary>
     /// Applies sorting to the query based on the provided sortBy parameter.
     /// </summary>

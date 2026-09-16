@@ -13,54 +13,62 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên lịch canh tác" @bind-Value="updateModel.ScheduleName" />
-                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
-                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="updateModel.CropVarietyId" />
-                    <FluentTextField Label="Mùa vụ" @bind-Value="updateModel.PlantingSeason" />
-                    <FluentTextField Label="Khoảng thời gian gieo trồng" @bind-Value="updateModel.PlantingDateRange" />
-                    <FluentTextField Label="Khoảng thời gian thu hoạch" @bind-Value="updateModel.HarvestDateRange" />
-                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToHarvest" />
-                    <FluentNumberField Label="Khoảng cách cây" @bind-Value="updateModel.PlantSpacing" />
-                    <FluentNumberField Label="Khoảng cách hàng" @bind-Value="updateModel.RowSpacing" />
-                    <FluentTextField Label="Lịch tưới" @bind-Value="updateModel.IrrigationSchedule" />
-                    <FluentTextField Label="Lịch bón phân" @bind-Value="updateModel.FertilizationSchedule" />
-                    <FluentTextField Label="Lịch phun thuốc" @bind-Value="updateModel.PesticideSchedule" />
-                    <FluentNumberField Label="Năng suất dự kiến" @bind-Value="updateModel.ExpectedYield" />
-                    <FluentNumberField Label="Chi phí ước tính" @bind-Value="updateModel.EstimatedCost" />
-                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên lịch canh tác" @bind-Value="updateModel.ScheduleName" />
+                        <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                        <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="updateModel.CropVarietyId" />
+                        <FluentTextField Label="Mùa vụ" @bind-Value="updateModel.PlantingSeason" />
+                        <FluentTextField Label="Khoảng thời gian gieo trồng" @bind-Value="updateModel.PlantingDateRange" />
+                        <FluentTextField Label="Khoảng thời gian thu hoạch" @bind-Value="updateModel.HarvestDateRange" />
+                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToHarvest" />
+                        <FluentNumberField Label="Khoảng cách cây" @bind-Value="updateModel.PlantSpacing" />
+                        <FluentNumberField Label="Khoảng cách hàng" @bind-Value="updateModel.RowSpacing" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentTextField Label="Lịch tưới" @bind-Value="updateModel.IrrigationSchedule" />
+                        <FluentTextField Label="Lịch bón phân" @bind-Value="updateModel.FertilizationSchedule" />
+                        <FluentTextField Label="Lịch phun thuốc" @bind-Value="updateModel.PesticideSchedule" />
+                        <FluentNumberField Label="Năng suất dự kiến" @bind-Value="updateModel.ExpectedYield" />
+                        <FluentNumberField Label="Chi phí ước tính" @bind-Value="updateModel.EstimatedCost" />
+                        <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
+                        <FluentTextArea Rows="5" Class="Width70ch" Label="Ghi chú" @bind-Value="updateModel.Notes" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-schedules/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-schedules/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên lịch canh tác" @bind-Value="createModel.ScheduleName" />
-                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
-                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="createModel.CropVarietyId" />
-                    <FluentTextField Label="Mùa vụ" @bind-Value="createModel.PlantingSeason" />
-                    <FluentTextField Label="Khoảng thời gian gieo trồng" @bind-Value="createModel.PlantingDateRange" />
-                    <FluentTextField Label="Khoảng thời gian thu hoạch" @bind-Value="createModel.HarvestDateRange" />
-                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToHarvest" />
-                    <FluentNumberField Label="Khoảng cách cây" @bind-Value="createModel.PlantSpacing" />
-                    <FluentNumberField Label="Khoảng cách hàng" @bind-Value="createModel.RowSpacing" />
-                    <FluentTextField Label="Lịch tưới" @bind-Value="createModel.IrrigationSchedule" />
-                    <FluentTextField Label="Lịch bón phân" @bind-Value="createModel.FertilizationSchedule" />
-                    <FluentTextField Label="Lịch phun thuốc" @bind-Value="createModel.PesticideSchedule" />
-                    <FluentNumberField Label="Năng suất dự kiến" @bind-Value="createModel.ExpectedYield" />
-                    <FluentNumberField Label="Chi phí ước tính" @bind-Value="createModel.EstimatedCost" />
-                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên lịch canh tác" @bind-Value="createModel.ScheduleName" />
+                        <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                        <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="createModel.CropVarietyId" />
+                        <FluentTextField Label="Mùa vụ" @bind-Value="createModel.PlantingSeason" />
+                        <FluentTextField Label="Khoảng thời gian gieo trồng" @bind-Value="createModel.PlantingDateRange" />
+                        <FluentTextField Label="Khoảng thời gian thu hoạch" @bind-Value="createModel.HarvestDateRange" />
+                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToHarvest" />
+                        <FluentNumberField Label="Khoảng cách cây" @bind-Value="createModel.PlantSpacing" />
+                        <FluentNumberField Label="Khoảng cách hàng" @bind-Value="createModel.RowSpacing" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentTextField Label="Lịch tưới" @bind-Value="createModel.IrrigationSchedule" />
+                        <FluentTextField Label="Lịch bón phân" @bind-Value="createModel.FertilizationSchedule" />
+                        <FluentTextField Label="Lịch phun thuốc" @bind-Value="createModel.PesticideSchedule" />
+                        <FluentNumberField Label="Năng suất dự kiến" @bind-Value="createModel.ExpectedYield" />
+                        <FluentNumberField Label="Chi phí ước tính" @bind-Value="createModel.EstimatedCost" />
+                        <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
+                        <FluentTextArea Rows="5" Class="Width70ch" Label="Ghi chú" @bind-Value="createModel.Notes" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-schedules/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-schedules/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

@@ -7,10 +7,12 @@ namespace InfoManager.Api.Endpoints.Common;
 public class Enums : EndpointGroupBase
 {
     public override string GroupName => "Enums";
+
     public override void Map(RouteGroupBuilder group)
     {
         group.MapGet(GetEnumValues, "{enumName}");
     }
+
     public async Task<Results<Ok<IEnumerable<SelectListItemDto>>, NotFound>> GetEnumValues([FromRoute] string enumName)
     {
         // Dùng reflection để lấy enum theo tên

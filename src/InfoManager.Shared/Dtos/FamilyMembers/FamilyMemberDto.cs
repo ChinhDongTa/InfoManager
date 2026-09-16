@@ -21,7 +21,7 @@ public record FamilyMemberSummaryDto(
     DateOnly BirthDate
 );
 
-public record SearchFamilyMemberRequest(string? FullName = null, FamilyEventType? EventType = null, int PageNumber=1, int PageSize=20);
+public record SearchFamilyMemberRequest(string? FullName = null, FamilyEventType? EventType = null, int PageNumber = 1, int PageSize = 20);
 
 public record CreateFamilyMemberRequest
 {

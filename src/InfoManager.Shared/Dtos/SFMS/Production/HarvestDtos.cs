@@ -178,3 +178,4 @@ public record UpdateHarvestRequest(
     /// <summary>Đường dẫn ảnh. Tối đa 500 ký tự.</summary>
     string? PhotoUrl
 );
+public record SearchHarvestsRequest(string? Term, string? CropPlantingId, string? QualityGrade, int PageNumber, int PageSize);

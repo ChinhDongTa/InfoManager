@@ -9,14 +9,15 @@ public record SearchFieldsQuery(string? Term,
                                bool? HasIrrigation,
                                int PageNumber,
                                int PageSize) : IRequest<Result<PaginatedList<FieldSummaryDto>>>;
+
 public class SearchFieldQueryHandler(IApplicationDbContext Context) : IRequestHandler<SearchFieldsQuery, Result<PaginatedList<FieldSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<FieldSummaryDto>>> Handle(SearchFieldsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<FieldSummaryDto>>> Handle(SearchFieldsQuery request, CancellationToken ct)
     {
         var query = Context.Fields.AsQueryable().BuildSearchQuery(request);
         var paged = await query.ApplySorting()
             .ToFieldSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<FieldSummaryDto>>.Success(paged);
     }
 }

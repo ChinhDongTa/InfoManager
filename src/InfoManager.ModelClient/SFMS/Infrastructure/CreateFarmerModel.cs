@@ -7,7 +7,7 @@ public class CreateFarmerModel
     /// 1 User chỉ có tối đa 1 hồ sơ Farmer.
     /// </summary>
     [Required]
-    public string UserId { get; set; }=string.Empty;
+    public string UserId { get; set; } = string.Empty;
 
     /// <summary>
     /// Liên kết thành viên gia đình nếu có.
@@ -61,15 +61,15 @@ public class CreateFarmerModel
     {
         return new CreateFarmerRequest
         (
-            UserId : this.UserId,
+            UserId: this.UserId,
             FullName: this.FullName,
-            FamilyMemberId : this.FamilyMemberId,
-            FarmerCode : this.FarmerCode,
-            Phone : this.Phone,
-            Email : this.Email,
-            IdentityNumber : this.IdentityNumber,
-            Address : this.Address,
-            Notes : this.Notes
+            FamilyMemberId: this.FamilyMemberId,
+            FarmerCode: this.FarmerCode,
+            Phone: this.Phone,
+            Email: this.Email,
+            IdentityNumber: this.IdentityNumber,
+            Address: this.Address,
+            Notes: this.Notes
         );
     }
 }

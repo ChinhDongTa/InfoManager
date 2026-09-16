@@ -7,12 +7,16 @@ public enum PaymentStatus
 {
     [Display(Name = "Chưa thanh toán")]
     Pending = 1,
-    [Display(Name = "Đã thanh toán")]   
+
+    [Display(Name = "Đã thanh toán")]
     Paid = 2,
+
     [Display(Name = "Thanh toán một phần")]
     PartiallyPaid = 3,
+
     [Display(Name = "Thanh toán thất bại")]
     Failed = 4,
+
     [Display(Name = "Đã hoàn tiền")]
     Refunded = 5
 }

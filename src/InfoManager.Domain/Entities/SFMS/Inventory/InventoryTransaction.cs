@@ -1,13 +1,12 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Inventory;
+﻿namespace InfoManager.Domain.Entities.SFMS.Inventory;
 
 /// <summary>
 /// Sổ lịch sử tồn kho. Mỗi lần cộng/trừ kho tạo 1 dòng, không sửa số lượng sau khi ghi.
 /// </summary>
 public class InventoryTransaction : BaseAuditableEntity
 {
-    public required string FarmId { get; set; }
-    public required string FarmInventoryId { get; set; }
+    public string FarmId { get; set; }
+    public string FarmInventoryId { get; set; }
 
     /// <summary>Nhập / Xuất / Điều chỉnh</summary>
     public InventoryTransactionType TransactionType { get; set; }
@@ -19,7 +18,7 @@ public class InventoryTransaction : BaseAuditableEntity
     public decimal Quantity { get; set; }
 
     [MaxLength(50)]
-    public required string Unit { get; set; }
+    public string Unit { get; set; }
 
     /// <summary>Tồn trước giao dịch</summary>
     public decimal QuantityBefore { get; set; }

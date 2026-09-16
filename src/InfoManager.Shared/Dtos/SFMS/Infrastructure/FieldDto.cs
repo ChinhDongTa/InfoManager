@@ -39,46 +39,46 @@ public record FieldSummaryDto(
 );
 
 public record SearchFieldsRequest(
-    string? Term ,
-    string? FarmId ,
+    string? Term,
+    string? FarmId,
     SoilCondition? SoilCondition,
     FieldStatus? Status,
     DateTimeOffset? StartLastPreparationDate,
     DateTimeOffset? EndLastPreparationDate,
     bool? HasIrrigation,
-    int PageNumber ,
+    int PageNumber,
     int PageSize
 );
 
 public record CreateFieldRequest(
     string Name,
-    string? Description = null,
-    decimal Area = 0,
-    string FarmId = "",
-    string? SoilType = null,
-    SoilCondition? SoilCondition = null,
-    decimal? Elevation = null,
-    decimal? Latitude = null,
-    decimal? Longitude = null,
-    FieldStatus Status = FieldStatus.Vacant,
-    DateTimeOffset? LastPreparationDate = null,
-    string? DrainageCondition = null,
+    string? Description,
+    decimal Area,
+    string FarmId,
+    string? SoilType,
+    SoilCondition? SoilCondition,
+    decimal? Elevation,
+    decimal? Latitude,
+    decimal? Longitude,
+    FieldStatus Status,
+    DateTimeOffset? LastPreparationDate,
+    string? DrainageCondition,
     bool HasIrrigation = false
 );
 
 public record UpdateFieldRequest(
     string Id,
-    string? Name = null,
-    string? Description = null,
-    decimal? Area = null,
-    string? FarmId = null,
-    string? SoilType = null,
-    SoilCondition? SoilCondition = null,
-    decimal? Elevation = null,
-    decimal? Latitude = null,
-    decimal? Longitude = null,
-    FieldStatus? Status = null,
-    DateTimeOffset? LastPreparationDate = null,
-    string? DrainageCondition = null,
-    bool? HasIrrigation = null
+    string? Name,
+    string? Description,
+    decimal? Area,
+    string? FarmId,
+    string? SoilType,
+    SoilCondition? SoilCondition,
+    decimal? Elevation,
+    decimal? Latitude,
+    decimal? Longitude,
+    FieldStatus? Status,
+    DateTimeOffset? LastPreparationDate,
+    string? DrainageCondition,
+    bool? HasIrrigation
 );

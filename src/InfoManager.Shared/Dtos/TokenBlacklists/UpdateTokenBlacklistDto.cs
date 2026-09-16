@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Shared.Dtos.TokenBlacklists;
+
 public record UpdateTokenBlacklistDto
 {
     public int Id { get; init; }

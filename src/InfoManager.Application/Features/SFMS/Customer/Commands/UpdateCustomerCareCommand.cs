@@ -51,32 +51,36 @@ public record UpdateCustomerCareCommand : IRequest<Result>
     /// </summary>
     public string? Result { get; init; }
 }
+
 public class UpdateCustomerCareCommandHandler : BaseUpdateCommandHandler<UpdateCustomerCareCommand, CustomerCare>
 {
     public UpdateCustomerCareCommandHandler(IApplicationDbContext context, IValidator<UpdateCustomerCareCommand> validator, ILogger<UpdateCustomerCareCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task<CustomerCare?> GetEntityAsync(UpdateCustomerCareCommand request, CancellationToken cancellationToken)
-        => await Context.CustomerCares.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+    protected override async Task<CustomerCare?> GetEntityAsync(UpdateCustomerCareCommand request, CancellationToken ct)
+        => await Context.CustomerCares.FirstOrDefaultAsync(x => x.Id == request.Id, ct);
+
     protected override async Task UpdateEntityProperties(CustomerCare entity, UpdateCustomerCareCommand request)
     {
-        if(request.CareType.HasValueAndIsDifferentFrom(entity.CareType))
+        if (request.CareType.HasValueAndIsDifferentFrom(entity.CareType))
             entity.CareType = request.CareType!.Value;
-        if(request.Subject.HasValueAndIsDifferentFrom(entity.Subject))
+        if (request.Subject.HasValueAndIsDifferentFrom(entity.Subject))
             entity.Subject = request.Subject!;
-        if(request.Content.IsDifferentFrom(entity.Content))
+        if (request.Content.IsDifferentFrom(entity.Content))
             entity.Content = request.Content!;
-        if(request.CareDate.HasValueAndIsDifferentFrom(entity.CareDate))
+        if (request.CareDate.HasValueAndIsDifferentFrom(entity.CareDate))
             entity.CareDate = request.CareDate!.Value;
-        if(request.NextFollowUpDate.IsDifferentFrom(entity.NextFollowUpDate))
+        if (request.NextFollowUpDate.IsDifferentFrom(entity.NextFollowUpDate))
             entity.NextFollowUpDate = request.NextFollowUpDate;
-        if(request.Status.HasValueAndIsDifferentFrom(entity.Status))
+        if (request.Status.HasValueAndIsDifferentFrom(entity.Status))
             entity.Status = request.Status!.Value;
-        if(request.HandledBy.IsDifferentFrom(entity.HandledBy))
+        if (request.HandledBy.IsDifferentFrom(entity.HandledBy))
             entity.HandledBy = request.HandledBy!;
-        if(request.Result.IsDifferentFrom(entity.Result))
+        if (request.Result.IsDifferentFrom(entity.Result))
             entity.Result = request.Result!;
     }
 }
+
 public class UpdateCustomerCareCommandValidator : AbstractValidator<UpdateCustomerCareCommand>
 {
     public UpdateCustomerCareCommandValidator()

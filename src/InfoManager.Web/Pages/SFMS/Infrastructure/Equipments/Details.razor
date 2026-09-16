@@ -9,26 +9,30 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (equipment != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Tên thiết bị" Value="@equipment.Name" />
-                <DetailItem Label="Loại thiết bị" Value="@equipment.EquipmentTypeName" />
-                <DetailItem Label="Nông trại" Value="@equipment.FarmName" />
-                <DetailItem Label="Nhà sản xuất" Value="@equipment.Manufacturer" />
-                <DetailItem Label="Model" Value="@equipment.Model" />
-                <DetailItem Label="Số serial" Value="@equipment.SerialNumber" />
-                <DetailItem Label="Công suất (HP)" Value="@FormatNumber.FormatDecimal(equipment.PowerRating)" />
-                <DetailItem Label="Thông số kỹ thuật" Value="@equipment.Specifications" />
-                <DetailItem Label="Ngày mua" Value="@(equipment.PurchaseDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Giá mua" Value="@FormatNumber.FormatDecimal(equipment.PurchaseCost)" />
-                <DetailItem Label="Giá trị hiện tại" Value="@FormatNumber.FormatDecimal(equipment.CurrentValue)" />
-                <DetailItem Label="Trạng thái" Value="@equipment.StatusName" />
-                <DetailItem Label="Số giờ vận hành" Value="@FormatNumber.FormatDecimal(equipment.OperatingHours)" />
-                <DetailItem Label="Ngày bảo trì gần nhất" Value="@(equipment.LastMaintenanceDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Ngày bảo trì kế tiếp" Value="@(equipment.NextMaintenanceDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Vị trí lưu trữ" Value="@equipment.StorageLocation" />
-                <DetailItem Label="Ghi chú" Value="@equipment.Notes" />
-                <DetailItem Label="Ngày tạo" Value="@(equipment.Created?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/equipments" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Tên thiết bị" Value="@equipment.Name" />
+                    <DetailItem Label="Loại thiết bị" Value="@equipment.EquipmentTypeName" />
+                    <DetailItem Label="Nông trại" Value="@equipment.FarmName" />
+                    <DetailItem Label="Nhà sản xuất" Value="@equipment.Manufacturer" />
+                    <DetailItem Label="Model" Value="@equipment.Model" />
+                    <DetailItem Label="Số serial" Value="@equipment.SerialNumber" />
+                    <DetailItem Label="Công suất (HP)" Value="@FormatNumber.FormatDecimal(equipment.PowerRating)" />
+                    <DetailItem Label="Thông số kỹ thuật" Value="@equipment.Specifications" />
+                    <DetailItem Label="Ngày mua" Value="@(equipment.PurchaseDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Giá mua" Value="@FormatNumber.FormatDecimal(equipment.PurchaseCost)" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Giá trị hiện tại" Value="@FormatNumber.FormatDecimal(equipment.CurrentValue)" />
+                    <DetailItem Label="Trạng thái" Value="@equipment.StatusName" />
+                    <DetailItem Label="Số giờ vận hành" Value="@FormatNumber.FormatDecimal(equipment.OperatingHours)" />
+                    <DetailItem Label="Ngày bảo trì gần nhất" Value="@(equipment.LastMaintenanceDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Ngày bảo trì kế tiếp" Value="@(equipment.NextMaintenanceDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Vị trí lưu trữ" Value="@equipment.StorageLocation" />
+                    <DetailItem Label="Ghi chú" Value="@equipment.Notes" />
+                    <DetailItem Label="Ngày tạo" Value="@(equipment.Created?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/equipments" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

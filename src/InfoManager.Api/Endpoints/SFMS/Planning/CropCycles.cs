@@ -3,6 +3,7 @@
 public class CropCycles : EndpointGroupBase
 {
     public override string GroupName => "CropCycles";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -16,41 +17,44 @@ public class CropCycles : EndpointGroupBase
         api.MapPut(UpdateCropCycleAsync, "{id}");
         api.MapDelete(DeleteCropCycleAsync, "{id}");
     }
-    public async Task<IResult> GetCropCycleByIdAsync(string id, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> GetCropCycleByIdAsync(string id, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetCropCycleByIdQuery(id), cancellationToken);
+        var result = await sender.Send(new GetCropCycleByIdQuery(id), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> GetCropCyclesAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> GetCropCyclesAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetCostAnalysesQuery(pageNumber, pageSize), cancellationToken);
+        var result = await sender.Send(new GetCostAnalysesQuery(pageNumber, pageSize), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> SearchCropCyclesAsync([AsParameters] SearchCropCyclesRequest request, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> SearchCropCyclesAsync([AsParameters] SearchCropCyclesRequest request, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(CropCycleMappings.ToSearchQuery(request), cancellationToken);
+        var result = await sender.Send(CropCycleMappings.ToSearchQuery(request), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> CreateCropCycleAsync(CreateCropCycleRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+    public async Task<IResult> CreateCropCycleAsync(CreateCropCycleRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(CropCycleMappings.ToCreateCommand(request), cancellationToken);
+        var result = await sender.Send(CropCycleMappings.ToCreateCommand(request), ct);
         return result.ToCreatedHttpResult(GroupName);
     }
-    public async Task<IResult> UpdateCropCycleAsync(string id, UpdateCropCycleRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> UpdateCropCycleAsync(string id, UpdateCropCycleRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         if (id != request.Id)
         {
             return Results.BadRequest("The ID in the URL does not match the ID in the request body.");
         }
-        var result = await sender.Send(CropCycleMappings.ToUpdateCommand(request, id), cancellationToken);
+        var result = await sender.Send(CropCycleMappings.ToUpdateCommand(request, id), ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> DeleteCropCycleAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> DeleteCropCycleAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(new DeleteCropCycleCommand(id), cancellationToken);
+        var result = await sender.Send(new DeleteCropCycleCommand(id), ct);
         return result.ToHttpResult();
     }
 }

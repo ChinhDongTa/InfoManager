@@ -3,11 +3,11 @@
 public class UnhandledExceptionBehaviour<TRequest, TResponse>(ILogger<TRequest> logger) :
     IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
         try
         {
-            return await next(cancellationToken);
+            return await next(ct);
         }
         catch (Exception ex)
         {

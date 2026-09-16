@@ -9,21 +9,25 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (customer != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Nông trại" Value="@customer.FarmName" />
-                <DetailItem Label="Mã khách hàng" Value="@customer.CustomerCode" />
-                <DetailItem Label="Tên khách hàng" Value="@customer.Name" />
-                <DetailItem Label="Loại khách hàng" Value="@customer.CustomerTypeName" />
-                <DetailItem Label="Số điện thoại" Value="@customer.Phone" />
-                <DetailItem Label="Email" Value="@customer.Email" />
-                <DetailItem Label="Địa chỉ" Value="@customer.Address" />
-                <DetailItem Label="Mã số thuế" Value="@customer.TaxCode" />
-                <DetailItem Label="Người liên hệ" Value="@customer.ContactPerson" />
-                <DetailItem Label="Hạn mức tín dụng" Value="@FormatNumber.FormatDecimal(customer.CreditLimit)" />
-                <DetailItem Label="Trạng thái" Value="@customer.StatusName" />
-                <DetailItem Label="Ghi chú" Value="@customer.Notes" />
-                <DetailItem Label="Ngày tạo" Value="@customer.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <EntityActions EntityId="@Id" Folder="/sfms/customers" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Nông trại" Value="@customer.FarmName" />
+                    <DetailItem Label="Mã khách hàng" Value="@customer.CustomerCode" />
+                    <DetailItem Label="Tên khách hàng" Value="@customer.Name" />
+                    <DetailItem Label="Loại khách hàng" Value="@customer.CustomerTypeName" />
+                    <DetailItem Label="Số điện thoại" Value="@customer.Phone" />
+                    <DetailItem Label="Email" Value="@customer.Email" />
+                    <DetailItem Label="Địa chỉ" Value="@customer.Address" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Mã số thuế" Value="@customer.TaxCode" />
+                    <DetailItem Label="Người liên hệ" Value="@customer.ContactPerson" />
+                    <DetailItem Label="Hạn mức tín dụng" Value="@FormatNumber.FormatDecimal(customer.CreditLimit)" />
+                    <DetailItem Label="Trạng thái" Value="@customer.StatusName" />
+                    <DetailItem Label="Ghi chú" Value="@customer.Notes" />
+                    <DetailItem Label="Ngày tạo" Value="@customer.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/customers" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

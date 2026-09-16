@@ -1,5 +1,4 @@
 ﻿using InfoManager.Shared.Dtos.HistoricalEvents;
-using InfoManager.Shared.Models;
 
 namespace InfoManager.Application.Features.HistoricalEvents.Queries.GetHistoricalEvents;
 
@@ -8,9 +7,10 @@ public record SearchHistoricalEventsQuery(string? SearchTerm,
                                       DateOnly? EndDate,
                                       int PageNumber = 1,
                                       int PageSize = 20) : IRequest<Result<PaginatedList<HistoricalEventSummaryDto>>>;
+
 public class SearchHistoricalEventsQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchHistoricalEventsQuery, Result<PaginatedList<HistoricalEventSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<HistoricalEventSummaryDto>>> Handle(SearchHistoricalEventsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<HistoricalEventSummaryDto>>> Handle(SearchHistoricalEventsQuery request, CancellationToken ct)
     {
         var query = context.HistoricalEvents.AsQueryable();
         if (!string.IsNullOrEmpty(request.SearchTerm))
@@ -28,7 +28,7 @@ public class SearchHistoricalEventsQueryHandler(IApplicationDbContext context) :
         var paginated = await query
             .ApplySorting()
             .ToHistoricalEventSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
-        return  Result<PaginatedList<HistoricalEventSummaryDto>>.Success(paginated);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
+        return Result<PaginatedList<HistoricalEventSummaryDto>>.Success(paginated);
     }
 }

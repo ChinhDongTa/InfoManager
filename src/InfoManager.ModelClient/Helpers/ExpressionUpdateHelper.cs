@@ -71,6 +71,7 @@ public static class ExpressionUpdateHelper
             }
         }
     }
+
     private static object? GetPropertyValue(object target, string propertyName)
     {
         var property = target.GetType().GetProperty(propertyName,

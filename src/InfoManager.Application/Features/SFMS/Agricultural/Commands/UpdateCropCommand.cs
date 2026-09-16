@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
+
 public record UpdateCropCommand : IRequest<Result>
 {
     public required string Id { get; init; }
@@ -17,50 +18,51 @@ public record UpdateCropCommand : IRequest<Result>
     public decimal? SunLightHours { get; init; } = null;
     public bool? IsActive { get; init; }
 }
+
 public class UpdateCropCommandHandler : BaseUpdateCommandHandler<UpdateCropCommand, Crop>
 {
-    
-    public UpdateCropCommandHandler(IApplicationDbContext context, IValidator<UpdateCropCommand> validator, ILogger<UpdateCropCommandHandler> logger):
-        base (context , validator, logger){ }
-    
+    public UpdateCropCommandHandler(IApplicationDbContext context, IValidator<UpdateCropCommand> validator, ILogger<UpdateCropCommandHandler> logger) :
+        base(context, validator, logger)
+    { }
 
-    protected override async Task<Crop?> GetEntityAsync(UpdateCropCommand request, CancellationToken cancellationToken)
+    protected override async Task<Crop?> GetEntityAsync(UpdateCropCommand request, CancellationToken ct)
     {
-        return await Context.Crops.FindAsync([request.Id], cancellationToken);
+        return await Context.Crops.FindAsync([request.Id], ct);
     }
 
     protected override async Task UpdateEntityProperties(Crop entity, UpdateCropCommand request)
     {
-        if(request.CommonName.HasValueAndIsDifferentFrom(entity.CommonName))
+        if (request.CommonName.HasValueAndIsDifferentFrom(entity.CommonName))
             entity.CommonName = request.CommonName!;
-        if(request.ScientificName.HasValueAndIsDifferentFrom(entity.ScientificName))
+        if (request.ScientificName.HasValueAndIsDifferentFrom(entity.ScientificName))
             entity.ScientificName = request.ScientificName!;
-        if(request.Description.IsDifferentFrom(entity.Description))
+        if (request.Description.IsDifferentFrom(entity.Description))
             entity.Description = request.Description!;
-        if(request.Family.IsDifferentFrom(entity.Family))
+        if (request.Family.IsDifferentFrom(entity.Family))
             entity.Family = request.Family!;
-        if(request.DaysToMaturity.IsDifferentFrom(entity.DaysToMaturity))
+        if (request.DaysToMaturity.IsDifferentFrom(entity.DaysToMaturity))
             entity.DaysToMaturity = request.DaysToMaturity;
-        if(request.MinTemperature.IsDifferentFrom(entity.MinTemperature))
+        if (request.MinTemperature.IsDifferentFrom(entity.MinTemperature))
             entity.MinTemperature = request.MinTemperature;
-        if(request.MaxTemperature.IsDifferentFrom(entity.MaxTemperature))
+        if (request.MaxTemperature.IsDifferentFrom(entity.MaxTemperature))
             entity.MaxTemperature = request.MaxTemperature;
-        if(request.MinHumidity.IsDifferentFrom(entity.MinHumidity))
+        if (request.MinHumidity.IsDifferentFrom(entity.MinHumidity))
             entity.MinHumidity = request.MinHumidity;
-        if(request.MaxHumidity.IsDifferentFrom(entity.MaxHumidity))
+        if (request.MaxHumidity.IsDifferentFrom(entity.MaxHumidity))
             entity.MaxHumidity = request.MaxHumidity;
-        if(request.MinSoilPh.IsDifferentFrom(entity.MinSoilPh))
+        if (request.MinSoilPh.IsDifferentFrom(entity.MinSoilPh))
             entity.MinSoilPh = request.MinSoilPh;
-        if(request.MaxSoilPh.IsDifferentFrom(entity.MaxSoilPh))
+        if (request.MaxSoilPh.IsDifferentFrom(entity.MaxSoilPh))
             entity.MaxSoilPh = request.MaxSoilPh;
-        if(request.WaterRequirement.IsDifferentFrom(entity.WaterRequirement))
+        if (request.WaterRequirement.IsDifferentFrom(entity.WaterRequirement))
             entity.WaterRequirement = request.WaterRequirement;
-        if(request.SunLightHours.IsDifferentFrom(entity.SunLightHours))
+        if (request.SunLightHours.IsDifferentFrom(entity.SunLightHours))
             entity.SunLightHours = request.SunLightHours;
-        if(request.IsActive.HasValueAndIsDifferentFrom(entity.IsActive))
+        if (request.IsActive.HasValueAndIsDifferentFrom(entity.IsActive))
             entity.IsActive = request.IsActive!.Value;
     }
 }
+
 public class UpdateCropCommandValidator : AbstractValidator<UpdateCropCommand>
 {
     public UpdateCropCommandValidator()

@@ -1,5 +1,6 @@
 ﻿using InfoManager.ApiClient.Services;
 using Microsoft.Extensions.DependencyInjection;
+
 namespace InfoManager.ApiClient;
 
 public static class DependencyInjection

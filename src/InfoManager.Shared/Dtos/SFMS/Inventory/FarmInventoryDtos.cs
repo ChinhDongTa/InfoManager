@@ -150,52 +150,52 @@ public record CreateFarmInventoryRequest(
     string Unit,
 
     /// <summary>ID phân bón. Bắt buộc nếu ResourceType = Fertilizer.</summary>
-    string? FertilizerId = null,
+    string? FertilizerId,
 
     /// <summary>ID thuốc BVTV. Bắt buộc nếu ResourceType = Pesticide.</summary>
-    string? PesticideId = null,
+    string? PesticideId,
 
     /// <summary>ID giống cây (nếu là hạt giống / cây giống).</summary>
-    string? CropVarietyId=null,
+    string? CropVarietyId,
 
     /// <summary>Thương hiệu. Tối đa 200 ký tự.</summary>
-    string? Brand = null,
+    string? Brand,
 
     /// <summary>Số lượng tồn. Mặc định 0, không âm.</summary>
-    decimal CurrentQuantity = 0,
+    decimal CurrentQuantity,
 
     /// <summary>Tồn tối thiểu để cảnh báo. Không âm. Phải ≤ MaxQuantity nếu cả hai có giá trị.</summary>
-    decimal? MinQuantity = null,
+    decimal? MinQuantity,
 
     /// <summary>Tồn tối đa. Không âm.</summary>
-    decimal? MaxQuantity = null,
+    decimal? MaxQuantity,
 
     /// <summary>Đơn giá. Không âm.</summary>
-    decimal? CostPerUnit = null,
+    decimal? CostPerUnit,
 
     /// <summary>Vị trí lưu kho. Tối đa 200 ký tự.</summary>
-    string? StorageLocation = null,
+    string? StorageLocation,
 
     /// <summary>Hạn sử dụng. Không được trước ngày mua nếu có PurchaseDate.</summary>
-    DateOnly? ExpiryDate = null,
+    DateOnly? ExpiryDate,
 
     /// <summary>Số lô. Tối đa 100 ký tự.</summary>
-    string? BatchNumber = null,
+    string? BatchNumber,
 
     /// <summary>Ngày nhập / mua.</summary>
-    DateTimeOffset? PurchaseDate = null,
+    DateTimeOffset? PurchaseDate,
 
     /// <summary>Nhà cung cấp. Tối đa 200 ký tự.</summary>
-    string? Supplier = null,
+    string? Supplier,
 
     /// <summary>Chứng nhận. Tối đa 200 ký tự.</summary>
-    string? Certification = null,
+    string? Certification,
 
     /// <summary>Quy cách. Tối đa 500 ký tự.</summary>
-    string? Specification = null,
+    string? Specification,
 
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
-    string? Notes = null,
+    string? Notes,
 
     /// <summary>Còn sử dụng hay không. Mặc định true.</summary>
     bool IsActive = true
@@ -209,65 +209,65 @@ public record UpdateFarmInventoryRequest(
     string Id,
 
     /// <summary>ID nông trại.</summary>
-    string? FarmId = null,
+    string? FarmId,
 
     /// <summary>Tên vật tư. Tối đa 200 ký tự.</summary>
-    string? ResourceName = null,
+    string? ResourceName,
 
     /// <summary>Nhóm vật tư.</summary>
-    ResourceType? ResourceType = null,
+    ResourceType? ResourceType,
 
     /// <summary>ID phân bón. Bắt buộc nếu ResourceType = Fertilizer.</summary>
-    string? FertilizerId = null,
+    string? FertilizerId,
 
     /// <summary>ID thuốc BVTV. Bắt buộc nếu ResourceType = Pesticide.</summary>
-    string? PesticideId = null,
+    string? PesticideId,
 
     /// <summary>ID giống cây (nếu là hạt giống / cây giống).</summary>
-    string? CropVarietyId = null,
+    string? CropVarietyId,
 
     /// <summary>Thương hiệu. Tối đa 200 ký tự.</summary>
-    string? Brand = null,
+    string? Brand,
 
     /// <summary>Số lượng tồn. Không âm.</summary>
-    decimal? CurrentQuantity = null,
+    decimal? CurrentQuantity,
 
     /// <summary>Đơn vị tính. Tối đa 50 ký tự.</summary>
-    string? Unit = null,
+    string? Unit,
 
     /// <summary>Tồn tối thiểu. Không âm.</summary>
-    decimal? MinQuantity = null,
+    decimal? MinQuantity,
 
     /// <summary>Tồn tối đa. Không âm.</summary>
-    decimal? MaxQuantity = null,
+    decimal? MaxQuantity,
 
     /// <summary>Đơn giá. Không âm.</summary>
-    decimal? CostPerUnit = null,
+    decimal? CostPerUnit,
 
     /// <summary>Vị trí lưu kho. Tối đa 200 ký tự.</summary>
-    string? StorageLocation = null,
+    string? StorageLocation,
 
     /// <summary>Hạn sử dụng.</summary>
-    DateOnly? ExpiryDate = null,
+    DateOnly? ExpiryDate,
 
     /// <summary>Số lô. Tối đa 100 ký tự.</summary>
-    string? BatchNumber = null,
+    string? BatchNumber,
 
     /// <summary>Ngày nhập / mua.</summary>
-    DateTimeOffset? PurchaseDate = null,
+    DateTimeOffset? PurchaseDate,
 
     /// <summary>Nhà cung cấp. Tối đa 200 ký tự.</summary>
-    string? Supplier = null,
+    string? Supplier,
 
     /// <summary>Chứng nhận. Tối đa 200 ký tự.</summary>
-    string? Certification = null,
+    string? Certification,
 
     /// <summary>Quy cách. Tối đa 500 ký tự.</summary>
-    string? Specification = null,
+    string? Specification,
 
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
-    string? Notes = null,
+    string? Notes,
 
     /// <summary>Còn sử dụng hay không.</summary>
-    bool? IsActive = null
+    bool? IsActive
 );

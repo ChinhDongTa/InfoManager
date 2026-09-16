@@ -9,9 +9,10 @@ public record SearchCropSchedulesQuery(
     bool? IsActive,
     int PageNumber,
     int PageSize) : IRequest<Result<PaginatedList<CropScheduleSummaryDto>>>;
+
 public class SearchCropSchedulesQueryHandler : IRequestHandler<SearchCropSchedulesQuery, Result<PaginatedList<CropScheduleSummaryDto>>>
 {
-    public Task<Result<PaginatedList<CropScheduleSummaryDto>>> Handle(SearchCropSchedulesQuery request, CancellationToken cancellationToken)
+    public Task<Result<PaginatedList<CropScheduleSummaryDto>>> Handle(SearchCropSchedulesQuery request, CancellationToken ct)
     {
         throw new NotImplementedException();
     }

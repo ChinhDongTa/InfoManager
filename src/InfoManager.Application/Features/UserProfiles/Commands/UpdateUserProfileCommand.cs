@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Authentication;
-
-namespace InfoManager.Application.Features.UserProfiles.Commands;
+﻿namespace InfoManager.Application.Features.UserProfiles.Commands;
 
 public record UpdateUserProfileCommand : IRequest<Result>
 {
@@ -10,6 +8,7 @@ public record UpdateUserProfileCommand : IRequest<Result>
     public string? Notes { get; init; }
     public string? ImageUrl { get; init; }
 }
+
 public class UpdateUserProfileCommandHandler : BaseUpdateCommandHandler<UpdateUserProfileCommand, UserProfile>
 {
     public UpdateUserProfileCommandHandler(IApplicationDbContext context,
@@ -17,10 +16,12 @@ public class UpdateUserProfileCommandHandler : BaseUpdateCommandHandler<UpdateUs
                                            ILogger<UpdateUserProfileCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<UserProfile?> GetEntityAsync(UpdateUserProfileCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<UserProfile?> GetEntityAsync(UpdateUserProfileCommand request, CancellationToken ct)
     {
-        return await Context.UserProfiles.FindAsync([request.Id], cancellationToken);
+        return await Context.UserProfiles.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(UserProfile entity, UpdateUserProfileCommand request)
     {
         if (request.FamilyMemberId.IsDifferentFrom(entity.FamilyMemberId))
@@ -33,6 +34,7 @@ public class UpdateUserProfileCommandHandler : BaseUpdateCommandHandler<UpdateUs
             entity.ImageUrl = request.ImageUrl;
     }
 }
+
 public class UpdateUserProfileCommandValidator : AbstractValidator<UpdateUserProfileCommand>
 {
     public UpdateUserProfileCommandValidator()

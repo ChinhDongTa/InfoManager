@@ -125,5 +125,4 @@ public interface ISensorApi
                                           [Query, AliasAs("EndInstallationDate")] System.DateTimeOffset? endInstallationDate,
                                           [Query, AliasAs("PageNumber")] int pageNumber,
                                           [Query, AliasAs("PageSize")] int pageSize, CancellationToken ct = default);
-
 }

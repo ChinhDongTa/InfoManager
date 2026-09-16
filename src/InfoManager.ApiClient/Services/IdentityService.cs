@@ -36,5 +36,4 @@ public class IdentityService(IIdentityApi identityApi) : IIdentityService
 
     public async Task<ApiResult> UpdateUserAsync(string id, UpdateUserDto dto, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await identityApi.UpdateUserAsync(id, dto, ct));
-   
 }

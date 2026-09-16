@@ -36,10 +36,12 @@ public class CreateFieldCommandHandler : BaseCreateCommandHandler<CreateFieldCom
                                      IValidator<CreateFieldCommand> validator,
                                      ILogger<CreateFieldCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task AddEntityAsync(Field entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(Field entity, CancellationToken ct)
     {
-        await Context.Fields.AddAsync(entity, cancellationToken);
+        await Context.Fields.AddAsync(entity, ct);
     }
+
     protected override async Task<Field> CreateEntity(CreateFieldCommand request)
     {
         return new Field
@@ -60,7 +62,6 @@ public class CreateFieldCommandHandler : BaseCreateCommandHandler<CreateFieldCom
         };
     }
 }
-
 
 public class CreateFieldCommandValidator : AbstractValidator<CreateFieldCommand>
 {

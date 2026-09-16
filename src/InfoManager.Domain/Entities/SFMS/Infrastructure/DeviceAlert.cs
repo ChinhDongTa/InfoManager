@@ -8,18 +8,18 @@ public class DeviceAlert : BaseAuditableEntity
     /// <summary>
     /// ID thiết bị liên quan
     /// </summary>
-    public required string DeviceId { get; set; }
+    public string DeviceId { get; set; }
 
     /// <summary>
     /// Loại cảnh báo (Pin yếu, Tín hiệu yếu, Không có dữ liệu, Lỗi phần cứng...)
     /// </summary>
-    public required AlertType AlertType { get; set; }
+    public AlertType AlertType { get; set; }
 
     /// <summary>
     /// Nội dung / mô tả cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public required string Message { get; set; }
+    public string Message { get; set; }
 
     /// <summary>
     /// Mức độ nghiêm trọng của cảnh báo

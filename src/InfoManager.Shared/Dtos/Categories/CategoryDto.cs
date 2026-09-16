@@ -10,7 +10,7 @@ public record CreateCategoryRequest
 
 public record UpdateCategoryRequest
 {
-    public string Id { get; init; }= string.Empty;
+    public string Id { get; init; } = string.Empty;
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Name { get; init; }

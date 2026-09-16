@@ -5,7 +5,7 @@ namespace InfoManager.ApiClient.Services;
 public class SensorService(ISensorApi api) : ISensorService
 {
     public async Task<ApiResult<string>> CreateSensorAsync(CreateSensorRequest request, CancellationToken ct = default)
-   =>await ApiResponseHandler.HandleAsync(await api.CreateSensorAsync(request, ct));
+   => await ApiResponseHandler.HandleAsync(await api.CreateSensorAsync(request, ct));
 
     public async Task<ApiResult> DeleteSensorAsync(string id, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.DeleteSensorAsync(id, ct));
@@ -27,8 +27,6 @@ public class SensorService(ISensorApi api) : ISensorService
                                                                         request.PageNumber,
                                                                         request.PageSize,
                                                                         ct));
-
-    
 
     public async Task<ApiResult> UpdateSensorAsync(string id, UpdateSensorRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.UpdateSensorAsync(id, request, ct));

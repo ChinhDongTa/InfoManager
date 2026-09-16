@@ -4,7 +4,7 @@ namespace InfoManager.Application.Features.Categories.Queries.GetCategories;
 
 public record GetCategoryByIdQuery(string Id) : IRequest<Result<CategoryDto?>>;
 
-public class GetCategoryByIdQueryHandler (IApplicationDbContext context): IRequestHandler<GetCategoryByIdQuery, Result<CategoryDto?>>
+public class GetCategoryByIdQueryHandler(IApplicationDbContext context) : IRequestHandler<GetCategoryByIdQuery, Result<CategoryDto?>>
 {
     public async Task<Result<CategoryDto?>> Handle(GetCategoryByIdQuery request, CancellationToken ct)
     {

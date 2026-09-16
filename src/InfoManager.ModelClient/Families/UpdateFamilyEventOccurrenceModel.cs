@@ -22,6 +22,7 @@ public class UpdateFamilyEventOccurrenceModel
     /// Chi phí tổ chức sự kiện (nếu có)
     /// </summary>
     public decimal? Cost { get; set; }
+
     public UpdateFamilyEventOccurrenceModel(FamilyEventOccurrenceDto dto)
     {
         Id = dto.Id;
@@ -31,12 +32,13 @@ public class UpdateFamilyEventOccurrenceModel
         Cost = dto.Cost;
     }
 
-    public UpdateFamilyEventOccurrenceRequest CreateRequest() => new        (
+    public UpdateFamilyEventOccurrenceRequest CreateRequest() => new(
             Id: this.Id,
             OccurrenceDate: this.OccurrenceDate,
             Location: this.Location,
             Notes: this.Notes,
             Cost: this.Cost
         );
+
     public bool HasChanges(UpdateFamilyEventOccurrenceModel originalModel) => ClientUpdateHelper.HasChanges(this, originalModel);
 }

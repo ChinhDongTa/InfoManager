@@ -6,11 +6,11 @@ namespace InfoManager.Domain.Entities.SFMS.Inventory;
 /// </summary>
 public class FarmInventory : BaseAuditableEntity
 {
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>Tên vật tư</summary>
     [MaxLength(200)]
-    public required string ResourceName { get; set; }
+    public string ResourceName { get; set; }
 
     /// <summary>Nhóm vật tư</summary>
     public ResourceType ResourceType { get; set; }
@@ -23,6 +23,7 @@ public class FarmInventory : BaseAuditableEntity
 
     /// <summary>ID giống cây (nếu là hạt giống / cây giống).</summary>
     public string? CropVarietyId { get; set; }
+
     public virtual CropVariety? CropVariety { get; set; }
 
     [MaxLength(200)]
@@ -31,7 +32,7 @@ public class FarmInventory : BaseAuditableEntity
     public decimal CurrentQuantity { get; set; }
 
     [MaxLength(50)]
-    public required string Unit { get; set; }
+    public string Unit { get; set; }
 
     public decimal? MinQuantity { get; set; }
     public decimal? MaxQuantity { get; set; }

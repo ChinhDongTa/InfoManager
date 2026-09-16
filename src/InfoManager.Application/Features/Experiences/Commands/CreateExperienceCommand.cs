@@ -1,7 +1,8 @@
 ﻿namespace InfoManager.Application.Features.Experiences.Commands;
+
 public record CreateExperienceCommand : IRequest<Result<string>>
 {
-   public required string Content { get; init; } 
+    public required string Content { get; init; }
     public string? Description { get; init; }
     public DateOnly? ExperienceDate { get; init; }
     public string? CategoryId { get; init; }
@@ -14,7 +15,6 @@ public class CreateExperienceCommandHandler : BaseCreateCommandHandler<CreateExp
                                           ILogger<CreateExperienceCommandHandler> logger)
         : base(context, validator, logger)
     {
-        
     }
 
     protected override async Task AddEntityAsync(Experience entity, CancellationToken cancellationToken)
@@ -33,6 +33,7 @@ public class CreateExperienceCommandHandler : BaseCreateCommandHandler<CreateExp
         };
     }
 }
+
 public class CreateExperienceCommandValidator : AbstractValidator<CreateExperienceCommand>
 {
     public CreateExperienceCommandValidator()

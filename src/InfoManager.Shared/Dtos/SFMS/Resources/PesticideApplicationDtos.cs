@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Shared.Dtos.SFMS.Resources;
+
 public record PesticideApplicationDto(
     string Id,
     string FarmId,
@@ -26,14 +27,14 @@ public record CreatePesticideApplicationRequest(
     string PesticideId,
     DateTimeOffset AppliedDate,
     decimal AppliedQuantity,
-    string? FieldId = null,
-    string? CropPlantingId = null,
-    string? PesticidePlanId = null,
-    string Unit = "lít",
-    string? ApplicationMethod = null,
-    string? AppliedBy = null,
-    decimal? Cost = null,
-    string? Notes = null
+    string? FieldId,
+    string? CropPlantingId,
+    string? PesticidePlanId,
+    string Unit,
+    string? ApplicationMethod,
+    string? AppliedBy,
+    decimal? Cost,
+    string? Notes
 );
 public record UpdatePesticideApplicationRequest(
     string Id,
@@ -41,12 +42,12 @@ public record UpdatePesticideApplicationRequest(
     string? PesticideId,
     DateTimeOffset? AppliedDate,
     decimal AppliedQuantity,
-    string? FieldId = null,
-    string? CropPlantingId = null,
-    string? PesticidePlanId = null,
-    string Unit = "lít",
-    string? ApplicationMethod = null,
-    string? AppliedBy = null,
-    decimal? Cost = null,
-    string? Notes = null
+    string? FieldId,
+    string? CropPlantingId,
+    string? PesticidePlanId,
+    string Unit,
+    string? ApplicationMethod,
+    string? AppliedBy,
+    decimal? Cost,
+    string? Notes
 );

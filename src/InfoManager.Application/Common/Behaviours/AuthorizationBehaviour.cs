@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace InfoManager.Application.Common.Behaviours;
 
-public class AuthorizationBehaviour<TRequest, TResponse>( IUser user,IIdentityService identityService) 
+public class AuthorizationBehaviour<TRequest, TResponse>(IUser user, IIdentityService identityService)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)

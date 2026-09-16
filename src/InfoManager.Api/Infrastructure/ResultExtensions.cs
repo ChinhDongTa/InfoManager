@@ -394,7 +394,7 @@ public static class ResultExtensions
 //        if (!ValidResourceNamePattern.IsMatch(resourceName))
 //        {
 //            throw new ArgumentException(
-//                "Resource name can only contain alphanumeric characters, hyphens, and underscores.", 
+//                "Resource name can only contain alphanumeric characters, hyphens, and underscores.",
 //                nameof(resourceName));
 //        }
 //    }
@@ -417,7 +417,6 @@ public static class ResultExtensions
 //            _ => StatusCodes.Status500InternalServerError
 //        };
 //    }
-
 
 //    private static string GetProblemTitle(ResultStatus resultStatus)
 //    {

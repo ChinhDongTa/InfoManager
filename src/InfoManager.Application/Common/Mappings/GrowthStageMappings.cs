@@ -2,6 +2,7 @@
 using InfoManager.Application.Features.SFMS.Agricultural.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
+
 public static class GrowthStageMappings
 {
     public static CreateGrowthStageCommand ToCreateCommand(CreateGrowthStageRequest request)
@@ -50,6 +51,7 @@ public static class GrowthStageMappings
             CommonDiseases = request.CommonDiseases,
             ManagementActivities = request.ManagementActivities
         };
+
     public static SearchGrowthStageQuery ToSearchQuery(SearchGrowthStageRequest request)
         => new(Term: request.Term,
                                                  MinStageSequence: request.MinStageSequence,

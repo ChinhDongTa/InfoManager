@@ -15,8 +15,8 @@ public class CreateWorkShiftCommandHandler : BaseCreateCommandHandler<CreateWork
                                          ILogger<CreateWorkShiftCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(WorkShift entity, CancellationToken cancellationToken)
-        => await Context.WorkShifts.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(WorkShift entity, CancellationToken ct)
+        => await Context.WorkShifts.AddAsync(entity, ct);
 
     protected override Task<WorkShift> CreateEntity(CreateWorkShiftCommand request)
         => Task.FromResult(new WorkShift

@@ -32,7 +32,6 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                .HasForeignKey(p => p.FamilyId)
                .OnDelete(DeleteBehavior.SetNull);
 
-
         // Index cho FamilyId (rất quan trọng cho global filter)
         builder.HasIndex(p => p.FamilyId);
 

@@ -1,6 +1,7 @@
 ﻿namespace InfoManager.Application.Features.SFMS.HR.Commands;
 
 public record DeleteJobAssignmentCommand(string Id) : IRequest<Result>;
+
 public class DeleteJobAssignmentCommandHandler : BaseDeleteCommandHandler<DeleteJobAssignmentCommand, JobAssignment>
 {
     public DeleteJobAssignmentCommandHandler(IApplicationDbContext context,
@@ -8,6 +9,6 @@ public class DeleteJobAssignmentCommandHandler : BaseDeleteCommandHandler<Delete
     {
     }
 
-    protected override async Task<JobAssignment?> GetEntityAsync(DeleteJobAssignmentCommand request, CancellationToken cancellationToken)
-        => await Context.JobAssignments.FindAsync([request.Id], cancellationToken);
+    protected override async Task<JobAssignment?> GetEntityAsync(DeleteJobAssignmentCommand request, CancellationToken ct)
+        => await Context.JobAssignments.FindAsync([request.Id], ct);
 }

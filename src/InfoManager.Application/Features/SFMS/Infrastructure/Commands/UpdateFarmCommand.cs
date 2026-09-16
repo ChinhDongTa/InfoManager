@@ -75,32 +75,32 @@ public class UpdateFarmCommandHandler : BaseUpdateCommandHandler<UpdateFarmComma
     {
     }
 
-    protected override async Task<Farm?> GetEntityAsync(UpdateFarmCommand request, CancellationToken cancellationToken) 
-        => await Context.Farms.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Farm?> GetEntityAsync(UpdateFarmCommand request, CancellationToken ct)
+        => await Context.Farms.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(Farm entity, UpdateFarmCommand request)
     {
-        if(request.Name.HasValueAndIsDifferentFrom(entity.Name))
+        if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;
-        if(request.Description.IsDifferentFrom(entity.Description))
+        if (request.Description.IsDifferentFrom(entity.Description))
             entity.Description = request.Description;
-        if(request.TotalArea.HasValueAndIsDifferentFrom(entity.TotalArea))
+        if (request.TotalArea.HasValueAndIsDifferentFrom(entity.TotalArea))
             entity.TotalArea = request.TotalArea!.Value;
-        if(request.CultivableArea.HasValueAndIsDifferentFrom(entity.CultivableArea))
+        if (request.CultivableArea.HasValueAndIsDifferentFrom(entity.CultivableArea))
             entity.CultivableArea = request.CultivableArea!.Value;
-        if(request.Location.IsDifferentFrom(entity.Location))
+        if (request.Location.IsDifferentFrom(entity.Location))
             entity.Location = request.Location!;
-        if(request.Latitude.IsDifferentFrom(entity.Latitude))
+        if (request.Latitude.IsDifferentFrom(entity.Latitude))
             entity.Latitude = request.Latitude!;
-        if(request.Longitude.IsDifferentFrom(entity.Longitude))
+        if (request.Longitude.IsDifferentFrom(entity.Longitude))
             entity.Longitude = request.Longitude!;
-        if(request.FarmerId.HasValueAndIsDifferentFrom(entity.FarmerId))
+        if (request.FarmerId.HasValueAndIsDifferentFrom(entity.FarmerId))
             entity.FarmerId = request.FarmerId!;
-        if(request.LicenseNumber.IsDifferentFrom(entity.LicenseNumber))
+        if (request.LicenseNumber.IsDifferentFrom(entity.LicenseNumber))
             entity.LicenseNumber = request.LicenseNumber!;
-        if(request.Status.HasValueAndIsDifferentFrom(entity.Status))
+        if (request.Status.HasValueAndIsDifferentFrom(entity.Status))
             entity.Status = request.Status!.Value;
-        if(request.EstablishedDate.IsDifferentFrom(entity.EstablishedDate))
+        if (request.EstablishedDate.IsDifferentFrom(entity.EstablishedDate))
             entity.EstablishedDate = request.EstablishedDate;
     }
 }

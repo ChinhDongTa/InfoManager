@@ -25,25 +25,25 @@ public record CreatePesticidePlanRequest(
     string PesticideId,
     string PlanName,
     DateTimeOffset PlannedDate,
-    string? CropPlantingId ,
-    string? GrowthStageId ,
-    string? Target ,
-    decimal PlannedQuantity ,
+    string? CropPlantingId,
+    string? GrowthStageId,
+    string? Target,
+    decimal PlannedQuantity,
     string Unit,
-    string? ApplicationMethod ,
+    string? ApplicationMethod,
     PesticidePlanStatus? Status,
-    string? Notes 
+    string? Notes
 );
 
 public record UpdatePesticidePlanRequest(
     string Id,
-    string? PesticideId ,
-    string? PlanName ,
-    string? Target ,
-    DateTimeOffset? PlannedDate ,
-    decimal? PlannedQuantity ,
-    string? Unit ,
-    string? ApplicationMethod ,
-    PesticidePlanStatus? Status ,
-    string? Notes 
+    string? PesticideId,
+    string? PlanName,
+    string? Target,
+    DateTimeOffset? PlannedDate,
+    decimal? PlannedQuantity,
+    string? Unit,
+    string? ApplicationMethod,
+    PesticidePlanStatus? Status,
+    string? Notes
 );

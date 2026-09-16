@@ -4,8 +4,8 @@ namespace InfoManager.ApiClient.Services;
 
 public class DeviceService(IDeviceApi api) : IDeviceService
 {
-   public async Task<ApiResult<string>> CreateDeviceAsync(CreateDeviceRequest request, CancellationToken ct = default)
-   => await ApiResponseHandler.HandleAsync(await api.CreateDeviceAsync(request, ct));
+    public async Task<ApiResult<string>> CreateDeviceAsync(CreateDeviceRequest request, CancellationToken ct = default)
+    => await ApiResponseHandler.HandleAsync(await api.CreateDeviceAsync(request, ct));
 
     public async Task<ApiResult> DeleteDeviceAsync(string id, CancellationToken ct = default)
    => await ApiResponseHandler.HandleAsync(await api.DeleteDeviceAsync(id, ct));

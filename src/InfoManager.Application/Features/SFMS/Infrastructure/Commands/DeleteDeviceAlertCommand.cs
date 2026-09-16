@@ -1,6 +1,7 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Infrastructure.Commands;
 
 public record DeleteDeviceAlertCommand(string Id) : IRequest<Result>;
+
 public class DeleteDeviceAlertCommandHandler : BaseDeleteCommandHandler<DeleteDeviceAlertCommand, DeviceAlert>
 {
     public DeleteDeviceAlertCommandHandler(IApplicationDbContext context,
@@ -8,6 +9,6 @@ public class DeleteDeviceAlertCommandHandler : BaseDeleteCommandHandler<DeleteDe
     {
     }
 
-    protected override async Task<DeviceAlert?> GetEntityAsync(DeleteDeviceAlertCommand request, CancellationToken cancellationToken)
-        => await Context.DeviceAlerts.FindAsync([request.Id], cancellationToken);
+    protected override async Task<DeviceAlert?> GetEntityAsync(DeleteDeviceAlertCommand request, CancellationToken ct)
+        => await Context.DeviceAlerts.FindAsync([request.Id], ct);
 }

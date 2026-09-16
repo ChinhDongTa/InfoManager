@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.Transactions.Commands;
+﻿namespace InfoManager.Application.Features.Transactions.Commands;
 
 public record UpdateTransactionCommand : IRequest<Result>
 {
@@ -12,6 +10,7 @@ public record UpdateTransactionCommand : IRequest<Result>
     public DateTimeOffset? TransactionDate { get; init; }
     public TransactionType? TransactionType { get; init; }
 }
+
 public class UpdateTransactionCommandHandler : BaseUpdateCommandHandler<UpdateTransactionCommand, Transaction>
 {
     public UpdateTransactionCommandHandler(IApplicationDbContext context,
@@ -19,10 +18,12 @@ public class UpdateTransactionCommandHandler : BaseUpdateCommandHandler<UpdateTr
                                            ILogger<UpdateTransactionCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<Transaction?> GetEntityAsync(UpdateTransactionCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<Transaction?> GetEntityAsync(UpdateTransactionCommand request, CancellationToken ct)
     {
-        return await Context.Transactions.FindAsync([request.Id], cancellationToken);
+        return await Context.Transactions.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(Transaction entity, UpdateTransactionCommand request)
     {
         if (request.Amount.HasValue && request.Amount.Value != entity.Amount)
@@ -44,6 +45,7 @@ public class UpdateTransactionCommandHandler : BaseUpdateCommandHandler<UpdateTr
             entity.TransactionType = request.TransactionType!.Value;
     }
 }
+
 public class UpdateTransactionCommandValidator : AbstractValidator<UpdateTransactionCommand>
 {
     public UpdateTransactionCommandValidator()

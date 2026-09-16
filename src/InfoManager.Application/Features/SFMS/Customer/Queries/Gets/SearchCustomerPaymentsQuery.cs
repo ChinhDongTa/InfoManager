@@ -5,14 +5,15 @@ public record SearchCustomerPaymentsQuery(string? Term,
                                           DateTimeOffset? EndPaymentDate,
                                           int PageNumber,
                                           int PageSize) : IRequest<Result<PaginatedList<CustomerPaymentSummaryDto>>>;
+
 public class SearchCustomerPaymentsQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchCustomerPaymentsQuery, Result<PaginatedList<CustomerPaymentSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<CustomerPaymentSummaryDto>>> Handle(SearchCustomerPaymentsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<CustomerPaymentSummaryDto>>> Handle(SearchCustomerPaymentsQuery request, CancellationToken ct)
     {
-        var query = BuildSearchQuery(context.CustomerPayments.AsQueryable(), request.Term,request.StartPaymentDate,request.EndPaymentDate);
+        var query = BuildSearchQuery(context.CustomerPayments.AsQueryable(), request.Term, request.StartPaymentDate, request.EndPaymentDate);
         var paged = await query.ApplySorting()
             .ToCustomerPaymentSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<CustomerPaymentSummaryDto>>.Success(paged);
     }
 
@@ -28,9 +29,9 @@ public class SearchCustomerPaymentsQueryHandler(IApplicationDbContext context) :
                                                   || (c.ReferenceNumber != null && EF.Functions.ILike(c.ReferenceNumber, key))
             );
         }
-        if(StartPaymentDate.HasValue)
+        if (StartPaymentDate.HasValue)
         {
-            customers = customers.Where(c=>c.PaymentDate>=StartPaymentDate);
+            customers = customers.Where(c => c.PaymentDate >= StartPaymentDate);
         }
         if (EndPaymentDate.HasValue)
         {

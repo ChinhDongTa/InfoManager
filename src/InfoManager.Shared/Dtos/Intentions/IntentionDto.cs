@@ -34,7 +34,7 @@ public record UpdateIntentionRequest
     public required string Id { get; init; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public  string? Content { get; init; }
+    public string? Content { get; init; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; init; }

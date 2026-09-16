@@ -6,7 +6,7 @@ public record CreateEmployeeAttendanceRequest(
     TimeOnly? CheckInTime,
     TimeOnly? CheckOutTime,
     string? WorkShiftId,
-    AttendanceStatus Status ,
+    AttendanceStatus Status,
     string? Reason,
     decimal? HoursWorked,
     decimal? OvertimeHours,

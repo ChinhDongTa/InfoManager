@@ -13,47 +13,55 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Mã lượt trồng" @bind-Value="updateModel.PlantingCode" />
-                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="updateModel.FieldId" />
-                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
-                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="updateModel.CropVarietyId" />
-                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="updateModel.CropScheduleId" />
-                    <DateTimePicker Label="Ngày gieo trồng" @bind-Value="plantingDate" />
-                    <DateTimePicker Label="Ngày thu hoạch dự kiến" @bind-Value="expectedHarvestDate" />
-                    <DateTimePicker Label="Ngày thu hoạch thực tế" @bind-Value="actualHarvestDate" />
-                    <FluentNumberField Label="Diện tích trồng" @bind-Value="updateModel.PlantedArea" />
-                    <FluentNumberField Label="Số lượng đã trồng" @bind-Value="updateModel.QuantityPlanted" />
-                    <FluentTextField Label="Đơn vị trồng" @bind-Value="updateModel.PlantedUnit" />
-                    <SelectList Route="/api/enums/PlantingStatus" Label="Trạng thái trồng" @bind-Value="statusSelected" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Mã lượt trồng" @bind-Value="updateModel.PlantingCode" />
+                        <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="updateModel.FieldId" />
+                        <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                        <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="updateModel.CropVarietyId" />
+                        <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="updateModel.CropScheduleId" />
+                        <DateTimePicker Label="Ngày gieo trồng" @bind-Value="plantingDate" />
+                        <DateTimePicker Label="Ngày thu hoạch dự kiến" @bind-Value="expectedHarvestDate" />
+                        <DateTimePicker Label="Ngày thu hoạch thực tế" @bind-Value="actualHarvestDate" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Diện tích trồng" @bind-Value="updateModel.PlantedArea" />
+                        <FluentNumberField Label="Số lượng đã trồng" @bind-Value="updateModel.QuantityPlanted" />
+                        <FluentTextField Label="Đơn vị trồng" @bind-Value="updateModel.PlantedUnit" />
+                        <SelectList Route="/api/enums/PlantingStatus" Label="Trạng thái trồng" @bind-Value="statusSelected" />
+                        <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-plantings/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-plantings/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="createModel.FieldId" />
-                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
-                    <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="createModel.CropVarietyId" />
-                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="createModel.CropScheduleId" />
-                    <DateTimePicker Label="Ngày gieo trồng" @bind-Value="plantingDate" />
-                    <DateTimePicker Label="Ngày thu hoạch dự kiến" @bind-Value="expectedHarvestDate" />
-                    <DateTimePicker Label="Ngày thu hoạch thực tế" @bind-Value="actualHarvestDate" />
-                    <FluentNumberField Label="Diện tích trồng" @bind-Value="createModel.PlantedArea" />
-                    <FluentNumberField Label="Số lượng đã trồng" @bind-Value="createModel.QuantityPlanted" />
-                    <FluentTextField Label="Đơn vị trồng" @bind-Value="createModel.PlantedUnit" />
-                    <SelectList Route="/api/enums/PlantingStatus" Label="Trạng thái trồng" @bind-Value="statusSelected" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="createModel.FieldId" />
+                        <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                        <SelectList Route="/api/selectlist/cropvariety" Label="Chọn giống cây trồng" @bind-Value="createModel.CropVarietyId" />
+                        <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="createModel.CropScheduleId" />
+                        <DateTimePicker Label="Ngày gieo trồng" @bind-Value="plantingDate" />
+                        <DateTimePicker Label="Ngày thu hoạch dự kiến" @bind-Value="expectedHarvestDate" />
+                        <DateTimePicker Label="Ngày thu hoạch thực tế" @bind-Value="actualHarvestDate" />
+                        <FluentNumberField Label="Diện tích trồng" @bind-Value="createModel.PlantedArea" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Số lượng đã trồng" @bind-Value="createModel.QuantityPlanted" />
+                        <FluentTextField Label="Đơn vị trồng" @bind-Value="createModel.PlantedUnit" />
+                        <SelectList Route="/api/enums/PlantingStatus" Label="Trạng thái trồng" @bind-Value="statusSelected" />
+                        <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-plantings/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-plantings/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

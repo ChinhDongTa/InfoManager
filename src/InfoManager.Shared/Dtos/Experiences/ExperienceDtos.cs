@@ -5,8 +5,8 @@ public record ExperienceSummaryDto(string Id, string Content, DateOnly? Experien
 public record SearchExperiencesRequest
 (
      string? Keyword,
-     string? CategoryId ,
-     int PageNumber= 1,
+     string? CategoryId,
+     int PageNumber = 1,
      int PageSize = 20
 );
 

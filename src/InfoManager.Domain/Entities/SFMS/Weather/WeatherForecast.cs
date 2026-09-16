@@ -8,7 +8,7 @@ public class WeatherForecast : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Thời điểm dự báo

@@ -1,8 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.FamilyEventOccurrences;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using InfoManager.Shared.Dtos.FamilyEventOccurrences;
 
 namespace InfoManager.Application.Features.FamilyEventOccurrences;
 
@@ -13,7 +9,7 @@ public static class QueryableExtensions
         return query.Select(e => new FamilyEventOccurrenceDto(
             Id: e.Id,
             FamilyEventId: e.FamilyEventId,
-            EventTitle: e.FamilyEvent!= null ? e.FamilyEvent.Title : null,
+            EventTitle: e.FamilyEvent != null ? e.FamilyEvent.Title : null,
             MemberName: e.FamilyEvent != null && e.FamilyEvent.FamilyMember != null ? e.FamilyEvent.FamilyMember.FullName : null,
             OccurrenceDate: e.OccurrenceDate,
             Location: e.Location,
@@ -21,6 +17,7 @@ public static class QueryableExtensions
             Cost: e.Cost
         ));
     }
+
     public static IQueryable<FamilyEventOccurrenceSummaryDto> ToFamilyEventOccurrenceSummaryDto(this IQueryable<FamilyEventOccurrence> query)
     {
         return query.Select(e => new FamilyEventOccurrenceSummaryDto(
@@ -32,6 +29,7 @@ public static class QueryableExtensions
             Cost: e.Cost
         ));
     }
+
     /// <summary>
     /// Applies sorting to the query based on the specified sortBy parameter. If sortBy is null or empty, it defaults to sorting by OccurrenceDate in descending order.
     /// </summary>

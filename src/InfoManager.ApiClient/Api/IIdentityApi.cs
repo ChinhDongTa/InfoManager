@@ -68,7 +68,7 @@ public interface IIdentityApi
     Task<ApiResponse<List<RoleDto>>> GetRolesAsync(CancellationToken ct = default);
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="id"></param>
     /// <param name="request"></param>

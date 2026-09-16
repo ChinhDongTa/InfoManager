@@ -1,8 +1,7 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.FamilyEvents.Commands;
+﻿namespace InfoManager.Application.Features.FamilyEvents.Commands;
 
 public record DeleteFamilyEventCommand(string Id) : IRequest<Result>;
+
 public class DeleteFamilyEventCommandHandler : BaseDeleteCommandHandler<DeleteFamilyEventCommand, FamilyEvent>
 {
     public DeleteFamilyEventCommandHandler(IApplicationDbContext context,
@@ -10,9 +9,9 @@ public class DeleteFamilyEventCommandHandler : BaseDeleteCommandHandler<DeleteFa
         : base(context, logger)
     {
     }
-    
-    protected override async Task<FamilyEvent?> GetEntityAsync(DeleteFamilyEventCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<FamilyEvent?> GetEntityAsync(DeleteFamilyEventCommand request, CancellationToken ct)
     {
-        return await Context.FamilyEvents.FindAsync([request.Id], cancellationToken);
+        return await Context.FamilyEvents.FindAsync([request.Id], ct);
     }
 }

@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.Families.Commands;
+﻿namespace InfoManager.Application.Features.Families.Commands;
 
 public record CreateFamilyCommand : IRequest<Result<string>>
 {
@@ -9,6 +7,7 @@ public record CreateFamilyCommand : IRequest<Result<string>>
     public string? Address { get; init; }
     public string? Email { get; init; }
 }
+
 public class CreateFamilyCommandHandler : BaseCreateCommandHandler<CreateFamilyCommand, Family>
 {
     public CreateFamilyCommandHandler(IApplicationDbContext context,
@@ -17,10 +16,12 @@ public class CreateFamilyCommandHandler : BaseCreateCommandHandler<CreateFamilyC
         : base(context, validator, logger)
     {
     }
+
     protected override async Task AddEntityAsync(Family entity, CancellationToken cancellationToken)
     {
         await Context.Families.AddAsync(entity, cancellationToken);
     }
+
     protected override async Task<Family> CreateEntity(CreateFamilyCommand request)
     {
         return new Family
@@ -32,6 +33,7 @@ public class CreateFamilyCommandHandler : BaseCreateCommandHandler<CreateFamilyC
         };
     }
 }
+
 public class CreateFamilyCommandValidator : AbstractValidator<CreateFamilyCommand>
 {
     public CreateFamilyCommandValidator()

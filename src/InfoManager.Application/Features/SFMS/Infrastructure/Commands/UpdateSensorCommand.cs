@@ -81,46 +81,50 @@ public record UpdateSensorCommand : IRequest<Result>
     /// </summary>
     public DateTimeOffset? NextCalibrationDate { get; init; }
 }
-public class UpdateSensorCommandHandler:BaseUpdateCommandHandler<UpdateSensorCommand, Sensor>
+
+public class UpdateSensorCommandHandler : BaseUpdateCommandHandler<UpdateSensorCommand, Sensor>
 {
     public UpdateSensorCommandHandler(IApplicationDbContext context,
                                       IValidator<UpdateSensorCommand> validator,
                                       ILogger<UpdateSensorCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task<Sensor?> GetEntityAsync(UpdateSensorCommand request, CancellationToken cancellationToken) 
-        => await Context.Sensors.FindAsync([request.Id], cancellationToken);
+
+    protected override async Task<Sensor?> GetEntityAsync(UpdateSensorCommand request, CancellationToken ct)
+        => await Context.Sensors.FindAsync([request.Id], ct);
+
     protected override async Task UpdateEntityProperties(Sensor entity, UpdateSensorCommand request)
     {
-        if (request.Name .HasValueAndIsDifferentFrom(entity.Name)) 
+        if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;
-        if (request.SensorType.HasValueAndIsDifferentFrom(entity.SensorType)) 
+        if (request.SensorType.HasValueAndIsDifferentFrom(entity.SensorType))
             entity.SensorType = request.SensorType!.Value;
-        if (request.Model.IsDifferentFrom(entity.Model)) 
+        if (request.Model.IsDifferentFrom(entity.Model))
             entity.Model = request.Model;
-        if (request.SerialNumber.IsDifferentFrom(entity.SerialNumber)) 
+        if (request.SerialNumber.IsDifferentFrom(entity.SerialNumber))
             entity.SerialNumber = request.SerialNumber;
-        if (request.FieldId.HasValueAndIsDifferentFrom(entity.FieldId)) 
+        if (request.FieldId.HasValueAndIsDifferentFrom(entity.FieldId))
             entity.FieldId = request.FieldId!;
-        if (request.DeviceId.IsDifferentFrom(entity.DeviceId)) 
+        if (request.DeviceId.IsDifferentFrom(entity.DeviceId))
             entity.DeviceId = request.DeviceId;
-        if (request.Latitude.IsDifferentFrom(entity.Latitude)) 
+        if (request.Latitude.IsDifferentFrom(entity.Latitude))
             entity.Latitude = request.Latitude;
-        if (request.Longitude.IsDifferentFrom(entity.Longitude)) 
+        if (request.Longitude.IsDifferentFrom(entity.Longitude))
             entity.Longitude = request.Longitude;
-        if (request.Depth.IsDifferentFrom(entity.Depth)) 
+        if (request.Depth.IsDifferentFrom(entity.Depth))
             entity.Depth = request.Depth!.Value;
-        if (request.Status.HasValueAndIsDifferentFrom(entity.Status)) 
+        if (request.Status.HasValueAndIsDifferentFrom(entity.Status))
             entity.Status = request.Status!.Value;
-        if (request.LastReadingTime.IsDifferentFrom(entity.LastReadingTime)) 
+        if (request.LastReadingTime.IsDifferentFrom(entity.LastReadingTime))
             entity.LastReadingTime = request.LastReadingTime;
-        if (request.BatteryLevel.IsDifferentFrom(entity.BatteryLevel)) 
+        if (request.BatteryLevel.IsDifferentFrom(entity.BatteryLevel))
             entity.BatteryLevel = request.BatteryLevel;
-        if (request.SignalStrength.IsDifferentFrom(entity.SignalStrength)) 
+        if (request.SignalStrength.IsDifferentFrom(entity.SignalStrength))
             entity.SignalStrength = request.SignalStrength;
-        if (request.NextCalibrationDate.IsDifferentFrom(entity.NextCalibrationDate)) 
+        if (request.NextCalibrationDate.IsDifferentFrom(entity.NextCalibrationDate))
             entity.NextCalibrationDate = request.NextCalibrationDate;
     }
 }
+
 public class UpdateSensorCommandValidator : AbstractValidator<UpdateSensorCommand>
 {
     public UpdateSensorCommandValidator()
@@ -141,6 +145,6 @@ public class UpdateSensorCommandValidator : AbstractValidator<UpdateSensorComman
         RuleFor(x => x.BatteryLevel).InclusiveBetween(0, 100).When(x => x.BatteryLevel.HasValue)
             .WithMessage(ErrorHelpers.GetErrorOutOfRange("Mức pin", 0, 100));
         RuleFor(x => x.SignalStrength).InclusiveBetween(0, 100).When(x => x.SignalStrength.HasValue)
-            .WithMessage(ErrorHelpers.GetErrorOutOfRange("Cường độ tín hiệu", 0, 100) );
+            .WithMessage(ErrorHelpers.GetErrorOutOfRange("Cường độ tín hiệu", 0, 100));
     }
 }

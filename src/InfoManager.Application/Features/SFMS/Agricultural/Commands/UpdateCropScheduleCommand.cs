@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
+
 public record UpdateCropScheduleCommand : IRequest<Result>
 {
     public required string Id { get; init; }
@@ -19,19 +20,22 @@ public record UpdateCropScheduleCommand : IRequest<Result>
     public bool? IsActive { get; init; } = true;
     public string? Notes { get; init; }
 }
+
 public class UpdateCropScheduleCommandHandler : BaseUpdateCommandHandler<UpdateCropScheduleCommand, CropSchedule>
 {
     public UpdateCropScheduleCommandHandler(IApplicationDbContext context, IValidator<UpdateCropScheduleCommand> validator, ILogger<UpdateCropScheduleCommandHandler> logger)
         : base(context, validator, logger)
     {
     }
-    protected override async Task<CropSchedule?> GetEntityAsync(UpdateCropScheduleCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<CropSchedule?> GetEntityAsync(UpdateCropScheduleCommand request, CancellationToken ct)
     {
-        return await Context.CropSchedules.FindAsync([request.Id], cancellationToken);
+        return await Context.CropSchedules.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(CropSchedule entity, UpdateCropScheduleCommand request)
     {
-        if(request.ScheduleName.HasValueAndIsDifferentFrom(entity.ScheduleName))
+        if (request.ScheduleName.HasValueAndIsDifferentFrom(entity.ScheduleName))
             entity.ScheduleName = request.ScheduleName!;
         if (request.CropId.HasValueAndIsDifferentFrom(entity.CropId))
             entity.CropId = request.CropId!;
@@ -65,6 +69,7 @@ public class UpdateCropScheduleCommandHandler : BaseUpdateCommandHandler<UpdateC
             entity.Notes = request.Notes;
     }
 }
+
 public class UpdateCropScheduleCommandValidator : AbstractValidator<UpdateCropScheduleCommand>
 {
     public UpdateCropScheduleCommandValidator()

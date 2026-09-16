@@ -1,5 +1,7 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Customer.Queries.Gets;
+
 using Domain.Entities.SFMS.Customers;
+
 public record SearchCustomersQuery(string? Term,
     CustomerType? CustomerType,
     decimal? MinCreditLimit,
@@ -7,25 +9,26 @@ public record SearchCustomersQuery(string? Term,
     CustomerStatus? Status,
     int PageNumber,
     int PageSize) : IRequest<Result<PaginatedList<CustomerSummaryDto>>>;
+
 public class SearchCustomersQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchCustomersQuery, Result<PaginatedList<CustomerSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<CustomerSummaryDto>>> Handle(SearchCustomersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<CustomerSummaryDto>>> Handle(SearchCustomersQuery request, CancellationToken ct)
     {
-        var query = BuildSearchQuery( request);
-        var paged= await query.ApplySorting()
+        var query = BuildSearchQuery(request);
+        var paged = await query.ApplySorting()
             .ToCustomerSummaryDto()
-            .PaginatedListAsync(request.PageNumber,request.PageSize,cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<CustomerSummaryDto>>.Success(paged);
     }
 
-    private IQueryable<Customer> BuildSearchQuery( SearchCustomersQuery request)
+    private IQueryable<Customer> BuildSearchQuery(SearchCustomersQuery request)
     {
         IQueryable<Customer> query = context.Customers.AsQueryable();
         if (!string.IsNullOrEmpty(request.Term))
         {
             var key = $"%{request.Term.Trim()}%";
             query = query.Where(c => (c.CustomerCode != null && EF.Functions.ILike(c.CustomerCode, key))
-                                                  ||(EF.Functions.ILike(c.Name,key))
+                                                  || (EF.Functions.ILike(c.Name, key))
                                                   || (c.Phone != null && EF.Functions.ILike(c.Phone, key))
                                                   || (c.Email != null && EF.Functions.ILike(c.Email, key))
                                                   || (c.Address != null && EF.Functions.ILike(c.Address, key))

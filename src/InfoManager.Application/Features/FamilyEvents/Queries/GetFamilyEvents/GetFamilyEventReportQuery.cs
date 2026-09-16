@@ -3,6 +3,7 @@
 namespace InfoManager.Application.Features.FamilyEvents.Queries.GetFamilyEvents;
 
 public record GetFamilyEventReportQuery(int NumMonth) : IRequest<Result<List<FamilyEventReportDto>>>;
+
 public class GetFamilyEventReportQueryHandler(IApplicationDbContext Context) : IRequestHandler<GetFamilyEventReportQuery, Result<List<FamilyEventReportDto>>>
 {
     public async Task<Result<List<FamilyEventReportDto>>> Handle(GetFamilyEventReportQuery request, CancellationToken ct)

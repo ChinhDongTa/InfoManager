@@ -3,7 +3,6 @@ using InfoManager.Application.Features.SFMS.Infrastructure.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
 
-
 /// <summary>
 /// Mapping từ Request sang Command của Equipment.
 /// </summary>
@@ -53,6 +52,7 @@ public static class EquipmentMappings
             StorageLocation = request.StorageLocation,
             Notes = request.Notes
         };
+
     public static SearchEquipmentsQuery ToSearchQuery(SearchEquipmentsRequest request)
         => new(Term: request.Term,
                EquipmentType: request.EquipmentType,

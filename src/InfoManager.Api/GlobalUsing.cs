@@ -8,7 +8,8 @@ global using InfoManager.Application.Features.SFMS.Agricultural.Commands;
 global using InfoManager.Application.Features.SFMS.Agricultural.Queries.Gets;
 global using InfoManager.Application.Features.SFMS.Customer.Commands;
 global using InfoManager.Application.Features.SFMS.Customer.Queries.Gets;
-global using InfoManager.Application.Features.SFMS.Inventory.Commands;
+global using InfoManager.Application.Features.SFMS.Issues.Commands;
+global using InfoManager.Application.Features.SFMS.Issues.Queries.Gets;
 
 //global using InfoManager.Application.Features.SFMS.Inventory.Queries.Gets;
 global using InfoManager.Application.Common.Mappings;
@@ -27,3 +28,5 @@ global using InfoManager.Application.Features.SFMS.Economics.Commands;
 global using InfoManager.Application.Features.SFMS.Economics.Queries.Gets;
 global using InfoManager.Application.Features.SFMS.Planning.Commands;
 global using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
+global using InfoManager.Application.Features.SFMS.Production.Commands;
+global using InfoManager.Application.Features.SFMS.Production.Queries.Gets;

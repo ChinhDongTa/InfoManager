@@ -31,6 +31,7 @@ public static class DeviceAlertMappings
             IsResolved = request.IsResolved,
             ResolutionNotes = request.ResolutionNotes
         };
+
     public static SearchDeviceAlertsQuery ToSearchQuery(SearchDeviceAlertsRequest request)
         => new(request.Term,
                request.AlertType,

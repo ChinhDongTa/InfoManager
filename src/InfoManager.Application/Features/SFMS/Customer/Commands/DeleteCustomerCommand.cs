@@ -1,6 +1,7 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Customer.Commands;
 
 public record DeleteCustomerCommand(string Id) : IRequest<Result>;
+
 public class DeleteCustomerCommandHandler : BaseDeleteCommandHandler<DeleteCustomerCommand, Domain.Entities.SFMS.Customers.Customer>
 {
     public DeleteCustomerCommandHandler(IApplicationDbContext context,
@@ -8,6 +9,6 @@ public class DeleteCustomerCommandHandler : BaseDeleteCommandHandler<DeleteCusto
     {
     }
 
-    protected override async Task<Domain.Entities.SFMS.Customers.Customer?> GetEntityAsync(DeleteCustomerCommand request, CancellationToken cancellationToken) 
-        => await Context.Customers.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Domain.Entities.SFMS.Customers.Customer?> GetEntityAsync(DeleteCustomerCommand request, CancellationToken ct)
+        => await Context.Customers.FindAsync([request.Id], ct);
 }

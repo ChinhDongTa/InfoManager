@@ -110,8 +110,8 @@ public class UpdateCostAnalysisCommandHandler : BaseUpdateCommandHandler<UpdateC
         : base(context, validator, logger)
     { }
 
-    protected override async Task<CostAnalysis?> GetEntityAsync(UpdateCostAnalysisCommand request, CancellationToken cancellationToken)
-        => await Context.CostAnalyses.FindAsync([request.Id], cancellationToken);
+    protected override async Task<CostAnalysis?> GetEntityAsync(UpdateCostAnalysisCommand request, CancellationToken ct)
+        => await Context.CostAnalyses.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(CostAnalysis entity, UpdateCostAnalysisCommand request)
     {

@@ -11,21 +11,22 @@ public static class QueryableExtensions
     /// <param name="sortBy">The field (provider, displayName, isPrimary) to sort by. If null or empty, defaults to sorting by Created date in descending order.</param>
     /// <param name="ascending">Determines the sort order. True for ascending, false for descending.</param>
     /// <returns>The sorted queryable collection of SocialAccount entities.</returns>
-    public static IQueryable<SocialAccount> ApplySorting(this IQueryable<SocialAccount> query, string? sortBy=null, bool ascending = true)
+    public static IQueryable<SocialAccount> ApplySorting(this IQueryable<SocialAccount> query, string? sortBy = null, bool ascending = true)
     {
         if (string.IsNullOrEmpty(sortBy))
         {
             return query.OrderByDescending(s => s.Created);
         }
 
-       return sortBy.ToLower() switch
-       {
-           "provider" => ascending ? query.OrderBy(s => s.Provider) : query.OrderByDescending(s => s.Provider),
-           "displayname" => ascending ? query.OrderBy(s => s.DisplayName) : query.OrderByDescending(s => s.DisplayName),
-           "isprimary" => ascending ? query.OrderBy(s => s.IsPrimary) : query.OrderByDescending(s => s.IsPrimary),
-           _ => query.OrderByDescending(s => s.Created),
-       };
+        return sortBy.ToLower() switch
+        {
+            "provider" => ascending ? query.OrderBy(s => s.Provider) : query.OrderByDescending(s => s.Provider),
+            "displayname" => ascending ? query.OrderBy(s => s.DisplayName) : query.OrderByDescending(s => s.DisplayName),
+            "isprimary" => ascending ? query.OrderBy(s => s.IsPrimary) : query.OrderByDescending(s => s.IsPrimary),
+            _ => query.OrderByDescending(s => s.Created),
+        };
     }
+
     public static IQueryable<SocialAccountDto> ToSocialAccountDto(this IQueryable<SocialAccount> query)
     {
         return query.Select(s => new SocialAccountDto(

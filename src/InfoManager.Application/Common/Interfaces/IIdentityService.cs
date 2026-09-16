@@ -1,5 +1,4 @@
-﻿
-using InfoManager.Shared.Dtos.Auths;
+﻿using InfoManager.Shared.Dtos.Auths;
 using System.Security.Claims;
 
 namespace InfoManager.Application.Common.Interfaces;

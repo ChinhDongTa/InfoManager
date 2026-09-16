@@ -150,28 +150,28 @@ public record CreateCropCycleRequest(
     decimal PlannedArea,
 
     /// <summary>Trạng thái. Mặc định Planned.</summary>
-    CropCycleStatus Status = CropCycleStatus.Planned,
+    CropCycleStatus Status,
 
     /// <summary>Chi phí dự kiến. ≥ 0.</summary>
-    decimal? EstimatedCost = null,
+    decimal? EstimatedCost,
 
     /// <summary>Doanh thu dự kiến. ≥ 0.</summary>
-    decimal? EstimatedRevenue = null,
+    decimal? EstimatedRevenue,
 
     /// <summary>Lợi nhuận dự kiến. Để trống thì server tính = Revenue - Cost.</summary>
-    decimal? EstimatedProfit = null,
+    decimal? EstimatedProfit,
 
     /// <summary>Sản lượng kỳ vọng. ≥ 0.</summary>
-    decimal? ExpectedYield = null,
+    decimal? ExpectedYield,
 
     /// <summary>Thị trường mục tiêu. Tối đa 300 ký tự.</summary>
-    string? TargetMarket = null,
+    string? TargetMarket,
 
     /// <summary>Giá bán mục tiêu. ≥ 0.</summary>
-    decimal? TargetSellingPrice = null,
+    decimal? TargetSellingPrice,
 
     /// <summary>Ghi chú. Tối đa 1000 ký tự.</summary>
-    string? Notes = null
+    string? Notes
 );
 
 /// <summary>

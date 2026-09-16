@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.HistoricalEvents;
+﻿using InfoManager.Shared.Dtos.HistoricalEvents;
 
 namespace InfoManager.Application.Features.HistoricalEvents.Queries;
 
@@ -18,6 +17,7 @@ public static class QueryableExtensions
             EventType: e.EventType
         ));
     }
+
     public static IQueryable<HistoricalEventSummaryDto> ToHistoricalEventSummaryDto(this IQueryable<HistoricalEvent> query)
     {
         return query.Select(e => new HistoricalEventSummaryDto(
@@ -27,6 +27,7 @@ public static class QueryableExtensions
             EventType: e.EventType.ToDisplayName()
         ));
     }
+
     /// <summary>
     /// Applies sorting to the HistoricalEvent query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by EventDate in descending order.
     /// </summary>

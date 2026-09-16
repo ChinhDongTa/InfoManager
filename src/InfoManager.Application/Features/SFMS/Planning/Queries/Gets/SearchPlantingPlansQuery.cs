@@ -1,22 +1,21 @@
-﻿using InfoManager.Shared.Dtos.SFMS.Planning;
-
-namespace InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
+﻿namespace InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
 
 public record SearchPlantingPlansQuery(
     string? Term,
     PlanStatus? Status,
     int PageNumber,
     int PageSize) : IRequest<Result<PaginatedList<PlantingPlanSummaryDto>>>;
+
 public class SearchPlantingPlansQueryHandler(IApplicationDbContext Context)
     : IRequestHandler<SearchPlantingPlansQuery, Result<PaginatedList<PlantingPlanSummaryDto>>>
 {
     public async Task<Result<PaginatedList<PlantingPlanSummaryDto>>> Handle(
-        SearchPlantingPlansQuery request, CancellationToken cancellationToken)
+        SearchPlantingPlansQuery request, CancellationToken ct)
     {
         var query = Context.PlantingPlans.AsQueryable().BuildSearchQuery(request);
         var paged = await query.ApplySorting()
             .ToPlantingPlanSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<PlantingPlanSummaryDto>>.Success(paged);
     }
 }

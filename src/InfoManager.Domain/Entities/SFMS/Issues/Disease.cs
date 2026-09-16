@@ -9,7 +9,7 @@ public class Disease : BaseAuditableEntity
     /// Tên thông thường của bệnh
     /// </summary>
     [MaxLength(100)]
-    public required string CommonName { get; set; }
+    public string CommonName { get; set; }
 
     /// <summary>
     /// Tên khoa học của bệnh

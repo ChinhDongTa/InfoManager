@@ -8,7 +8,7 @@ public record HistoricalEventDto(
     string? Location,
     string Summary,
     string? ReferenceSource,
-    HistoricalEventType EventType 
+    HistoricalEventType EventType
 );
 public record HistoricalEventSummaryDto(
     string Id,

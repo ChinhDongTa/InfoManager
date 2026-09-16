@@ -1,5 +1,4 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Inventory;
+﻿namespace InfoManager.Domain.Entities.SFMS.Inventory;
 
 /// <summary>
 /// Phiếu nhập vật tư
@@ -7,11 +6,11 @@ namespace InfoManager.Domain.Entities.SFMS.Inventory;
 public class InventoryReceipt : BaseAuditableEntity
 {
     /// <summary>ID nông trại</summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>Số phiếu nhập</summary>
     [MaxLength(50)]
-    public required string ReceiptNumber { get; set; }
+    public string ReceiptNumber { get; set; }
 
     /// <summary>Ngày nhập</summary>
     public DateTimeOffset ReceiptDate { get; set; }

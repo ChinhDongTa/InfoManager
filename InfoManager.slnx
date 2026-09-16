@@ -9,10 +9,6 @@
   <Project Path="src/InfoManager.ErrorHelper/InfoManager.Helper.csproj" Id="66ad020e-8244-4fb0-8110-946ffcb90e53" />
   <Project Path="src/InfoManager.Infrastructure/InfoManager.Infrastructure.csproj" Id="71af1f41-2342-41e5-add6-8a9b6b15c83d" />
   <Project Path="src/InfoManager.ModelClient/InfoManager.ModelClient.csproj" Id="66033a50-7687-4a48-a124-7fe38e50ec3f" />
-  <Project Path="src/InfoManager.ReactWeb/infomanager.reactweb.esproj">
-    <Build />
-    <Deploy />
-  </Project>
   <Project Path="src/InfoManager.Shared/InfoManager.Shared.csproj" Id="b3d0e0df-4939-4cf7-a37a-f79cb2498dbd" />
   <Project Path="src/InfoManager.TestConsole/InfoManager.TestConsole.csproj" Id="22b0756d-ee8b-4f7c-96a0-d8119dfca388" />
   <Project Path="src/InfoManager.Web/InfoManager.Web.csproj" Id="5637ad6d-901b-4cdd-b143-05703996148f" />

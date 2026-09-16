@@ -4,11 +4,12 @@ namespace InfoManager.Domain.Entities.Authentication;
 
 public class UserProfile : BaseAuditableEntity
 {
-    public required string UserId { get; set; }               // FK → ApplicationUser (1-1)
+    public string UserId { get; set; }               // FK → ApplicationUser (1-1)
     public ApplicationUser? User { get; set; }
 
     // === Liên kết Gia đình ===
     public string? FamilyMemberId { get; set; }
+
     public FamilyMember? FamilyMember { get; set; }
 
     public string? FamilyId { get; set; }                     // denormalized để lấy nhanh

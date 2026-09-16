@@ -5,15 +5,15 @@ namespace InfoManager.ModelClient.Experiences;
 public class UpdateExperienceModel
 {
     public string Id { get; set; }
+
     [MaxLength(500)]
-    /// <summary>
-    /// Nội dung trải nghiệm
-    /// </summary>
     public string? Content { get; set; }
+
     /// <summary>
     /// Mô tả chi tiết về trải nghiệm
     /// </summary>
     public string? Description { get; set; }
+
     /// <summary>
     /// Ngày diễn ra trải nghiệm
     /// </summary>
@@ -32,6 +32,7 @@ public class UpdateExperienceModel
         ExperienceDate = dto.ExperienceDate;
         CategoryId = dto.CategoryId;
     }
+
     public UpdateExperienceRequest CreateRequest()
     {
         return new UpdateExperienceRequest
@@ -43,6 +44,7 @@ public class UpdateExperienceModel
             CategoryId = this.CategoryId
         };
     }
+
     public bool HasChanges(UpdateExperienceModel originalModel)
     {
         return ClientUpdateHelper.HasChanges(this, originalModel);

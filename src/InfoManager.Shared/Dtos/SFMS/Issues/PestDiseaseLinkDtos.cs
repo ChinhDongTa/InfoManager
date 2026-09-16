@@ -70,3 +70,4 @@ public record UpdatePestDiseaseLinkRequest(
     /// <summary>Mô tả quan hệ. Tối đa 500 ký tự.</summary>
     string? RelationshipDescription
 );
+public record SearchPestDiseaseLinksRequest(string? Term, string? PestId, string? DiseaseId, int PageNumber, int PageSize);

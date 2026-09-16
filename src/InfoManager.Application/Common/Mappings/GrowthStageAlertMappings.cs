@@ -18,7 +18,6 @@ public static class GrowthStageAlertMappings
             ActualAchievementDate = request.ActualAchievementDate,
             ExpectedAchievementDate = request.ExpectedAchievementDate,
             IsResolved = request.IsResolved,
-
         };
 
     public static SearchGrowthStageAlertsQuery ToSearchQuery(SearchGrowthStageAlertRequest request)

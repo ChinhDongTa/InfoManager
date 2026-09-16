@@ -72,16 +72,19 @@ public record CreateDeviceCommand : IRequest<Result<string>>
     /// </summary>
     public string? Notes { get; init; }
 }
+
 public class CreateDeviceCommandHandler : BaseCreateCommandHandler<CreateDeviceCommand, Device>
 {
     public CreateDeviceCommandHandler(IApplicationDbContext context,
                                       IValidator<CreateDeviceCommand> validator,
                                       ILogger<CreateDeviceCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task AddEntityAsync(Device entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(Device entity, CancellationToken ct)
     {
-        await Context.Devices.AddAsync(entity, cancellationToken);
+        await Context.Devices.AddAsync(entity, ct);
     }
+
     protected override async Task<Device> CreateEntity(CreateDeviceCommand request)
     {
         return new Device
@@ -97,12 +100,13 @@ public class CreateDeviceCommandHandler : BaseCreateCommandHandler<CreateDeviceC
             FirmwareVersion = request.FirmwareVersion,
             BatteryLevel = request.BatteryLevel,
             StorageCapacity = request.StorageCapacity,
-            StorageUsed=request.StorageUsed,
+            StorageUsed = request.StorageUsed,
             InstallationDate = request.InstallationDate,
             Notes = request.Notes
         };
     }
 }
+
 public class CreateDeviceCommandValidator : AbstractValidator<CreateDeviceCommand>
 {
     public CreateDeviceCommandValidator()

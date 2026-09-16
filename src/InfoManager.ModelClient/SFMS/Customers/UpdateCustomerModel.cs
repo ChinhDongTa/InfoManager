@@ -3,7 +3,6 @@ using InfoManager.Shared.Dtos.SFMS.Customers;
 
 namespace InfoManager.ModelClient.SFMS.Customers;
 
-
 public class UpdateCustomerModel
 {
     /// <summary>ID khách hàng. Bắt buộc.</summary>

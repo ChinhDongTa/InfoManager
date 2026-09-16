@@ -7,8 +7,8 @@ public static class PrimitiveExtensions
 {
     public static bool IsMonthValid(this int num) => num > 0 && num <= 12;
 
-    public static string ToLocationUrl(this string location, string id )
+    public static string ToLocationUrl(this string location, string id)
     {
-       return $"/api/{location}/{id}";
+        return $"/api/{location}/{id}";
     }
 }

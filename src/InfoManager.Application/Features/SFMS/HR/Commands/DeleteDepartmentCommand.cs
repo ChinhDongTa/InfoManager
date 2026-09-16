@@ -1,6 +1,7 @@
-﻿
-namespace InfoManager.Application.Features.SFMS.HR.Commands;
+﻿namespace InfoManager.Application.Features.SFMS.HR.Commands;
+
 public record DeleteDepartmentCommand(string Id) : IRequest<Result>;
+
 public class DeleteDepartmentCommandHandler : BaseDeleteCommandHandler<DeleteDepartmentCommand, Department>
 {
     public DeleteDepartmentCommandHandler(IApplicationDbContext context,
@@ -8,6 +9,6 @@ public class DeleteDepartmentCommandHandler : BaseDeleteCommandHandler<DeleteDep
     {
     }
 
-    protected override async Task<Department?> GetEntityAsync(DeleteDepartmentCommand request, CancellationToken cancellationToken)
-        => await Context.Departments.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Department?> GetEntityAsync(DeleteDepartmentCommand request, CancellationToken ct)
+        => await Context.Departments.FindAsync([request.Id], ct);
 }

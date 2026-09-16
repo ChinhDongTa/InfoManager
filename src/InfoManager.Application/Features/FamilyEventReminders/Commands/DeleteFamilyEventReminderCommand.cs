@@ -1,6 +1,7 @@
 ﻿namespace InfoManager.Application.Features.FamilyEventReminders.Commands;
 
 public record DeleteFamilyEventReminderCommand(string Id) : IRequest<Result>;
+
 public class DeleteFamilyEventReminderCommandHandler : BaseDeleteCommandHandler<DeleteFamilyEventReminderCommand, FamilyEventReminder>
 {
     public DeleteFamilyEventReminderCommandHandler(IApplicationDbContext context,
@@ -8,9 +9,9 @@ public class DeleteFamilyEventReminderCommandHandler : BaseDeleteCommandHandler<
         : base(context, logger)
     {
     }
-   
-    protected override async Task<FamilyEventReminder?> GetEntityAsync(DeleteFamilyEventReminderCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<FamilyEventReminder?> GetEntityAsync(DeleteFamilyEventReminderCommand request, CancellationToken ct)
     {
-        return await Context.FamilyEventReminders.FindAsync([request.Id], cancellationToken);
+        return await Context.FamilyEventReminders.FindAsync([request.Id], ct);
     }
 }

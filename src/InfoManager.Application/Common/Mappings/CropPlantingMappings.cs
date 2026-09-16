@@ -2,6 +2,7 @@
 using InfoManager.Application.Features.SFMS.Agricultural.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
+
 /// <summary>
 /// Provides mapping methods for converting between request objects and command/query objects related to crop planting operations.
 /// </summary>
@@ -46,6 +47,7 @@ public static class CropPlantingMappings
             Notes = request.Notes
         };
     }
+
     public static SearchCropPlantingsQuery ToSearchQuery(SearchCropPlantingRequest request)
     {
         return new SearchCropPlantingsQuery(request.Term,

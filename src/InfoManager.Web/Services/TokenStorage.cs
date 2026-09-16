@@ -3,10 +3,11 @@ using Microsoft.JSInterop;
 
 namespace InfoManager.Web.Services;
 
-public class TokenStorage (IJSRuntime js) : ITokenStorage
+public class TokenStorage(IJSRuntime js) : ITokenStorage
 {
     private const string AccessTokenKey = "InfoManager_access_token";
     private const string RefreshTokenKey = "InfoManager_refresh_token";
+
     public async Task ClearTokensAsync(string? reason = null)
     {
         await js.InvokeVoidAsync("localStorage.removeItem", AccessTokenKey);

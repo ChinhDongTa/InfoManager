@@ -1,12 +1,11 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Inventory;
+﻿namespace InfoManager.Domain.Entities.SFMS.Inventory;
 
 /// <summary>
 /// Dòng chi tiết phiếu nhập
 /// </summary>
 public class InventoryReceiptItem : BaseAuditableEntity
 {
-    public required string InventoryReceiptId { get; set; }
+    public string InventoryReceiptId { get; set; }
 
     /// <summary>ID tồn kho được cộng vào sau khi ghi sổ (nếu có)</summary>
     public string? FarmInventoryId { get; set; }
@@ -14,7 +13,7 @@ public class InventoryReceiptItem : BaseAuditableEntity
     public ResourceType ResourceType { get; set; }
 
     [MaxLength(200)]
-    public required string ResourceName { get; set; }
+    public string ResourceName { get; set; }
 
     public string? FertilizerId { get; set; }
     public string? PesticideId { get; set; }
@@ -26,7 +25,7 @@ public class InventoryReceiptItem : BaseAuditableEntity
     public decimal Quantity { get; set; }
 
     [MaxLength(50)]
-    public required string Unit { get; set; }
+    public string Unit { get; set; }
 
     public decimal? CostPerUnit { get; set; }
     public decimal? LineAmount { get; set; }

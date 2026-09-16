@@ -1,7 +1,4 @@
-﻿using InfoManager.Domain.Entities.Authentication;
-using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.FamilyMembers.Commands;
+﻿namespace InfoManager.Application.Features.FamilyMembers.Commands;
 
 public record InitDataForUserCommand : IRequest<Result<MessageResponse>>
 {
@@ -9,7 +6,7 @@ public record InitDataForUserCommand : IRequest<Result<MessageResponse>>
     public required string Email { get; init; }
     public DateOnly BirthDate { get; init; }
     public Gender Gender { get; init; }
-    public string? PhoneNumber { get; init  ; }
+    public string? PhoneNumber { get; init; }
     public string? UserId { get; init; } // Optional: If you want to specify the user ID explicitly
 }
 

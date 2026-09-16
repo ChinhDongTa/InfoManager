@@ -7,14 +7,19 @@ public enum DeviceStatus
 {
     [Display(Name = "Hoạt động")]
     Active = 1,
+
     [Display(Name = "Không hoạt động")]
     Inactive = 2,
+
     [Display(Name = "Lỗi")]
     Faulty = 3,
+
     [Display(Name = "Bảo trì")]
     Maintenance = 4,
+
     [Display(Name = "Ngắt kết nối")]
     Disconnected = 5,
+
     [Display(Name = "Đã gỡ bỏ")]
     Offboarded = 6
 }

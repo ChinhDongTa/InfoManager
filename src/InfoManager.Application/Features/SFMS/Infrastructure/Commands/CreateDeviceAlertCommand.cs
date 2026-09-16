@@ -45,10 +45,12 @@ public class CreateDeviceAlertCommandHandler : BaseCreateCommandHandler<CreateDe
 {
     public CreateDeviceAlertCommandHandler(IApplicationDbContext context, IValidator<CreateDeviceAlertCommand> validator, ILogger<CreateDeviceAlertCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task AddEntityAsync(DeviceAlert entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(DeviceAlert entity, CancellationToken ct)
     {
-        await Context.DeviceAlerts.AddAsync(entity, cancellationToken);
+        await Context.DeviceAlerts.AddAsync(entity, ct);
     }
+
     protected override async Task<DeviceAlert> CreateEntity(CreateDeviceAlertCommand request)
     {
         return new DeviceAlert
@@ -63,6 +65,7 @@ public class CreateDeviceAlertCommandHandler : BaseCreateCommandHandler<CreateDe
         };
     }
 }
+
 public class CreateDeviceAlertCommandValidator : AbstractValidator<CreateDeviceAlertCommand>
 {
     public CreateDeviceAlertCommandValidator()

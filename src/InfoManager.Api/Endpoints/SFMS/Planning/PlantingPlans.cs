@@ -3,6 +3,7 @@
 public class PlantingPlans : EndpointGroupBase
 {
     public override string GroupName => "PlantingPlans";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -16,41 +17,44 @@ public class PlantingPlans : EndpointGroupBase
         api.MapPut(UpdatePlantingPlanAsync, "{id}");
         api.MapDelete(DeletePlantingPlanAsync, "{id}");
     }
-    public async Task<IResult> GetPlantingPlanByIdAsync(string id, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> GetPlantingPlanByIdAsync(string id, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetPlantingPlanByIdQuery(id), cancellationToken);
+        var result = await sender.Send(new GetPlantingPlanByIdQuery(id), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> GetPlantingPlansAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> GetPlantingPlansAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetCostAnalysesQuery(pageNumber, pageSize), cancellationToken);
+        var result = await sender.Send(new GetCostAnalysesQuery(pageNumber, pageSize), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> SearchPlantingPlansAsync([AsParameters] SearchPlantingPlansRequest request, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> SearchPlantingPlansAsync([AsParameters] SearchPlantingPlansRequest request, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(PlantingPlanMappings.ToSearchQuery(request), cancellationToken);
+        var result = await sender.Send(PlantingPlanMappings.ToSearchQuery(request), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> CreatePlantingPlanAsync(CreatePlantingPlanRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+    public async Task<IResult> CreatePlantingPlanAsync(CreatePlantingPlanRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(PlantingPlanMappings.ToCreateCommand(request), cancellationToken);
+        var result = await sender.Send(PlantingPlanMappings.ToCreateCommand(request), ct);
         return result.ToCreatedHttpResult(GroupName);
     }
-    public async Task<IResult> UpdatePlantingPlanAsync(string id, UpdatePlantingPlanRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> UpdatePlantingPlanAsync(string id, UpdatePlantingPlanRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         if (id != request.Id)
         {
             return Results.BadRequest("The ID in the URL does not match the ID in the request body.");
         }
-        var result = await sender.Send(PlantingPlanMappings.ToUpdateCommand(request, id), cancellationToken);
+        var result = await sender.Send(PlantingPlanMappings.ToUpdateCommand(request, id), ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> DeletePlantingPlanAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> DeletePlantingPlanAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(new DeletePlantingPlanCommand(id), cancellationToken);
+        var result = await sender.Send(new DeletePlantingPlanCommand(id), ct);
         return result.ToHttpResult();
     }
 }

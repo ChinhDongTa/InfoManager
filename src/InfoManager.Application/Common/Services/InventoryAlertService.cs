@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.SFMS.Inventory;
-
-namespace InfoManager.Application.Common.Services;
+﻿namespace InfoManager.Application.Common.Services;
 
 public class InventoryAlertService : IInventoryAlertService
 {
@@ -86,7 +84,7 @@ public class InventoryAlertService : IInventoryAlertService
                 FarmInventoryId = item.Id,
                 FertilizerId = item.FertilizerId,
                 PesticideId = item.PesticideId,
-                CropVarietyId=item.CropVarietyId,
+                CropVarietyId = item.CropVarietyId,
                 ItemType = MapItemType(item.ResourceType),
                 ItemName = itemName,
                 AlertType = row.Type,
@@ -158,6 +156,7 @@ public class InventoryAlertService : IInventoryAlertService
         => item.Pesticide?.Name
         ?? item.Fertilizer?.Name
         ?? item.ResourceName;
+
     private static InventoryItemType MapItemType(ResourceType type) => type switch
     {
         ResourceType.Fertilizer => InventoryItemType.Fertilizer,

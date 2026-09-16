@@ -20,8 +20,8 @@ public class UpdateEmployeeAttendanceCommandHandler : BaseUpdateCommandHandler<U
                                                   ILogger<UpdateEmployeeAttendanceCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task<EmployeeAttendance?> GetEntityAsync(UpdateEmployeeAttendanceCommand request, CancellationToken cancellationToken)
-        => await Context.EmployeeAttendances.FindAsync([request.Id], cancellationToken);
+    protected override async Task<EmployeeAttendance?> GetEntityAsync(UpdateEmployeeAttendanceCommand request, CancellationToken ct)
+        => await Context.EmployeeAttendances.FindAsync([request.Id], ct);
 
     protected override Task UpdateEntityProperties(EmployeeAttendance entity, UpdateEmployeeAttendanceCommand request)
     {

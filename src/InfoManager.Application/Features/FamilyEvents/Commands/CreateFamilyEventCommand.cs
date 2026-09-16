@@ -1,6 +1,5 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.FamilyEvents.Commands;
 
-namespace InfoManager.Application.Features.FamilyEvents.Commands;
 public record CreateFamilyEventCommand : IRequest<Result<string>>
 {
     public required string FamilyMemberId { get; init; }
@@ -9,6 +8,7 @@ public record CreateFamilyEventCommand : IRequest<Result<string>>
     public FamilyEventType EventType { get; init; }
     public string? Location { get; init; } = string.Empty;
 }
+
 public class CreateFamilyEventCommandHandler : BaseCreateCommandHandler<CreateFamilyEventCommand, FamilyEvent>
 {
     public CreateFamilyEventCommandHandler(IApplicationDbContext context,
@@ -16,9 +16,9 @@ public class CreateFamilyEventCommandHandler : BaseCreateCommandHandler<CreateFa
                                            ILogger<CreateFamilyEventCommandHandler> logger)
         : base(context, validator, logger)
     {
-
     }
-    protected override async Task AddEntityAsync(FamilyEvent entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(FamilyEvent entity, CancellationToken ct)
     {
         // Thêm nhắc nhở mặc định
         entity.Reminders.Add(new FamilyEventReminder
@@ -27,11 +27,12 @@ public class CreateFamilyEventCommandHandler : BaseCreateCommandHandler<CreateFa
             DaysBefore = 7,
             RemindTime = new TimeOnly(8, 0),
             Channel = ReminderChannel.Push,
-            Note="Được tạo mặc định khi tạo sự kiện"
+            Note = "Được tạo mặc định khi tạo sự kiện"
         });
 
-        await Context.FamilyEvents.AddAsync(entity, cancellationToken);
+        await Context.FamilyEvents.AddAsync(entity, ct);
     }
+
     protected override async Task<FamilyEvent> CreateEntity(CreateFamilyEventCommand request)
     {
         return new FamilyEvent

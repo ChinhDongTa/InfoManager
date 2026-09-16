@@ -11,6 +11,7 @@ public class CreateIntentionModel
     /// </summary>
     [Required]
     public string Content { get; set; } = string.Empty;
+
     /// <summary>
     /// Mô tả chi tiết về ý định, việc muốn làm
     /// </summary>
@@ -20,10 +21,12 @@ public class CreateIntentionModel
     /// Ngày dự kiến thực hiện ý định, việc muốn làm
     /// </summary>
     public DateTimeOffset? PlannDate { get; set; }
+
     /// <summary>
     /// Trạng thái hoàn thành của ý định, việc muốn làm
     /// </summary>
     public bool IsCompleted { get; set; } = false;
+
     /// <summary>
     /// Mức độ ưu tiên của ý định, việc muốn làm
     /// </summary>

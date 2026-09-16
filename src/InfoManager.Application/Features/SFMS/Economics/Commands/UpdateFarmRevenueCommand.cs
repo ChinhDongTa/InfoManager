@@ -80,8 +80,8 @@ public class UpdateFarmRevenueCommandHandler : BaseUpdateCommandHandler<UpdateFa
         : base(context, validator, logger)
     { }
 
-    protected override async Task<FarmRevenue?> GetEntityAsync(UpdateFarmRevenueCommand request, CancellationToken cancellationToken)
-        => await Context.FarmRevenues.FindAsync([request.Id], cancellationToken);
+    protected override async Task<FarmRevenue?> GetEntityAsync(UpdateFarmRevenueCommand request, CancellationToken ct)
+        => await Context.FarmRevenues.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(FarmRevenue entity, UpdateFarmRevenueCommand request)
     {

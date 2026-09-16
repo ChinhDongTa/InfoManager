@@ -6,12 +6,12 @@ public record CreatePayrollRequest(
     DateOnly PeriodEndDate,
     decimal BaseSalary,
     decimal DaysWorked,
-    decimal? OvertimeHours ,
-    decimal? OvertimeAmount ,
-    decimal? BonusAmount ,
-    decimal? Deductions ,
-    string? DeductionDetails ,
-    decimal NetAmount ,
-    string? PaymentMethod ,
-    string? Notes 
+    decimal? OvertimeHours,
+    decimal? OvertimeAmount,
+    decimal? BonusAmount,
+    decimal? Deductions,
+    string? DeductionDetails,
+    decimal NetAmount,
+    string? PaymentMethod,
+    string? Notes
 );

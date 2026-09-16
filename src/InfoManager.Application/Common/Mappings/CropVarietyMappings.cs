@@ -2,6 +2,7 @@
 using InfoManager.Application.Features.SFMS.Agricultural.Queries.Gets;
 
 namespace InfoManager.Application.Common.Mappings;
+
 public static class CropVarietyMappings
 {
     public static CreateCropVarietyCommand ToCreateCommand(CreateCropVarietyRequest request)
@@ -19,6 +20,7 @@ public static class CropVarietyMappings
             IsActive = request.IsActive
         };
     }
+
     public static UpdateCropVarietyCommand ToUpdateCommand(string id, UpdateCropVarietyRequest request)
     {
         return new UpdateCropVarietyCommand
@@ -35,6 +37,7 @@ public static class CropVarietyMappings
             IsActive = request.IsActive
         };
     }
+
     public static SearchCropVarietiesQuery ToSearchQuery(SearchCropVarietyRequest request)
     {
         return new SearchCropVarietiesQuery(request.Term,

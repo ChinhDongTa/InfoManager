@@ -13,50 +13,58 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên thường gọi" @bind-Value="updateModel.CommonName" />
-                    <FluentTextField Label="Tên khoa học" @bind-Value="updateModel.ScientificName" />
-                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
-                    <FluentTextField Label="Họ thực vật" @bind-Value="updateModel.Family" />
-                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
-                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
-                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
-                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
-                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
-                    <FluentNumberField Label="pH đất tối thiểu" @bind-Value="updateModel.MinSoilPh" />
-                    <FluentNumberField Label="pH đất tối đa" @bind-Value="updateModel.MaxSoilPh" />
-                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
-                    <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="updateModel.SunLightHours" />
-                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên thường gọi" @bind-Value="updateModel.CommonName" />
+                        <FluentTextField Label="Tên khoa học" @bind-Value="updateModel.ScientificName" />
+                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <FluentTextField Label="Họ thực vật" @bind-Value="updateModel.Family" />
+                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
+                        <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
+                        <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
+                        <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
+                        <FluentNumberField Label="pH đất tối thiểu" @bind-Value="updateModel.MinSoilPh" />
+                        <FluentNumberField Label="pH đất tối đa" @bind-Value="updateModel.MaxSoilPh" />
+                        <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
+                        <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="updateModel.SunLightHours" />
+                        <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên thường gọi" @bind-Value="createModel.CommonName" />
-                    <FluentTextField Label="Tên khoa học" @bind-Value="createModel.ScientificName" />
-                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
-                    <FluentTextField Label="Họ thực vật" @bind-Value="createModel.Family" />
-                    <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
-                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
-                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
-                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
-                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
-                    <FluentNumberField Label="pH đất tối thiểu" @bind-Value="createModel.MinSoilPh" />
-                    <FluentNumberField Label="pH đất tối đa" @bind-Value="createModel.MaxSoilPh" />
-                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
-                    <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="createModel.SunLightHours" />
-                    <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên thường gọi" @bind-Value="createModel.CommonName" />
+                        <FluentTextField Label="Tên khoa học" @bind-Value="createModel.ScientificName" />
+                        <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                        <FluentTextField Label="Họ thực vật" @bind-Value="createModel.Family" />
+                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
+                        <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
+                        <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
+                        <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
+                        <FluentNumberField Label="pH đất tối thiểu" @bind-Value="createModel.MinSoilPh" />
+                        <FluentNumberField Label="pH đất tối đa" @bind-Value="createModel.MaxSoilPh" />
+                        <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
+                        <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="createModel.SunLightHours" />
+                        <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

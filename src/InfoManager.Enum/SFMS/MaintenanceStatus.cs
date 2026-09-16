@@ -7,12 +7,16 @@ public enum MaintenanceStatus
 {
     [Display(Name = "Đang lên kế hoạch")]
     Planned = 1,
+
     [Display(Name = "Đang thực hiện")]
     InProgress = 2,
+
     [Display(Name = "Hoàn thành")]
     Completed = 3,
+
     [Display(Name = "Tạm hoãn")]
     Postponed = 4,
+
     [Display(Name = "Đã hủy")]
     Cancelled = 5
 }

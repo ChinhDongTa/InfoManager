@@ -9,19 +9,23 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (customerCare != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Khách hàng" Value="@customerCare.CustomerName" />
-                <DetailItem Label="Nông trại" Value="@customerCare.FarmName" />
-                <DetailItem Label="Loại chăm sóc" Value="@customerCare.CareTypeName" />
-                <DetailItem Label="Tiêu đề" Value="@customerCare.Subject" />
-                <DetailItem Label="Nội dung" Value="@customerCare.Content" />
-                <DetailItem Label="Ngày chăm sóc" Value="@customerCare.CareDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <DetailItem Label="Ngày theo dõi tiếp theo" Value="@(customerCare.NextFollowUpDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Trạng thái" Value="@customerCare.StatusName" />
-                <DetailItem Label="Người xử lý" Value="@customerCare.HandledBy" />
-                <DetailItem Label="Kết quả" Value="@customerCare.Result" />
-                <DetailItem Label="Ngày tạo" Value="@customerCare.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <EntityActions EntityId="@Id" Folder="/sfms/customers/customer-care" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Khách hàng" Value="@customerCare.CustomerName" />
+                    <DetailItem Label="Nông trại" Value="@customerCare.FarmName" />
+                    <DetailItem Label="Loại chăm sóc" Value="@customerCare.CareTypeName" />
+                    <DetailItem Label="Tiêu đề" Value="@customerCare.Subject" />
+                    <DetailItem Label="Nội dung" Value="@customerCare.Content" />
+                    <DetailItem Label="Ngày chăm sóc" Value="@customerCare.CareDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Ngày theo dõi tiếp theo" Value="@(customerCare.NextFollowUpDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Trạng thái" Value="@customerCare.StatusName" />
+                    <DetailItem Label="Người xử lý" Value="@customerCare.HandledBy" />
+                    <DetailItem Label="Kết quả" Value="@customerCare.Result" />
+                    <DetailItem Label="Ngày tạo" Value="@customerCare.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/customers/customer-care" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

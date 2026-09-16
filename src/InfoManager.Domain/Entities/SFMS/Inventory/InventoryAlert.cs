@@ -1,5 +1,4 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Inventory;
+﻿namespace InfoManager.Domain.Entities.SFMS.Inventory;
 
 /// <summary>
 /// Cảnh báo tồn kho vật tư
@@ -9,7 +8,7 @@ public class InventoryAlert : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Nhóm vật tư
@@ -38,7 +37,7 @@ public class InventoryAlert : BaseAuditableEntity
     /// Tên vật tư tại thời điểm cảnh báo
     /// </summary>
     [MaxLength(200)]
-    public required string ItemName { get; set; }
+    public string ItemName { get; set; }
 
     /// <summary>
     /// Loại cảnh báo
@@ -69,7 +68,7 @@ public class InventoryAlert : BaseAuditableEntity
     /// Nội dung cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public required string Message { get; set; }
+    public string Message { get; set; }
 
     /// <summary>
     /// Thời điểm cảnh báo

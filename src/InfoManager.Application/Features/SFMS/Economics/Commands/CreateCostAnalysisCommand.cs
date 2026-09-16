@@ -104,9 +104,9 @@ public class CreateCostAnalysisCommandHandler : BaseCreateCommandHandler<CreateC
         : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(CostAnalysis entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(CostAnalysis entity, CancellationToken ct)
     {
-        await Context.CostAnalyses.AddAsync(entity, cancellationToken);
+        await Context.CostAnalyses.AddAsync(entity, ct);
     }
 
     protected override async Task<CostAnalysis> CreateEntity(CreateCostAnalysisCommand request)

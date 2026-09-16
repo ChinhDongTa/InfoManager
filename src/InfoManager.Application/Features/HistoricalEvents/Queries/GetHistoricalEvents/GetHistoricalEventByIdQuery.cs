@@ -1,9 +1,9 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.HistoricalEvents;
+﻿using InfoManager.Shared.Dtos.HistoricalEvents;
 
 namespace InfoManager.Application.Features.HistoricalEvents.Queries.GetHistoricalEvents;
 
 public record GetHistoricalEventByIdQuery(string Id) : IRequest<Result<HistoricalEventDto?>>;
+
 public class GetHistoricalEventByIdQueryHandler(IApplicationDbContext context) : IRequestHandler<GetHistoricalEventByIdQuery, Result<HistoricalEventDto?>>
 {
     public async Task<Result<HistoricalEventDto?>> Handle(GetHistoricalEventByIdQuery request, CancellationToken cancellationToken)

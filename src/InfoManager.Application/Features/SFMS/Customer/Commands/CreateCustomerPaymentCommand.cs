@@ -61,9 +61,9 @@ public class CreateCustomerPaymentCommandHandler : BaseCreateCommandHandler<Crea
     public CreateCustomerPaymentCommandHandler(IApplicationDbContext context, IValidator<CreateCustomerPaymentCommand> validator, ILogger<CreateCustomerPaymentCommandHandler> logger) : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(CustomerPayment entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(CustomerPayment entity, CancellationToken ct)
     {
-        await Context.CustomerPayments.AddAsync(entity, cancellationToken);
+        await Context.CustomerPayments.AddAsync(entity, ct);
     }
 
     protected override async Task<CustomerPayment> CreateEntity(CreateCustomerPaymentCommand request)
@@ -81,6 +81,7 @@ public class CreateCustomerPaymentCommandHandler : BaseCreateCommandHandler<Crea
             Notes = request.Notes
         };
 }
+
 public class CreateCustomerPaymentCommandValidator : AbstractValidator<CreateCustomerPaymentCommand>
 {
     public CreateCustomerPaymentCommandValidator()

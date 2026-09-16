@@ -7,11 +7,11 @@
 public class LeaveRequest : BaseAuditableEntity
 {
     /// <summary>ID nhân viên</summary>
-    public required string HREmployeeId { get; set; }
+    public string HREmployeeId { get; set; }
 
     /// <summary>Loại nghỉ (Phép năm, Ốm, Việc riêng...)</summary>
     [MaxLength(50)]
-    public required string LeaveType { get; set; }
+    public string LeaveType { get; set; }
 
     /// <summary>Ngày bắt đầu</summary>
     public DateOnly FromDate { get; set; }

@@ -7,15 +7,15 @@
 public class EmployeeContract : BaseAuditableEntity
 {
     /// <summary>ID nhân viên</summary>
-    public required string HREmployeeId { get; set; }
+    public string HREmployeeId { get; set; }
 
     /// <summary>Số hợp đồng</summary>
     [MaxLength(50)]
-    public required string ContractNumber { get; set; }
+    public string ContractNumber { get; set; }
 
     /// <summary>Loại hợp đồng (Thử việc, Chính thức, Thời vụ...)</summary>
     [MaxLength(50)]
-    public required string ContractType { get; set; }
+    public string ContractType { get; set; }
 
     /// <summary>Ngày bắt đầu</summary>
     public DateTimeOffset StartDate { get; set; }

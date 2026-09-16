@@ -7,7 +7,7 @@
 public class Payroll : BaseAuditableEntity
 {
     /// <summary>ID nhân viên</summary>
-    public required string HREmployeeId { get; set; }
+    public string HREmployeeId { get; set; }
 
     /// <summary>Ngày bắt đầu kỳ lương</summary>
     public DateOnly PeriodStartDate { get; set; }

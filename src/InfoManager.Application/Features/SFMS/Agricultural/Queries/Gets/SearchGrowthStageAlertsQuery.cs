@@ -7,15 +7,16 @@ public record SearchGrowthStageAlertsQuery(string? CropPlantingId,
     bool? IsResolved,
     int PageNumber,
     int PageSize) : IRequest<Result<PaginatedList<GrowthStageAlertSummaryDto>>>;
+
 public class SearchGrowthStageAlertsQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchGrowthStageAlertsQuery, Result<PaginatedList<GrowthStageAlertSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<GrowthStageAlertSummaryDto>>> Handle(SearchGrowthStageAlertsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<GrowthStageAlertSummaryDto>>> Handle(SearchGrowthStageAlertsQuery request, CancellationToken ct)
     {
         IQueryable<GrowthStageAlert> query = BuildSearchQuery(request);
         var result = await query
             .ApplySorting()
             .ToGrowthStageAlertSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<GrowthStageAlertSummaryDto>>.Success(result);
     }
 

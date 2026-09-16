@@ -1,6 +1,4 @@
-﻿
-using InfoManager.Shared.Dtos.Categories;
-using InfoManager.Shared.Models;
+﻿using InfoManager.Shared.Dtos.Categories;
 
 namespace InfoManager.Application.Features.Categories.Queries.GetCategories;
 

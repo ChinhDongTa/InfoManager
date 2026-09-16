@@ -8,6 +8,6 @@ public record CreateJobPositionRequest(
     string? DepartmentId,
     string? RequiredQualifications,
     bool IsActive,
-    int? NumberOfPositions ,
+    int? NumberOfPositions,
     string? Notes
 );

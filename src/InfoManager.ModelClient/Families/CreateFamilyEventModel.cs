@@ -6,21 +6,23 @@ namespace InfoManager.ModelClient.Families;
 public class CreateFamilyEventModel
 {
     [Required]
-    public string FamilyMemberId { get; set; }= string.Empty;
+    public string FamilyMemberId { get; set; } = string.Empty;
 
     /// <summary>
-    /// Ngày diễn ra sự kiện 
+    /// Ngày diễn ra sự kiện
     /// </summary>
     [Required]
     public DateOnly EventDate { get; set; }
-    public bool IsActive { get; set; }=true;
+
+    public bool IsActive { get; set; } = true;
 
     /// <summary>
-    /// Tên sự kiện 
+    /// Tên sự kiện
     /// </summary>
     [MaxLength(300)]
     [Required]
     public string Title { get; set; } = string.Empty;
+
     /// <summary>
     /// Loại sự kiện (Sinh nhật, Kỷ niệm, Lễ hội, Sự kiện quan trọng khác)
     /// </summary>

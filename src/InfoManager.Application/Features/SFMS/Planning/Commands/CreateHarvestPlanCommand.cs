@@ -109,9 +109,9 @@ public class CreateHarvestPlanCommandHandler : BaseCreateCommandHandler<CreateHa
         : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(HarvestPlan entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(HarvestPlan entity, CancellationToken ct)
     {
-        await Context.HarvestPlans.AddAsync(entity, cancellationToken);
+        await Context.HarvestPlans.AddAsync(entity, ct);
     }
 
     protected override async Task<HarvestPlan> CreateEntity(CreateHarvestPlanCommand request)

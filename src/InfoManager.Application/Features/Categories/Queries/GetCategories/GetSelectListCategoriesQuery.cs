@@ -1,8 +1,7 @@
-﻿using InfoManager.Shared.Dtos.Common;
-
-namespace InfoManager.Application.Features.Categories.Queries.GetCategories;
+﻿namespace InfoManager.Application.Features.Categories.Queries.GetCategories;
 
 public record GetSelectListCategoriesQuery(string? Group = null, string? KeyName = null) : IRequest<Result<List<SelectListItemDto>>>;
+
 public class GetSelectListCategoriesQueryHandler(IApplicationDbContext context) : IRequestHandler<GetSelectListCategoriesQuery, Result<List<SelectListItemDto>>>
 {
     public async Task<Result<List<SelectListItemDto>>> Handle(GetSelectListCategoriesQuery request, CancellationToken ct)

@@ -15,40 +15,48 @@
             @if (updateModel != null)
             {
                 <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-                        <FluentTextField Label="Tên sản phẩm" @bind-Value="updateModel.ProductName" />
-                        <FluentTextField Label="Liên kết sản phẩm" @bind-Value="updateModel.ProductUrl" />
-                        <FluentTextField Label="Tên cửa hàng" @bind-Value="updateModel.StoreName"/>
-                        <FluentTextArea Label="Mô tả" @bind-Value="updateModel.Description" Cols="100" Rows="5"/>
-                        <CurrencyNumberField Label="Giá hiện tại" @bind-Value="updateModel.CurrentPrice" />
-                        <CurrencyNumberField Label="Giá mong muốn" @bind-Value="updateModel.DesiredPrice" />
-                        <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="updateModel.LowestPriceSeen" />
-                        <FluentCheckbox Label="Đã mua" @bind-Value="updateModel.IsPurchased" />
-                        <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
-                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
+                    <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                        <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <FluentTextField Label="Tên sản phẩm" @bind-Value="updateModel.ProductName" />
+                            <FluentTextField Label="Liên kết sản phẩm" @bind-Value="updateModel.ProductUrl" />
+                            <FluentTextField Label="Tên cửa hàng" @bind-Value="updateModel.StoreName" />
+                            <FluentTextArea Label="Mô tả" @bind-Value="updateModel.Description" Cols="100" Rows="5" />
+                            <CurrencyNumberField Label="Giá hiện tại" @bind-Value="updateModel.CurrentPrice" />
+                        </FluentStack>
+                        <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                            <CurrencyNumberField Label="Giá mong muốn" @bind-Value="updateModel.DesiredPrice" />
+                            <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="updateModel.LowestPriceSeen" />
+                            <FluentCheckbox Label="Đã mua" @bind-Value="updateModel.IsPurchased" />
+                            <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
+                            <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
+                        </FluentStack>
                     </FluentStack>
                 </EditForm>
             }
             else if (createModel != null)
             {
                 <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+                    <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                        <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
 
-                        <FluentTextField Label="Tên sản phẩm" @bind-Value="createModel.ProductName" />
-                        <FluentTextField Label="Liên kết sản phẩm" @bind-Value="createModel.ProductUrl" />
-                        <FluentTextField Label="Tên cửa hàng" @bind-Value="createModel.StoreName" />
-                        <FluentTextArea Label="Mô tả" @bind-Value="createModel.Description" Cols="100" Rows="5"/>
-                        <CurrencyNumberField Label="Giá hiện tại" @bind-Value="createModel.CurrentPrice" /> 
-                        <CurrencyNumberField Label="Giá mong muốn" @bind-Value="createModel.DesiredPrice" />
-                        <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="createModel.LowestPriceSeen" />
-                        <FluentCheckbox Label="Đã mua" @bind-Value="createModel.IsPurchased" />
-                        <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
-                        @* Action : create, update *@
-                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
+                            <FluentTextField Label="Tên sản phẩm" @bind-Value="createModel.ProductName" />
+                            <FluentTextField Label="Liên kết sản phẩm" @bind-Value="createModel.ProductUrl" />
+                            <FluentTextField Label="Tên cửa hàng" @bind-Value="createModel.StoreName" />
+                            <FluentTextArea Label="Mô tả" @bind-Value="createModel.Description" Cols="100" Rows="5" />
+                            <CurrencyNumberField Label="Giá hiện tại" @bind-Value="createModel.CurrentPrice" />
+                        </FluentStack>
+                        <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                            <CurrencyNumberField Label="Giá mong muốn" @bind-Value="createModel.DesiredPrice" />
+                            <CurrencyNumberField Label="Giá thấp nhất đã thấy" @bind-Value="createModel.LowestPriceSeen" />
+                            <FluentCheckbox Label="Đã mua" @bind-Value="createModel.IsPurchased" />
+                            <DateTimePicker Label="Ngày kiểm tra cuối cùng" @bind-Value="LastCheckedDate" />
+                            @* Action : create, update *@
+                            <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/priceTrackings/list" />
+                        </FluentStack>
                     </FluentStack>
                 </EditForm>
             }

@@ -6,11 +6,10 @@ namespace InfoManager.ModelClient.Intentions;
 public class UpdateIntentionModel
 {
     public string Id { get; set; } = string.Empty;
+
     [MaxLength(500)]
-    /// <summary>
-    /// Nội dung ý định, việc muốn làm
-    /// </summary>
     public string? Content { get; set; }
+
     /// <summary>
     /// Mô tả chi tiết về ý định, việc muốn làm
     /// </summary>
@@ -20,14 +19,16 @@ public class UpdateIntentionModel
     /// Ngày dự kiến thực hiện ý định, việc muốn làm
     /// </summary>
     public DateTimeOffset? PlannDate { get; set; }
+
     /// <summary>
     /// Trạng thái hoàn thành của ý định, việc muốn làm
     /// </summary>
-    public bool? IsCompleted { get; set; } 
+    public bool? IsCompleted { get; set; }
+
     /// <summary>
     /// Mức độ ưu tiên của ý định, việc muốn làm
     /// </summary>
-    public Priority? Priority { get; set; } 
+    public Priority? Priority { get; set; }
 
     public string? CategoryId { get; set; }
 
@@ -41,6 +42,7 @@ public class UpdateIntentionModel
         Priority = dto.Priority;
         CategoryId = dto.CategoryId;
     }
+
     public UpdateIntentionRequest CreateRequest()
     {
         return new UpdateIntentionRequest
@@ -54,6 +56,7 @@ public class UpdateIntentionModel
             CategoryId = this.CategoryId
         };
     }
+
     public bool HasChanges(UpdateIntentionModel originalModel)
     {
         return ClientUpdateHelper.HasChanges(this, originalModel);

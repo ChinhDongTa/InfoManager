@@ -15,8 +15,8 @@ public class UpdateDepartmentCommandHandler : BaseUpdateCommandHandler<UpdateDep
                                           ILogger<UpdateDepartmentCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task<Department?> GetEntityAsync(UpdateDepartmentCommand request, CancellationToken cancellationToken)
-        => await Context.Departments.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Department?> GetEntityAsync(UpdateDepartmentCommand request, CancellationToken ct)
+        => await Context.Departments.FindAsync([request.Id], ct);
 
     protected override Task UpdateEntityProperties(Department entity, UpdateDepartmentCommand request)
     {

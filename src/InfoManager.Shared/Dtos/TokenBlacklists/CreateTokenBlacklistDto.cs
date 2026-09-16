@@ -1,6 +1,4 @@
-﻿
-
-namespace InfoManager.Shared.Dtos.TokenBlacklists;
+﻿namespace InfoManager.Shared.Dtos.TokenBlacklists;
 
 public record CreateTokenBlacklistDto
 {

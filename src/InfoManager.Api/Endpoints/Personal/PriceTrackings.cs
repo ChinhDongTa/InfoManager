@@ -3,27 +3,28 @@ using InfoManager.Application.Features.PriceTrackings.Queries.GetPriceTrackings;
 using InfoManager.Shared.Dtos.PriceTrackings;
 
 namespace InfoManager.Api.Endpoints.Personal;
+
 /// <summary>
 /// Represents the API endpoints for managing price trackings.
 /// </summary>
 public class PriceTrackings : EndpointGroupBase
 {
     public override string GroupName => "PriceTrackings";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
 
         //=============Data Retrieval Endpoints================
         api.MapGet(GetPriceTrackingsAsync);
-        api.MapGet(GetTopPriceTrackingsAsync,"top/{top}");
-        api.MapGet(SearchPriceTrackingsAsync,"search");
+        api.MapGet(GetTopPriceTrackingsAsync, "top/{top}");
+        api.MapGet(SearchPriceTrackingsAsync, "search");
         api.MapGet(GetPriceTrackingByIdAsync, "{id}");
 
         //=============Data Manipulation Endpoints================
         api.MapPost(CreatePriceTrackingAsync);
         api.MapPut(UpdatePriceTrackingAsync, "{id}");
         api.MapDelete(DeletePriceTrackingAsync, "{id}");
-
     }
 
     /// <summary>
@@ -31,7 +32,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="pageNumber">The page number.</param>
     /// <param name="pageSize">The page size.</param>
     /// <returns>A paginated list of price trackings.</returns>
@@ -41,12 +42,12 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetPriceTrackingsAsync([FromServices] ISender sender,
                                                       [FromServices] IUser user,
-                                                      CancellationToken cancellationToken,
+                                                      CancellationToken ct,
                                                       int pageNumber,
                                                       int pageSize)
     {
         var query = new GetPriceTrackingsQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -55,7 +56,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="top">The number of top price trackings to retrieve.</param>
     /// <returns>A list of the top N price trackings.</returns>
     /// <response code="200">Returns a list of the top N price trackings.</response>
@@ -64,11 +65,11 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetTopPriceTrackingsAsync([FromServices] ISender sender,
                                                          [FromServices] IUser user,
-                                                         CancellationToken cancellationToken,
+                                                         CancellationToken ct,
                                                          int top = 5)
     {
         var query = new GetTopPriceTrackingsQuery(top);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -77,7 +78,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="request">The search request.</param>
     /// <returns>A paginated list of price trackings matching the search criteria.</returns>
     /// <response code="200">Returns a paginated list of price trackings matching the search criteria.</response>
@@ -86,7 +87,7 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> SearchPriceTrackingsAsync([FromServices] ISender sender,
                                                          [FromServices] IUser user,
-                                                         CancellationToken cancellationToken,
+                                                         CancellationToken ct,
                                                          [AsParameters] SearchPriceTrackingRequest request)
     {
         var query = new SearchPriceTrackingQuery
@@ -99,7 +100,7 @@ public class PriceTrackings : EndpointGroupBase
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -108,7 +109,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="id">The unique identifier of the price tracking.</param>
     /// <returns>The price tracking with the specified identifier.</returns>
     /// <response code="200">Returns the price tracking with the specified identifier.</response>
@@ -118,11 +119,11 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetPriceTrackingByIdAsync([FromServices] ISender sender,
                                                          [FromServices] IUser user,
-                                                         CancellationToken cancellationToken,
+                                                         CancellationToken ct,
                                                          string id)
     {
         var query = new GetPriceTrackingByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -131,7 +132,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="command">The command containing the details of the price tracking to create.</param>
     /// <returns>The result of the create operation.</returns>
     /// <response code="201">If the price tracking was created successfully.</response>
@@ -140,7 +141,7 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> CreatePriceTrackingAsync([FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken,
+                                                        CancellationToken ct,
                                                         [FromBody] CreatePriceTrackingRequest request)
     {
         var command = new CreatePriceTrackingCommand
@@ -156,7 +157,7 @@ public class PriceTrackings : EndpointGroupBase
             IsPurchased = request.IsPurchased,
             LastCheckedDate = request.LastCheckedDate
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -165,7 +166,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="id">The unique identifier of the price tracking to update.</param>
     /// <param name="command">The command containing the updated details of the price tracking.</param>
     /// <returns>The result of the update operation.</returns>
@@ -176,7 +177,7 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> UpdatePriceTrackingAsync([FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken,
+                                                        CancellationToken ct,
                                                         string id,
                                                         [FromBody] UpdatePriceTrackingRequest request)
     {
@@ -197,7 +198,7 @@ public class PriceTrackings : EndpointGroupBase
             IsPurchased = request.IsPurchased,
             LastCheckedDate = request.LastCheckedDate
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
@@ -206,7 +207,7 @@ public class PriceTrackings : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator sender.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="id">The unique identifier of the price tracking to delete.</param>
     /// <returns>The result of the delete operation.</returns>
     /// <response code="204">If the price tracking was deleted successfully.</response>
@@ -216,11 +217,11 @@ public class PriceTrackings : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> DeletePriceTrackingAsync([FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken,
+                                                        CancellationToken ct,
                                                         string id)
     {
         var command = new DeletePriceTrackingCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

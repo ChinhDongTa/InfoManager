@@ -22,7 +22,7 @@ public static class FarmRevenueMappings
         Notes = request.Notes
     };
 
-    public static SearchFarmRevenuesQuery ToSearchQuery(SearchFarmRevenuesRequest request) =>new(request.Term,
+    public static SearchFarmRevenuesQuery ToSearchQuery(SearchFarmRevenuesRequest request) => new(request.Term,
                                                                                                  request.FarmId,
                                                                                                  request.CropPlantingId,
                                                                                                  request.HarvestId,
@@ -32,6 +32,7 @@ public static class FarmRevenueMappings
                                                                                                  request.EndRevenueDate,
                                                                                                  request.PageNumber,
                                                                                                  request.PageSize);
+
     public static UpdateFarmRevenueCommand ToUpdateCommand(UpdateFarmRevenueRequest request, string id)
         => new()
         {

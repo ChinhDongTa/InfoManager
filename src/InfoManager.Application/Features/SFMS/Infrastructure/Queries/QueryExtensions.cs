@@ -16,7 +16,7 @@ internal static class QueryExtensions
              MacAddress: d.MacAddress,
              FarmId: d.FarmId,
              FarmName: d.Farm != null ? d.Farm.Name : null,
-             Status:d.Status,
+             Status: d.Status,
              StatusName: d.Status.ToDisplayName(),
              IpAddress: d.IpAddress,
              CommunicationProtocol: d.CommunicationProtocol,
@@ -120,7 +120,7 @@ internal static class QueryExtensions
              Id: d.Id,
              DeviceId: d.DeviceId,
              DeviceName: d.Device != null ? d.Device.Name : null,
-             AlertType:d.AlertType,
+             AlertType: d.AlertType,
              AlertTypeName: d.AlertType.ToDisplayName(),
              Message: d.Message,
              Severity: d.Severity,
@@ -334,6 +334,7 @@ internal static class QueryExtensions
             Created: f.Created
             ));
     }
+
     public static IQueryable<FarmSummaryDto> ToFarmSummaryDto(this IQueryable<Farm> query)
     {
         return query.Select(f => new FarmSummaryDto(
@@ -411,6 +412,7 @@ internal static class QueryExtensions
             Created: f.Created
         ));
     }
+
     public static IQueryable<FarmerSummaryDto> ToFarmerSummaryDto(this IQueryable<Farmer> query)
     {
         return query.Select(f => new FarmerSummaryDto(
@@ -437,6 +439,7 @@ internal static class QueryExtensions
         }
         return query;
     }
+
     /// <summary>
     /// Applies sorting to the Farmer query based on the specified sortBy field and order (ascending or descending).
     /// </summary>
@@ -472,7 +475,7 @@ internal static class QueryExtensions
             FarmName: f.Farm != null ? f.Farm.Name : null,
             SoilType: f.SoilType,
             SoilCondition: f.SoilCondition,
-            SoilConditionName: f.SoilCondition!=null? f.SoilCondition.ToDisplayName():null,
+            SoilConditionName: f.SoilCondition != null ? f.SoilCondition.ToDisplayName() : null,
             Elevation: f.Elevation,
             Latitude: f.Latitude,
             Longitude: f.Longitude,
@@ -582,7 +585,7 @@ internal static class QueryExtensions
             Latitude: s.Latitude,
             Longitude: s.Longitude,
             Depth: s.Depth,
-            Status:s.Status,
+            Status: s.Status,
             StatusName: s.Status.ToDisplayName(),
             LastReadingTime: s.LastReadingTime,
             BatteryLevel: s.BatteryLevel,
@@ -645,6 +648,7 @@ internal static class QueryExtensions
         }
         return query;
     }
+
     /// <summary>
     /// Applies sorting to the Sensor query based on the specified sortBy field and order (ascending or descending).
     /// </summary>

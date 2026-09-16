@@ -37,8 +37,9 @@ internal static class QueryExtensions
              StatusName: c.Status.ToDisplayName()
             ));
     }
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="query"></param>
     /// <param name="sortBy">name, customertype</param>
@@ -83,6 +84,7 @@ internal static class QueryExtensions
             Created: x.Created
             ));
     }
+
     public static IQueryable<CustomerCareSummaryDto> ToCustomerCareSummaryDto(this IQueryable<CustomerCare> query)
     {
         return query.Select(x => new CustomerCareSummaryDto(
@@ -95,8 +97,9 @@ internal static class QueryExtensions
             StatusName: x.Status.ToDisplayName()
             ));
     }
+
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="query"></param>
     /// <param name="sortBy">subject, caredate</param>
@@ -115,6 +118,7 @@ internal static class QueryExtensions
             _ => query
         };
     }
+
     //===================================CustomerPayment Queryable Extensions================================================
     public static IQueryable<CustomerPaymentSummaryDto> ToCustomerPaymentSummaryDto(this IQueryable<CustomerPayment> query)
     {
@@ -124,7 +128,7 @@ internal static class QueryExtensions
             Amount: x.Amount,
             PaymentDate: x.PaymentDate,
             PaymentMethod: x.PaymentMethod,
-            PaymentStatusName:x.PaymentStatus.ToDisplayName()
+            PaymentStatusName: x.PaymentStatus.ToDisplayName()
             ));
     }
 
@@ -141,7 +145,7 @@ internal static class QueryExtensions
             Amount: x.Amount,
             PaymentDate: x.PaymentDate,
             PaymentMethod: x.PaymentMethod,
-            PaymentStatus:x.PaymentStatus,
+            PaymentStatus: x.PaymentStatus,
             PaymentStatusName: x.PaymentStatus.ToDisplayName(),
             ReferenceNumber: x.ReferenceNumber,
             Notes: x.Notes,
@@ -150,7 +154,7 @@ internal static class QueryExtensions
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="query"></param>
     /// <param name="sortBy">amount, paymentmethod</param>

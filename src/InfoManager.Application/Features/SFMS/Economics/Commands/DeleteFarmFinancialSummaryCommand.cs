@@ -1,6 +1,7 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Economics.Commands;
 
 public record DeleteFarmFinancialSummaryCommand(string Id) : IRequest<Result>;
+
 public class DeleteFarmFinancialSummaryCommandHandler : BaseDeleteCommandHandler<DeleteFarmFinancialSummaryCommand, FarmFinancialSummary>
 {
     public DeleteFarmFinancialSummaryCommandHandler(IApplicationDbContext context,
@@ -8,6 +9,6 @@ public class DeleteFarmFinancialSummaryCommandHandler : BaseDeleteCommandHandler
     {
     }
 
-    protected override async Task<FarmFinancialSummary?> GetEntityAsync(DeleteFarmFinancialSummaryCommand request, CancellationToken cancellationToken)
-        => await Context.FarmFinancialSummaries.FindAsync([request.Id], cancellationToken);
+    protected override async Task<FarmFinancialSummary?> GetEntityAsync(DeleteFarmFinancialSummaryCommand request, CancellationToken ct)
+        => await Context.FarmFinancialSummaries.FindAsync([request.Id], ct);
 }

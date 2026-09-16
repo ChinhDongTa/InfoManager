@@ -3,16 +3,17 @@
 namespace InfoManager.Application.Features.Intentions.Queries.GetIntentions;
 
 public record GetTopIntentionsQuery(int Top = 5) : IRequest<Result<List<IntentionSummaryDto>>>;
+
 public class GetTopIntentionsQueryHandler(IApplicationDbContext context) : IRequestHandler<GetTopIntentionsQuery, Result<List<IntentionSummaryDto>>>
 {
-    public async Task<Result<List<IntentionSummaryDto>>> Handle(GetTopIntentionsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<IntentionSummaryDto>>> Handle(GetTopIntentionsQuery request, CancellationToken ct)
     {
         var result = await context.Intentions
             .Where(x => !x.IsCompleted)
             .ApplySorting()
             .Take(request.Top)
             .ToIntentionSummaryDto()
-            .ToListResultAsync(cancellationToken);
+            .ToListResultAsync(ct);
         return result;
     }
 }

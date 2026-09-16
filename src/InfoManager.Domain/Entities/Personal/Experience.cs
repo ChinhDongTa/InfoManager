@@ -8,14 +8,13 @@ namespace InfoManager.Domain.Entities;
 public class Experience : BaseAuditableEntity
 {
     [MaxLength(500)]
-    /// <summary>
-    /// Nội dung trải nghiệm
-    /// </summary>
-    public required string Content { get; set; }
+    public string Content { get; set; }
+
     /// <summary>
     /// Mô tả chi tiết về trải nghiệm
     /// </summary>
     public string? Description { get; set; }
+
     /// <summary>
     /// Ngày diễn ra trải nghiệm
     /// </summary>

@@ -8,23 +8,23 @@ public class GrowthStageAlert : BaseAuditableEntity
     /// <summary>
     /// ID lần trồng cây liên quan
     /// </summary>
-    public required string CropPlantingId { get; set; }
+    public string CropPlantingId { get; set; }
 
     /// <summary>
     /// ID giai đoạn sinh trưởng liên quan
     /// </summary>
-    public required string GrowthStageId { get; set; }
+    public string GrowthStageId { get; set; }
 
     /// <summary>
     /// Loại cảnh báo
     /// </summary>
-    public required GrowthAlertType AlertType { get; set; }
+    public GrowthAlertType AlertType { get; set; }
 
     /// <summary>
     /// Nội dung cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public required string Message { get; set; }
+    public string Message { get; set; }
 
     /// <summary>
     /// Mức độ nghiêm trọng của cảnh báo
@@ -59,5 +59,6 @@ public class GrowthStageAlert : BaseAuditableEntity
 
     // Navigation properties
     public virtual GrowthStage? GrowthStage { get; set; }
+
     public virtual CropPlanting? CropPlanting { get; set; }
 }

@@ -7,10 +7,10 @@
 public class JobAssignment : BaseAuditableEntity
 {
     /// <summary>ID nhân viên</summary>
-    public required string HREmployeeId { get; set; }
+    public string HREmployeeId { get; set; }
 
     /// <summary>ID vị trí công việc</summary>
-    public required string JobPositionId { get; set; }
+    public string JobPositionId { get; set; }
 
     /// <summary>Ngày bắt đầu</summary>
     public DateTimeOffset StartDate { get; set; }
@@ -40,6 +40,7 @@ public class JobAssignment : BaseAuditableEntity
 
     // Navigation
     public virtual HREmployee? HREmployee { get; set; }
+
     public virtual JobPosition? JobPosition { get; set; }
     public virtual Field? AssignedField { get; set; }
     public virtual HREmployee? Supervisor { get; set; }

@@ -855,6 +855,2587 @@
         ]
       }
     },
+    "/api/Harvests/{id}": {
+      "get": {
+        "tags": [
+          "Harvests"
+        ],
+        "operationId": "GetHarvestByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Harvests"
+        ],
+        "operationId": "UpdateHarvestAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHarvestRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Harvests"
+        ],
+        "operationId": "DeleteHarvestAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Harvests": {
+      "get": {
+        "tags": [
+          "Harvests"
+        ],
+        "operationId": "GetHarvestsAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Harvests"
+        ],
+        "operationId": "CreateHarvestAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHarvestRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Harvests/search": {
+      "get": {
+        "tags": [
+          "Harvests"
+        ],
+        "operationId": "SearchHarvestsAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "CropPlantingId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "QualityGrade",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Products/{id}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "GetProductByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "UpdateProductAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "DeleteProductAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "GetProductsAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "CreateProductAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Products/search": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "SearchProductsAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "HarvestId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ProductStatus"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Sales/{id}": {
+      "get": {
+        "tags": [
+          "Sales"
+        ],
+        "operationId": "GetSaleByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Sales"
+        ],
+        "operationId": "UpdateSaleAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSaleRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Sales"
+        ],
+        "operationId": "DeleteSaleAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Sales": {
+      "get": {
+        "tags": [
+          "Sales"
+        ],
+        "operationId": "GetSalesAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Sales"
+        ],
+        "operationId": "CreateSaleAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSaleRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Sales/search": {
+      "get": {
+        "tags": [
+          "Sales"
+        ],
+        "operationId": "SearchSalesAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "ProductId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PaymentStatus",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PaymentStatus"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Yields/{id}": {
+      "get": {
+        "tags": [
+          "Yields"
+        ],
+        "operationId": "GetYieldByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Yields"
+        ],
+        "operationId": "UpdateYieldAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateYieldRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Yields"
+        ],
+        "operationId": "DeleteYieldAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Yields": {
+      "get": {
+        "tags": [
+          "Yields"
+        ],
+        "operationId": "GetYieldsAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Yields"
+        ],
+        "operationId": "CreateYieldAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateYieldRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Yields/search": {
+      "get": {
+        "tags": [
+          "Yields"
+        ],
+        "operationId": "SearchYieldsAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "CropPlantingId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "HarvestId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/CropCycles/{id}": {
+      "get": {
+        "tags": [
+          "CropCycles"
+        ],
+        "operationId": "GetCropCycleByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "CropCycles"
+        ],
+        "operationId": "UpdateCropCycleAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCropCycleRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "CropCycles"
+        ],
+        "operationId": "DeleteCropCycleAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/CropCycles": {
+      "get": {
+        "tags": [
+          "CropCycles"
+        ],
+        "operationId": "GetCropCyclesAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "CropCycles"
+        ],
+        "operationId": "CreateCropCycleAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCropCycleRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/CropCycles/search": {
+      "get": {
+        "tags": [
+          "CropCycles"
+        ],
+        "operationId": "SearchCropCyclesAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "StartYear",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/CropCycleStatus"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/HarvestPlans/{id}": {
+      "get": {
+        "tags": [
+          "HarvestPlans"
+        ],
+        "operationId": "GetHarvestPlanByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "HarvestPlans"
+        ],
+        "operationId": "UpdateHarvestPlanAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHarvestPlanRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "HarvestPlans"
+        ],
+        "operationId": "DeleteHarvestPlanAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/HarvestPlans": {
+      "get": {
+        "tags": [
+          "HarvestPlans"
+        ],
+        "operationId": "GetHarvestPlansAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "HarvestPlans"
+        ],
+        "operationId": "CreateHarvestPlanAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHarvestPlanRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/HarvestPlans/search": {
+      "get": {
+        "tags": [
+          "HarvestPlans"
+        ],
+        "operationId": "SearchHarvestPlansAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "ExpectedDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PlanStatus"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/PlantingPlans/{id}": {
+      "get": {
+        "tags": [
+          "PlantingPlans"
+        ],
+        "operationId": "GetPlantingPlanByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "PlantingPlans"
+        ],
+        "operationId": "UpdatePlantingPlanAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePlantingPlanRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "PlantingPlans"
+        ],
+        "operationId": "DeletePlantingPlanAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/PlantingPlans": {
+      "get": {
+        "tags": [
+          "PlantingPlans"
+        ],
+        "operationId": "GetPlantingPlansAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "PlantingPlans"
+        ],
+        "operationId": "CreatePlantingPlanAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePlantingPlanRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/PlantingPlans/search": {
+      "get": {
+        "tags": [
+          "PlantingPlans"
+        ],
+        "operationId": "SearchPlantingPlansAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PlanStatus"
+                }
+              ]
+            },
+            "x-position": 2
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Diseases/{id}": {
+      "get": {
+        "tags": [
+          "Diseases"
+        ],
+        "operationId": "GetDiseaseByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Diseases"
+        ],
+        "operationId": "UpdateDiseaseAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDiseaseRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Diseases"
+        ],
+        "operationId": "DeleteDiseaseAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Diseases": {
+      "get": {
+        "tags": [
+          "Diseases"
+        ],
+        "operationId": "GetDiseasesAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Diseases"
+        ],
+        "operationId": "CreateDiseaseAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDiseaseRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Diseases/search": {
+      "get": {
+        "tags": [
+          "Diseases"
+        ],
+        "operationId": "SearchDiseasesAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "DiseaseType",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "SeverityLevel",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SeverityLevel"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Infestations/{id}": {
+      "get": {
+        "tags": [
+          "Infestations"
+        ],
+        "operationId": "GetInfestationByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Infestations"
+        ],
+        "operationId": "UpdateInfestationAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInfestationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Infestations"
+        ],
+        "operationId": "DeleteInfestationAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Infestations": {
+      "get": {
+        "tags": [
+          "Infestations"
+        ],
+        "operationId": "GetInfestationsAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Infestations"
+        ],
+        "operationId": "CreateInfestationAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInfestationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Infestations/search": {
+      "get": {
+        "tags": [
+          "Infestations"
+        ],
+        "operationId": "SearchInfestationsAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "CropPlantingId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "InfestationType",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/InfestationType"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/InfestationStatus"
+                }
+              ]
+            },
+            "x-position": 4
+          },
+          {
+            "name": "SeverityLevel",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SeverityLevel"
+                }
+              ]
+            },
+            "x-position": 5
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 6
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 7
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/PestDiseaseLinks/{id}": {
+      "get": {
+        "tags": [
+          "PestDiseaseLinks"
+        ],
+        "operationId": "GetPestDiseaseLinkByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "PestDiseaseLinks"
+        ],
+        "operationId": "UpdatePestDiseaseLinkAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePestDiseaseLinkRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "PestDiseaseLinks"
+        ],
+        "operationId": "DeletePestDiseaseLinkAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/PestDiseaseLinks": {
+      "get": {
+        "tags": [
+          "PestDiseaseLinks"
+        ],
+        "operationId": "GetPestDiseaseLinksAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "PestDiseaseLinks"
+        ],
+        "operationId": "CreatePestDiseaseLinkAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePestDiseaseLinkRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/PestDiseaseLinks/search": {
+      "get": {
+        "tags": [
+          "PestDiseaseLinks"
+        ],
+        "operationId": "SearchPestDiseaseLinksAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PestId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "DiseaseId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Pests/{id}": {
+      "get": {
+        "tags": [
+          "Pests"
+        ],
+        "operationId": "GetPestByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Pests"
+        ],
+        "operationId": "UpdatePestAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePestRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Pests"
+        ],
+        "operationId": "DeletePestAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Pests": {
+      "get": {
+        "tags": [
+          "Pests"
+        ],
+        "operationId": "GetPestsAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Pests"
+        ],
+        "operationId": "CreatePestAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePestRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/Pests/search": {
+      "get": {
+        "tags": [
+          "Pests"
+        ],
+        "operationId": "SearchPestsAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "PestType",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "SeverityLevel",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/SeverityLevel"
+                }
+              ]
+            },
+            "x-position": 3
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
     "/api/DeviceAlerts/{id}": {
       "get": {
         "tags": [
@@ -4805,6 +7386,1087 @@
               "format": "int32"
             },
             "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/CostAnalysiss/{id}": {
+      "get": {
+        "tags": [
+          "CostAnalysiss"
+        ],
+        "operationId": "GetCostAnalysisByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "CostAnalysiss"
+        ],
+        "operationId": "UpdateCostAnalysisAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCostAnalysisRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "CostAnalysiss"
+        ],
+        "operationId": "DeleteCostAnalysisAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/CostAnalysiss": {
+      "get": {
+        "tags": [
+          "CostAnalysiss"
+        ],
+        "operationId": "GetCostAnalysissAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "CostAnalysiss"
+        ],
+        "operationId": "CreateCostAnalysisAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCostAnalysisRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/CostAnalysiss/search": {
+      "get": {
+        "tags": [
+          "CostAnalysiss"
+        ],
+        "operationId": "SearchCostAnalysissAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "FarmId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CropPlantingId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "StartAnalysisDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "EndAnalysisDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "StartFromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 6
+          },
+          {
+            "name": "EndToDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 7
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 8
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 9
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmExpenses/{id}": {
+      "get": {
+        "tags": [
+          "FarmExpenses"
+        ],
+        "operationId": "GetFarmExpenseByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FarmExpenses"
+        ],
+        "operationId": "UpdateFarmExpenseAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFarmExpenseRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FarmExpenses"
+        ],
+        "operationId": "DeleteFarmExpenseAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmExpenses": {
+      "get": {
+        "tags": [
+          "FarmExpenses"
+        ],
+        "operationId": "GetFarmExpensesAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FarmExpenses"
+        ],
+        "operationId": "CreateFarmExpenseAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFarmExpenseRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmExpenses/search": {
+      "get": {
+        "tags": [
+          "FarmExpenses"
+        ],
+        "operationId": "SearchFarmExpensesAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "FarmId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CropPlantingId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "ExpenseType",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ExpenseType"
+                }
+              ]
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PaymentStatus",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PaymentStatus"
+                }
+              ]
+            },
+            "x-position": 5
+          },
+          {
+            "name": "ApprovalStatus",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ApprovalStatus"
+                }
+              ]
+            },
+            "x-position": 6
+          },
+          {
+            "name": "StartExpenseDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 7
+          },
+          {
+            "name": "EndExpenseDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 8
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 9
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 10
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmFinancialSummaries/{id}": {
+      "get": {
+        "tags": [
+          "FarmFinancialSummaries"
+        ],
+        "operationId": "GetFarmFinancialSummaryByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FarmFinancialSummaries"
+        ],
+        "operationId": "UpdateFarmFinancialSummaryAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFarmFinancialSummaryRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FarmFinancialSummaries"
+        ],
+        "operationId": "DeleteFarmFinancialSummaryAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmFinancialSummaries": {
+      "get": {
+        "tags": [
+          "FarmFinancialSummaries"
+        ],
+        "operationId": "GetFarmFinancialSummarysAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FarmFinancialSummaries"
+        ],
+        "operationId": "CreateFarmFinancialSummaryAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFarmFinancialSummaryRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmFinancialSummaries/search": {
+      "get": {
+        "tags": [
+          "FarmFinancialSummaries"
+        ],
+        "operationId": "SearchFarmFinancialSummarysAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "FarmId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "Year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "Month",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 5
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmRevenues/{id}": {
+      "get": {
+        "tags": [
+          "FarmRevenues"
+        ],
+        "operationId": "GetFarmRevenueByIdAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "FarmRevenues"
+        ],
+        "operationId": "UpdateFarmRevenueAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFarmRevenueRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "FarmRevenues"
+        ],
+        "operationId": "DeleteFarmRevenueAsync",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmRevenues": {
+      "get": {
+        "tags": [
+          "FarmRevenues"
+        ],
+        "operationId": "GetFarmRevenuesAsync",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "FarmRevenues"
+        ],
+        "operationId": "CreateFarmRevenueAsync",
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFarmRevenueRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/api/FarmRevenues/search": {
+      "get": {
+        "tags": [
+          "FarmRevenues"
+        ],
+        "operationId": "SearchFarmRevenuesAsync",
+        "parameters": [
+          {
+            "name": "Term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "FarmId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "CropPlantingId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "HarvestId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "SaleId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "PaymentStatus",
+            "in": "query",
+            "schema": {
+              "nullable": true,
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/PaymentStatus"
+                }
+              ]
+            },
+            "x-position": 6
+          },
+          {
+            "name": "StartRevenueDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 7
+          },
+          {
+            "name": "EndRevenueDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 8
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 9
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 10
           }
         ],
         "responses": {
@@ -10532,6 +14194,1648 @@
           }
         }
       },
+      "CreateHarvestRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cropPlantingId": {
+            "type": "string"
+          },
+          "harvestDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "harvestMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvestedArea": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "totalQuantity": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "quantityUnit": {
+            "type": "string"
+          },
+          "yieldPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "qualityGrade": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvesterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "weatherCondition": {
+            "type": "string",
+            "nullable": true
+          },
+          "lossPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateHarvestRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvestDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "harvestMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvestedArea": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalQuantity": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "quantityUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "yieldPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "qualityGrade": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvesterName": {
+            "type": "string",
+            "nullable": true
+          },
+          "weatherCondition": {
+            "type": "string",
+            "nullable": true
+          },
+          "lossPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ProductStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Available",
+          "Sold",
+          "PartiallySold",
+          "Damaged",
+          "Discarded",
+          "InProcessing"
+        ],
+        "enum": [
+          "Available",
+          "Sold",
+          "PartiallySold",
+          "Damaged",
+          "Discarded",
+          "InProcessing"
+        ]
+      },
+      "CreateProductRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "harvestId": {
+            "type": "string"
+          },
+          "productName": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingType": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "storageLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "costPerUnit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "sellingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProductStatus"
+          },
+          "certification": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateProductRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "harvestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "productName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "processingType": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageLocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "costPerUnit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "sellingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalValue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductStatus"
+              }
+            ]
+          },
+          "certification": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PaymentStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "Paid",
+          "PartiallyPaid",
+          "Failed",
+          "Refunded"
+        ],
+        "enum": [
+          "Pending",
+          "Paid",
+          "PartiallyPaid",
+          "Failed",
+          "Refunded"
+        ]
+      },
+      "CreateSaleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "productId": {
+            "type": "string"
+          },
+          "saleDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "buyerName": {
+            "type": "string"
+          },
+          "quantitySold": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "discountPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "netAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "saleChannel": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateSaleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string",
+            "nullable": true
+          },
+          "saleDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "buyerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantitySold": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "discountPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "netAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "saleChannel": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaymentStatus"
+              }
+            ]
+          },
+          "paymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateYieldRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cropPlantingId": {
+            "type": "string"
+          },
+          "harvestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "actualYield": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "expectedYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string"
+          },
+          "yieldPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "qualityRating": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "wastePercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "yieldVariance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "growthDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "productionCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "revenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "profit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "roi": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "affectingFactors": {
+            "type": "string",
+            "nullable": true
+          },
+          "analysis": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendations": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateYieldRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "actualYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "expectedYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "yieldPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "qualityRating": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "wastePercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "yieldVariance": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "growthDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "productionCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "revenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "profit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "roi": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "affectingFactors": {
+            "type": "string",
+            "nullable": true
+          },
+          "analysis": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendations": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CropCycleStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Planned",
+          "InProgress",
+          "Completed",
+          "Abandoned",
+          "OnHold"
+        ],
+        "enum": [
+          "Planned",
+          "InProgress",
+          "Completed",
+          "Abandoned",
+          "OnHold"
+        ]
+      },
+      "CreateCropCycleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "farmId": {
+            "type": "string"
+          },
+          "cycleName": {
+            "type": "string"
+          },
+          "cropId": {
+            "type": "string"
+          },
+          "cropVarietyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropScheduleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "startYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "season": {
+            "type": "string",
+            "nullable": true
+          },
+          "plannedPlantingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "plannedHarvestDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "plannedArea": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CropCycleStatus"
+          },
+          "estimatedCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "estimatedRevenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "estimatedProfit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "expectedYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "targetMarket": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetSellingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateCropCycleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cycleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropVarietyId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropScheduleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "startYear": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "season": {
+            "type": "string",
+            "nullable": true
+          },
+          "plannedPlantingDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "plannedHarvestDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "plannedArea": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CropCycleStatus"
+              }
+            ]
+          },
+          "estimatedCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "estimatedRevenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "estimatedProfit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "expectedYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "targetMarket": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetSellingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PlanStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Draft",
+          "Approved",
+          "InExecution",
+          "Completed",
+          "Cancelled",
+          "Revised"
+        ],
+        "enum": [
+          "Draft",
+          "Approved",
+          "InExecution",
+          "Completed",
+          "Cancelled",
+          "Revised"
+        ]
+      },
+      "CreateHarvestPlanRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cropCycleId": {
+            "type": "string"
+          },
+          "planName": {
+            "type": "string"
+          },
+          "expectedStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expectedEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "harvestMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "yieldUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "laborRequirement": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "equipmentRequired": {
+            "type": "string",
+            "nullable": true
+          },
+          "postHarvestProcessing": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageRequirement": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageDuration": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "transportationPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedSaleDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "targetBuyer": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedSellingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlanStatus"
+          },
+          "riskAssessment": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateHarvestPlanRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "cropCycleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "planName": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "expectedEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "harvestMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedYield": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "yieldUnit": {
+            "type": "string",
+            "nullable": true
+          },
+          "laborRequirement": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "equipmentRequired": {
+            "type": "string",
+            "nullable": true
+          },
+          "postHarvestProcessing": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageRequirement": {
+            "type": "string",
+            "nullable": true
+          },
+          "storageDuration": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "transportationPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedSaleDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "targetBuyer": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedSellingPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PlanStatus"
+              }
+            ]
+          },
+          "riskAssessment": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreatePlantingPlanRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cropCycleId": {
+            "type": "string"
+          },
+          "planName": {
+            "type": "string"
+          },
+          "fieldAllocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "plantingMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "seedQuantityRequired": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "seedSource": {
+            "type": "string",
+            "nullable": true
+          },
+          "seedbedPreparation": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedGerminationRate": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "irrigationPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "fertilizationPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "laborRequirement": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "equipmentRequired": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlanStatus"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdatePlantingPlanRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "cropCycleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "planName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fieldAllocation": {
+            "type": "string",
+            "nullable": true
+          },
+          "plantingMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "seedQuantityRequired": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "seedSource": {
+            "type": "string",
+            "nullable": true
+          },
+          "seedbedPreparation": {
+            "type": "string",
+            "nullable": true
+          },
+          "expectedGerminationRate": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "irrigationPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "fertilizationPlan": {
+            "type": "string",
+            "nullable": true
+          },
+          "laborRequirement": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "equipmentRequired": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PlanStatus"
+              }
+            ]
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SeverityLevel": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Low",
+          "Medium",
+          "High",
+          "Critical"
+        ],
+        "enum": [
+          "Low",
+          "Medium",
+          "High",
+          "Critical"
+        ]
+      },
+      "CreateDiseaseRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "commonName": {
+            "type": "string"
+          },
+          "scientificName": {
+            "type": "string",
+            "nullable": true
+          },
+          "diseaseType": {
+            "type": "string",
+            "nullable": true
+          },
+          "causativeOrganism": {
+            "type": "string",
+            "nullable": true
+          },
+          "affectedCrops": {
+            "type": "string",
+            "nullable": true
+          },
+          "symptoms": {
+            "type": "string",
+            "nullable": true
+          },
+          "favorableConditions": {
+            "type": "string",
+            "nullable": true
+          },
+          "transmissionMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "preventionMethods": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendedTreatments": {
+            "type": "string",
+            "nullable": true
+          },
+          "severityLevel": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SeverityLevel"
+              }
+            ]
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateDiseaseRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "commonName": {
+            "type": "string",
+            "nullable": true
+          },
+          "scientificName": {
+            "type": "string",
+            "nullable": true
+          },
+          "diseaseType": {
+            "type": "string",
+            "nullable": true
+          },
+          "causativeOrganism": {
+            "type": "string",
+            "nullable": true
+          },
+          "affectedCrops": {
+            "type": "string",
+            "nullable": true
+          },
+          "symptoms": {
+            "type": "string",
+            "nullable": true
+          },
+          "favorableConditions": {
+            "type": "string",
+            "nullable": true
+          },
+          "transmissionMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "preventionMethods": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendedTreatments": {
+            "type": "string",
+            "nullable": true
+          },
+          "severityLevel": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SeverityLevel"
+              }
+            ]
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "InfestationType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Pest",
+          "Disease",
+          "Weed",
+          "Environmental"
+        ],
+        "enum": [
+          "Pest",
+          "Disease",
+          "Weed",
+          "Environmental"
+        ]
+      },
+      "InfestationStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Detected",
+          "Confirmed",
+          "UnderTreatment",
+          "Controlled",
+          "Eradicated",
+          "Recurring"
+        ],
+        "enum": [
+          "Detected",
+          "Confirmed",
+          "UnderTreatment",
+          "Controlled",
+          "Eradicated",
+          "Recurring"
+        ]
+      },
+      "CreateInfestationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cropPlantingId": {
+            "type": "string"
+          },
+          "infestationType": {
+            "$ref": "#/components/schemas/InfestationType"
+          },
+          "pestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "diseaseId": {
+            "type": "string",
+            "nullable": true
+          },
+          "detectionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "affectedArea": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "affectedPercentage": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "severityLevel": {
+            "$ref": "#/components/schemas/SeverityLevel"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InfestationStatus"
+          },
+          "treatmentApplied": {
+            "type": "string",
+            "nullable": true
+          },
+          "treatmentDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "productUsed": {
+            "type": "string",
+            "nullable": true
+          },
+          "treatmentCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "effectivenessRating": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "controlledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "yieldLossPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "economicLoss": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateInfestationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "infestationType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InfestationType"
+              }
+            ]
+          },
+          "pestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "diseaseId": {
+            "type": "string",
+            "nullable": true
+          },
+          "detectionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "affectedArea": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "affectedPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "severityLevel": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SeverityLevel"
+              }
+            ]
+          },
+          "status": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InfestationStatus"
+              }
+            ]
+          },
+          "treatmentApplied": {
+            "type": "string",
+            "nullable": true
+          },
+          "treatmentDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "productUsed": {
+            "type": "string",
+            "nullable": true
+          },
+          "treatmentCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "effectivenessRating": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "controlledDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "yieldLossPercentage": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "economicLoss": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreatePestDiseaseLinkRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "pestId": {
+            "type": "string"
+          },
+          "diseaseId": {
+            "type": "string"
+          },
+          "relationshipDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdatePestDiseaseLinkRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "pestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "diseaseId": {
+            "type": "string",
+            "nullable": true
+          },
+          "relationshipDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreatePestRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "commonName": {
+            "type": "string"
+          },
+          "scientificName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pestType": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "affectedCrops": {
+            "type": "string",
+            "nullable": true
+          },
+          "damageSymptoms": {
+            "type": "string",
+            "nullable": true
+          },
+          "lifeCycle": {
+            "type": "string",
+            "nullable": true
+          },
+          "preventionMethods": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendedPesticides": {
+            "type": "string",
+            "nullable": true
+          },
+          "biologicalControl": {
+            "type": "string",
+            "nullable": true
+          },
+          "severityLevel": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SeverityLevel"
+              }
+            ]
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdatePestRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "commonName": {
+            "type": "string",
+            "nullable": true
+          },
+          "scientificName": {
+            "type": "string",
+            "nullable": true
+          },
+          "pestType": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "affectedCrops": {
+            "type": "string",
+            "nullable": true
+          },
+          "damageSymptoms": {
+            "type": "string",
+            "nullable": true
+          },
+          "lifeCycle": {
+            "type": "string",
+            "nullable": true
+          },
+          "preventionMethods": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendedPesticides": {
+            "type": "string",
+            "nullable": true
+          },
+          "biologicalControl": {
+            "type": "string",
+            "nullable": true
+          },
+          "severityLevel": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SeverityLevel"
+              }
+            ]
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "AlertType": {
         "type": "string",
         "description": "",
@@ -12494,6 +17798,639 @@
           }
         }
       },
+      "CreateCostAnalysisRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "farmId": {
+            "type": "string"
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "analysisDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalCost": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "costBreakdown": {
+            "type": "string",
+            "nullable": true
+          },
+          "costPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerUnit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalRevenue": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "grossProfit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "netProfit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "profitMargin": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "roi": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "breakEvenAnalysis": {
+            "type": "string",
+            "nullable": true
+          },
+          "efficiencyRating": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "recommendations": {
+            "type": "string",
+            "nullable": true
+          },
+          "preparedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateCostAnalysisRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "analysisDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "totalCost": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costBreakdown": {
+            "type": "string",
+            "nullable": true
+          },
+          "costPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "costPerUnit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalRevenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "grossProfit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "netProfit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "profitMargin": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "roi": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "breakEvenAnalysis": {
+            "type": "string",
+            "nullable": true
+          },
+          "efficiencyRating": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "recommendations": {
+            "type": "string",
+            "nullable": true
+          },
+          "preparedBy": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ExpenseType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "SeedAndSeeding",
+          "Fertilizer",
+          "Pesticide",
+          "Water",
+          "Labor",
+          "Equipment",
+          "Fuel",
+          "Rent",
+          "Maintenance",
+          "Transportation",
+          "Storage",
+          "Utilities",
+          "Insurance",
+          "Loan",
+          "Tax",
+          "Other"
+        ],
+        "enum": [
+          "SeedAndSeeding",
+          "Fertilizer",
+          "Pesticide",
+          "Water",
+          "Labor",
+          "Equipment",
+          "Fuel",
+          "Rent",
+          "Maintenance",
+          "Transportation",
+          "Storage",
+          "Utilities",
+          "Insurance",
+          "Loan",
+          "Tax",
+          "Other"
+        ]
+      },
+      "ApprovalStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Pending",
+          "Approved",
+          "Rejected",
+          "OnHold"
+        ],
+        "enum": [
+          "Pending",
+          "Approved",
+          "Rejected",
+          "OnHold"
+        ]
+      },
+      "CreateFarmExpenseRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "farmId": {
+            "type": "string"
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "expenseType": {
+            "$ref": "#/components/schemas/ExpenseType"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "expenseDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "vendor": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "approvalStatus": {
+            "$ref": "#/components/schemas/ApprovalStatus"
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "attachmentUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateFarmExpenseRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "expenseType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExpenseType"
+              }
+            ]
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "nullable": true
+          },
+          "expenseDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "vendor": {
+            "type": "string",
+            "nullable": true
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentMethod": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaymentStatus"
+              }
+            ]
+          },
+          "approvalStatus": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ApprovalStatus"
+              }
+            ]
+          },
+          "approvedBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "attachmentUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateFarmFinancialSummaryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "farmId": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalExpenses": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "totalRevenue": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "profit": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "cropCycleCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalAreaCultivated": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "averageYieldPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "averageCostPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "averageRevenuePerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "healthScore": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "kpIs": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateFarmFinancialSummaryRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalExpenses": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "totalRevenue": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "profit": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "cropCycleCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalAreaCultivated": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "averageYieldPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "averageCostPerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "averageRevenuePerHectare": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "healthScore": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "kpIs": {
+            "type": "string",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CreateFarmRevenueRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "farmId": {
+            "type": "string"
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "saleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "revenueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "buyerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "paymentReceivedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateFarmRevenueRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "farmId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cropPlantingId": {
+            "type": "string",
+            "nullable": true
+          },
+          "harvestId": {
+            "type": "string",
+            "nullable": true
+          },
+          "saleId": {
+            "type": "string",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string",
+            "nullable": true
+          },
+          "revenueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "buyerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "paymentStatus": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PaymentStatus"
+              }
+            ]
+          },
+          "paymentReceivedDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "CreateCustomerCareRequest": {
         "type": "object",
         "additionalProperties": false,
@@ -12663,24 +18600,6 @@
             "nullable": true
           }
         }
-      },
-      "PaymentStatus": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Pending",
-          "Paid",
-          "PartiallyPaid",
-          "Failed",
-          "Refunded"
-        ],
-        "enum": [
-          "Pending",
-          "Paid",
-          "PartiallyPaid",
-          "Failed",
-          "Refunded"
-        ]
       },
       "UpdateCustomerPaymentRequest": {
         "type": "object",

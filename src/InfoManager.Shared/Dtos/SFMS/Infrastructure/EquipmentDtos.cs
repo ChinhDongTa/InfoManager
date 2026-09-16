@@ -118,7 +118,7 @@ public record SearchEquipmentsRequest(
 /// Yêu cầu tạo thiết bị mới
 /// </summary>
 public record CreateEquipmentRequest(
-    
+
     /// <summary>Tên thiết bị</summary>
     string Name,
 

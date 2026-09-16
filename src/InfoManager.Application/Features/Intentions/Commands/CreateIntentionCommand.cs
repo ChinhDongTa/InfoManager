@@ -1,9 +1,5 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace InfoManager.Application.Features.Intentions.Commands;
 
-namespace InfoManager.Application.Features.Intentions.Commands;
 public record CreateIntentionCommand : IRequest<Result<string>>
 {
     public required string Content { get; init; }
@@ -13,6 +9,7 @@ public record CreateIntentionCommand : IRequest<Result<string>>
     public Priority Priority { get; init; } = Priority.Medium;
     public string? CategoryId { get; init; }
 }
+
 public class CreateIntentionCommandHandler : BaseCreateCommandHandler<CreateIntentionCommand, Intention>
 {
     public CreateIntentionCommandHandler(IApplicationDbContext context,
@@ -20,6 +17,7 @@ public class CreateIntentionCommandHandler : BaseCreateCommandHandler<CreateInte
                                           ILogger<CreateIntentionCommandHandler> logger) : base(context, validator, logger)
     {
     }
+
     protected override async Task<Intention> CreateEntity(CreateIntentionCommand request)
     {
         return new Intention
@@ -32,11 +30,13 @@ public class CreateIntentionCommandHandler : BaseCreateCommandHandler<CreateInte
             CategoryId = request.CategoryId
         };
     }
-    protected override async Task AddEntityAsync(Intention entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(Intention entity, CancellationToken ct)
     {
-        await Context.Intentions.AddAsync(entity, cancellationToken);
+        await Context.Intentions.AddAsync(entity, ct);
     }
 }
+
 public class CreateIntentionCommandValidator : AbstractValidator<CreateIntentionCommand>
 {
     public CreateIntentionCommandValidator()
@@ -44,4 +44,4 @@ public class CreateIntentionCommandValidator : AbstractValidator<CreateIntention
         RuleFor(x => x.Content)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Nội dung ý định"));
     }
-}   
+}

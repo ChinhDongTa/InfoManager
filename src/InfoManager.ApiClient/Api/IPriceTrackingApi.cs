@@ -1,5 +1,4 @@
-﻿using InfoManager.Shared.Dtos.Intentions;
-using InfoManager.Shared.Dtos.PriceTrackings;
+﻿using InfoManager.Shared.Dtos.PriceTrackings;
 
 namespace InfoManager.ApiClient.Api;
 
@@ -10,7 +9,7 @@ public interface IPriceTrackingApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/PriceTrackings")]
-    Task<ApiResponse<PaginatedList<PriceTrackingSummaryDto>>> GetPriceTrackingsAsync([Query] int pageNumber, [Query] int pageSize, CancellationToken ct );
+    Task<ApiResponse<PaginatedList<PriceTrackingSummaryDto>>> GetPriceTrackingsAsync([Query] int pageNumber, [Query] int pageSize, CancellationToken ct);
 
     /// <param name="request">request parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
@@ -23,7 +22,7 @@ public interface IPriceTrackingApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/PriceTrackings/top/{top}")]
-    Task<ApiResponse<List<PriceTrackingSummaryDto>>> GetTopPriceTrackingsAsync(int top, CancellationToken ct );
+    Task<ApiResponse<List<PriceTrackingSummaryDto>>> GetTopPriceTrackingsAsync(int top, CancellationToken ct);
 
     /// <param name="searchTerm">searchTerm parameter</param>
     /// <param name="minPrice">minPrice parameter</param>

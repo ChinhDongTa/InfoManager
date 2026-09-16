@@ -16,12 +16,13 @@ public class AuditableEntityInterceptor(IUser user, TimeProvider dateTime) : Sav
 
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
                                                                           InterceptionResult<int> result,
-                                                                          CancellationToken cancellationToken = default)
+                                                                          CancellationToken ct = default)
     {
         UpdateEntities(eventData.Context);
 
-        return base.SavingChangesAsync(eventData, result, cancellationToken);
+        return base.SavingChangesAsync(eventData, result, ct);
     }
+
     public void UpdateEntities(DbContext? context)
     {
         if (context == null) return;
@@ -40,7 +41,6 @@ public class AuditableEntityInterceptor(IUser user, TimeProvider dateTime) : Sav
                 entry.Entity.LastModifiedBy = user.Id;
                 entry.Entity.LastModified = utcNow;
             }
-            
         }
 
         // Normalize all DateTimeOffset properties to UTC across all entities

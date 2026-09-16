@@ -7,7 +7,7 @@
 public class EmployeeAttendance : BaseAuditableEntity
 {
     /// <summary>ID nhân viên</summary>
-    public required string HREmployeeId { get; set; }
+    public string HREmployeeId { get; set; }
 
     /// <summary>Ngày chấm công</summary>
     public DateOnly AttendanceDate { get; set; }
@@ -40,5 +40,6 @@ public class EmployeeAttendance : BaseAuditableEntity
 
     // Navigation
     public virtual HREmployee? HREmployee { get; set; }
+
     public virtual WorkShift? WorkShift { get; set; }
 }

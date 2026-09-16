@@ -1,5 +1,4 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Agricultural;
+﻿namespace InfoManager.Domain.Entities.SFMS.Agricultural;
 
 /// <summary>
 /// Đại diện cho loại cây trồng / loài cây được quản lý trong hệ thống nông trại thông minh.
@@ -11,13 +10,13 @@ public class Crop : BaseAuditableEntity
     /// Tên thông thường của cây trồng (ví dụ: "Lúa", "Ngô", "Khoai tây", "Cà chua")
     /// </summary>
     [MaxLength(100)]
-    public required string CommonName { get; set; }
+    public string CommonName { get; set; }
 
     /// <summary>
     /// Tên khoa học của cây trồng (ví dụ: "Ipomoea aquatica", "Solanum lycopersicum")
     /// </summary>
     [MaxLength(100)]
-    public required string ScientificName { get; set; }
+    public string ScientificName { get; set; }
 
     /// <summary>
     /// Mô tả đặc điểm và công dụng của cây trồng
@@ -83,6 +82,7 @@ public class Crop : BaseAuditableEntity
 
     // Navigation properties
     public virtual ICollection<CropVariety> Varieties { get; set; } = [];
+
     public virtual ICollection<CropSchedule> Schedules { get; set; } = [];
     public virtual ICollection<GrowthStage> GrowthStages { get; set; } = [];
 }

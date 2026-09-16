@@ -3,19 +3,21 @@ using InfoManager.Application.Features.Intentions.Queries.GetIntentions;
 using InfoManager.Shared.Dtos.Intentions;
 
 namespace InfoManager.Api.Endpoints.Personal;
+
 /// <summary>
 /// Represents the API endpoints for managing intentions.
 /// </summary>
 public class Intentions : EndpointGroupBase
 {
     public override string GroupName => "Intentions";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
 
         //=============Data Retrieval Endpoints================
         api.MapGet(GetIntentionsAsync);
-        api.MapGet(GetTopIntentionsAsync,"top/{top}");
+        api.MapGet(GetTopIntentionsAsync, "top/{top}");
         api.MapGet(SearchIntentionsAsync, "search");
         api.MapGet(GetIntentionByIdAsync, "{id}");
 
@@ -30,22 +32,22 @@ public class Intentions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="pageNumber">The page number.</param>
     /// <param name="pageSize">The page size.</param>
     /// <returns>A paginated list of intentions.</returns>
     /// <response code="200">Returns a paginated list of intentions.</response>
     /// <response code="400">If the request parameters are invalid.</response>
     /// <response code="401">If the user is not authorized.</response>
-    /// <response code="500">If an internal server error occurs.</response> 
+    /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetIntentionsAsync([FromServices] ISender sender,
                                                   [FromServices] IUser user,
-                                                  CancellationToken cancellationToken,
+                                                  CancellationToken ct,
                                                   int pageNumber,
                                                   int pageSize)
     {
         var query = new GetIntentionsQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -55,19 +57,19 @@ public class Intentions : EndpointGroupBase
     /// <param name="top">The number of top intentions to retrieve.</param>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>A list of the top N intentions.</returns>
     /// <response code="200">Returns a list of the top N intentions.</response>
     /// <response code="400">If the request parameters are invalid.</response>
     /// <response code="401">If the user is not authorized.</response>
-    /// <response code="500">If an internal server error occurs.</response> 
+    /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetTopIntentionsAsync(int top,
                                                      [FromServices] ISender sender,
                                                      [FromServices] IUser user,
-                                                     CancellationToken cancellationToken)
+                                                     CancellationToken ct)
     {
         var query = new GetTopIntentionsQuery(top);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -77,7 +79,7 @@ public class Intentions : EndpointGroupBase
     /// <param name="request">The search criteria for intentions.</param>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>A paginated list of intentions matching the search criteria.</returns>
     /// <response code="200">Returns a paginated list of intentions matching the search criteria.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -86,7 +88,7 @@ public class Intentions : EndpointGroupBase
     public async Task<IResult> SearchIntentionsAsync([AsParameters] SearchIntentionRequest request,
                                                      [FromServices] ISender sender,
                                                      [FromServices] IUser user,
-                                                     CancellationToken cancellationToken)
+                                                     CancellationToken ct)
     {
         var searchQuery = new SearchIntentionsQuery
         {
@@ -97,7 +99,7 @@ public class Intentions : EndpointGroupBase
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
-        var result = await sender.Send(searchQuery, cancellationToken);
+        var result = await sender.Send(searchQuery, ct);
         return result.ToHttpResult();
     }
 
@@ -107,7 +109,7 @@ public class Intentions : EndpointGroupBase
     /// <param name="id">The unique identifier of the intention.</param>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The intention matching the specified identifier.</returns>
     /// <response code="200">Returns the intention matching the specified identifier.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -117,10 +119,10 @@ public class Intentions : EndpointGroupBase
     public async Task<IResult> GetIntentionByIdAsync(string id,
                                                      [FromServices] ISender sender,
                                                      [FromServices] IUser user,
-                                                     CancellationToken cancellationToken)
+                                                     CancellationToken ct)
     {
         var query = new GetIntentionByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -130,16 +132,16 @@ public class Intentions : EndpointGroupBase
     /// <param name="command">The command containing the details of the intention to be created.</param>
     /// <param name="sender">The mediator instance used to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The result of the create intention operation.</returns>
     /// <response code="200">If the intention is created successfully.</response>
     /// <response code="400">If the request parameters are invalid.</response>
     /// <response code="401">If the user is not authorized.</response>
-    /// <response code="500">If an internal server error occurs.</response> 
+    /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> CreateIntentionAsync([FromBody] CreateIntentionRequest request,
                                                     [FromServices] ISender sender,
                                                     [FromServices] IUser user,
-                                                    CancellationToken cancellationToken)
+                                                    CancellationToken ct)
     {
         var command = new CreateIntentionCommand
         {
@@ -151,7 +153,7 @@ public class Intentions : EndpointGroupBase
             PlannDate = request.PlannDate,
             Priority = request.Priority
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -162,7 +164,7 @@ public class Intentions : EndpointGroupBase
     /// <param name="command">The command containing the updated details of the intention.</param>
     /// <param name="sender">The mediator instance used to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The result of the update intention operation.</returns>
     /// <response code="200">If the intention is updated successfully.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -173,7 +175,7 @@ public class Intentions : EndpointGroupBase
                                                     [FromBody] UpdateIntentionRequest request,
                                                     [FromServices] ISender sender,
                                                     [FromServices] IUser user,
-                                                    CancellationToken cancellationToken)
+                                                    CancellationToken ct)
     {
         if (id != request.Id)
         {
@@ -189,7 +191,7 @@ public class Intentions : EndpointGroupBase
             PlannDate = request.PlannDate,
             Priority = request.Priority
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
@@ -199,7 +201,7 @@ public class Intentions : EndpointGroupBase
     /// <param name="id">The unique identifier of the intention to be deleted.</param>
     /// <param name="sender">The mediator instance used to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The result of the delete intention operation.</returns>
     /// <response code="200">If the intention is deleted successfully.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -209,10 +211,10 @@ public class Intentions : EndpointGroupBase
     public async Task<IResult> DeleteIntentionAsync(string id,
                                                     [FromServices] ISender sender,
                                                     [FromServices] IUser user,
-                                                    CancellationToken cancellationToken)
+                                                    CancellationToken ct)
     {
         var command = new DeleteIntentionCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
-    } 
+    }
 }

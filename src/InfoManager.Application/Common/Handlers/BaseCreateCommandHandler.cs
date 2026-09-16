@@ -5,7 +5,7 @@ namespace InfoManager.Application.Common.Handlers;
 /// <summary>
 /// Generic base handler for Create commands.
 /// Provides common logic for creating entities, including validation, database insertion, and error handling.
-/// 
+///
 /// Note: Since IApplicationDbContext is not generic (doesn't expose Set<T>()),
 /// you must override AddEntityAsync to handle the actual insertion using the specific DbSet property.
 /// </summary>
@@ -13,7 +13,7 @@ namespace InfoManager.Application.Common.Handlers;
 /// <typeparam name="TEntity">The entity type to create (must be BaseAuditableEntity)</typeparam>
 public abstract class BaseCreateCommandHandler<TCommand, TEntity> : IRequestHandler<TCommand, Result<string>>
     where TCommand : class, IRequest<Result<string>>
-    where TEntity :  BaseEntity
+    where TEntity : BaseEntity
 {
     protected readonly IApplicationDbContext Context;
     protected readonly IValidator<TCommand> Validator;
@@ -26,25 +26,25 @@ public abstract class BaseCreateCommandHandler<TCommand, TEntity> : IRequestHand
         Logger = logger;
     }
 
-    public virtual async Task<Result<string>> Handle(TCommand request, CancellationToken cancellationToken)
+    public virtual async Task<Result<string>> Handle(TCommand request, CancellationToken ct)
     {
         try
         {
             // 1. Validate command
-            var validationResult = await Validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await Validator.ValidateAsync(request, ct);
             if (!validationResult.IsValid)
             {
-                return Result<string>.Error( validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
+                return Result<string>.Error(validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
             }
 
             // 2. Create entity
             var entity = await CreateEntity(request);
 
             // 3. Add to context (call abstract method for specific addition logic)
-            await AddEntityAsync(entity, cancellationToken);
+            await AddEntityAsync(entity, ct);
 
             // 4. Save changes (AuditableEntityInterceptor will handle audit fields)
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(ct);
 
             return Result<string>.Created(entity.Id);
         }
@@ -69,13 +69,13 @@ public abstract class BaseCreateCommandHandler<TCommand, TEntity> : IRequestHand
     /// <summary>
     /// Adds the entity to the database context.
     /// Override this method to use the specific DbSet property from IApplicationDbContext.
-    /// 
+    ///
     /// Example for Category:
-    ///   protected override async Task AddEntityAsync(Category entity, CancellationToken cancellationToken)
+    ///   protected override async Task AddEntityAsync(Category entity, CancellationToken ct)
     ///   {
     ///       Context.Categories.Add(entity);
     ///       await Task.CompletedTask;
     ///   }
     /// </summary>
-    protected abstract Task AddEntityAsync(TEntity entity, CancellationToken cancellationToken);
+    protected abstract Task AddEntityAsync(TEntity entity, CancellationToken ct);
 }

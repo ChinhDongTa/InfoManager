@@ -1,6 +1,5 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.Categories.Commands;
 
-namespace InfoManager.Application.Features.Categories.Commands;
 public record CreateCategoryCommand : IRequest<Result<string>>
 {
     public required string Name { get; init; }

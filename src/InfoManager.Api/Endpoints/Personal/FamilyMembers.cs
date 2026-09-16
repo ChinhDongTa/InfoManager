@@ -4,12 +4,14 @@ using InfoManager.Shared.Dtos.Families;
 using InfoManager.Shared.Dtos.FamilyMembers;
 
 namespace InfoManager.Api.Endpoints.Personal;
+
 /// <summary>
 /// Represents the API endpoints for managing family members.
 /// </summary>
 public class FamilyMembers : EndpointGroupBase
 {
     public override string GroupName => "FamilyMembers";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -29,7 +31,7 @@ public class FamilyMembers : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance</param>
     /// <param name="user">The user instance</param>
-    /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="ct">The cancellation token</param>
     /// <param name="request">The search criteria for family members</param>
     /// <returns>HTTP 200 on success, or HTTP 400/404/500 on error.</returns>
     /// <response code="200">Returns the list of family members.</response>
@@ -38,11 +40,11 @@ public class FamilyMembers : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetFamilyMembersAsync([FromServices] ISender sender,
                                                      [FromServices] IUser user,
-                                                     CancellationToken cancellationToken,
+                                                     CancellationToken ct,
                                                      [AsParameters] SearchFamilyMemberRequest request)
     {
         var query = new GetFamilyMembersQuery(request.FullName, request.EventType, request.PageNumber, request.PageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -52,7 +54,7 @@ public class FamilyMembers : EndpointGroupBase
     /// <param name="id">The unique identifier of the family member</param>
     /// <param name="sender">The mediator instance</param>
     /// <param name="user">The user instance</param>
-    /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="ct">The cancellation token</param>
     /// <returns>HTTP 200 on success, or HTTP 400/404/500 on error.</returns>
     /// <response code="200">Returns the family member.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -61,10 +63,10 @@ public class FamilyMembers : EndpointGroupBase
     public async Task<IResult> GetFamilyMemberByIdAsync(string id,
                                                         [FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken)
+                                                        CancellationToken ct)
     {
         var query = new GetFamilyMemberByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -74,7 +76,7 @@ public class FamilyMembers : EndpointGroupBase
     /// <param name="command">The command containing the details of the family member to create</param>
     /// <param name="sender">The mediator instance</param>
     /// <param name="user">The user instance</param>
-    /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="ct">The cancellation token</param>
     /// <returns>HTTP 200 on success, or HTTP 400/404/500 on error.</returns>
     /// <response code="200">Returns the created family member.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -83,7 +85,7 @@ public class FamilyMembers : EndpointGroupBase
     public async Task<IResult> CreateFamilyMemberAsync([FromBody] CreateFamilyMemberRequest request,
                                                        [FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken)
+                                                       CancellationToken ct)
     {
         var command = new CreateFamilyMemberCommand
         {
@@ -96,7 +98,7 @@ public class FamilyMembers : EndpointGroupBase
             Note = request.Note,
             PhoneNumber = request.PhoneNumber
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -107,7 +109,7 @@ public class FamilyMembers : EndpointGroupBase
     /// <param name="command">The command containing the updated details of the family member</param>
     /// <param name="sender">The mediator instance</param>
     /// <param name="user">The user instance</param>
-    /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="ct">The cancellation token</param>
     /// <returns>HTTP 204 on success, or HTTP 400/404/500 on error.</returns>
     /// <response code="204">Returns the updated family member.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -117,7 +119,7 @@ public class FamilyMembers : EndpointGroupBase
                                                        [FromBody] UpdateFamilyMemberRequest request,
                                                        [FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken)
+                                                       CancellationToken ct)
     {
         if (id != request.Id)
         {
@@ -135,7 +137,7 @@ public class FamilyMembers : EndpointGroupBase
             Note = request.Note,
             PhoneNumber = request.PhoneNumber
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
@@ -145,7 +147,7 @@ public class FamilyMembers : EndpointGroupBase
     /// <param name="id">The unique identifier of the family member to delete</param>
     /// <param name="sender">The mediator instance</param>
     /// <param name="user">The user instance</param>
-    /// <param name="cancellationToken">The cancellation token</param>
+    /// <param name="ct">The cancellation token</param>
     /// <returns>HTTP 204 on success, or HTTP 400/404/500 on error.</returns>
     /// <response code="204">If the family member was successfully deleted.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -154,17 +156,17 @@ public class FamilyMembers : EndpointGroupBase
     public async Task<IResult> DeleteFamilyMemberAsync(string id,
                                                        [FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken)
+                                                       CancellationToken ct)
     {
         var command = new DeleteFamilyMemberCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
     public async Task<IResult> InitDataForUserAsync([FromBody] InitDataForUserRequest request,
                                               [FromServices] ISender sender,
                                               [FromServices] IUser user,
-                                              CancellationToken cancellationToken)
+                                              CancellationToken ct)
     {
         var command = new InitDataForUserCommand
         {
@@ -175,7 +177,7 @@ public class FamilyMembers : EndpointGroupBase
             PhoneNumber = request.PhoneNumber,
             UserId = user.Id
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

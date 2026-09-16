@@ -9,22 +9,26 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (cropPlanting != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Mã trồng" Value="@cropPlanting.PlantingCode" />
-                <DetailItem Label="Ruộng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.FieldName) ? "-" : cropPlanting.FieldName)" />
-                <DetailItem Label="Cây trồng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropName) ? cropPlanting.CropId : cropPlanting.CropName)" />
-                <DetailItem Label="Giống" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropVarietyName) ? "-" : cropPlanting.CropVarietyName)" />
-                <DetailItem Label="Lịch canh tác" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropScheduleName) ? "-" : cropPlanting.CropScheduleName)" />
-                <DetailItem Label="Ngày trồng" Value="@cropPlanting.PlantingDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <DetailItem Label="Ngày thu hoạch dự kiến" Value="@(cropPlanting.ExpectedHarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Ngày thu hoạch thực tế" Value="@(cropPlanting.ActualHarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Diện tích trồng" Value="@FormatNumber.FormatDecimal(cropPlanting.PlantedArea)" />
-                <DetailItem Label="Số lượng trồng" Value="@(cropPlanting.QuantityPlanted.HasValue ? FormatNumber.FormatDecimal(cropPlanting.QuantityPlanted.Value) : "-")" />
-                <DetailItem Label="Đơn vị trồng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.PlantedUnit) ? "-" : cropPlanting.PlantedUnit)" />
-                <DetailItem Label="Trạng thái" Value="@cropPlanting.StatusName" />
-                <DetailItem Label="Ngày tạo" Value="@cropPlanting.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <DetailItem Label="Ghi chú" Value="@(string.IsNullOrWhiteSpace(cropPlanting.Notes) ? "-" : cropPlanting.Notes)" />
-                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-plantings" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Mã trồng" Value="@cropPlanting.PlantingCode" />
+                    <DetailItem Label="Ruộng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.FieldName) ? "-" : cropPlanting.FieldName)" />
+                    <DetailItem Label="Cây trồng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropName) ? cropPlanting.CropId : cropPlanting.CropName)" />
+                    <DetailItem Label="Giống" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropVarietyName) ? "-" : cropPlanting.CropVarietyName)" />
+                    <DetailItem Label="Lịch canh tác" Value="@(string.IsNullOrWhiteSpace(cropPlanting.CropScheduleName) ? "-" : cropPlanting.CropScheduleName)" />
+                    <DetailItem Label="Ngày trồng" Value="@cropPlanting.PlantingDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <DetailItem Label="Ngày thu hoạch dự kiến" Value="@(cropPlanting.ExpectedHarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Ngày thu hoạch thực tế" Value="@(cropPlanting.ActualHarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Diện tích trồng" Value="@FormatNumber.FormatDecimal(cropPlanting.PlantedArea)" />
+                    <DetailItem Label="Số lượng trồng" Value="@(cropPlanting.QuantityPlanted.HasValue ? FormatNumber.FormatDecimal(cropPlanting.QuantityPlanted.Value) : "-")" />
+                    <DetailItem Label="Đơn vị trồng" Value="@(string.IsNullOrWhiteSpace(cropPlanting.PlantedUnit) ? "-" : cropPlanting.PlantedUnit)" />
+                    <DetailItem Label="Trạng thái" Value="@cropPlanting.StatusName" />
+                    <DetailItem Label="Ngày tạo" Value="@cropPlanting.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <DetailItem Label="Ghi chú" Value="@(string.IsNullOrWhiteSpace(cropPlanting.Notes) ? "-" : cropPlanting.Notes)" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-plantings" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

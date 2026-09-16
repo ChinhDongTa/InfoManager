@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+
 namespace InfoManager.Enum;
 
 public static class _EnumExtensions
 {
     public static string? ToIntString(this System.Enum? value)
         => value == null ? null : Convert.ToInt32(value).ToString();
+
     //public static int? ToInt(this Enum? value)
     //    => value == null ? null : Convert.ToInt32(value);
     public static int ToInt(this System.Enum value)
         => Convert.ToInt32(value);
-    
+
     public static string ToDisplayName(this System.Enum value)
     {
         var type = value.GetType();

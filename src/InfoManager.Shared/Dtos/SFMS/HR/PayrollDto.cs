@@ -16,6 +16,7 @@ public record PayrollDto(
     decimal? Deductions,
     string? DeductionDetails,
     decimal NetAmount,
+    PayrollStatus PayrollStatus,
     string PaymentStatusName,
     DateTimeOffset? PaymentDate,
     string? PaymentMethod,

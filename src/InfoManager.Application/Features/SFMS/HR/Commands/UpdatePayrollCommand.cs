@@ -1,6 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.HR.Commands;
 
-
 public record UpdatePayrollCommand : IRequest<Result>
 {
     public required string Id { get; init; }
@@ -26,8 +25,8 @@ public class UpdatePayrollCommandHandler : BaseUpdateCommandHandler<UpdatePayrol
                                        ILogger<UpdatePayrollCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task<Payroll?> GetEntityAsync(UpdatePayrollCommand request, CancellationToken cancellationToken)
-        => await Context.Payrolls.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Payroll?> GetEntityAsync(UpdatePayrollCommand request, CancellationToken ct)
+        => await Context.Payrolls.FindAsync([request.Id], ct);
 
     protected override Task UpdateEntityProperties(Payroll entity, UpdatePayrollCommand request)
     {

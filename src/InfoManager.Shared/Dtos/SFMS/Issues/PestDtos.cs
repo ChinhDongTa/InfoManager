@@ -157,3 +157,4 @@ public record UpdatePestRequest(
     /// <summary>Đường dẫn ảnh. Tối đa 500 ký tự.</summary>
     string? ImageUrl
 );
+public record SearchPestsRequest(string? Term, string? PestType, SeverityLevel? SeverityLevel, int PageNumber, int PageSize);

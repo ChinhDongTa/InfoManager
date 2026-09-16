@@ -7,9 +7,6 @@ public class CreateFamilyMemberModel
 {
     [MaxLength(200)]
     [Required]
-    /// <summary>
-    /// Tên thành viên gia đình
-    /// </summary>
     public string FullName { get; set; } = string.Empty;
 
     /// <summary>
@@ -22,6 +19,7 @@ public class CreateFamilyMemberModel
     /// Ngày sinh của thành viên gia đình
     /// </summary>
     public DateOnly BirthDate { get; set; }
+
     /// <summary>
     /// Ngày mất của thành viên gia đình
     /// </summary>
@@ -44,6 +42,7 @@ public class CreateFamilyMemberModel
     /// </summary>
     [MaxLength(50)]
     public string? PhoneNumber { get; set; }
+
     /// <summary>
     /// Ghi chú về thành viên gia đình
     /// </summary>

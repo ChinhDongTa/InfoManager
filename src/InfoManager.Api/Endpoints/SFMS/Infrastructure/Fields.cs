@@ -5,7 +5,8 @@ namespace InfoManager.Api.Endpoints.SFMS.Infrastructure;
 
 public class Fields : EndpointGroupBase
 {
-    override public string GroupName => "Fields";
+    public override string GroupName => "Fields";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -19,41 +20,44 @@ public class Fields : EndpointGroupBase
         api.MapPut(UpdateFieldAsync, "{id}");
         api.MapDelete(DeleteFieldAsync, "{id}");
     }
-    public async Task<IResult> GetFieldByIdAsync(string id, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> GetFieldByIdAsync(string id, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetFieldByIdQuery(id), cancellationToken);
+        var result = await sender.Send(new GetFieldByIdQuery(id), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> GetFieldsAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> GetFieldsAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetFieldsQuery(pageNumber, pageSize), cancellationToken);
+        var result = await sender.Send(new GetFieldsQuery(pageNumber, pageSize), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> SearchFieldsAsync([AsParameters] SearchFieldsRequest request, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> SearchFieldsAsync([AsParameters] SearchFieldsRequest request, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(FieldMappings.ToSearchQuery(request), cancellationToken);
+        var result = await sender.Send(FieldMappings.ToSearchQuery(request), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> CreateFieldAsync(CreateFieldRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+    public async Task<IResult> CreateFieldAsync(CreateFieldRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(FieldMappings.ToCreateCommand(request), cancellationToken);
+        var result = await sender.Send(FieldMappings.ToCreateCommand(request), ct);
         return result.ToCreatedHttpResult(GroupName);
     }
-    public async Task<IResult> UpdateFieldAsync(string id, UpdateFieldRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> UpdateFieldAsync(string id, UpdateFieldRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        if(id != request.Id)
+        if (id != request.Id)
         {
             return Results.BadRequest("The ID in the URL does not match the ID in the request body.");
         }
-        var result = await sender.Send(FieldMappings.ToUpdateCommand(id, request), cancellationToken);
+        var result = await sender.Send(FieldMappings.ToUpdateCommand(id, request), ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> DeleteFieldAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> DeleteFieldAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(new DeleteFieldCommand(id), cancellationToken);
+        var result = await sender.Send(new DeleteFieldCommand(id), ct);
         return result.ToHttpResult();
     }
 }

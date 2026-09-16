@@ -9,6 +9,7 @@ public record CreateSocialAccountCommand : IRequest<Result<string>>
     public bool IsPrimary { get; init; }
     public string? HomepageUrl { get; init; }
 }
+
 public class CreateSocialAccountCommandHandler : BaseCreateCommandHandler<CreateSocialAccountCommand, SocialAccount>
 {
     public CreateSocialAccountCommandHandler(IApplicationDbContext context,
@@ -16,6 +17,7 @@ public class CreateSocialAccountCommandHandler : BaseCreateCommandHandler<Create
                                              ILogger<CreateSocialAccountCommandHandler> logger) : base(context, validator, logger)
     {
     }
+
     protected override async Task<SocialAccount> CreateEntity(CreateSocialAccountCommand request)
     {
         return new SocialAccount
@@ -28,11 +30,13 @@ public class CreateSocialAccountCommandHandler : BaseCreateCommandHandler<Create
             HomepageUrl = request.HomepageUrl?.Trim()
         };
     }
-    protected override async Task AddEntityAsync(SocialAccount entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(SocialAccount entity, CancellationToken ct)
     {
-        await Context.SocialAccounts.AddAsync(entity, cancellationToken);
+        await Context.SocialAccounts.AddAsync(entity, ct);
     }
 }
+
 public class CreateSocialAccountCommandValidator : AbstractValidator<CreateSocialAccountCommand>
 {
     public CreateSocialAccountCommandValidator()

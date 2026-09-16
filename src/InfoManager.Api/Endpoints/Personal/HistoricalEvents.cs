@@ -3,12 +3,14 @@ using InfoManager.Application.Features.HistoricalEvents.Queries.GetHistoricalEve
 using InfoManager.Shared.Dtos.HistoricalEvents;
 
 namespace InfoManager.Api.Endpoints;
+
 /// <summary>
 /// Represents the API endpoints for managing historical events.
 /// </summary>
 public class HistoricalEvents : EndpointGroupBase
 {
     public override string GroupName => "HistoricalEvents";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -30,7 +32,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="pageNumber">The page number.</param>
     /// <param name="pageSize">The page size.</param>
     /// <returns>A paginated list of historical events.</returns>
@@ -40,12 +42,12 @@ public class HistoricalEvents : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetHistoricalEventsAsync([FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken,
+                                                        CancellationToken ct,
                                                         int pageNumber,
                                                         int pageSize)
     {
         var query = new GetHistoricalEventsQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -55,7 +57,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// <param name="id">The ID of the historical event.</param>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The historical event with the specified ID.</returns>
     /// <response code="200">Returns the historical event.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -65,10 +67,10 @@ public class HistoricalEvents : EndpointGroupBase
     public async Task<IResult> GetHistoricalEventByIdAsync(string id,
                                                            [FromServices] ISender sender,
                                                            [FromServices] IUser user,
-                                                           CancellationToken cancellationToken)
+                                                           CancellationToken ct)
     {
         var query = new GetHistoricalEventByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -78,7 +80,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// <param name="top">The number of historical events to retrieve.</param>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>A list of the next month's historical events.</returns>
     /// <response code="200">Returns a list of the next month's historical events.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -87,10 +89,10 @@ public class HistoricalEvents : EndpointGroupBase
     public async Task<IResult> GetNextMonthHistoricalEventsAsync(int numMonths,
                                                                  [FromServices] ISender sender,
                                                                  [FromServices] IUser user,
-                                                                 CancellationToken cancellationToken)
+                                                                 CancellationToken ct)
     {
         var query = new GetNextMonthHistoricalEventsQuery(numMonths);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -99,7 +101,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance used to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="request">The search request containing search term, date range, and pagination information.</param>
     /// <returns>A list of historical events matching the search criteria.</returns>
     /// <response code="200">Returns a list of historical events matching the search criteria.</response>
@@ -108,11 +110,11 @@ public class HistoricalEvents : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> SearchHistoricalEventsAsync([FromServices] ISender sender,
                                                             [FromServices] IUser user,
-                                                            CancellationToken cancellationToken,
+                                                            CancellationToken ct,
                                                             [AsParameters] SearchHistoricalEventRequest request)
     {
         var query = new SearchHistoricalEventsQuery(request.SearchTerm, request.StartDate, request.EndDate, request.PageNumber, request.PageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -121,7 +123,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance used to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="command">The command containing the details of the historical event to create.</param>
     /// <returns>The result of the create operation.</returns>
     /// <response code="201">If the historical event is created successfully.</response>
@@ -130,7 +132,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> CreateHistoricalEventAsync([FromServices] ISender sender,
                                                           [FromServices] IUser user,
-                                                          CancellationToken cancellationToken,
+                                                          CancellationToken ct,
                                                           [FromBody] CreateHistoricalEventRequest request)
     {
         var command = new CreateHistoricalEventCommand
@@ -143,7 +145,7 @@ public class HistoricalEvents : EndpointGroupBase
             Location = request.Location,
             ReferenceSource = request.ReferenceSource
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -153,7 +155,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// <param name="id">The ID of the historical event to update.</param>
     /// <param name="sender">The mediator instance used to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="command">The command containing the updated details of the historical event.</param>
     /// <returns>The result of the update operation.</returns>
     /// <response code="200">If the historical event is updated successfully.</response>
@@ -163,7 +165,7 @@ public class HistoricalEvents : EndpointGroupBase
     public async Task<IResult> UpdateHistoricalEventAsync(string id,
                                                           [FromServices] ISender sender,
                                                           [FromServices] IUser user,
-                                                          CancellationToken cancellationToken,
+                                                          CancellationToken ct,
                                                           [FromBody] UpdateHistoricalEventRequest request)
     {
         if (id != request.Id)
@@ -180,7 +182,7 @@ public class HistoricalEvents : EndpointGroupBase
             Location = request.Location,
             ReferenceSource = request.ReferenceSource
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
@@ -190,7 +192,7 @@ public class HistoricalEvents : EndpointGroupBase
     /// <param name="id">The ID of the historical event to delete.</param>
     /// <param name="sender">The mediator instance used to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The result of the delete operation.</returns>
     /// <response code="204">If the historical event is deleted successfully.</response>
     /// <response code="400">If the request parameters are invalid.</response>
@@ -200,10 +202,10 @@ public class HistoricalEvents : EndpointGroupBase
     public async Task<IResult> DeleteHistoricalEventAsync(string id,
                                                           [FromServices] ISender sender,
                                                           [FromServices] IUser user,
-                                                          CancellationToken cancellationToken)
+                                                          CancellationToken ct)
     {
         var command = new DeleteHistoricalEventCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

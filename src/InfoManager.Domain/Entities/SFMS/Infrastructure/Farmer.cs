@@ -14,7 +14,7 @@ public class Farmer : BaseAuditableEntity
     /// Tài khoản đăng nhập của chủ hộ.
     /// 1 User chỉ có tối đa 1 hồ sơ Farmer.
     /// </summary>
-    public required string UserId { get; set; }
+    public string UserId { get; set; }
 
     /// <summary>
     /// Liên kết thành viên gia đình nếu có.
@@ -31,7 +31,7 @@ public class Farmer : BaseAuditableEntity
     /// Họ tên chủ hộ
     /// </summary>
     [MaxLength(200)]
-    public required string FullName { get; set; }
+    public string FullName { get; set; }
 
     /// <summary>
     /// Số điện thoại

@@ -9,25 +9,29 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (sensor != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Tên cảm biến" Value="@sensor.Name" />
-                <DetailItem Label="Loại cảm biến" Value="@sensor.SensorTypeName" />
-                <DetailItem Label="Model" Value="@sensor.Model" />
-                <DetailItem Label="Số serial" Value="@sensor.SerialNumber" />
-                <DetailItem Label="Ruộng" Value="@sensor.FieldName" />
-                <DetailItem Label="Thiết bị" Value="@sensor.DeviceName" />
-                <DetailItem Label="Vĩ độ" Value="@FormatNumber.FormatDecimal(sensor.Latitude)" />
-                <DetailItem Label="Kinh độ" Value="@FormatNumber.FormatDecimal(sensor.Longitude)" />
-                <DetailItem Label="Độ sâu" Value="@FormatNumber.FormatDecimal(sensor.Depth)" />
-                <DetailItem Label="Trạng thái" Value="@sensor.StatusName" />
-                <DetailItem Label="Thời điểm đọc gần nhất" Value="@(sensor.LastReadingTime?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Mức pin" Value="@FormatNumber.FormatDecimal(sensor.BatteryLevel)" />
-                <DetailItem Label="Cường độ tín hiệu" Value="@FormatNumber.FormatDecimal(sensor.SignalStrength)" />
-                <DetailItem Label="Ngày lắp đặt" Value="@sensor.InstallationDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <DetailItem Label="Ngày hiệu chuẩn kế tiếp" Value="@(sensor.NextCalibrationDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
-                <DetailItem Label="Số lần đọc" Value="@sensor.ReadingCount.ToString()" />
-                <DetailItem Label="Ngày tạo" Value="@sensor.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/sensors" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Tên cảm biến" Value="@sensor.Name" />
+                    <DetailItem Label="Loại cảm biến" Value="@sensor.SensorTypeName" />
+                    <DetailItem Label="Model" Value="@sensor.Model" />
+                    <DetailItem Label="Số serial" Value="@sensor.SerialNumber" />
+                    <DetailItem Label="Ruộng" Value="@sensor.FieldName" />
+                    <DetailItem Label="Thiết bị" Value="@sensor.DeviceName" />
+                    <DetailItem Label="Vĩ độ" Value="@FormatNumber.FormatDecimal(sensor.Latitude)" />
+                    <DetailItem Label="Kinh độ" Value="@FormatNumber.FormatDecimal(sensor.Longitude)" />
+                    <DetailItem Label="Độ sâu" Value="@FormatNumber.FormatDecimal(sensor.Depth)" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Trạng thái" Value="@sensor.StatusName" />
+                    <DetailItem Label="Thời điểm đọc gần nhất" Value="@(sensor.LastReadingTime?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Mức pin" Value="@FormatNumber.FormatDecimal(sensor.BatteryLevel)" />
+                    <DetailItem Label="Cường độ tín hiệu" Value="@FormatNumber.FormatDecimal(sensor.SignalStrength)" />
+                    <DetailItem Label="Ngày lắp đặt" Value="@sensor.InstallationDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <DetailItem Label="Ngày hiệu chuẩn kế tiếp" Value="@(sensor.NextCalibrationDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Số lần đọc" Value="@sensor.ReadingCount.ToString()" />
+                    <DetailItem Label="Ngày tạo" Value="@sensor.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/sensors" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

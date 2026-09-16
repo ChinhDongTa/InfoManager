@@ -10,7 +10,7 @@
 ///
 ///  Sử dụng bình thường
 ///    ↓
-///  Access Token hết hạn 
+///  Access Token hết hạn
 ///    → Dùng Refresh Token xin Access Token mới
 ///
 ///  Logout
@@ -24,18 +24,18 @@ public class TokenBlacklist : BaseAuditableEntity
     /// JWT ID (claim jti)
     /// </summary>
     [MaxLength(100)]
-    public required string Jti { get; set; }
+    public string Jti { get; set; }
 
     /// <summary>
     /// UserId được embed trong token
     /// </summary>
     [MaxLength(100)]
-    public required string UserIdOfToken { get; set; }
+    public string UserIdOfToken { get; set; }
 
     /// <summary>
     /// Lý do thu hồi (enum)
     /// </summary>
-    public required ReasonRevoke Reason { get; set; }
+    public ReasonRevoke Reason { get; set; }
 
     /// <summary>
     /// Khóa vĩnh viễn hay không
@@ -45,12 +45,12 @@ public class TokenBlacklist : BaseAuditableEntity
     /// <summary>
     /// Thời điểm hết hạn token (access/refresh)
     /// </summary>
-    public required DateTimeOffset ExpiresAt { get; set; }
+    public DateTimeOffset ExpiresAt { get; set; }
 
     /// <summary>
     /// Loại Token
     /// </summary>
-    public required TokenType TokenType { get; set; } = TokenType.Access;
+    public TokenType TokenType { get; set; } = TokenType.Access;
 
     public string? Note { get; set; }
 }

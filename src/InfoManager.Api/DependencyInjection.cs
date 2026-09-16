@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 namespace InfoManager.Api;
 
 public static class DependencyInjection
@@ -19,7 +20,7 @@ public static class DependencyInjection
 
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-        
+
         builder.Services.ConfigureHttpJsonOptions(options =>
         {
             options.SerializerOptions.Converters.Add(
@@ -91,6 +92,7 @@ public static class DependencyInjection
         // Đăng ký Authentication với JWT Bearer
         AddJwtAuthentication(builder);
     }
+
     public static void AddJwtAuthentication(this IHostApplicationBuilder builder)
     {
         // ✅ JWT Configuration
@@ -105,7 +107,6 @@ public static class DependencyInjection
 
             // ✅ Cookie scheme (fallback)
             options.AddScheme<CookieAuthenticationHandler>("Cookie", "Cookie");
-
         })
         .AddJwtBearer(options =>
         {

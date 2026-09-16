@@ -25,6 +25,7 @@ public static class CropScheduleMappings
             PlantSpacing = request.PlantSpacing,
             RowSpacing = request.RowSpacing
         };
+
     public static UpdateCropScheduleCommand ToUpdateCommand(string id, UpdateCropScheduleRequest request)
        => new()
        {

@@ -9,7 +9,7 @@ public class Pest : BaseAuditableEntity
     /// Tên thông thường
     /// </summary>
     [MaxLength(100)]
-    public required string CommonName { get; set; }
+    public string CommonName { get; set; }
 
     /// <summary>
     /// Tên khoa học

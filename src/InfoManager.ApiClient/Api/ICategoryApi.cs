@@ -1,6 +1,5 @@
 ﻿using InfoManager.Shared.Dtos.Categories;
 
-
 namespace InfoManager.ApiClient.Api;
 
 public interface ICategoryApi
@@ -32,9 +31,10 @@ public interface ICategoryApi
     [Get("/api/Categories")]
     Task<ApiResponse<PaginatedList<CategoryDto>>> GetCategoriesAsync([Query] string? group,
                                                                      [Query] string? keyname,
-                                                                     [Query] int pageNumber ,
+                                                                     [Query] int pageNumber,
                                                                      [Query] int pageSize,
                                                                      CancellationToken ct = default);
+
     /// <summary>
     /// Get a list of categories for select list
     /// </summary>
@@ -48,5 +48,5 @@ public interface ICategoryApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Post("/api/Categories")]
-    Task<ApiResponse<string>> CreateCategoryAsync([Body] CreateCategoryRequest request ,CancellationToken ct  );
+    Task<ApiResponse<string>> CreateCategoryAsync([Body] CreateCategoryRequest request, CancellationToken ct);
 }

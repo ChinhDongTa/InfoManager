@@ -7,9 +7,6 @@ public class UpdateCategoryModel
     public string Id { get; set; } = string.Empty;
 
     [MaxLength(200)]
-    /// <summary>
-    /// Tên phân loại trải nghiệm
-    /// </summary>
     public string? Name { get; set; }
 
     /// <summary>
@@ -17,6 +14,7 @@ public class UpdateCategoryModel
     /// </summary>
     [MaxLength(50)]
     public string? Group { get; set; }
+
     /// <summary>
     /// Tên khóa phân loại group, ví dụ: "Kinh-Nghiem", "Y-Dinh", "Giao-Dich"
     /// </summary>
@@ -34,6 +32,7 @@ public class UpdateCategoryModel
         Group = dto.Group;
         KeyName = dto.KeyName;
     }
+
     public UpdateCategoryRequest CreateRequest()
     {
         return new UpdateCategoryRequest

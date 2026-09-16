@@ -18,6 +18,7 @@ public static class StringHelpers
         var viCulture = new System.Globalization.CultureInfo("vi-VN");
         return amount.ToString("N0", viCulture) + " đ";
     }
+
     public static string ToVND(this decimal? amount)
     {
         var viCulture = new System.Globalization.CultureInfo("vi-VN");
@@ -36,7 +37,7 @@ public static class StringHelpers
     }
 
     /// <summary>
-    /// Dành cho string không nullable. 
+    /// Dành cho string không nullable.
     /// Chỉ trả về true nếu giá trị mới có nội dung và khác giá trị hiện tại.
     /// </summary>
     public static bool HasValueAndIsDifferentFrom(this string? newValue, string currentValue)

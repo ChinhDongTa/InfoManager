@@ -7,6 +7,7 @@ namespace InfoManager.Api.Endpoints.Personal;
 public class Famylies : EndpointGroupBase
 {
     public override string GroupName => "famylies";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -20,33 +21,32 @@ public class Famylies : EndpointGroupBase
         api.MapPost(CreateFamilyAsync);
         api.MapPut(UpdateFamilyAsync, "{id}");
         api.MapDelete(DeleteFamilyAsync, "{id}");
-
     }
 
     public async Task<IResult> GetFamilyByIdAsync(string id,
                                                   [FromServices] ISender sender,
                                                   [FromServices] IUser user,
-                                                  CancellationToken cancellationToken)
+                                                  CancellationToken ct)
     {
         var query = new GetFamilyByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
-
     public async Task<IResult> GetFamiliesAsync([FromServices] ISender sender,
                                                 [FromServices] IUser user,
-                                                CancellationToken cancellationToken,
+                                                CancellationToken ct,
                                                 int pageNumber = 1,
                                                 int pageSize = 20)
     {
         var query = new GetFamiliesQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
+
     public async Task<IResult> SearchFamiliesAsync([FromServices] ISender sender,
                                                    [FromServices] IUser user,
-                                                   CancellationToken cancellationToken,
+                                                   CancellationToken ct,
                                                    string? searchTerm = null,
                                                    int pageNumber = 1,
                                                    int pageSize = 20)
@@ -57,12 +57,13 @@ public class Famylies : EndpointGroupBase
             PageNumber = pageNumber,
             PageSize = pageSize
         };
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
+
     public async Task<IResult> CreateFamilyAsync([FromServices] ISender sender,
                                                  [FromServices] IUser user,
-                                                 CancellationToken cancellationToken,
+                                                 CancellationToken ct,
                                                  [FromBody] CreateFamilyRequest request)
     {
         var command = new CreateFamilyCommand
@@ -73,13 +74,14 @@ public class Famylies : EndpointGroupBase
             Address = request.Address,
             RepresentativeId = request.RepresentativeId
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
+
     public async Task<IResult> UpdateFamilyAsync(string id,
                                                  [FromServices] ISender sender,
                                                  [FromServices] IUser user,
-                                                 CancellationToken cancellationToken,
+                                                 CancellationToken ct,
                                                  [FromBody] UpdateFamilyRequest request)
     {
         if (id != request.Id)
@@ -94,14 +96,14 @@ public class Famylies : EndpointGroupBase
             Address = request.Address,
             RepresentativeId = request.RepresentativeId
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> DeleteFamilyAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+    public async Task<IResult> DeleteFamilyAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         var command = new DeleteFamilyCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

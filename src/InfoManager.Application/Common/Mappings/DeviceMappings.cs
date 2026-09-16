@@ -53,15 +53,15 @@ public static class DeviceMappings
 
     public static SearchDevicesQuery ToSearchQuery(SearchDevicesRequest request)
         => new(
-        
-            Term : request.Term,
-            DeviceType : request.DeviceType,
-            DeviceStatus : request.DeviceStatus,
-            StartInstallationDate : request.StartInstallationDate,
-            EndInstallationDate : request.EndInstallationDate,
-            StartLastMaintenanceDate : request.StartLastMaintenanceDate,
-            EndLastMaintenanceDate : request.EndLastMaintenanceDate,
-            PageNumber : request.PageNumber,
-            PageSize : request.PageSize
+
+            Term: request.Term,
+            DeviceType: request.DeviceType,
+            DeviceStatus: request.DeviceStatus,
+            StartInstallationDate: request.StartInstallationDate,
+            EndInstallationDate: request.EndInstallationDate,
+            StartLastMaintenanceDate: request.StartLastMaintenanceDate,
+            EndLastMaintenanceDate: request.EndLastMaintenanceDate,
+            PageNumber: request.PageNumber,
+            PageSize: request.PageSize
         );
 }

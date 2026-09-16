@@ -104,9 +104,9 @@ public class CreateCropCycleCommandHandler : BaseCreateCommandHandler<CreateCrop
         : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(CropCycle entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(CropCycle entity, CancellationToken ct)
     {
-        await Context.CropCycles.AddAsync(entity, cancellationToken);
+        await Context.CropCycles.AddAsync(entity, ct);
     }
 
     protected override async Task<CropCycle> CreateEntity(CreateCropCycleCommand request)

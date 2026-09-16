@@ -87,23 +87,23 @@ public record UpdateDeviceCommand : IRequest<Result>
     public string? Notes { get; init; }
 }
 
-public class UpdateDeviceCommandHandler: BaseUpdateCommandHandler<UpdateDeviceCommand, Device>
+public class UpdateDeviceCommandHandler : BaseUpdateCommandHandler<UpdateDeviceCommand, Device>
 {
     public UpdateDeviceCommandHandler(IApplicationDbContext context,
                                       IValidator<UpdateDeviceCommand> validator,
                                       ILogger<UpdateDeviceCommandHandler> logger) : base(context, validator, logger)
     { }
 
-    protected override async Task<Device?> GetEntityAsync(UpdateDeviceCommand request, CancellationToken cancellationToken) 
-        => await Context.Devices.FindAsync(request.Id, cancellationToken);
+    protected override async Task<Device?> GetEntityAsync(UpdateDeviceCommand request, CancellationToken ct)
+        => await Context.Devices.FindAsync(request.Id, ct);
 
     protected override async Task UpdateEntityProperties(Device entity, UpdateDeviceCommand request)
     {
-        if(request.Name.HasValueAndIsDifferentFrom(entity.Name))
+        if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;
         if (request.DeviceType.HasValueAndIsDifferentFrom(entity.DeviceType))
             entity.DeviceType = request.DeviceType!.Value;
-        if(request.Model.IsDifferentFrom(entity.Model))
+        if (request.Model.IsDifferentFrom(entity.Model))
             entity.Model = request.Model;
         if (request.MacAddress.IsDifferentFrom(entity.MacAddress))
             entity.MacAddress = request.MacAddress;
@@ -113,24 +113,25 @@ public class UpdateDeviceCommandHandler: BaseUpdateCommandHandler<UpdateDeviceCo
             entity.Status = request.Status!.Value;
         if (request.IpAddress.IsDifferentFrom(entity.IpAddress))
             entity.IpAddress = request.IpAddress;
-        if(request.CommunicationProtocol.IsDifferentFrom(entity.CommunicationProtocol))
+        if (request.CommunicationProtocol.IsDifferentFrom(entity.CommunicationProtocol))
             entity.CommunicationProtocol = request.CommunicationProtocol;
-        if(request.FirmwareVersion.IsDifferentFrom(entity.FirmwareVersion))
+        if (request.FirmwareVersion.IsDifferentFrom(entity.FirmwareVersion))
             entity.FirmwareVersion = request.FirmwareVersion;
-        if(request.BatteryLevel.IsDifferentFrom(entity.BatteryLevel))
+        if (request.BatteryLevel.IsDifferentFrom(entity.BatteryLevel))
             entity.BatteryLevel = request.BatteryLevel;
         if (request.StorageCapacity.IsDifferentFrom(entity.StorageCapacity))
             entity.StorageCapacity = request.StorageCapacity;
-        if(request.StorageUsed.IsDifferentFrom(entity.StorageUsed))
+        if (request.StorageUsed.IsDifferentFrom(entity.StorageUsed))
             entity.StorageUsed = request.StorageUsed;
-        if(request.LastDataSyncTime.IsDifferentFrom(entity.LastDataSyncTime))
+        if (request.LastDataSyncTime.IsDifferentFrom(entity.LastDataSyncTime))
             entity.LastDataSyncTime = request.LastDataSyncTime;
-        if(request.LastMaintenanceDate.HasValueAndIsDifferentFrom(entity.LastMaintenanceDate))
+        if (request.LastMaintenanceDate.HasValueAndIsDifferentFrom(entity.LastMaintenanceDate))
             entity.LastMaintenanceDate = request.LastMaintenanceDate!.Value;
-        if(request.Notes.IsDifferentFrom(entity.Notes))
+        if (request.Notes.IsDifferentFrom(entity.Notes))
             entity.Notes = request.Notes;
     }
 }
+
 public class UpdateDeviceCommandValidator : AbstractValidator<UpdateDeviceCommand>
 {
     public UpdateDeviceCommandValidator()

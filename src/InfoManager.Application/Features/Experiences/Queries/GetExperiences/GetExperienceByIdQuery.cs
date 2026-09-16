@@ -3,6 +3,7 @@
 namespace InfoManager.Application.Features.Experiences.Queries.GetExperiences;
 
 public record GetExperienceByIdQuery(string Id) : IRequest<Result<ExperienceDto?>>;
+
 public class GetExperienceByIdQueryHandler(IApplicationDbContext context) : IRequestHandler<GetExperienceByIdQuery, Result<ExperienceDto?>>
 {
     public async Task<Result<ExperienceDto?>> Handle(GetExperienceByIdQuery request, CancellationToken ct)

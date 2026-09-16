@@ -31,6 +31,7 @@ public static class HRMappings
 
     public static SearchEmployeeContractsQuery ToSearchQuery(SearchEmployeeContractsRequest request)
         => new(request.Term, request.HREmployeeId, request.ContractType, request.IsActive, request.PageNumber, request.PageSize);
+
     public static CreateDepartmentCommand ToCreateCommand(CreateDepartmentRequest request)
         => new()
         {

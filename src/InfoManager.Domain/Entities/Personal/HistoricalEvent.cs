@@ -11,12 +11,12 @@ public class HistoricalEvent : BaseAuditableEntity
     /// Tên sự kiện lịch sử
     /// </summary>
     [MaxLength(500)]
-    public required string Title { get; set; }
+    public string Title { get; set; }
 
     /// <summary>
     /// Loại sự kiện lịch sử (Chính trị, Quân sự, Văn hóa, Khoa học, Kinh tế, Khác)
     /// </summary>
-    public  HistoricalEventType EventType { get; set; }=HistoricalEventType.Political;
+    public HistoricalEventType EventType { get; set; } = HistoricalEventType.Political;
 
     /// <summary>
     /// Địa điểm diễn ra sự kiện lịch sử
@@ -26,7 +26,7 @@ public class HistoricalEvent : BaseAuditableEntity
     /// <summary>
     /// Tóm tắt sự kiện lịch sử
     /// </summary>
-    public required string Summary { get; set; }
+    public string Summary { get; set; }
 
     /// <summary>
     /// Nguồn tham khảo, ví dụ: sách, bài báo, trang web, v.v.

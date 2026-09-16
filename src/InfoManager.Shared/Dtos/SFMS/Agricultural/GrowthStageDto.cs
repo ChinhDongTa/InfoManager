@@ -51,7 +51,7 @@ public record CreateGrowthStageRequest(
     string StageName,
     string CropId,
     string? CropScheduleId,
-    int StageSequence ,
+    int StageSequence,
     int DaysAfterPlanting,
     int? StageDuration,
     string? Description,

@@ -1,15 +1,15 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.FamilyEvents.Commands;
 
-namespace InfoManager.Application.Features.FamilyEvents.Commands;
 public record UpdateFamilyEventCommand() : IRequest<Result>
 {
     public required string Id { get; init; }
-    public  string? FamilyMemberId { get; init; }
+    public string? FamilyMemberId { get; init; }
     public DateOnly? EventDate { get; init; }
     public string? Title { get; init; }
     public FamilyEventType? EventType { get; init; }
     public string? Location { get; init; }
 }
+
 public class UpdateFamilyEventCommandHandler : BaseUpdateCommandHandler<UpdateFamilyEventCommand, FamilyEvent>
 {
     public UpdateFamilyEventCommandHandler(IApplicationDbContext context,
@@ -18,9 +18,9 @@ public class UpdateFamilyEventCommandHandler : BaseUpdateCommandHandler<UpdateFa
     {
     }
 
-    protected override async Task<FamilyEvent?> GetEntityAsync(UpdateFamilyEventCommand request, CancellationToken cancellationToken)
+    protected override async Task<FamilyEvent?> GetEntityAsync(UpdateFamilyEventCommand request, CancellationToken ct)
     {
-        return await Context.FamilyEvents.FindAsync([request.Id]   , cancellationToken);
+        return await Context.FamilyEvents.FindAsync([request.Id], ct);
     }
 
     protected override async Task UpdateEntityProperties(FamilyEvent entity, UpdateFamilyEventCommand request)
@@ -48,7 +48,7 @@ public class UpdateFamilyEventCommandValidator : AbstractValidator<UpdateFamilyE
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Id"));
-        
+
         RuleFor(x => x.Title)
             .MaximumLength(200).WithMessage(ErrorHelpers.GetErrorMaxLength("Title", 200))
             .When(x => !string.IsNullOrEmpty(x.Title));

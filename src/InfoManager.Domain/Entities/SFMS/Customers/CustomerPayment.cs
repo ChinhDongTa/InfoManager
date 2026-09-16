@@ -8,12 +8,12 @@ public class CustomerPayment : BaseAuditableEntity
     /// <summary>
     /// ID khách hàng
     /// </summary>
-    public required string CustomerId { get; set; }
+    public string CustomerId { get; set; }
 
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// ID đơn bán hàng liên quan (tùy chọn)
@@ -60,6 +60,7 @@ public class CustomerPayment : BaseAuditableEntity
 
     // Navigation
     public virtual Customer? Customer { get; set; }
+
     public virtual Farm? Farm { get; set; }
     public virtual Sale? Sale { get; set; }
     public virtual FarmRevenue? FarmRevenue { get; set; }

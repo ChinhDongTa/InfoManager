@@ -9,18 +9,18 @@ public class Equipment : BaseAuditableEntity
     /// Equipment name/identifier
     /// </summary>
     [MaxLength(100)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Equipment type (Tractor, Pump, Sprayer, Harrow, etc.)
     /// </summary>
     [MaxLength(50)]
-    public required EquipmentType EquipmentType { get; set; }
+    public EquipmentType EquipmentType { get; set; }
 
     /// <summary>
     /// Associated farm ID
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Manufacturer name
@@ -100,7 +100,7 @@ public class Equipment : BaseAuditableEntity
 
     // Navigation properties
     public virtual Farm? Farm { get; set; }
+
     public virtual ICollection<Maintenance> MaintenanceRecords { get; set; } = [];
     public virtual ICollection<Domain.Entities.SFMS.Operations.Task> Tasks { get; set; } = [];
 }
-

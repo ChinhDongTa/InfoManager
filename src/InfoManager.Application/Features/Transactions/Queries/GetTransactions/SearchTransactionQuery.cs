@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.Transactions;
-using InfoManager.Shared.Models;
+﻿using InfoManager.Shared.Dtos.Transactions;
 
 namespace InfoManager.Application.Features.Transactions.Queries.GetTransactions;
 
@@ -18,15 +16,16 @@ public record SearchTransactionQuery : IRequest<Result<PaginatedList<Transaction
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 20;
 }
+
 public class SearchTransactionQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchTransactionQuery, Result<PaginatedList<TransactionSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<TransactionSummaryDto>>> Handle(SearchTransactionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<TransactionSummaryDto>>> Handle(SearchTransactionQuery request, CancellationToken ct)
     {
         var query = BuildSearchQuery(request);
         var result = await query
             .ApplySorting(request.SortBy, request.Ascending)
             .ToTransactionSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<TransactionSummaryDto>>.Success(result);
     }
 

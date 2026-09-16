@@ -1,8 +1,4 @@
-﻿using InfoManager.Domain.Entities.Authentication;
-using InfoManager.Enum;
-using InfoManager.Helper;
-using InfoManager.Shared.Dtos.TokenBlacklists;
-using InfoManager.Shared.Models;
+﻿using InfoManager.Shared.Dtos.TokenBlacklists;
 
 namespace InfoManager.Application.Common.Services;
 
@@ -44,7 +40,7 @@ public class TokenBlacklistService(IApplicationDbContext context,
                 Note = dto.Note
             };
             context.TokenBlacklists.Add(entity);
-            var rowAdd= await context.SaveChangesAsync(ct);
+            var rowAdd = await context.SaveChangesAsync(ct);
             return Result<int>.Success(rowAdd);
         }
         catch (Exception e)
@@ -56,7 +52,7 @@ public class TokenBlacklistService(IApplicationDbContext context,
 
     public async Task<Result<TokenBlacklistDto?>> GetByIdAsync(string id, CancellationToken ct = default)
     {
-        if(string.IsNullOrEmpty(id))
+        if (string.IsNullOrEmpty(id))
             return Result<TokenBlacklistDto?>.Error(ErrorHelpers.GetErrorNotEmpty("ID"));
         try
         {
@@ -123,7 +119,7 @@ public class TokenBlacklistService(IApplicationDbContext context,
                 isBlacklisted = await context.TokenBlacklists.AnyAsync(t =>
                     t.Jti == jti &&
                     t.Status == TokenStatus.Blacklisted &&
-                    t.ExpiresAt > DateTime.UtcNow, cancellationToken: ct);
+                    t.ExpiresAt > DateTime.UtcNow, ct);
             }
             else
             {
@@ -131,7 +127,7 @@ public class TokenBlacklistService(IApplicationDbContext context,
                     t.Jti == jti &&
                     t.UserIdOfToken == userId &&
                     t.Status == TokenStatus.Blacklisted &&
-                    t.ExpiresAt > DateTime.UtcNow, cancellationToken: ct);
+                    t.ExpiresAt > DateTime.UtcNow, ct);
             }
 
             return Result<bool>.Success(isBlacklisted);
@@ -140,7 +136,6 @@ public class TokenBlacklistService(IApplicationDbContext context,
         {
             logger.LogError(ex, "An error occurred while checking if a token is blacklisted.");
             return Result<bool>.Error(ErrorHelpers.GetErrorCannotAction(ActionType.Read, "token blacklist entry"));
-
         }
     }
 
@@ -234,6 +229,7 @@ public class TokenBlacklistService(IApplicationDbContext context,
             return Result<bool>.Error(ErrorHelpers.GetErrorCannotAction(ActionType.Update, "TokenBlacklist"));
         }
     }
+
     private async Task<TokenBlacklist?> FindByJti(string jti, string? userId = null)
     {
         if (string.IsNullOrEmpty(userId))
@@ -241,6 +237,7 @@ public class TokenBlacklistService(IApplicationDbContext context,
         return await context.TokenBlacklists.Where(x => x.Jti == jti && x.UserIdOfToken == userId).FirstOrDefaultAsync();
     }
 }
+
 internal static class TokenBlacklistQueryExtension
 {
     public static IQueryable<TokenBlacklistDto> ToTokenBlacklistDtos(this IQueryable<TokenBlacklist> query)

@@ -2,7 +2,8 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface ICustomerApi {
+public interface ICustomerApi
+{
     /// <param name="id">id parameter</param>
     /// <returns>
     /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:

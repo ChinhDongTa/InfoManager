@@ -1,8 +1,6 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.Categories.Commands;
 
-namespace InfoManager.Application.Features.Categories.Commands;
-
-public record DeleteCategoryCommand (string Id) : IRequest<Result>;
+public record DeleteCategoryCommand(string Id) : IRequest<Result>;
 
 public class DeleteCategoryCommandHandler : BaseDeleteCommandHandler<DeleteCategoryCommand, Category>
 {
@@ -12,10 +10,8 @@ public class DeleteCategoryCommandHandler : BaseDeleteCommandHandler<DeleteCateg
     {
     }
 
-   
-
-    protected override async Task<Category?> GetEntityAsync(DeleteCategoryCommand request, CancellationToken cancellationToken)
+    protected override async Task<Category?> GetEntityAsync(DeleteCategoryCommand request, CancellationToken ct)
     {
-        return await Context.Categories.FindAsync([request.Id], cancellationToken);
+        return await Context.Categories.FindAsync([request.Id], ct);
     }
 }

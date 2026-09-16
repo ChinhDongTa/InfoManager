@@ -23,7 +23,7 @@ public static class CustomerPaymentMappings
             Notes = request.Notes
         };
 
-    public static UpdateCustomerPaymentCommand ToUpdateCommand(string id,  UpdateCustomerPaymentRequest request)
+    public static UpdateCustomerPaymentCommand ToUpdateCommand(string id, UpdateCustomerPaymentRequest request)
         => new()
         {
             Id = id,
@@ -36,6 +36,7 @@ public static class CustomerPaymentMappings
             ReferenceNumber = request.ReferenceNumber,
             Notes = request.Notes
         };
+
     public static SearchCustomerPaymentsQuery ToSearchQuery(SearchCustomerPaymentRequest request)
         => new(
             Term: request.Term,

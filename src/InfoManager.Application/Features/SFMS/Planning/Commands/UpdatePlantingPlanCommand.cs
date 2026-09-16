@@ -90,8 +90,8 @@ public class UpdatePlantingPlanCommandHandler : BaseUpdateCommandHandler<UpdateP
         : base(context, validator, logger)
     { }
 
-    protected override async Task<PlantingPlan?> GetEntityAsync(UpdatePlantingPlanCommand request, CancellationToken cancellationToken)
-        => await Context.PlantingPlans.FindAsync([request.Id], cancellationToken);
+    protected override async Task<PlantingPlan?> GetEntityAsync(UpdatePlantingPlanCommand request, CancellationToken ct)
+        => await Context.PlantingPlans.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(PlantingPlan entity, UpdatePlantingPlanCommand request)
     {

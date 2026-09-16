@@ -7,6 +7,7 @@ public record UpdateWorkShiftCommand : IRequest<Result>
     public TimeOnly? StartTime { get; init; }
     public TimeOnly? EndTime { get; init; }
 }
+
 public class UpdateWorkShiftCommandHandler : BaseUpdateCommandHandler<UpdateWorkShiftCommand, WorkShift>
 {
     public UpdateWorkShiftCommandHandler(IApplicationDbContext context,
@@ -14,8 +15,8 @@ public class UpdateWorkShiftCommandHandler : BaseUpdateCommandHandler<UpdateWork
                                          ILogger<UpdateWorkShiftCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task<WorkShift?> GetEntityAsync(UpdateWorkShiftCommand request, CancellationToken cancellationToken)
-        => await Context.WorkShifts.FindAsync([request.Id], cancellationToken);
+    protected override async Task<WorkShift?> GetEntityAsync(UpdateWorkShiftCommand request, CancellationToken ct)
+        => await Context.WorkShifts.FindAsync([request.Id], ct);
 
     protected override Task UpdateEntityProperties(WorkShift entity, UpdateWorkShiftCommand request)
     {

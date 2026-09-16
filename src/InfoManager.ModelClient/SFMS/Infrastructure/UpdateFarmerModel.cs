@@ -30,14 +30,14 @@ public class UpdateFarmerModel
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
     public string? Notes { get; set; }
 
-    public UpdateFarmerModel(string id,FarmerDto dto)
+    public UpdateFarmerModel(string id, FarmerDto dto)
     {
         Id = id;
-        FamilyMemberId= dto.FamilyMemberId;
+        FamilyMemberId = dto.FamilyMemberId;
         FarmerCode = dto.FarmerCode;
-        FullName= dto.FullName;
-        Phone=dto.Phone;
-        Email=dto.Email;
+        FullName = dto.FullName;
+        Phone = dto.Phone;
+        Email = dto.Email;
         IdentityNumber = dto.IdentityNumber;
         Address = dto.Address;
         Notes = dto.Notes;
@@ -59,6 +59,6 @@ public class UpdateFarmerModel
         );
     }
 
-    public bool HasChanges(UpdateFarmerModel originalModel) 
+    public bool HasChanges(UpdateFarmerModel originalModel)
         => ClientUpdateHelper.HasChanges(this, originalModel);
 }

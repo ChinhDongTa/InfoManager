@@ -37,7 +37,7 @@ public record CreateCustomerPaymentRequest(
     string CustomerId,
     string FarmId,
     decimal Amount,
-    DateTimeOffset PaymentDate ,
+    DateTimeOffset PaymentDate,
     string? SaleId,
     string? FarmRevenueId,
     string? PaymentMethod,
@@ -57,4 +57,3 @@ public record UpdateCustomerPaymentRequest(
     string? ReferenceNumber,
     string? Notes
 );
-

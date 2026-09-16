@@ -1,6 +1,6 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
 
-public record UpdateCropPlantingCommand: IRequest<Result>
+public record UpdateCropPlantingCommand : IRequest<Result>
 {
     public required string Id { get; init; }
     public string? PlantingCode { get; init; }
@@ -24,10 +24,12 @@ public class UpdateCropPlantingCommandHandler : BaseUpdateCommandHandler<UpdateC
                                             IValidator<UpdateCropPlantingCommand> validator,
                                             ILogger<UpdateCropPlantingCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task<CropPlanting?> GetEntityAsync(UpdateCropPlantingCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<CropPlanting?> GetEntityAsync(UpdateCropPlantingCommand request, CancellationToken ct)
     {
-        return await Context.CropPlantings.FindAsync([request.Id], cancellationToken);
+        return await Context.CropPlantings.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(CropPlanting entity, UpdateCropPlantingCommand request)
     {
         //Cần kiểm tra PlantingCode đã có chưa, nếu đã có thì không được update, nếu chưa có thì mới update
@@ -59,6 +61,7 @@ public class UpdateCropPlantingCommandHandler : BaseUpdateCommandHandler<UpdateC
             entity.Notes = request.Notes;
     }
 }
+
 public class UpdateCropPlantingCommandValidator : AbstractValidator<UpdateCropPlantingCommand>
 {
     public UpdateCropPlantingCommandValidator()

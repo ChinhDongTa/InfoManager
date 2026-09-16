@@ -1,6 +1,4 @@
-﻿using InfoManager.Shared.Dtos.FamilyEventReminders;
-
-namespace InfoManager.Application.Features.FamilyEventReminders.Commands;
+﻿namespace InfoManager.Application.Features.FamilyEventReminders.Commands;
 
 public record UpdateFamilyEventReminderCommand : IRequest<Result>
 {
@@ -11,6 +9,7 @@ public record UpdateFamilyEventReminderCommand : IRequest<Result>
     public bool IsEnabled { get; init; }
     public string? Note { get; init; }
 }
+
 public class UpdateFamilyEventReminderCommandHandler : BaseUpdateCommandHandler<UpdateFamilyEventReminderCommand, FamilyEventReminder>
 {
     public UpdateFamilyEventReminderCommandHandler(IApplicationDbContext context,
@@ -18,10 +17,12 @@ public class UpdateFamilyEventReminderCommandHandler : BaseUpdateCommandHandler<
                                                     ILogger<UpdateFamilyEventReminderCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<FamilyEventReminder?> GetEntityAsync(UpdateFamilyEventReminderCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<FamilyEventReminder?> GetEntityAsync(UpdateFamilyEventReminderCommand request, CancellationToken ct)
     {
-        return await Context.FamilyEventReminders.FindAsync(new object[] { request.Id }, cancellationToken);
+        return await Context.FamilyEventReminders.FindAsync(new object[] { request.Id }, ct);
     }
+
     protected override async Task UpdateEntityProperties(FamilyEventReminder entity, UpdateFamilyEventReminderCommand request)
     {
         if (request.DaysBefore.HasValueAndIsDifferentFrom(entity.DaysBefore))
@@ -35,6 +36,7 @@ public class UpdateFamilyEventReminderCommandHandler : BaseUpdateCommandHandler<
             entity.Note = request.Note;
     }
 }
+
 public class UpdateFamilyEventReminderCommandValidator : AbstractValidator<UpdateFamilyEventReminderCommand>
 {
     public UpdateFamilyEventReminderCommandValidator()

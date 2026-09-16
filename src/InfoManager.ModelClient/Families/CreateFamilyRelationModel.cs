@@ -6,9 +6,6 @@ public class CreateFamilyRelationModel
 {
     [MaxLength(100)]
     [Required]
-    /// <summary>
-    /// Tên mối quan hệ (Ông cố nội, Bà cố nội, Ông cố ngoại, Bà cố ngoại, Ông nội, Bà nội, Ông ngoại, Bà ngoại, Cha, Mẹ, Con trai, Con gái)
-    /// </summary>
     public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }

@@ -82,7 +82,6 @@ public record PlantingPlanSummaryDto(
     string? StatusName
 );
 
-
 public record SearchPlantingPlansRequest(string? Term,
                                         PlanStatus? Status,
                                         int PageNumber,

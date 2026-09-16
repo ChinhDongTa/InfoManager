@@ -21,7 +21,7 @@ public record DeviceAlertSummaryDto(
     string? DeviceName,
     string AlertTypeName,
     string Message,
-    string SeverityName ,
+    string SeverityName,
     DateTimeOffset AlertTime,
     bool IsResolved
 );
@@ -41,18 +41,18 @@ public record CreateDeviceAlertRequest(
     string DeviceId,
     AlertType AlertType,
     string Message,
-    AlertSeverity Severity = AlertSeverity.Info,
-    DateTimeOffset AlertTime = default,
-    bool IsResolved = false,
-    string? ResolutionNotes = null
+    AlertSeverity Severity,
+    DateTimeOffset AlertTime,
+    bool IsResolved,
+    string? ResolutionNotes
 );
 
 public record UpdateDeviceAlertRequest(
     string Id,
-    AlertType? AlertType = null,
-    string? Message = null,
-    AlertSeverity? Severity = null,
-    DateTimeOffset? ResolvedTime = null,
-    bool? IsResolved = null,
-    string? ResolutionNotes = null
+    AlertType? AlertType,
+    string? Message,
+    AlertSeverity? Severity,
+    DateTimeOffset? ResolvedTime,
+    bool? IsResolved,
+    string? ResolutionNotes
 );

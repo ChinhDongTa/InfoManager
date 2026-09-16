@@ -9,7 +9,8 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (crop != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                     <DetailItem Label="Tên thường gọi" Value="@crop.CommonName" />
                     <DetailItem Label="Tên khoa học" Value="@crop.ScientificName" />
                     <DetailItem Label="Họ" Value="@crop.Family" />
@@ -18,6 +19,8 @@
                     <DetailItem Label="Nhiệt độ tối đa" Value="@(FormatNumber.FormatDecimal(crop.MaxTemperature))" />
                     <DetailItem Label="Độ ẩm tối thiểu" Value="@(FormatNumber.FormatDecimal(crop.MinHumidity))" />
                     <DetailItem Label="Độ ẩm tối đa" Value="@(FormatNumber.FormatDecimal(crop.MaxHumidity))" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                     <DetailItem Label="pH đất tối thiểu" Value="@(FormatNumber.FormatDecimal(crop.MinSoilPh))" />
                     <DetailItem Label="pH đất tối đa" Value="@(FormatNumber.FormatDecimal(crop.MaxSoilPh))" />
                     <DetailItem Label="Nhu cầu nước" Value="@(FormatNumber.FormatDecimal(crop.WaterRequirement))" />
@@ -25,7 +28,8 @@
                     <DetailItem Label="Đang sử dụng" Value="@(crop.IsActive ? "Có" : "Không")" />
                     <DetailItem Label="Ngày tạo" Value="@crop.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
                     <DetailItem Label="Mô tả" Value="@(string.IsNullOrWhiteSpace(crop.Description) ? "-" : crop.Description)" />
-                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crops" OnDeleteClick="DeleteHandler" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crops" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

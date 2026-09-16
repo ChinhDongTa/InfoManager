@@ -8,13 +8,13 @@ public class Product : BaseAuditableEntity
     /// <summary>
     /// Associated harvest ID
     /// </summary>
-    public required string HarvestId { get; set; }
+    public string HarvestId { get; set; }
 
     /// <summary>
     /// Product name/variety
     /// </summary>
     [MaxLength(200)]
-    public required string ProductName { get; set; }
+    public string ProductName { get; set; }
 
     /// <summary>
     /// Product description
@@ -37,7 +37,7 @@ public class Product : BaseAuditableEntity
     /// Unit of quantity (kg, liter, boxes, etc.)
     /// </summary>
     [MaxLength(50)]
-    public required string Unit { get; set; }
+    public string Unit { get; set; }
 
     /// <summary>
     /// Storage location
@@ -84,5 +84,6 @@ public class Product : BaseAuditableEntity
 
     // Navigation properties
     public virtual Harvest? Harvest { get; set; }
+
     public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
 }

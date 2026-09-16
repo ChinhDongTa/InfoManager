@@ -3,7 +3,7 @@ using InfoManager.Shared.Dtos.FamilyMembers;
 
 namespace InfoManager.ModelClient.Families;
 
-public class UpdateFamilyMemberModel 
+public class UpdateFamilyMemberModel
 {
     public string Id { get; set; } = string.Empty;
     public string? FullName { get; set; }
@@ -13,6 +13,7 @@ public class UpdateFamilyMemberModel
     /// Ngày sinh của thành viên gia đình
     /// </summary>
     public DateOnly? BirthDate { get; set; }
+
     /// <summary>
     /// Ngày mất của thành viên gia đình
     /// </summary>
@@ -35,10 +36,12 @@ public class UpdateFamilyMemberModel
     /// </summary>
     [MaxLength(50)]
     public string? PhoneNumber { get; set; }
+
     /// <summary>
     /// Ghi chú về thành viên gia đình
     /// </summary>
     public string? Note { get; set; }
+
     public UpdateFamilyMemberModel(FamilyMemberDto dto)
     {
         Id = dto.Id;
@@ -65,6 +68,6 @@ public class UpdateFamilyMemberModel
         Note = this.Note
     };
 
-    public bool HasChanges(UpdateFamilyMemberModel originalModel) 
+    public bool HasChanges(UpdateFamilyMemberModel originalModel)
         => ClientUpdateHelper.HasChanges(this, originalModel);
 }

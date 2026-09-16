@@ -1,13 +1,12 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.FamilyEvents.Commands;
 
-namespace InfoManager.Application.Features.FamilyEvents.Commands;
+public record CreateDefaultFamilyEventsCommand(string MemberId) : IRequest<Result>;
 
-public record CreateDefaultFamilyEventsCommand (string MemberId) : IRequest<Result>;
-public class CreateDefaultFamilyEventsCommandHandler (IApplicationDbContext _context, ILogger<CreateDefaultFamilyEventsCommandHandler> _logger) : IRequestHandler<CreateDefaultFamilyEventsCommand, Result>
+public class CreateDefaultFamilyEventsCommandHandler(IApplicationDbContext _context, ILogger<CreateDefaultFamilyEventsCommandHandler> _logger) : IRequestHandler<CreateDefaultFamilyEventsCommand, Result>
 {
     public async Task<Result> Handle(CreateDefaultFamilyEventsCommand request, CancellationToken cancellationToken)
     {
-        var member = await _context.FamilyMembers.FindAsync(request.MemberId,cancellationToken);
+        var member = await _context.FamilyMembers.FindAsync(request.MemberId, cancellationToken);
         if (member is null)
         {
             return Result.NotFound("FamilyMember", request.MemberId);
@@ -47,7 +46,6 @@ public class CreateDefaultFamilyEventsCommandHandler (IApplicationDbContext _con
                 Channel = ReminderChannel.Push
             });
 
-
             eventsToAdd.Add(birthday);
         }
 
@@ -83,7 +81,6 @@ public class CreateDefaultFamilyEventsCommandHandler (IApplicationDbContext _con
             catch (DbUpdateException ex)
             {
                 _logger.LogError(ex, "Error creating default family events for memberId: {MemberId}", member.Id);
-
             }
             catch (Exception ex)
             {

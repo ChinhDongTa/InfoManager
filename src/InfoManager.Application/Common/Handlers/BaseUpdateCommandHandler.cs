@@ -1,6 +1,5 @@
 using InfoManager.Domain.Common;
 
-
 namespace InfoManager.Application.Common.Handlers;
 
 /// <summary>
@@ -24,19 +23,19 @@ public abstract class BaseUpdateCommandHandler<TCommand, TEntity> : IRequestHand
         Logger = logger;
     }
 
-    public virtual async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
+    public virtual async Task<Result> Handle(TCommand request, CancellationToken ct)
     {
         try
         {
             // 1. Validate command
-            var validationResult = await Validator.ValidateAsync(request, cancellationToken);
+            var validationResult = await Validator.ValidateAsync(request, ct);
             if (!validationResult.IsValid)
             {
                 return new Result(ResultStatus.Error, validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
             }
 
             // 2. Find entity
-            var entity = await GetEntityAsync(request, cancellationToken);
+            var entity = await GetEntityAsync(request, ct);
             if (entity == null)
             {
                 var entityName = typeof(TEntity).Name;
@@ -48,7 +47,7 @@ public abstract class BaseUpdateCommandHandler<TCommand, TEntity> : IRequestHand
             await UpdateEntityProperties(entity, request);
 
             // 4. Save changes (AuditableEntityInterceptor will handle audit fields)
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(ct);
 
             return Result.Success(ResultStatus.NoContent);
         }
@@ -68,7 +67,7 @@ public abstract class BaseUpdateCommandHandler<TCommand, TEntity> : IRequestHand
     /// Retrieves the entity from the database based on the command.
     /// Override this method to customize entity retrieval logic.
     /// </summary>
-    protected abstract Task<TEntity?> GetEntityAsync(TCommand request, CancellationToken cancellationToken);
+    protected abstract Task<TEntity?> GetEntityAsync(TCommand request, CancellationToken ct);
 
     /// <summary>
     /// Updates the entity properties based on the command.

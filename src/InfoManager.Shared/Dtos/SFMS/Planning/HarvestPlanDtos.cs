@@ -97,7 +97,6 @@ public record HarvestPlanSummaryDto(
     string? StatusName
 );
 
-
 public record SearchHarvestPlansRequest(string? Term,
                                        DateTimeOffset? ExpectedDate,
                                        PlanStatus? Status,

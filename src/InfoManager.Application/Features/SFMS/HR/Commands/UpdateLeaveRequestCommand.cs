@@ -1,6 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.HR.Commands;
 
-
 public record UpdateLeaveRequestCommand : IRequest<Result>
 {
     public required string Id { get; init; }

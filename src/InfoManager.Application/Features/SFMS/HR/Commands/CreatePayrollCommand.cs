@@ -24,8 +24,8 @@ public class CreatePayrollCommandHandler : BaseCreateCommandHandler<CreatePayrol
                                        ILogger<CreatePayrollCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(Payroll entity, CancellationToken cancellationToken)
-        => await Context.Payrolls.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(Payroll entity, CancellationToken ct)
+        => await Context.Payrolls.AddAsync(entity, ct);
 
     protected override Task<Payroll> CreateEntity(CreatePayrollCommand request)
         => Task.FromResult(new Payroll

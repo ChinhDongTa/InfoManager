@@ -129,13 +129,13 @@ public record CreateProductRequest(
     decimal? TotalValue,
 
     /// <summary>Trạng thái. Mặc định Available.</summary>
-    ProductStatus Status = ProductStatus.Available,
+    ProductStatus Status,
 
     /// <summary>Chứng nhận. Tối đa 200 ký tự.</summary>
-    string? Certification = null,
+    string? Certification,
 
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
-    string? Notes = null
+    string? Notes
 );
 
 /// <summary>
@@ -187,3 +187,4 @@ public record UpdateProductRequest(
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
     string? Notes
 );
+public record SearchProductsRequest(string? Term, string? HarvestId, ProductStatus? Status, int PageNumber, int PageSize);

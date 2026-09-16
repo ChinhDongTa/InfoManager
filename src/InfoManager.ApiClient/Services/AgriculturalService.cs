@@ -27,7 +27,7 @@ public class AgriculturalService(IAgriculturalApi api) : IAgriculturalService
     => await ApiResponseHandler.HandleAsync(await api.DeleteCropPlantingAsync(id, ct));
 
     public async Task<ApiResult> DeleteCropScheduleAsync(string id, CancellationToken ct = default)
-   => await ApiResponseHandler.HandleAsync(await api.DeleteCropScheduleAsync(id,ct));
+   => await ApiResponseHandler.HandleAsync(await api.DeleteCropScheduleAsync(id, ct));
 
     public async Task<ApiResult> DeleteCropVarietyAsync(string id, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.DeleteCropVarietyAsync(id, ct));
@@ -51,7 +51,7 @@ public class AgriculturalService(IAgriculturalApi api) : IAgriculturalService
    => await ApiResponseHandler.HandleAsync(await api.GetCropsQueryAsync(pageNumber, pageSize, ct));
 
     public async Task<ApiResult<CropScheduleDto?>> GetCropScheduleByIdAsync(string id, CancellationToken ct = default)
-   => await ApiResponseHandler.HandleAsync(await api.GetCropScheduleByIdAsync(id, ct)   );
+   => await ApiResponseHandler.HandleAsync(await api.GetCropScheduleByIdAsync(id, ct));
 
     public async Task<ApiResult<PaginatedList<CropScheduleSummaryDto>>> GetCropSchedulesAsync(int pageNumber, int pageSize, CancellationToken ct = default)
      => await ApiResponseHandler.HandleAsync(await api.GetCropSchedulesAsync(pageNumber, pageSize, ct));

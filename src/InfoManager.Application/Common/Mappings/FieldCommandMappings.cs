@@ -44,15 +44,15 @@ public static class FieldMappings
 
     public static SearchFieldsQuery ToSearchQuery(SearchFieldsRequest request, int pageNumber = 1, int pageSize = 20)
         => new(
-        
-            Term : request.Term,
-            FarmId : request.FarmId,
-            SoilCondition : request.SoilCondition,
-            Status : request.Status,
-            StartLastPreparationDate : request.StartLastPreparationDate,
-            EndLastPreparationDate : request.EndLastPreparationDate,
-            HasIrrigation : request.HasIrrigation,
-            PageNumber : pageNumber,
-            PageSize : pageSize
+
+            Term: request.Term,
+            FarmId: request.FarmId,
+            SoilCondition: request.SoilCondition,
+            Status: request.Status,
+            StartLastPreparationDate: request.StartLastPreparationDate,
+            EndLastPreparationDate: request.EndLastPreparationDate,
+            HasIrrigation: request.HasIrrigation,
+            PageNumber: pageNumber,
+            PageSize: pageSize
         );
 }

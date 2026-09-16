@@ -84,14 +84,14 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
                 : Result.Error(GetIdentityErrors(identityResult).ToArray());
         }
         return Result.Error(ErrorHelpers.GetErrorAlreadyExists(roleName));
-
     }
 
     public async Task<Result<string>> CreateUserAsync(LoginRequest request, CancellationToken ct = default)
     {
         //1. Check if user already exists
         var existingUser = await userManager.FindByNameAsync(request.Email);
-        if (existingUser != null) {
+        if (existingUser != null)
+        {
             return Result<string>.Error(ErrorHelpers.GetErrorAlreadyExists(request.Email));
         }
         var user = new ApplicationUser
@@ -123,7 +123,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
 
         var result = await userManager.DeleteAsync(user);
         return result.Succeeded ? Result.Success(ResultStatus.NoContent) : Result.Error(GetIdentityErrors(result).ToArray());
-
     }
 
     public string GenerateAccessToken(UserDto user, int expiresInMinutes = 15)
@@ -150,7 +149,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
         };
 
         return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityTokenHandler().CreateToken(tokenDescriptor));
-
     }
 
     public string GenerateRefreshToken(UserDto user, int expiresInDays = 7)
@@ -170,7 +168,6 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
         };
 
         return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityTokenHandler().CreateToken(tokenDescriptor));
-
     }
 
     public async Task<Result<List<string>>> GetRoleNamesAsync(CancellationToken ct = default)
@@ -183,8 +180,8 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
         return Result<List<string>>.Success(list);
     }
 
-    public async Task<Result<IEnumerable<RoleDto>>> GetRolesAsync(CancellationToken ct = default) 
-        => Result<IEnumerable<RoleDto>>.Success ((await roleManager.Roles.Select(x => new RoleDto(x.Id, x.Name!)).ToListAsync(ct)).AsEnumerable());
+    public async Task<Result<IEnumerable<RoleDto>>> GetRolesAsync(CancellationToken ct = default)
+        => Result<IEnumerable<RoleDto>>.Success((await roleManager.Roles.Select(x => new RoleDto(x.Id, x.Name!)).ToListAsync(ct)).AsEnumerable());
 
     public async Task<Result<UserDetailDto?>> GetUserDetailDtoByIdAsync(string userId, CancellationToken ct = default)
     {
@@ -222,7 +219,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
     public async Task<Result<UserDto?>> GetUserDtoByIdAsync(string userId, CancellationToken ct = default)
     {
         var user = await dbContext.SqlQueryRaw<UserDto>($"""
-            SELECT 
+            SELECT
                 u."Id",
                 COALESCE(u."UserName", '') AS "UserNameOrEmail",
                 u."PhoneNumber",
@@ -230,16 +227,16 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
                     ARRAY_AGG(r."Name") FILTER (WHERE r."Name" IS NOT NULL),
                     ARRAY[]::text[]
                 ) AS "Roles"
-            FROM 
+            FROM
                 "AspNetUsers" u
-            LEFT JOIN 
+            LEFT JOIN
                 "AspNetUserRoles" ur ON u."Id" = ur."UserId"
-            LEFT JOIN 
+            LEFT JOIN
                 "AspNetRoles" r ON ur."RoleId" = r."Id"
             WHERE u."Id" ='{userId}'
-            GROUP BY 
+            GROUP BY
                 u."Id", u."UserName", u."Email", u."PhoneNumber"
-            ORDER BY 
+            ORDER BY
                 u."UserName"
             Limit 1
             """).FirstOrDefaultAsync(ct);
@@ -290,7 +287,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
 
         // Single SQL query with ARRAY_AGG to fetch users + roles in one roundtrip
         var results = await dbContext.SqlQueryRaw<UserDto>($"""
-                 SELECT 
+                 SELECT
                      u."Id",
                      COALESCE(u."UserName", '') AS "UserNameOrEmail",
                      u."PhoneNumber",
@@ -298,16 +295,16 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
                          ARRAY_AGG(r."Name") FILTER (WHERE r."Name" IS NOT NULL),
                          ARRAY[]::text[]
                      ) AS "Roles"
-                 FROM 
+                 FROM
                      "AspNetUsers" u
-                 LEFT JOIN 
+                 LEFT JOIN
                      "AspNetUserRoles" ur ON u."Id" = ur."UserId"
-                 LEFT JOIN 
+                 LEFT JOIN
                      "AspNetRoles" r ON ur."RoleId" = r."Id"
                  WHERE u."Email" ILIKE '{pattern}' OR u."UserName" ILIKE '{pattern}' OR r."Name" ILIKE '{pattern}'
-                 GROUP BY 
+                 GROUP BY
                      u."Id", u."UserName", u."Email", u."PhoneNumber"
-                 ORDER BY 
+                 ORDER BY
                      u."UserName"
                  """)
             .ToListAsync(ct);
@@ -347,8 +344,10 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
             return null;
         }
     }
+
     private static IEnumerable<string> GetIdentityErrors(IdentityResult identityResult)
         => identityResult.Errors.Select(x => x.Description);
+
     /// <summary>
     /// Gets UserDTO with roles in a single optimized query using ARRAY_AGG
     /// This prevents N+1 queries that would occur if loading user and roles separately
@@ -359,7 +358,7 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
 
         // ✅ Optimized: Single SQL query with ARRAY_AGG to fetch users + roles in one roundtrip
         var results = await dbContext.SqlQueryRaw<UserDto>($"""
-                SELECT 
+                SELECT
                     u."Id",
                     COALESCE(u."UserName", '') AS "UserNameOrEmail",
                     u."PhoneNumber",
@@ -367,16 +366,16 @@ public class IdentityService(UserManager<ApplicationUser> userManager,
                         ARRAY_AGG(r."Name") FILTER (WHERE r."Name" IS NOT NULL),
                         ARRAY[]::text[]
                     ) AS "Roles"
-                FROM 
+                FROM
                     "AspNetUsers" u
-                LEFT JOIN 
+                LEFT JOIN
                     "AspNetUserRoles" ur ON u."Id" = ur."UserId"
-                LEFT JOIN 
+                LEFT JOIN
                     "AspNetRoles" r ON ur."RoleId" = r."Id"
                 WHERE u."Email" ILIKE '{pattern}' OR u."UserName" ILIKE '{pattern}'
-                GROUP BY 
+                GROUP BY
                     u."Id", u."UserName", u."Email", u."PhoneNumber"
-                ORDER BY 
+                ORDER BY
                     u."UserName"
                 LIMIT 1
                 """).FirstOrDefaultAsync(ct);

@@ -9,7 +9,7 @@ public class Pesticide : BaseAuditableEntity
     /// Tên thuốc
     /// </summary>
     [MaxLength(200)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Hoạt chất

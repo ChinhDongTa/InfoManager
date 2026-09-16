@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Authentication;
-using InfoManager.Shared.Dtos.UserProfiles;
+﻿using InfoManager.Shared.Dtos.UserProfiles;
 
 namespace InfoManager.Application.Features.UserProfiles;
 

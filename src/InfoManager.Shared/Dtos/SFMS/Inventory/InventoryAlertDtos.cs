@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Shared.Dtos.SFMS.Inventory;
+
 public record InventoryAlertDtos(
     string Id,
     string FarmId,
@@ -34,6 +35,6 @@ public record InventoryAlertSummaryDto(
 
 public record UpdateInventoryAlertRequest(
     string Id,
-    bool? IsResolved = null,
-    string? ResolutionNotes = null
+    bool? IsResolved,
+    string? ResolutionNotes
 );

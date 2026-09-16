@@ -16,8 +16,8 @@ public class CreateLeaveRequestCommandHandler : BaseCreateCommandHandler<CreateL
                                             ILogger<CreateLeaveRequestCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(LeaveRequest entity, CancellationToken cancellationToken)
-        => await Context.LeaveRequests.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(LeaveRequest entity, CancellationToken ct)
+        => await Context.LeaveRequests.AddAsync(entity, ct);
 
     protected override Task<LeaveRequest> CreateEntity(CreateLeaveRequestCommand request)
         => Task.FromResult(new LeaveRequest

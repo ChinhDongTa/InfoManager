@@ -8,7 +8,7 @@ public class Yield : BaseAuditableEntity
     /// <summary>
     /// ID lần trồng
     /// </summary>
-    public required string CropPlantingId { get; set; }
+    public string CropPlantingId { get; set; }
 
     /// <summary>
     /// ID đợt thu hoạch liên quan
@@ -29,7 +29,7 @@ public class Yield : BaseAuditableEntity
     /// Đơn vị năng suất
     /// </summary>
     [MaxLength(50)]
-    public required string Unit { get; set; }
+    public string Unit { get; set; }
 
     /// <summary>
     /// Năng suất trên mỗi hecta

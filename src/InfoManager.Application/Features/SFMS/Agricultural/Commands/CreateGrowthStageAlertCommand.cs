@@ -1,5 +1,6 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
-public record CreateGrowthStageAlertCommand :    IRequest<Result<string>>
+
+public record CreateGrowthStageAlertCommand : IRequest<Result<string>>
 {
     public required string CropPlantingId { get; init; }
     public required string GrowthStageId { get; init; }
@@ -10,19 +11,20 @@ public record CreateGrowthStageAlertCommand :    IRequest<Result<string>>
     public DateTimeOffset? ExpectedAchievementDate { get; init; }
     public DateTimeOffset? ActualAchievementDate { get; init; }
     public bool IsResolved { get; init; }
-    public string? ActionTaken { get; init; }   
+    public string? ActionTaken { get; init; }
 }
+
 public class CreateGrowthStageAlertCommandHandler : BaseCreateCommandHandler<CreateGrowthStageAlertCommand, GrowthStageAlert>
 {
     public CreateGrowthStageAlertCommandHandler(IApplicationDbContext context,
                                                 IValidator<CreateGrowthStageAlertCommand> validator,
                                                 ILogger<CreateGrowthStageAlertCommandHandler> logger) : base(context, validator, logger)
     {
-        
     }
-    protected override async Task AddEntityAsync(GrowthStageAlert entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(GrowthStageAlert entity, CancellationToken ct)
     {
-        await Context.GrowthStageAlerts.AddAsync(entity, cancellationToken);
+        await Context.GrowthStageAlerts.AddAsync(entity, ct);
     }
 
     protected override async Task<GrowthStageAlert> CreateEntity(CreateGrowthStageAlertCommand request)
@@ -42,6 +44,7 @@ public class CreateGrowthStageAlertCommandHandler : BaseCreateCommandHandler<Cre
         };
     }
 }
+
 public class CreateGrowthStageAlertCommandValidator : AbstractValidator<CreateGrowthStageAlertCommand>
 {
     public CreateGrowthStageAlertCommandValidator()

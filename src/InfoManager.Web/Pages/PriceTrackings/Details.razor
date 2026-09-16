@@ -8,20 +8,24 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (dto != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Sản phẩm" Value="@dto.ProductName" />
-                <DetailItem Label="Trạng thái mua" Value=@(dto.IsPurchased ? "Đã mua" : "Chưa mua") />
-                <DetailItem Label="Giá hiện tại" Value=@dto.CurrentPrice.ToVND() />
-                <DetailItem Label="Giá mong muốn" Value=@dto.DesiredPrice.ToVND() />
-                <DetailItem Label="Giá thấp nhất đã thấy" Value=@dto.LowestPriceSeen.ToVND() />
-                <DetailItem Label="Ngày kiểm tra cuối cùng" Value=@dto.LastCheckedDate.ToString() />
-                <DetailItem Label="Liên kết sản phẩm" Value="">
-                    <a href="@dto?.ProductUrl" target="_blank">xem sản phẩm</a>
-                </DetailItem>
-                <DetailItem Label="Cửa hàng" Value="@dto.StoreName" />
-                <DetailItem Label="Mô tả" Value="@dto?.Description" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Sản phẩm" Value="@dto.ProductName" />
+                    <DetailItem Label="Trạng thái mua" Value=@(dto.IsPurchased ? "Đã mua" : "Chưa mua") />
+                    <DetailItem Label="Giá hiện tại" Value=@dto.CurrentPrice.ToVND() />
+                    <DetailItem Label="Giá mong muốn" Value=@dto.DesiredPrice.ToVND() />
+                    <DetailItem Label="Giá thấp nhất đã thấy" Value=@dto.LowestPriceSeen.ToVND() />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Ngày kiểm tra cuối cùng" Value=@dto.LastCheckedDate.ToString() />
+                    <DetailItem Label="Liên kết sản phẩm" Value="">
+                        <a href="@dto?.ProductUrl" target="_blank">xem sản phẩm</a>
+                    </DetailItem>
+                    <DetailItem Label="Cửa hàng" Value="@dto.StoreName" />
+                    <DetailItem Label="Mô tả" Value="@dto?.Description" />
 
-                <EntityActions EntityId="@Id" Folder="priceTrackings" OnDeleteClick="DeleteHandler" />
+                    <EntityActions EntityId="@Id" Folder="priceTrackings" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

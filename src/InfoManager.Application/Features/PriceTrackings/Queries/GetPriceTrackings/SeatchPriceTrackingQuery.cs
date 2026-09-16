@@ -1,8 +1,7 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.PriceTrackings;
-using InfoManager.Shared.Models;
+﻿using InfoManager.Shared.Dtos.PriceTrackings;
 
 namespace InfoManager.Application.Features.PriceTrackings.Queries.GetPriceTrackings;
+
 public record SearchPriceTrackingQuery : IRequest<Result<PaginatedList<PriceTrackingSummaryDto>>>
 {
     public string? SearchTerm { get; init; }
@@ -13,17 +12,19 @@ public record SearchPriceTrackingQuery : IRequest<Result<PaginatedList<PriceTrac
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 20;
 }
+
 public class SearchPriceTrackingQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchPriceTrackingQuery, Result<PaginatedList<PriceTrackingSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<PriceTrackingSummaryDto>>> Handle(SearchPriceTrackingQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<PriceTrackingSummaryDto>>> Handle(SearchPriceTrackingQuery request, CancellationToken ct)
     {
         var query = BuildSearchQuery(request);
         var result = await query
             .ApplySorting(request.SortBy, request.Ascending)
             .ToPriceTrackingSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<PriceTrackingSummaryDto>>.Success(result);
     }
+
     private IQueryable<PriceTracking> BuildSearchQuery(SearchPriceTrackingQuery request)
     {
         var query = context.PriceTrackings.AsQueryable();
@@ -31,7 +32,7 @@ public class SearchPriceTrackingQueryHandler(IApplicationDbContext context) : IR
         {
             var key = $"%{request.SearchTerm.Trim()}%";
             query = query.Where(t => EF.Functions.Like(t.ProductName, key)
-                                            ||(t.StoreName!=null && EF.Functions.Like(t.StoreName, key))
+                                            || (t.StoreName != null && EF.Functions.Like(t.StoreName, key))
                                             || (t.Description != null && EF.Functions.Like(t.Description, key)
                                             ));
         }

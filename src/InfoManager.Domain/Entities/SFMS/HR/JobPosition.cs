@@ -8,7 +8,7 @@ public class JobPosition : BaseAuditableEntity
 {
     /// <summary>Tên vị trí (vd: Quản lý nông trại, Công nhân đồng ruộng...)</summary>
     [MaxLength(100)]
-    public required string Title { get; set; }
+    public string Title { get; set; }
 
     /// <summary>Mô tả / trách nhiệm</summary>
     [MaxLength(1000)]
@@ -39,5 +39,6 @@ public class JobPosition : BaseAuditableEntity
 
     // Navigation
     public virtual Department? Department { get; set; }
+
     public virtual ICollection<JobAssignment> Assignments { get; set; } = [];
 }

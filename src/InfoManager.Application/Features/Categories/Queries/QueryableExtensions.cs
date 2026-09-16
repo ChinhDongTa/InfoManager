@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.Categories;
+﻿using InfoManager.Shared.Dtos.Categories;
 
 namespace InfoManager.Application.Features.Categories.Queries;
 
@@ -9,8 +8,9 @@ public static class QueryableExtensions
     {
         return query.Select(c => new CategoryDto(c.Id, c.Name, c.Group, c.KeyName));
     }
+
     /// <summary>
-    /// Applies sorting to the query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by Name in ascending order. 
+    /// Applies sorting to the query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by Name in ascending order.
     /// If sortBy is "name" or "group", it sorts accordingly in either ascending or descending order based on the ascending parameter.
     /// </summary>
     /// <param name="query">The queryable collection of Category entities to sort.</param>

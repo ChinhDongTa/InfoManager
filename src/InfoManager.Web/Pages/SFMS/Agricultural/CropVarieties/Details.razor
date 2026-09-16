@@ -9,21 +9,25 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (cropVariety != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Tên giống" Value="@cropVariety.VarietyName" />
-                <DetailItem Label="Cây trồng" Value="@cropVariety.CropName" />
-                <DetailItem Label="Tên nhà lai tạo" Value="@cropVariety.BreederName" />
-                <DetailItem Label="Số ngày chín" Value="@(cropVariety.DaysToMaturity?.ToString() ?? "-")" />
-                <DetailItem Label="Năng suất dự kiến" Value="@FormatNumber.FormatDecimal(cropVariety.ExpectedYield)" />
-                <DetailItem Label="Đơn vị năng suất" Value="@cropVariety.YieldUnit" />
-                <DetailItem Label="Lượng giống gieo" Value="@FormatNumber.FormatDecimal(cropVariety.SeedRate)" />
-                <DetailItem Label="Khả năng kháng bệnh" Value="@cropVariety.DiseaseResistance" />
-                <DetailItem Label="Khả năng kháng sâu hại" Value="@cropVariety.PestResistance" />
-                <DetailItem Label="Thích hợp khí hậu" Value="@cropVariety.ClimateSuitability" />
-                <DetailItem Label="Năm phát hành" Value="@(cropVariety.YearOfRelease?.ToString() ?? "-")" />
-                <DetailItem Label="Đang sử dụng" Value="@(cropVariety.IsActive ? "Có" : "Không")" />
-                <DetailItem Label="Ngày tạo" Value="@cropVariety.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-varieties" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Tên giống" Value="@cropVariety.VarietyName" />
+                    <DetailItem Label="Cây trồng" Value="@cropVariety.CropName" />
+                    <DetailItem Label="Tên nhà lai tạo" Value="@cropVariety.BreederName" />
+                    <DetailItem Label="Số ngày chín" Value="@(cropVariety.DaysToMaturity?.ToString() ?? "-")" />
+                    <DetailItem Label="Năng suất dự kiến" Value="@FormatNumber.FormatDecimal(cropVariety.ExpectedYield)" />
+                    <DetailItem Label="Đơn vị năng suất" Value="@cropVariety.YieldUnit" />
+                    <DetailItem Label="Lượng giống gieo" Value="@FormatNumber.FormatDecimal(cropVariety.SeedRate)" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Khả năng kháng bệnh" Value="@cropVariety.DiseaseResistance" />
+                    <DetailItem Label="Khả năng kháng sâu hại" Value="@cropVariety.PestResistance" />
+                    <DetailItem Label="Thích hợp khí hậu" Value="@cropVariety.ClimateSuitability" />
+                    <DetailItem Label="Năm phát hành" Value="@(cropVariety.YearOfRelease?.ToString() ?? "-")" />
+                    <DetailItem Label="Đang sử dụng" Value="@(cropVariety.IsActive ? "Có" : "Không")" />
+                    <DetailItem Label="Ngày tạo" Value="@cropVariety.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-varieties" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

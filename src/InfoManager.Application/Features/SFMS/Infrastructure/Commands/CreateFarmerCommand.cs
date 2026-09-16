@@ -59,7 +59,7 @@ public class CreateFarmerCommandHandler : BaseCreateCommandHandler<CreateFarmerC
     {
     }
 
-    protected override async Task AddEntityAsync(Farmer entity, CancellationToken cancellationToken) 
+    protected override async Task AddEntityAsync(Farmer entity, CancellationToken cancellationToken)
         => await Context.Farmers.AddAsync(entity, cancellationToken);
 
     protected override async Task<Farmer> CreateEntity(CreateFarmerCommand request)
@@ -78,12 +78,13 @@ public class CreateFarmerCommandHandler : BaseCreateCommandHandler<CreateFarmerC
         };
     }
 }
+
 public class CreateFarmerCommandValidator : AbstractValidator<CreateFarmerCommand>
 {
     public CreateFarmerCommandValidator()
     {
         RuleFor(x => x.UserId).NotEmpty().WithMessage(ErrorHelpers.GetErrorRequired("UserId"));
-        RuleFor(x => x.FullName).NotEmpty().WithMessage(ErrorHelpers.GetErrorRequired("FullName")   )
+        RuleFor(x => x.FullName).NotEmpty().WithMessage(ErrorHelpers.GetErrorRequired("FullName"))
                                 .MaximumLength(200).When(x => !string.IsNullOrEmpty(x.FullName)).WithMessage(ErrorHelpers.GetErrorMaxLength("FullName", 200));
         RuleFor(x => x.FarmerCode).MaximumLength(50).When(x => !string.IsNullOrEmpty(x.FarmerCode)).WithMessage(ErrorHelpers.GetErrorMaxLength("FarmerCode", 50));
         RuleFor(x => x.Phone).MaximumLength(20).When(x => !string.IsNullOrEmpty(x.Phone)).WithMessage(ErrorHelpers.GetErrorMaxLength("Phone", 20));

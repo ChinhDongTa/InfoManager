@@ -3,9 +3,10 @@
 namespace InfoManager.Application.Features.HistoricalEvents.Queries.GetHistoricalEvents;
 
 public record GetNextMonthHistoricalEventsQuery(int NumMonths) : IRequest<Result<List<HistoricalEventSummaryDto>>>;
+
 public class GetNextMonthHistoricalEventsQueryHandler(IApplicationDbContext context) : IRequestHandler<GetNextMonthHistoricalEventsQuery, Result<List<HistoricalEventSummaryDto>>>
 {
-    public async Task<Result<List<HistoricalEventSummaryDto>>> Handle(GetNextMonthHistoricalEventsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<HistoricalEventSummaryDto>>> Handle(GetNextMonthHistoricalEventsQuery request, CancellationToken ct)
     {
         var targetYear = DateTime.Now.Year;
         var months = NumberExtension.GetMonthsRange(DateTime.UtcNow.Month, request.NumMonths);
@@ -13,7 +14,7 @@ public class GetNextMonthHistoricalEventsQueryHandler(IApplicationDbContext cont
             .Where(e => e.EventDate.HasValue && months.Contains(e.EventDate.Value.Month))
             .ApplySorting()
             .ToHistoricalEventSummaryDto()
-            .ToListResultAsync(cancellationToken);
+            .ToListResultAsync(ct);
         return result;
     }
 }

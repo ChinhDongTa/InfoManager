@@ -4,17 +4,19 @@ using InfoManager.Application.Features.Transactions.Queries.GetTransactions;
 using InfoManager.Shared.Dtos.Transactions;
 
 namespace InfoManager.Api.Endpoints;
+
 /// <summary>
 /// Represents the API endpoints for managing transactions.
 /// </summary>
 public class Transactions : EndpointGroupBase
 {
     public override string GroupName => "Transactions";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
         //=============Data Retrieval Endpoints================
-        api.MapGet(GetTransactionsPendingAsync,"pending");
+        api.MapGet(GetTransactionsPendingAsync, "pending");
         api.MapGet(GetTransactionsAsync);
         api.MapGet(GetTopTransactionsAsync, "top/{top}");
         api.MapGet(GetTransactionByIdAsync, "{id}");
@@ -32,7 +34,7 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <returns>The result of the query.</returns>
     /// <response code="200">Returns the list of pending transactions.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -40,10 +42,10 @@ public class Transactions : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetTransactionsPendingAsync([FromServices] ISender sender,
                                                            [FromServices] IUser user,
-                                                           CancellationToken cancellationToken)
+                                                           CancellationToken ct)
     {
         var query = new GetTransactionPendingQuery();
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -52,18 +54,18 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="pageNumber">The page number to retrieve.</param>
     /// <param name="pageSize">The number of items per page.</param>
     /// <returns>The result of the query.</returns>
     public async Task<IResult> GetTransactionsAsync([FromServices] ISender sender,
                                                     [FromServices] IUser user,
-                                                    CancellationToken cancellationToken,
+                                                    CancellationToken ct,
                                                     int pageNumber,
                                                     int pageSize)
     {
         var query = new GetTransactionsQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -72,35 +74,34 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="top">The number of top transactions to retrieve.</param>
     /// <returns>The result of the query.</returns>
     public async Task<IResult> GetTopTransactionsAsync([FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken,
+                                                       CancellationToken ct,
                                                        int top = 5)
     {
         var query = new GetTopTransactionsQuery(top);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
-
 
     /// <summary>
     /// Get a transaction by its unique identifier
     /// </summary>
     /// <param name="sender">The mediator instance to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="id">The unique identifier of the transaction.</param>
     /// <returns>The result of the query.</returns>
     public async Task<IResult> GetTransactionByIdAsync([FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken,
+                                                       CancellationToken ct,
                                                        string id)
     {
         var query = new GetTransactionByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -109,26 +110,26 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="month">The month for the report.</param>
     /// <param name="year">The year for the report.</param>
     /// <returns>The result of the query.</returns>
     public async Task<IResult> GetFinancialSummaryReportAsync([FromServices] ISender sender,
                                                               [FromServices] IUser user,
-                                                              CancellationToken cancellationToken,
+                                                              CancellationToken ct,
                                                               int month,
                                                               int year)
     {
-        if(!month.IsMonthValid())
+        if (!month.IsMonthValid())
         {
             return Results.BadRequest(ErrorHelpers.GetErrorInvalid("month"));
         }
-        if(year < 1950 || year > DateTime.Now.Year)
+        if (year < 1950 || year > DateTime.Now.Year)
         {
             return Results.BadRequest(ErrorHelpers.GetErrorInvalid("year"));
         }
         var query = new GetFinancialSummaryReport(month, year);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -137,12 +138,12 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the query.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="request">The search criteria for transactions.</param>
     /// <returns>The result of the query.</returns>
     public async Task<IResult> SearchTransactionsAsync([FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken,
+                                                       CancellationToken ct,
                                                        [AsParameters] SearchTransactionRequest request)
     {
         var query = new SearchTransactionQuery
@@ -159,7 +160,7 @@ public class Transactions : EndpointGroupBase
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -168,12 +169,12 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="command">The command containing the transaction details.</param>
     /// <returns>The result of the command.</returns>
     public async Task<IResult> CreateTransactionAsync([FromServices] ISender sender,
                                                       [FromServices] IUser user,
-                                                      CancellationToken cancellationToken,
+                                                      CancellationToken ct,
                                                       [FromBody] CreateTransactionRequest request)
     {
         var command = new CreateTransactionCommand
@@ -185,7 +186,7 @@ public class Transactions : EndpointGroupBase
             TransactionType = request.TransactionType,
             Description = request.Description
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -194,13 +195,13 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="id">The unique identifier of the transaction.</param>
     /// <param name="command"></param>
     /// <returns></returns>
     public async Task<IResult> UpdateTransactionAsync([FromServices] ISender sender,
                                                       [FromServices] IUser user,
-                                                      CancellationToken cancellationToken,
+                                                      CancellationToken ct,
                                                       string id,
                                                       [FromBody] UpdateTransactionRequest request)
     {
@@ -218,7 +219,7 @@ public class Transactions : EndpointGroupBase
             TransactionType = request.TransactionType,
             Description = request.Description
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
@@ -227,15 +228,15 @@ public class Transactions : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance to send the command.</param>
     /// <param name="user">The current user.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="ct">The cancellation token.</param>
     /// <param name="id">The unique identifier of the transaction.</param>
     /// <returns>The result of the command.</returns>
     public async Task<IResult> DeleteTransactionAsync([FromServices] ISender sender,
-                                                      CancellationToken cancellationToken,
+                                                      CancellationToken ct,
                                                       string id)
     {
         var command = new DeleteTransactionCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
+
 public record UpdateGrowthStageAlertCommand : IRequest<Result>
 {
-    public  required string Id { get; init; } 
+    public required string Id { get; init; }
     public GrowthAlertType? AlertType { get; init; }
     public string? Message { get; init; }
     public AlertSeverity? Severity { get; init; }
@@ -10,15 +11,18 @@ public record UpdateGrowthStageAlertCommand : IRequest<Result>
     public bool? IsResolved { get; init; }
     public string? ActionTaken { get; init; }
 }
+
 public class UpdateteGrowthStageAlertCommandHandler : BaseUpdateCommandHandler<UpdateGrowthStageAlertCommand, GrowthStageAlert>
 {
     public UpdateteGrowthStageAlertCommandHandler(IApplicationDbContext context, IValidator<UpdateGrowthStageAlertCommand> validator, ILogger<UpdateteGrowthStageAlertCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<GrowthStageAlert?> GetEntityAsync(UpdateGrowthStageAlertCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<GrowthStageAlert?> GetEntityAsync(UpdateGrowthStageAlertCommand request, CancellationToken ct)
     {
-        return await Context.GrowthStageAlerts.FindAsync([request.Id], cancellationToken);
+        return await Context.GrowthStageAlerts.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(GrowthStageAlert entity, UpdateGrowthStageAlertCommand request)
     {
         if (request.AlertType.HasValue && request.AlertType != entity.AlertType)
@@ -37,6 +41,7 @@ public class UpdateteGrowthStageAlertCommandHandler : BaseUpdateCommandHandler<U
             entity.ActionTaken = request.ActionTaken!;
     }
 }
+
 public class UpdateteGrowthStageAlertCommandValidator : AbstractValidator<UpdateGrowthStageAlertCommand>
 {
     public UpdateteGrowthStageAlertCommandValidator()

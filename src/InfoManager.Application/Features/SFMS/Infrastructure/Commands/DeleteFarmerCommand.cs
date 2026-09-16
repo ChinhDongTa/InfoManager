@@ -1,8 +1,7 @@
-﻿
-
-namespace InfoManager.Application.Features.SFMS.Infrastructure.Commands;
+﻿namespace InfoManager.Application.Features.SFMS.Infrastructure.Commands;
 
 public record DeleteFarmerCommand(string Id) : IRequest<Result>;
+
 public class DeleteFarmerCommandHandler : BaseDeleteCommandHandler<DeleteFarmerCommand, Farmer>
 {
     public DeleteFarmerCommandHandler(IApplicationDbContext context,
@@ -10,6 +9,6 @@ public class DeleteFarmerCommandHandler : BaseDeleteCommandHandler<DeleteFarmerC
     {
     }
 
-    protected override async Task<Farmer?> GetEntityAsync(DeleteFarmerCommand request, CancellationToken cancellationToken)
-        => await Context.Farmers.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Farmer?> GetEntityAsync(DeleteFarmerCommand request, CancellationToken ct)
+        => await Context.Farmers.FindAsync([request.Id], ct);
 }

@@ -24,7 +24,8 @@ public static class FarmExpenseMappings
         AttachmentUrl = request.AttachmentUrl,
         Notes = request.Notes
     };
-    public static SearchFarmExpensesQuery ToSearchQuery(SearchFarmExpensesRequest request) 
+
+    public static SearchFarmExpensesQuery ToSearchQuery(SearchFarmExpensesRequest request)
         => new(request.Term,
                request.FarmId,
                request.CropPlantingId,

@@ -37,27 +37,27 @@ public record CreateFertilizationPlanRequest(
     string FertilizerId,
     string PlanName,
     DateTimeOffset PlannedDate,
-    string? CropPlantingId = null,
-    string? GrowthStageId = null,
-    int? DaysAfterPlanting = null,
-    decimal PlannedQuantity = 0,
-    string Unit = "kg",
-    string? ApplicationMethod = null,
-    FertilizationPlanStatus Status = FertilizationPlanStatus.Planned,
-    string? Notes = null
+    string? CropPlantingId,
+    string? GrowthStageId,
+    int? DaysAfterPlanting,
+    decimal PlannedQuantity,
+    string Unit,
+    string? ApplicationMethod,
+    FertilizationPlanStatus Status,
+    string? Notes
 );
 
 public record UpdateFertilizationPlanRequest(
     string Id,
-    string? FertilizerId = null,
-    string? PlanName = null,
-    DateTimeOffset? PlannedDate = null,
-    string? CropPlantingId = null,
-    string? GrowthStageId = null,
-    int? DaysAfterPlanting = null,
-    decimal? PlannedQuantity = null,
-    string? Unit = null,
-    string? ApplicationMethod = null,
-    FertilizationPlanStatus? Status = null,
-    string? Notes = null
+    string? FertilizerId,
+    string? PlanName,
+    DateTimeOffset? PlannedDate,
+    string? CropPlantingId,
+    string? GrowthStageId,
+    int? DaysAfterPlanting,
+    decimal? PlannedQuantity,
+    string? Unit,
+    string? ApplicationMethod,
+    FertilizationPlanStatus? Status,
+    string? Notes
 );

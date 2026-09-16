@@ -40,7 +40,7 @@ public sealed class CustomAuthStateProvider(ITokenStorage tokenStorage) : Authen
             }
 
             var claims = jwt.Claims;
-            var identity = new ClaimsIdentity(claims, "Bearer", nameType:"nameid", roleType:"role");
+            var identity = new ClaimsIdentity(claims, "Bearer", nameType: "nameid", roleType: "role");
             var user = new ClaimsPrincipal(identity);
 
             //Console.WriteLine($"[GetAuthenticationStateAsync] User authenticated: {user.Identity?.Name}");
@@ -72,7 +72,7 @@ public sealed class CustomAuthStateProvider(ITokenStorage tokenStorage) : Authen
     /// </summary>
     public async Task MarkUserAsLoggedOutAsync()
     {
-        await tokenStorage.ClearTokensAsync(    );
+        await tokenStorage.ClearTokensAsync();
         var anon = new ClaimsPrincipal(new ClaimsIdentity());
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anon)));
     }

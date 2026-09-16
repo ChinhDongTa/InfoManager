@@ -5,12 +5,14 @@ using InfoManager.Shared.Dtos.TokenBlacklists;
 using System.Security.Claims;
 
 namespace InfoManager.Api.Endpoints.Auth;
+
 /// <summary>
 /// Represents the API endpoints for managing user identities, roles, and authentication.
 /// </summary>
 public class Identities : EndpointGroupBase
 {
     public override string GroupName => "Identities";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -39,6 +41,7 @@ public class Identities : EndpointGroupBase
         group.MapPost(RefreshTokenAsync, "refresh");
         //group.MapPost(InitFirstTimeAsync, "init-first-time");
     }
+
     // ==================== USER OPERATIONS ====================
 
     /// <summary>
@@ -154,7 +157,6 @@ public class Identities : EndpointGroupBase
         return TypedResults.Created(location);
     }
 
-
     public async Task<IResult> UpdateRoleAsync(string id, [FromBody] UpdateRoleDto request, IIdentityService identityService, CancellationToken ct)
     {
         if (id != request.Id)
@@ -266,7 +268,7 @@ public class Identities : EndpointGroupBase
             return TypedResults.Unauthorized();
 
         var newAccessToken = identityService.GenerateAccessToken(result.Value, expiresInMinutes: 15);
-        var newRefreshToken = identityService.GenerateRefreshToken(result.Value , expiresInDays: 7);
+        var newRefreshToken = identityService.GenerateRefreshToken(result.Value, expiresInDays: 7);
 
         // Return tokens in response body for Blazor WASM to save in localStorage
         return TypedResults.Ok(new TokenResponse

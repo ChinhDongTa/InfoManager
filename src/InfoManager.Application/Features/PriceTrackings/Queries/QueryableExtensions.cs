@@ -19,6 +19,7 @@ public static class QueryableExtensions
             LastCheckedDate: pt.LastCheckedDate.ToLocalDateTime()
         ));
     }
+
     public static IQueryable<PriceTrackingSummaryDto> ToPriceTrackingSummaryDto(this IQueryable<PriceTracking> query)
     {
         return query.Select(pt => new PriceTrackingSummaryDto(
@@ -30,6 +31,7 @@ public static class QueryableExtensions
             ProductUrl: pt.ProductUrl
         ));
     }
+
     /// <summary>
     /// Applies sorting to the PriceTracking query based on the provided sortBy parameter.
     /// </summary>

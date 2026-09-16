@@ -6,6 +6,7 @@ namespace InfoManager.ModelClient.Transactions;
 public class UpdateTransactionModel
 {
     public string Id { get; set; } = string.Empty;
+
     /// <summary>
     /// Số tiền giao dịch
     /// </summary>
@@ -41,6 +42,7 @@ public class UpdateTransactionModel
     {
         return ClientUpdateHelper.HasChanges(this, original);
     }
+
     public UpdateTransactionModel(TransactionDto dto)
     {
         Id = dto.Id;
@@ -51,6 +53,7 @@ public class UpdateTransactionModel
         TransactionDate = dto.TransactionDate;
         TransactionType = dto.TransactionType;
     }
+
     public UpdateTransactionRequest CreateRequest()
     {
         return new UpdateTransactionRequest

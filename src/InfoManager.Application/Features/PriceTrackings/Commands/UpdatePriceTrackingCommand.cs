@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.PriceTrackings.Commands;
+﻿namespace InfoManager.Application.Features.PriceTrackings.Commands;
 
 public record UpdatePriceTrackingCommand : IRequest<Result>
 {
@@ -12,9 +10,10 @@ public record UpdatePriceTrackingCommand : IRequest<Result>
     public decimal? LowestPriceSeen { get; init; }
     public string? StoreName { get; init; }
     public string? ProductUrl { get; init; }
-    public bool? IsPurchased { get; init; } 
+    public bool? IsPurchased { get; init; }
     public DateTimeOffset? LastCheckedDate { get; init; }
 }
+
 public class UpdatePriceTrackingCommandHandler : BaseUpdateCommandHandler<UpdatePriceTrackingCommand, PriceTracking>
 {
     public UpdatePriceTrackingCommandHandler(IApplicationDbContext context,
@@ -22,10 +21,12 @@ public class UpdatePriceTrackingCommandHandler : BaseUpdateCommandHandler<Update
                                              ILogger<UpdatePriceTrackingCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<PriceTracking?> GetEntityAsync(UpdatePriceTrackingCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<PriceTracking?> GetEntityAsync(UpdatePriceTrackingCommand request, CancellationToken ct)
     {
-        return await Context.PriceTrackings.FindAsync([request.Id], cancellationToken);
+        return await Context.PriceTrackings.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(PriceTracking entity, UpdatePriceTrackingCommand request)
     {
         if (request.ProductName.HasValueAndIsDifferentFrom(entity.ProductName))
@@ -56,12 +57,12 @@ public class UpdatePriceTrackingCommandHandler : BaseUpdateCommandHandler<Update
             entity.LastCheckedDate = request.LastCheckedDate;
     }
 }
+
 public class UpdatePriceTrackingCommandValidator : AbstractValidator<UpdatePriceTrackingCommand>
 {
     public UpdatePriceTrackingCommandValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Id"));
-        
     }
 }

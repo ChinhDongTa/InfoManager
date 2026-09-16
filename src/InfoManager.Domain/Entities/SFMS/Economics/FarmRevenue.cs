@@ -8,7 +8,7 @@ public class FarmRevenue : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// ID lần trồng cây liên quan (tùy chọn)
@@ -29,7 +29,7 @@ public class FarmRevenue : BaseAuditableEntity
     /// Nguồn doanh thu
     /// </summary>
     [MaxLength(200)]
-    public required string Source { get; set; }
+    public string Source { get; set; }
 
     /// <summary>
     /// Tổng số tiền doanh thu
@@ -71,6 +71,7 @@ public class FarmRevenue : BaseAuditableEntity
 
     // Navigation properties
     public virtual Farm? Farm { get; set; }
+
     public virtual CropPlanting? CropPlanting { get; set; }
     public virtual Harvest? Harvest { get; set; }
     public virtual Sale? Sale { get; set; }

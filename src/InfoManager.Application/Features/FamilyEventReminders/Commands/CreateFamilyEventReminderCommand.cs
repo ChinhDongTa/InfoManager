@@ -9,7 +9,8 @@ public record CreateFamilyEventReminderCommand : IRequest<Result<string>>
     public bool IsEnabled { get; init; } = true;
     public string? Note { get; init; } = null;
 }
-public class CreateFamilyEventReminderCommandHandler:BaseCreateCommandHandler<CreateFamilyEventReminderCommand, FamilyEventReminder>
+
+public class CreateFamilyEventReminderCommandHandler : BaseCreateCommandHandler<CreateFamilyEventReminderCommand, FamilyEventReminder>
 {
     public CreateFamilyEventReminderCommandHandler(IApplicationDbContext context,
                                                    IValidator<CreateFamilyEventReminderCommand> validator,
@@ -17,9 +18,9 @@ public class CreateFamilyEventReminderCommandHandler:BaseCreateCommandHandler<Cr
     {
     }
 
-    protected override async Task AddEntityAsync(FamilyEventReminder entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(FamilyEventReminder entity, CancellationToken ct)
     {
-        await Context.FamilyEventReminders.AddAsync(entity, cancellationToken);
+        await Context.FamilyEventReminders.AddAsync(entity, ct);
     }
 
     protected override async Task<FamilyEventReminder> CreateEntity(CreateFamilyEventReminderCommand request)
@@ -35,6 +36,7 @@ public class CreateFamilyEventReminderCommandHandler:BaseCreateCommandHandler<Cr
         };
     }
 }
+
 public class CreateFamilyEventReminderCommandValidator : AbstractValidator<CreateFamilyEventReminderCommand>
 {
     public CreateFamilyEventReminderCommandValidator()
@@ -42,7 +44,7 @@ public class CreateFamilyEventReminderCommandValidator : AbstractValidator<Creat
         RuleFor(x => x.FamilyEventId)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("FamilyEventId"));
         RuleFor(x => x.DaysBefore)
-            .GreaterThanOrEqualTo(0).WithMessage(ErrorHelpers.GetErrorOutOfRange("DaysBefore", 0,100));
+            .GreaterThanOrEqualTo(0).WithMessage(ErrorHelpers.GetErrorOutOfRange("DaysBefore", 0, 100));
         RuleFor(x => x.Note)
             .MaximumLength(500).WithMessage(ErrorHelpers.GetErrorMaxLength("Note", 500))
             .When(x => !string.IsNullOrEmpty(x.Note));

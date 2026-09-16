@@ -37,8 +37,8 @@ public interface ITokenBlacklistService
     Task<Result<TokenBlacklistDto?>> GetByIdAsync(string id, CancellationToken ct = default);
 
     Task<Result<TokenBlacklistDto?>> GetByJtiAsync(string jti, CancellationToken ct = default);
-    Task<Result<List<TokenBlacklistDto>>> GetByUserIdOfTokenAsync(string userIdOfToken, CancellationToken ct = default);
 
+    Task<Result<List<TokenBlacklistDto>>> GetByUserIdOfTokenAsync(string userIdOfToken, CancellationToken ct = default);
 
     /// <summary>
     /// Dọn dẹp token hết hạn

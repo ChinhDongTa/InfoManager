@@ -8,16 +8,19 @@
 public class Family : BaseAuditableEntity
 {
     [MaxLength(200)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
+
     /// <summary>
     /// Người đại diện của gia đình, có thể là cha/mẹ hoặc con trưởng
     /// </summary>
     public string? RepresentativeId { get; set; }//=> có thể là foreign key tới FamilyMember không?
+
     public virtual FamilyMember? Representative { get; set; }   // Navigation
     public string? Address { get; set; }
 
     [EmailAddress]
     public string? Email { get; set; }
+
     // Navigation
     public ICollection<FamilyMember> Members { get; set; } = [];
 }

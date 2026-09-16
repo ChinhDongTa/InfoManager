@@ -10,12 +10,12 @@ public class Device : BaseAuditableEntity
     /// Tên / mã định danh thiết bị
     /// </summary>
     [MaxLength(100)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Loại thiết bị (Gateway, DataLogger, WeatherStation...)
     /// </summary>
-    public required DeviceType DeviceType { get; set; }
+    public DeviceType DeviceType { get; set; }
 
     /// <summary>
     /// Model / thương hiệu thiết bị
@@ -32,7 +32,7 @@ public class Device : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Trạng thái thiết bị
@@ -95,6 +95,7 @@ public class Device : BaseAuditableEntity
 
     // Navigation properties
     public virtual Farm? Farm { get; set; }
+
     public virtual ICollection<Sensor> Sensors { get; set; } = [];
     public virtual ICollection<DeviceAlert> Alerts { get; set; } = [];
 }

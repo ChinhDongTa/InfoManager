@@ -1,4 +1,5 @@
 ﻿using InfoManager.Shared.Dtos.Auths;
+
 namespace InfoManager.ApiClient.Api;
 
 public interface IAuthApi

@@ -1,4 +1,5 @@
 ﻿using InfoManager.Shared.Dtos.Auths;
+
 namespace InfoManager.ApiClient.Api;
 
 public interface IProtectAuthApi
@@ -8,5 +9,5 @@ public interface IProtectAuthApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Post("/api/Identities/logout")]
-   Task<ApiResponse<MessageResponse>> LogoutAsync([Body] LogoutRequest? request, CancellationToken ct = default);
+    Task<ApiResponse<MessageResponse>> LogoutAsync([Body] LogoutRequest? request, CancellationToken ct = default);
 }

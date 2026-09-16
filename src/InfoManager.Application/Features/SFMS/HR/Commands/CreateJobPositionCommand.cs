@@ -20,8 +20,8 @@ public class CreateJobPositionCommandHandler : BaseCreateCommandHandler<CreateJo
                                            ILogger<CreateJobPositionCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(JobPosition entity, CancellationToken cancellationToken)
-        => await Context.JobPositions.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(JobPosition entity, CancellationToken ct)
+        => await Context.JobPositions.AddAsync(entity, ct);
 
     protected override Task<JobPosition> CreateEntity(CreateJobPositionCommand request)
         => Task.FromResult(new JobPosition

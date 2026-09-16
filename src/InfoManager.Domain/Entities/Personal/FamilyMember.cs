@@ -3,20 +3,19 @@
 public class FamilyMember : BaseAuditableEntity
 {
     [MaxLength(200)]
-    /// <summary>
-    /// Tên thành viên gia đình
-    /// </summary>
-    public required string FullName { get; set; }
+    public string FullName { get; set; }
 
     /// <summary>
     /// Mối quan hệ với người dùng (Ông cố nội, Bà cố nội, Ông cố ngoại, Bà cố ngoại, Ông nội, Bà nội, Ông ngoại, Bà ngoại, Cha, Mẹ, Con trai, Con gái)
     /// </summary>
-    
+
     public string? FamilyRelationId { get; set; }
+
     /// <summary>
     /// Ngày sinh của thành viên gia đình
     /// </summary>
     public DateOnly BirthDate { get; set; }
+
     /// <summary>
     /// Ngày mất của thành viên gia đình
     /// </summary>
@@ -39,6 +38,7 @@ public class FamilyMember : BaseAuditableEntity
     /// </summary>
     [MaxLength(50)]
     public string? PhoneNumber { get; set; }
+
     /// <summary>
     /// Ghi chú về thành viên gia đình
     /// </summary>

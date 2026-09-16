@@ -10,6 +10,7 @@ public record JobAssignmentDto(
     string? JobPositionTitle,
     DateTimeOffset StartDate,
     DateTimeOffset? EndDate,
+    AssignmentStatus Status,
     string StatusName,
     decimal? AssignedSalary,
     string? AssignedFieldId,

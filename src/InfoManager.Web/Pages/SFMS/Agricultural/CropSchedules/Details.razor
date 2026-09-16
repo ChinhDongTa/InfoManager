@@ -9,25 +9,29 @@
         <LoadingOverlay IsLoading="isLoading" />
         @if (cropSchedule != null)
         {
-            <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-                <DetailItem Label="Tên lịch" Value="@cropSchedule.ScheduleName" />
-                <DetailItem Label="Cây trồng" Value="@cropSchedule.CropName" />
-                <DetailItem Label="Giống" Value="@cropSchedule.CropVarietyName" />
-                <DetailItem Label="Mùa vụ" Value="@cropSchedule.PlantingSeason" />
-                <DetailItem Label="Khoảng ngày trồng" Value="@cropSchedule.PlantingDateRange" />
-                <DetailItem Label="Khoảng ngày thu hoạch" Value="@cropSchedule.HarvestDateRange" />
-                <DetailItem Label="Số ngày đến thu hoạch" Value="@cropSchedule.DaysToHarvest.ToString()" />
-                <DetailItem Label="Khoảng cách cây" Value="@FormatNumber.FormatDecimal(cropSchedule.PlantSpacing)" />
-                <DetailItem Label="Khoảng cách hàng" Value="@FormatNumber.FormatDecimal(cropSchedule.RowSpacing)" />
-                <DetailItem Label="Lịch tưới" Value="@(string.IsNullOrWhiteSpace(cropSchedule.IrrigationSchedule) ? "-" : cropSchedule.IrrigationSchedule)" />
-                <DetailItem Label="Lịch bón phân" Value="@(string.IsNullOrWhiteSpace(cropSchedule.FertilizationSchedule) ? "-" : cropSchedule.FertilizationSchedule)" />
-                <DetailItem Label="Lịch thuốc BVTV" Value="@(string.IsNullOrWhiteSpace(cropSchedule.PesticideSchedule) ? "-" : cropSchedule.PesticideSchedule)" />
-                <DetailItem Label="Năng suất dự kiến" Value="@FormatNumber.FormatDecimal(cropSchedule.ExpectedYield)" />
-                <DetailItem Label="Chi phí ước tính" Value="@FormatNumber.FormatDecimal(cropSchedule.EstimatedCost)" />
-                <DetailItem Label="Đang sử dụng" Value="@(cropSchedule.IsActive ? "Có" : "Không")" />
-                <DetailItem Label="Ngày tạo" Value="@cropSchedule.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
-                <DetailItem Label="Ghi chú" Value="@(string.IsNullOrWhiteSpace(cropSchedule.Notes) ? "-" : cropSchedule.Notes)" />
-                <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-schedules" OnDeleteClick="DeleteHandler" />
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Tên lịch" Value="@cropSchedule.ScheduleName" />
+                    <DetailItem Label="Cây trồng" Value="@cropSchedule.CropName" />
+                    <DetailItem Label="Giống" Value="@cropSchedule.CropVarietyName" />
+                    <DetailItem Label="Mùa vụ" Value="@cropSchedule.PlantingSeason" />
+                    <DetailItem Label="Khoảng ngày trồng" Value="@cropSchedule.PlantingDateRange" />
+                    <DetailItem Label="Khoảng ngày thu hoạch" Value="@cropSchedule.HarvestDateRange" />
+                    <DetailItem Label="Số ngày đến thu hoạch" Value="@cropSchedule.DaysToHarvest.ToString()" />
+                    <DetailItem Label="Khoảng cách cây" Value="@FormatNumber.FormatDecimal(cropSchedule.PlantSpacing)" />
+                    <DetailItem Label="Khoảng cách hàng" Value="@FormatNumber.FormatDecimal(cropSchedule.RowSpacing)" />
+                    <DetailItem Label="Lịch tưới" Value="@(string.IsNullOrWhiteSpace(cropSchedule.IrrigationSchedule) ? "-" : cropSchedule.IrrigationSchedule)" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Lịch bón phân" Value="@(string.IsNullOrWhiteSpace(cropSchedule.FertilizationSchedule) ? "-" : cropSchedule.FertilizationSchedule)" />
+                    <DetailItem Label="Lịch thuốc BVTV" Value="@(string.IsNullOrWhiteSpace(cropSchedule.PesticideSchedule) ? "-" : cropSchedule.PesticideSchedule)" />
+                    <DetailItem Label="Năng suất dự kiến" Value="@FormatNumber.FormatDecimal(cropSchedule.ExpectedYield)" />
+                    <DetailItem Label="Chi phí ước tính" Value="@FormatNumber.FormatDecimal(cropSchedule.EstimatedCost)" />
+                    <DetailItem Label="Đang sử dụng" Value="@(cropSchedule.IsActive ? "Có" : "Không")" />
+                    <DetailItem Label="Ngày tạo" Value="@cropSchedule.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <DetailItem Label="Ghi chú" Value="@(string.IsNullOrWhiteSpace(cropSchedule.Notes) ? "-" : cropSchedule.Notes)" />
+                    <EntityActions EntityId="@Id" Folder="/sfms/agricultural/crop-schedules" OnDeleteClick="DeleteHandler" />
+                </FluentStack>
             </FluentStack>
         }
     </Authorized>

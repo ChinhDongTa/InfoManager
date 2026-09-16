@@ -1,7 +1,7 @@
 ﻿global using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace InfoManager.Enum;
+
 /// <summary>
 /// Phân loại sự kiện lịch sử (Chính trị, Quân sự, Văn hóa, Khoa học, Kinh tế, Khác)
 /// </summary>

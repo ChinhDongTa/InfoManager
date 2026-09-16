@@ -1,10 +1,9 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.FamilyMembers.Commands;
 
-namespace InfoManager.Application.Features.FamilyMembers.Commands;
 public record UpdateFamilyMemberCommand : IRequest<Result>
 {
     public required string Id { get; init; }
-    public  string? FullName { get; init; }
+    public string? FullName { get; init; }
     public string? FamilyRelationId { get; init; }
     public DateOnly? BirthDate { get; init; }
     public DateOnly? DeathDate { get; init; }
@@ -13,20 +12,23 @@ public record UpdateFamilyMemberCommand : IRequest<Result>
     public string? PhoneNumber { get; init; }
     public string? Note { get; init; }
 }
-public class UpdateFamilyMemberCommandHandler:BaseUpdateCommandHandler<UpdateFamilyMemberCommand, FamilyMember>
+
+public class UpdateFamilyMemberCommandHandler : BaseUpdateCommandHandler<UpdateFamilyMemberCommand, FamilyMember>
 {
     public UpdateFamilyMemberCommandHandler(IApplicationDbContext context,
                                             IValidator<UpdateFamilyMemberCommand> validator,
                                             ILogger<UpdateFamilyMemberCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<FamilyMember?> GetEntityAsync(UpdateFamilyMemberCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<FamilyMember?> GetEntityAsync(UpdateFamilyMemberCommand request, CancellationToken ct)
     {
-        return await Context.FamilyMembers.FindAsync([request.Id], cancellationToken);
+        return await Context.FamilyMembers.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(FamilyMember entity, UpdateFamilyMemberCommand request)
     {
-        if (request.FullName .HasValueAndIsDifferentFrom(entity.FullName))
+        if (request.FullName.HasValueAndIsDifferentFrom(entity.FullName))
             entity.FullName = request.FullName!;
 
         if (request.FamilyRelationId.IsDifferentFrom(entity.FamilyRelationId))
@@ -50,14 +52,15 @@ public class UpdateFamilyMemberCommandHandler:BaseUpdateCommandHandler<UpdateFam
         if (request.Note.IsDifferentFrom(entity.Note))
             entity.Note = request.Note;
     }
-}   
+}
+
 public class UpdateFamilyMemberCommandValidator : AbstractValidator<UpdateFamilyMemberCommand>
 {
     public UpdateFamilyMemberCommandValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Id"));
-       
+
         RuleFor(x => x.Email)
             .EmailAddress().WithMessage(ErrorHelpers.GetErrorInvalid("Email"))
             .MaximumLength(200).WithMessage(ErrorHelpers.GetErrorMaxLength("Email", 200))

@@ -157,3 +157,4 @@ public record UpdateDiseaseRequest(
     /// <summary>Đường dẫn ảnh. Tối đa 500 ký tự.</summary>
     string? ImageUrl
 );
+public record SearchDiseasesRequest(string? Term, string? DiseaseType, SeverityLevel? SeverityLevel, int PageNumber, int PageSize);

@@ -27,27 +27,27 @@ public record PesticideSummaryDto(
 
 public record CreatePesticideRequest(
     string Name,
-    string? ActiveIngredient = null,
-    PesticideType PesticideType = PesticideType.Insecticide,
-    ToxicityLevel ToxicityLevel = ToxicityLevel.Moderate,
-    int? PreHarvestIntervalDays = null,
-    string Unit = "lít",
-    string? Manufacturer = null,
-    string? RegistrationNumber = null,
-    bool IsActive = true,
-    string? Notes = null
+    string? ActiveIngredient,
+    PesticideType PesticideType,
+    ToxicityLevel ToxicityLevel,
+    int? PreHarvestIntervalDays,
+    string Unit,
+    string? Manufacturer,
+    string? RegistrationNumber,
+    bool IsActive,
+    string? Notes
 );
 
 public record UpdatePesticideRequest(
     string Id,
-    string? Name = null,
-    string? ActiveIngredient = null,
-    PesticideType? PesticideType = null,
-    ToxicityLevel? ToxicityLevel = null,
-    int? PreHarvestIntervalDays = null,
-    string? Unit = null,
-    string? Manufacturer = null,
-    string? RegistrationNumber = null,
-    bool? IsActive = null,
-    string? Notes = null
+    string? Name,
+    string? ActiveIngredient,
+    PesticideType? PesticideType,
+    ToxicityLevel? ToxicityLevel,
+    int? PreHarvestIntervalDays,
+    string? Unit,
+    string? Manufacturer,
+    string? RegistrationNumber,
+    bool? IsActive,
+    string? Notes
 );

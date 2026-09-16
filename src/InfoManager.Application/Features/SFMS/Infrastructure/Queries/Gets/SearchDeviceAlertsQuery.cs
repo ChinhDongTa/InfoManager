@@ -8,14 +8,15 @@ public record SearchDeviceAlertsQuery(string? Term,
     DateTimeOffset? EndAlertTime,
     int PageNumber,
     int PageSize) : IRequest<Result<PaginatedList<DeviceAlertSummaryDto>>>;
+
 public class SearchDeviceAlertsQueryHandler(IApplicationDbContext Context) : IRequestHandler<SearchDeviceAlertsQuery, Result<PaginatedList<DeviceAlertSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<DeviceAlertSummaryDto>>> Handle(SearchDeviceAlertsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<DeviceAlertSummaryDto>>> Handle(SearchDeviceAlertsQuery request, CancellationToken ct)
     {
-        var query= Context.DeviceAlerts.AsQueryable().BuildSearchQuery(request);
-        var paged= await query.ApplySorting()
+        var query = Context.DeviceAlerts.AsQueryable().BuildSearchQuery(request);
+        var paged = await query.ApplySorting()
             .ToDeviceAlertSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<DeviceAlertSummaryDto>>.Success(paged);
     }
 }

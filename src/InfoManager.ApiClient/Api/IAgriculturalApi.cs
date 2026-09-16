@@ -244,7 +244,6 @@ public interface IAgriculturalApi
                                              [Query, AliasAs("PageNumber")] int pageNumber,
                                              [Query, AliasAs("PageSize")] int pageSize, CancellationToken ct = default);
 
-
     /// <param name="pageNumber">pageNumber parameter</param>
     /// <param name="pageSize">pageSize parameter</param>
     /// <returns>
@@ -365,7 +364,6 @@ public interface IAgriculturalApi
                                                 [Query, AliasAs("PageNumber")] int pageNumber,
                                                 [Query, AliasAs("PageSize")] int pageSize,
                                                 CancellationToken ct = default);
-
 
     /// <param name="pageNumber">pageNumber parameter</param>
     /// <param name="pageSize">pageSize parameter</param>
@@ -726,5 +724,4 @@ public interface IAgriculturalApi
                                                                                          [Query, AliasAs("Humidity")] decimal? humidity,
                                                                                          [Query, AliasAs("PageNumber")] int pageNumber,
                                                                                          [Query, AliasAs("PageSize")] int pageSize, CancellationToken ct = default);
-
 }

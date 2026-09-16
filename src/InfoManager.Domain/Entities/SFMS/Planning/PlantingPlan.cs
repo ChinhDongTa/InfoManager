@@ -8,13 +8,13 @@ public class PlantingPlan : BaseAuditableEntity
     /// <summary>
     /// ID chu kỳ trồng
     /// </summary>
-    public required string CropCycleId { get; set; }
+    public string CropCycleId { get; set; }
 
     /// <summary>
     /// Tên kế hoạch
     /// </summary>
     [MaxLength(200)]
-    public required string PlanName { get; set; }
+    public string PlanName { get; set; }
 
     /// <summary>
     /// Phân bổ thửa ruộng (JSON hoặc mô tả)

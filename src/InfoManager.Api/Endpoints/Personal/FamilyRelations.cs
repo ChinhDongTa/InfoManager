@@ -3,12 +3,14 @@ using InfoManager.Application.Features.FamilyRelations.Queries.GetFamilyRelation
 using InfoManager.Shared.Dtos.FamilyRelations;
 
 namespace InfoManager.Api.Endpoints.Personal;
+
 /// <summary>
 /// Represents the API endpoints for managing family relations.
 /// </summary>
 public class FamilyRelations : EndpointGroupBase
 {
     public override string GroupName => "FamilyRelations";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -29,7 +31,7 @@ public class FamilyRelations : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance used to send queries and commands.</param>
     /// <param name="user">The current user context.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="ct">A token to cancel the operation.</param>
     /// <param name="name">Optional name filter for family relations.</param>
     /// <returns>Http 200 OK if the family relations are found.</returns>
     /// <response code="200">Returns the list of family relations.</response>
@@ -38,11 +40,11 @@ public class FamilyRelations : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetFamilyRelationsAsync([FromServices] ISender sender,
                                                        [FromServices] IUser user,
-                                                       CancellationToken cancellationToken,
+                                                       CancellationToken ct,
                                                        string? name)
     {
         var query = new GetFamilyRelationsQuery(name);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -52,7 +54,7 @@ public class FamilyRelations : EndpointGroupBase
     /// <param name="id">The unique identifier of the family relation.</param>
     /// <param name="sender">The mediator instance used to send queries and commands.</param>
     /// <param name="user">The current user context.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="ct">A token to cancel the operation.</param>
     /// <returns>Http 200 OK if the family relation is found.</returns>
     /// <response code="200">Returns the family relation.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -62,10 +64,10 @@ public class FamilyRelations : EndpointGroupBase
     public async Task<IResult> GetFamilyRelationByIdAsync(string id,
                                                           [FromServices] ISender sender,
                                                           [FromServices] IUser user,
-                                                          CancellationToken cancellationToken)
+                                                          CancellationToken ct)
     {
         var query = new GetFamilyRelationByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -74,7 +76,7 @@ public class FamilyRelations : EndpointGroupBase
     /// </summary>
     /// <param name="sender">The mediator instance used to send queries and commands.</param>
     /// <param name="user">The current user context.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="ct">A token to cancel the operation.</param>
     /// <returns>Http 200 OK if the family relations are found.</returns>
     /// <response code="200">Returns the list of family relations.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -82,10 +84,10 @@ public class FamilyRelations : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> GetSelectListFamilyRelationsAsync([FromServices] ISender sender,
                                                                  [FromServices] IUser user,
-                                                                 CancellationToken cancellationToken)
+                                                                 CancellationToken ct)
     {
         var query = new GetSelectListFamilyRelationsQuery();
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -95,7 +97,7 @@ public class FamilyRelations : EndpointGroupBase
     /// <param name="command">The command containing the details of the family relation to create.</param>
     /// <param name="sender">The mediator instance used to send queries and commands.</param>
     /// <param name="user">The current user context.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="ct">A token to cancel the operation.</param>
     /// <returns>Http 201 Created if the family relation is created successfully.</returns>
     /// <response code="201">If the family relation is created successfully.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -103,7 +105,7 @@ public class FamilyRelations : EndpointGroupBase
     /// <response code="500">If an internal server error occurs.</response>
     public async Task<IResult> CreateFamilyRelationAsync([FromBody] CreateFamilyRelationRequest request,
                                                          [FromServices] ISender sender,
-                                                         CancellationToken cancellationToken)
+                                                         CancellationToken ct)
     {
         var command = new CreateFamilyRelationCommand
         (
@@ -111,7 +113,7 @@ public class FamilyRelations : EndpointGroupBase
             Name: request.Name,
             Description: request.Description
         );
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -122,7 +124,7 @@ public class FamilyRelations : EndpointGroupBase
     /// <param name="command">The command containing the updated details of the family relation.</param>
     /// <param name="sender">The mediator instance used to send queries and commands.</param>
     /// <param name="user">The current user context.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="ct">A token to cancel the operation.</param>
     /// <returns>Http 204 No Content if the update is successful.</returns>
     /// <response code="204">If the family relation is updated successfully.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -133,7 +135,7 @@ public class FamilyRelations : EndpointGroupBase
                                                          [FromBody] UpdateFamilyRelationRequest request,
                                                          [FromServices] ISender sender,
                                                          [FromServices] IUser user,
-                                                         CancellationToken cancellationToken)
+                                                         CancellationToken ct)
     {
         if (id != request.Id)
         {
@@ -145,7 +147,7 @@ public class FamilyRelations : EndpointGroupBase
             Name: request.Name,
             Description: request.Description
         );
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
@@ -155,7 +157,7 @@ public class FamilyRelations : EndpointGroupBase
     /// <param name="id">The unique identifier of the family relation to delete.</param>
     /// <param name="sender">The mediator instance used to send queries and commands.</param>
     /// <param name="user">The current user context.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="ct">A token to cancel the operation.</param>
     /// <returns>Http 204 No Content if the deletion is successful.</returns>
     /// <response code="204">If the family relation is deleted successfully.</response>
     /// <response code="400">If the request is invalid.</response>
@@ -165,10 +167,10 @@ public class FamilyRelations : EndpointGroupBase
     public async Task<IResult> DeleteFamilyRelationAsync(string id,
                                                          [FromServices] ISender sender,
                                                          [FromServices] IUser user,
-                                                         CancellationToken cancellationToken)
+                                                         CancellationToken ct)
     {
         var command = new DeleteFamilyRelationCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

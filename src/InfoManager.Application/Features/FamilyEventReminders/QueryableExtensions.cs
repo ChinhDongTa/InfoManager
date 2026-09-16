@@ -16,6 +16,7 @@ public static class QueryableExtensions
                                                             IsEnabled: e.IsEnabled,
                                                             Note: e.Note));
     }
+
     public static IQueryable<FamilyEventReminderSummaryDto> ToFamilyEventReminderSummaryDto(this IQueryable<FamilyEventReminder> query)
     {
         return query.Select(e => new FamilyEventReminderSummaryDto(Id: e.Id,
@@ -24,6 +25,7 @@ public static class QueryableExtensions
                                                                     DaysBefore: e.DaysBefore,
                                                                     RemindTime: e.RemindTime));
     }
+
     /// <summary>
     /// Applies sorting to the query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by EventDate in descending order.
     /// </summary>

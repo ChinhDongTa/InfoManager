@@ -13,48 +13,56 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên cảm biến" @bind-Value="updateModel.Name" />
-                    <SelectList Route="/api/enums/SensorType" Label="Loại cảm biến" @bind-Value="sensorTypeSelected" />
-                    <FluentTextField Label="Model cảm biến" @bind-Value="updateModel.Model" />
-                    <FluentTextField Label="Số serial" @bind-Value="updateModel.SerialNumber" />
-                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="updateModel.FieldId" />
-                    <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="updateModel.DeviceId" />
-                    <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
-                    <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
-                    <FluentNumberField Label="Độ sâu lắp đặt" @bind-Value="updateModel.Depth" />
-                    <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
-                    <DateTimePicker Label="Thời điểm đọc dữ liệu gần nhất" @bind-Value="lastReadingTime" />
-                    <FluentNumberField Label="Mức pin" @bind-Value="updateModel.BatteryLevel" />
-                    <FluentNumberField Label="Cường độ tín hiệu" @bind-Value="updateModel.SignalStrength" />
-                    <DateTimePicker Label="Ngày hiệu chuẩn tiếp theo" @bind-Value="nextCalibrationDate" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên cảm biến" @bind-Value="updateModel.Name" />
+                        <SelectList Route="/api/enums/SensorType" Label="Loại cảm biến" @bind-Value="sensorTypeSelected" />
+                        <FluentTextField Label="Model cảm biến" @bind-Value="updateModel.Model" />
+                        <FluentTextField Label="Số serial" @bind-Value="updateModel.SerialNumber" />
+                        <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="updateModel.FieldId" />
+                        <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="updateModel.DeviceId" />
+                        <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
+                        <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Độ sâu lắp đặt" @bind-Value="updateModel.Depth" />
+                        <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                        <DateTimePicker Label="Thời điểm đọc dữ liệu gần nhất" @bind-Value="lastReadingTime" />
+                        <FluentNumberField Label="Mức pin" @bind-Value="updateModel.BatteryLevel" />
+                        <FluentNumberField Label="Cường độ tín hiệu" @bind-Value="updateModel.SignalStrength" />
+                        <DateTimePicker Label="Ngày hiệu chuẩn tiếp theo" @bind-Value="nextCalibrationDate" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/sensors/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/sensors/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên cảm biến" @bind-Value="createModel.Name" />
-                    <SelectList Route="/api/enums/SensorType" Label="Loại cảm biến" @bind-Value="sensorTypeSelected" />
-                    <FluentTextField Label="Model cảm biến" @bind-Value="createModel.Model" />
-                    <FluentTextField Label="Số serial" @bind-Value="createModel.SerialNumber" />
-                    <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="createModel.FieldId" />
-                    <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="createModel.DeviceId" />
-                    <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
-                    <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
-                    <FluentNumberField Label="Độ sâu lắp đặt" @bind-Value="createModel.Depth" />
-                    <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
-                    <DateTimePicker Label="Ngày lắp đặt" @bind-Value="installationDate" />
-                    <DateTimePicker Label="Ngày hiệu chuẩn tiếp theo" @bind-Value="nextCalibrationDate" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên cảm biến" @bind-Value="createModel.Name" />
+                        <SelectList Route="/api/enums/SensorType" Label="Loại cảm biến" @bind-Value="sensorTypeSelected" />
+                        <FluentTextField Label="Model cảm biến" @bind-Value="createModel.Model" />
+                        <FluentTextField Label="Số serial" @bind-Value="createModel.SerialNumber" />
+                        <SelectList Route="/api/selectlist/field" Label="Chọn thửa đất" @bind-Value="createModel.FieldId" />
+                        <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="createModel.DeviceId" />
+                        <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
+                        <FluentNumberField Label="Độ sâu lắp đặt" @bind-Value="createModel.Depth" />
+                        <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                        <DateTimePicker Label="Ngày lắp đặt" @bind-Value="installationDate" />
+                        <DateTimePicker Label="Ngày hiệu chuẩn tiếp theo" @bind-Value="nextCalibrationDate" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/sensors/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/sensors/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

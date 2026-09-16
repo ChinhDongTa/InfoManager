@@ -9,16 +9,17 @@ public record SearchGrowthStageQuery(string? Term,
                                        decimal? Humidity,
                                        int PageNumber,
                                        int PageSize) : IRequest<Result<PaginatedList<GrowthStageSummaryDto>>>;
+
 public class SearchGrowthStageQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchGrowthStageQuery, Result<PaginatedList<GrowthStageSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<GrowthStageSummaryDto>>> Handle(SearchGrowthStageQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<GrowthStageSummaryDto>>> Handle(SearchGrowthStageQuery request, CancellationToken ct)
     {
         var query = BuildSearchQuery(request);
 
         var result = await query
             .ApplySorting()
             .ToGrowthStageSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<GrowthStageSummaryDto>>.Success(result);
     }
 
@@ -33,7 +34,7 @@ public class SearchGrowthStageQueryHandler(IApplicationDbContext context) : IReq
                                || (x.CommonPests != null && EF.Functions.ILike(x.CommonPests, keyword))
                                || (x.CommonDiseases != null && EF.Functions.ILike(x.CommonDiseases, keyword))
                                || (x.ManagementActivities != null && EF.Functions.ILike(x.ManagementActivities, keyword)));
-        } 
+        }
         if (request.MinStageSequence.HasValue)
         {
             query = query.Where(x => x.StageSequence >= request.MinStageSequence.Value);

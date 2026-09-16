@@ -7,7 +7,7 @@ public class LoggingBehaviour<TRequest>(ILogger<TRequest> logger, IUser user, II
 {
     private readonly ILogger _logger = logger;
 
-    public async Task Process(TRequest request, CancellationToken cancellationToken)
+    public async Task Process(TRequest request, CancellationToken ct)
     {
         var requestName = typeof(TRequest).Name;
         var userId = user.Id ?? string.Empty;
@@ -15,7 +15,7 @@ public class LoggingBehaviour<TRequest>(ILogger<TRequest> logger, IUser user, II
 
         if (!string.IsNullOrEmpty(userId))
         {
-            userName = (await identityService.GetUserNameAsync(userId, cancellationToken)).Value;
+            userName = (await identityService.GetUserNameAsync(userId, ct)).Value;
         }
 
         _logger.LogInformation("InfoManager Request: {Name} {@UserId} {@UserName} {@Request}",

@@ -1,8 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.FamilyRelations;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using InfoManager.Shared.Dtos.FamilyRelations;
 
 namespace InfoManager.Application.Features.FamilyRelations.Queries;
 
@@ -12,11 +8,12 @@ public static class QueryableExtensions
     {
         return query.Select(fr => new FamilyRelationDto
         (
-            Id : fr.Id,
-            Name : fr.Name,
-            Description : fr.Description
+            Id: fr.Id,
+            Name: fr.Name,
+            Description: fr.Description
         ));
     }
+
     /// <summary>
     /// Applies sorting to the query based on the specified sortBy parameter.
     /// </summary>
@@ -37,5 +34,4 @@ public static class QueryableExtensions
             _ => query
         };
     }
-
 }

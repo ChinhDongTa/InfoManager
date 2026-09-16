@@ -13,6 +13,7 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
 global using InfoManager.Shared.Models;
 global using InfoManager.Shared.Dtos.Common;
+
 // Entities
 global using InfoManager.Domain.Entities.SFMS.Agricultural;
 global using InfoManager.Domain.Entities.SFMS.Customers;
@@ -29,7 +30,6 @@ global using InfoManager.Domain.Entities.Personal;
 global using InfoManager.Domain.Entities.SFMS.Weather;
 global using InfoManager.Domain.Entities.SFMS.Inventory;
 
-
 // Dtos
 global using InfoManager.Shared.Dtos.SFMS.Agricultural;
 global using InfoManager.Shared.Dtos.SFMS.Customers;
@@ -38,3 +38,5 @@ global using InfoManager.Shared.Dtos.SFMS.Economics;
 global using InfoManager.Shared.Dtos.SFMS.Monitoring;
 global using InfoManager.Shared.Dtos.SFMS.Infrastructure;
 global using InfoManager.Shared.Dtos.SFMS.Planning;
+global using InfoManager.Shared.Dtos.SFMS.Production;
+global using InfoManager.Shared.Dtos.SFMS.Issues;

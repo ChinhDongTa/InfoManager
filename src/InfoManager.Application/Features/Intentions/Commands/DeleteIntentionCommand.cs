@@ -1,7 +1,7 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.Intentions.Commands;
 
-namespace InfoManager.Application.Features.Intentions.Commands;
 public record DeleteIntentionCommand(string Id) : IRequest<Result>;
+
 public class DeleteIntentionCommandHandler : BaseDeleteCommandHandler<DeleteIntentionCommand, Intention>
 {
     public DeleteIntentionCommandHandler(IApplicationDbContext context,
@@ -9,9 +9,9 @@ public class DeleteIntentionCommandHandler : BaseDeleteCommandHandler<DeleteInte
         : base(context, logger)
     {
     }
-   
-    protected override async Task<Intention?> GetEntityAsync(DeleteIntentionCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<Intention?> GetEntityAsync(DeleteIntentionCommand request, CancellationToken ct)
     {
-        return await Context.Intentions.FindAsync([request.Id], cancellationToken);
+        return await Context.Intentions.FindAsync([request.Id], ct);
     }
 }

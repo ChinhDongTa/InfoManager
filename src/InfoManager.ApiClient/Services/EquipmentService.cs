@@ -29,8 +29,6 @@ public class EquipmentService(IEquipmentApi api) : IEquipmentService
                                                                            request.PageSize,
                                                                            ct));
 
-   
-
     public async Task<ApiResult> UpdateEquipmentAsync(string id, UpdateEquipmentRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.UpdateEquipmentAsync(id, request, ct));
 }

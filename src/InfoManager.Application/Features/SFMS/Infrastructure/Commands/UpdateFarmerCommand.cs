@@ -52,6 +52,7 @@ public record UpdateFarmerCommand : IRequest<Result>
     /// </summary>
     public string? Notes { get; init; }
 }
+
 public class UpdateFarmerCommandHandler : BaseUpdateCommandHandler<UpdateFarmerCommand, Farmer>
 {
     public UpdateFarmerCommandHandler(IApplicationDbContext context,
@@ -60,20 +61,20 @@ public class UpdateFarmerCommandHandler : BaseUpdateCommandHandler<UpdateFarmerC
     {
     }
 
-    protected override async Task<Farmer?> GetEntityAsync(UpdateFarmerCommand request, CancellationToken cancellationToken) 
-        => await Context.Farmers.FindAsync([request.Id], cancellationToken);
+    protected override async Task<Farmer?> GetEntityAsync(UpdateFarmerCommand request, CancellationToken ct)
+        => await Context.Farmers.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(Farmer entity, UpdateFarmerCommand request)
     {
-        if(request.FullName.HasValueAndIsDifferentFrom(entity.FullName))
+        if (request.FullName.HasValueAndIsDifferentFrom(entity.FullName))
         {
             entity.FullName = request.FullName!;
         }
-        if(request.FamilyMemberId.IsDifferentFrom(entity.FamilyMemberId))
+        if (request.FamilyMemberId.IsDifferentFrom(entity.FamilyMemberId))
         {
             entity.FamilyMemberId = request.FamilyMemberId;
         }
-        if(request.FarmerCode.IsDifferentFrom(entity.FarmerCode))
+        if (request.FarmerCode.IsDifferentFrom(entity.FarmerCode))
         {
             entity.FarmerCode = request.FarmerCode;
         }
@@ -99,6 +100,7 @@ public class UpdateFarmerCommandHandler : BaseUpdateCommandHandler<UpdateFarmerC
         }
     }
 }
+
 public class UpdateFarmerCommandValidator : AbstractValidator<UpdateFarmerCommand>
 {
     public UpdateFarmerCommandValidator()

@@ -21,17 +21,18 @@ public record CreateGrowthStageCommand : IRequest<Result<string>>
     public string? CommonDiseases { get; init; }
     public string? ManagementActivities { get; init; }
 }
+
 public class CreateGrowthStageCommandHandler : BaseCreateCommandHandler<CreateGrowthStageCommand, GrowthStage>
 {
     public CreateGrowthStageCommandHandler(IApplicationDbContext context,
                                            IValidator<CreateGrowthStageCommand> validator,
-                                           ILogger<CreateGrowthStageCommandHandler> logger) :base(context, validator, logger)
+                                           ILogger<CreateGrowthStageCommandHandler> logger) : base(context, validator, logger)
     {
-        
     }
-    protected override async Task AddEntityAsync(GrowthStage entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(GrowthStage entity, CancellationToken ct)
     {
-        await Context.GrowthStages.AddAsync(entity, cancellationToken);
+        await Context.GrowthStages.AddAsync(entity, ct);
     }
 
     protected override async Task<GrowthStage> CreateEntity(CreateGrowthStageCommand request)
@@ -39,30 +40,30 @@ public class CreateGrowthStageCommandHandler : BaseCreateCommandHandler<CreateGr
         return new GrowthStage
         {
             StageName = request.StageName,
-            CropId=request.CropId,
-            CropScheduleId=request.CropScheduleId,
-            StageSequence=request.StageSequence,
-            DaysAfterPlanting=request.DaysAfterPlanting,
-            StageDuration=request.StageDuration,
-            Description=request.Description,
-            MinTemperature=request.MinTemperature,
-            MaxTemperature=request.MaxTemperature,
-            MinHumidity=request.MinHumidity,
-            MaxHumidity=request.MaxHumidity,
-            WaterRequirement=request.WaterRequirement,
-            NitrogenRequirement=request.NitrogenRequirement,
-            PhosphorusRequirement=request.PhosphorusRequirement,
-            PotassiumRequirement=request.PotassiumRequirement,
-            CommonPests=request.CommonPests,
-            CommonDiseases=request.CommonDiseases,
-            ManagementActivities=request.ManagementActivities
+            CropId = request.CropId,
+            CropScheduleId = request.CropScheduleId,
+            StageSequence = request.StageSequence,
+            DaysAfterPlanting = request.DaysAfterPlanting,
+            StageDuration = request.StageDuration,
+            Description = request.Description,
+            MinTemperature = request.MinTemperature,
+            MaxTemperature = request.MaxTemperature,
+            MinHumidity = request.MinHumidity,
+            MaxHumidity = request.MaxHumidity,
+            WaterRequirement = request.WaterRequirement,
+            NitrogenRequirement = request.NitrogenRequirement,
+            PhosphorusRequirement = request.PhosphorusRequirement,
+            PotassiumRequirement = request.PotassiumRequirement,
+            CommonPests = request.CommonPests,
+            CommonDiseases = request.CommonDiseases,
+            ManagementActivities = request.ManagementActivities
         };
     }
 }
-public class CreateGrowthStageCommandValidator: AbstractValidator<CreateGrowthStageCommand>
+
+public class CreateGrowthStageCommandValidator : AbstractValidator<CreateGrowthStageCommand>
 {
     public CreateGrowthStageCommandValidator()
     {
-        
     }
 }

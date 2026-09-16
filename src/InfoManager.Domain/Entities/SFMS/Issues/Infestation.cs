@@ -8,7 +8,7 @@ public class Infestation : BaseAuditableEntity
     /// <summary>
     /// ID lần trồng
     /// </summary>
-    public required string CropPlantingId { get; set; }
+    public string CropPlantingId { get; set; }
 
     /// <summary>
     /// ID sâu hại (nếu là sâu)

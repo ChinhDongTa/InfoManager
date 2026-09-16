@@ -8,7 +8,7 @@ public sealed class JwtAuthorizationMessageHandler(ITokenStorage tokenProvider, 
 {
     private static readonly SemaphoreSlim _refreshLock = new(1, 1);
 
-    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
     {
         var accessToken = await tokenProvider.GetAccessTokenAsync();
         var path = request.RequestUri?.AbsolutePath ?? string.Empty;
@@ -18,7 +18,7 @@ public sealed class JwtAuthorizationMessageHandler(ITokenStorage tokenProvider, 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         }
 
-        var response = await base.SendAsync(request, cancellationToken);
+        var response = await base.SendAsync(request, ct);
         //Console.WriteLine($"[Handler] Response: {(int)response.StatusCode} {path}");
 
         if (response.StatusCode != HttpStatusCode.Unauthorized)
@@ -28,7 +28,7 @@ public sealed class JwtAuthorizationMessageHandler(ITokenStorage tokenProvider, 
         if (path.Contains("/refresh") || path.Contains("/login") || path.Contains("/register"))
             return response;
 
-        await _refreshLock.WaitAsync(cancellationToken);
+        await _refreshLock.WaitAsync(ct);
         try
         {
             // Kiểm tra xem token đã được refresh bởi request khác chưa
@@ -37,7 +37,7 @@ public sealed class JwtAuthorizationMessageHandler(ITokenStorage tokenProvider, 
             {
                 var cloned = await CloneRequestAsync(request);
                 cloned.Headers.Authorization = new AuthenticationHeaderValue("Bearer", latestAccessToken);
-                return await base.SendAsync(cloned, cancellationToken);
+                return await base.SendAsync(cloned, ct);
             }
 
             var refreshToken = await tokenProvider.GetRefreshTokenAsync();
@@ -48,7 +48,7 @@ public sealed class JwtAuthorizationMessageHandler(ITokenStorage tokenProvider, 
             }
 
             // Gọi refresh bằng Refit interface (sạch hơn)
-            var refreshResponse = await authApi.RefreshTokenAsync(new Shared.Dtos.Auths.RefreshRequest(refreshToken), cancellationToken);
+            var refreshResponse = await authApi.RefreshTokenAsync(new Shared.Dtos.Auths.RefreshRequest(refreshToken), ct);
 
             if (string.IsNullOrWhiteSpace(refreshResponse?.Content?.AccessToken))
             {
@@ -62,7 +62,7 @@ public sealed class JwtAuthorizationMessageHandler(ITokenStorage tokenProvider, 
             // Retry request gốc với token mới
             var retryRequest = await CloneRequestAsync(request);
             retryRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", refreshResponse.Content.AccessToken);
-            return await base.SendAsync(retryRequest, cancellationToken);
+            return await base.SendAsync(retryRequest, ct);
         }
         finally
         {

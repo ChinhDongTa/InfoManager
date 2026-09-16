@@ -10,6 +10,7 @@ public record EmployeeContractDto(
     string ContractType,
     DateTimeOffset StartDate,
     DateTimeOffset? EndDate,
+    SalaryType SalaryType,
     string SalaryTypeName,
     decimal BaseSalary,
     bool IsActive,

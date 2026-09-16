@@ -15,8 +15,8 @@ public class CreateDepartmentCommandHandler : BaseCreateCommandHandler<CreateDep
                                           ILogger<CreateDepartmentCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(Department entity, CancellationToken cancellationToken)
-        => await Context.Departments.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(Department entity, CancellationToken ct)
+        => await Context.Departments.AddAsync(entity, ct);
 
     protected override Task<Department> CreateEntity(CreateDepartmentCommand request)
         => Task.FromResult(new Department

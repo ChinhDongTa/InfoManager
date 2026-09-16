@@ -8,12 +8,12 @@ public class PestDiseaseLink : BaseAuditableEntity
     /// <summary>
     /// ID sâu hại
     /// </summary>
-    public required string PestId { get; set; }
+    public string PestId { get; set; }
 
     /// <summary>
     /// ID bệnh
     /// </summary>
-    public required string DiseaseId { get; set; }
+    public string DiseaseId { get; set; }
 
     /// <summary>
     /// Mô tả quan hệ (truyền bệnh, phát tán...)

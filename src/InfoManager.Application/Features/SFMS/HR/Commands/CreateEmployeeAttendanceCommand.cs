@@ -21,8 +21,8 @@ public class CreateEmployeeAttendanceCommandHandler : BaseCreateCommandHandler<C
                                                   ILogger<CreateEmployeeAttendanceCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(EmployeeAttendance entity, CancellationToken cancellationToken)
-        => await Context.EmployeeAttendances.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(EmployeeAttendance entity, CancellationToken ct)
+        => await Context.EmployeeAttendances.AddAsync(entity, ct);
 
     protected override Task<EmployeeAttendance> CreateEntity(CreateEmployeeAttendanceCommand request)
         => Task.FromResult(new EmployeeAttendance

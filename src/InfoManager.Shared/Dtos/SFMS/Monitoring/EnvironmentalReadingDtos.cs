@@ -105,19 +105,19 @@ public record CreateEnvironmentalReadingRequest(
     string Unit,
 
     /// <summary>Chất lượng dữ liệu. Mặc định Good.</summary>
-    DataQuality Quality = DataQuality.Good,
+    DataQuality Quality,
 
     /// <summary>Giá trị thô trước xử lý.</summary>
-    decimal? RawValue = null,
+    decimal? RawValue,
 
     /// <summary>Giá trị tối thiểu kỳ vọng.</summary>
-    decimal? MinExpectedValue = null,
+    decimal? MinExpectedValue,
 
     /// <summary>Giá trị tối đa kỳ vọng.</summary>
-    decimal? MaxExpectedValue = null,
+    decimal? MaxExpectedValue,
 
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
-    string? Notes = null
+    string? Notes
 );
 
 /// <summary>

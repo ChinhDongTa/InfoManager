@@ -11,5 +11,4 @@ public static class Constants
 
     public const int PageNumber = 1;
     public const int PageSize = 20;
-
 }

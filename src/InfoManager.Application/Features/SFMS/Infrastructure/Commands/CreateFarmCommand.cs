@@ -60,14 +60,15 @@ public record CreateFarmCommand : IRequest<Result<string>>
     /// </summary>
     public DateTimeOffset? EstablishedDate { get; init; }
 }
+
 public class CreateFarmCommandHandler : BaseCreateCommandHandler<CreateFarmCommand, Farm>
 {
     public CreateFarmCommandHandler(IApplicationDbContext context, IValidator<CreateFarmCommand> validator, ILogger<CreateFarmCommandHandler> logger) : base(context, validator, logger)
     {
     }
 
-    protected override async Task AddEntityAsync(Farm entity, CancellationToken cancellationToken)
-        => await Context.Farms.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(Farm entity, CancellationToken ct)
+        => await Context.Farms.AddAsync(entity, ct);
 
     protected override async Task<Farm> CreateEntity(CreateFarmCommand request) => new()
     {
@@ -84,6 +85,7 @@ public class CreateFarmCommandHandler : BaseCreateCommandHandler<CreateFarmComma
         EstablishedDate = request.EstablishedDate
     };
 }
+
 public class CreateFarmCommandValidator : AbstractValidator<CreateFarmCommand>
 {
     public CreateFarmCommandValidator()

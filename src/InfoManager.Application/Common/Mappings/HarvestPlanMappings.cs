@@ -1,9 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.Planning.Commands;
 using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
-using InfoManager.Shared.Dtos.SFMS.Planning;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace InfoManager.Application.Common.Mappings;
 
@@ -35,6 +31,7 @@ public static class HarvestPlanMappings
 
     public static SearchHarvestPlansQuery ToSearchQuery(SearchHarvestPlansRequest request)
     => new(request.Term, request.ExpectedDate, request.Status, request.PageNumber, request.PageSize);
+
     public static UpdateHarvestPlanCommand ToUpdateCommand(UpdateHarvestPlanRequest request, string id)
         => new()
         {

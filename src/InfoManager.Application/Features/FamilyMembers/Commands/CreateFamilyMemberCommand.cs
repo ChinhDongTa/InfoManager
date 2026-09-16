@@ -1,9 +1,8 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.FamilyMembers.Commands;
 
-namespace InfoManager.Application.Features.FamilyMembers.Commands;
 public record CreateFamilyMemberCommand : IRequest<Result<string>>
 {
-    public required string FullName { get; init; } 
+    public required string FullName { get; init; }
     public string? FamilyRelationId { get; init; }
     public DateOnly BirthDate { get; init; }
     public DateOnly? DeathDate { get; init; }
@@ -12,6 +11,7 @@ public record CreateFamilyMemberCommand : IRequest<Result<string>>
     public string? PhoneNumber { get; init; }
     public string? Note { get; init; }
 }
+
 public class CreateFamilyMemberCommandHandler : BaseCreateCommandHandler<CreateFamilyMemberCommand, FamilyMember>
 {
     public CreateFamilyMemberCommandHandler(IApplicationDbContext context,
@@ -48,7 +48,7 @@ public class CreateFamilyMemberCommandValidator : AbstractValidator<CreateFamily
         RuleFor(x => x.FullName)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("FullName"))
             .MaximumLength(200).WithMessage(ErrorHelpers.GetErrorMaxLength("FullName", 200));
-       
+
         RuleFor(x => x.Email)
             .EmailAddress().WithMessage(ErrorHelpers.GetErrorInvalid("Email"))
             .MaximumLength(200).WithMessage(ErrorHelpers.GetErrorMaxLength("Email", 200))

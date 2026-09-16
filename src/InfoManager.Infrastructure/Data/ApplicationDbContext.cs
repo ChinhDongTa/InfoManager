@@ -24,11 +24,13 @@ namespace InfoManager.Infrastructure.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IUser? user) : IdentityDbContext<ApplicationUser>(options), IApplicationDbContext
 {
     //User user;
-    private readonly string? _currentUserId= user?.Id;
+    private readonly string? _currentUserId = user?.Id;
 
     #region Personal / Family
+
     //=============================Dùng cho cá nhân, fillter qua userId=CreatedBy =========================
-    public DbSet<Experience> Experiences =>Set<Experience>();
+    public DbSet<Experience> Experiences => Set<Experience>();
+
     public DbSet<Intention> Intentions => Set<Intention>();
     public DbSet<PriceTracking> PriceTrackings => Set<PriceTracking>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
@@ -36,19 +38,21 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<SocialAccount> SocialAccounts => Set<SocialAccount>();
 
     //=============================Dùng cho gia đình, fillter qua familyId=_currentFamilyId ==========================
-    public DbSet<Family> Families  =>Set<Family>();
-    public DbSet<FamilyEvent> FamilyEvents =>Set<FamilyEvent>();
-    public DbSet<FamilyMember> FamilyMembers =>Set<FamilyMember>();
+    public DbSet<Family> Families => Set<Family>();
+
+    public DbSet<FamilyEvent> FamilyEvents => Set<FamilyEvent>();
+    public DbSet<FamilyMember> FamilyMembers => Set<FamilyMember>();
     public DbSet<FamilyEventOccurrence> FamilyEventOccurrences => Set<FamilyEventOccurrence>();
     public DbSet<FamilyEventReminder> FamilyEventReminders => Set<FamilyEventReminder>();
     public DbSet<FamilyRelation> FamilyRelations => Set<FamilyRelation>();
     public DbSet<HistoricalEvent> HistoricalEvents => Set<HistoricalEvent>();
-    public DbSet<Category> Categories =>Set<Category>();
+    public DbSet<Category> Categories => Set<Category>();
 
     #endregion Personal / Family
 
     //============================= Dùng cho admin =========================
     public DbSet<TokenBlacklist> TokenBlacklists => Set<TokenBlacklist>();
+
     public DbSet<LoginHistory> LoginHistories => Set<LoginHistory>();
 
     #region SFMS (Smart Farm Management System)
@@ -56,11 +60,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     //=============================SFMS (Smart Farm Management System)=========================
     // Customers
     public DbSet<Customer> Customers => Set<Customer>();
+
     public DbSet<CustomerPayment> CustomerPayments => Set<CustomerPayment>();
     public DbSet<CustomerCare> CustomerCares => Set<CustomerCare>();
 
     // Infrastructure
     public DbSet<Farm> Farms => Set<Farm>();
+
     public DbSet<Farmer> Farmers => Set<Farmer>();
     public DbSet<Field> Fields => Set<Field>();
     public DbSet<Sensor> Sensors => Set<Sensor>();
@@ -69,6 +75,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     // Agricultural
     public DbSet<Crop> Crops => Set<Crop>();
+
     public DbSet<CropVariety> CropVarieties => Set<CropVariety>();
     public DbSet<CropSchedule> CropSchedules => Set<CropSchedule>();
     public DbSet<CropPlanting> CropPlantings => Set<CropPlanting>();
@@ -77,69 +84,81 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     // Monitoring
     public DbSet<EnvironmentalReading> EnvironmentalReadings => Set<EnvironmentalReading>();
+
     public DbSet<SoilAnalysis> SoilAnalyses => Set<SoilAnalysis>();
     public DbSet<CropHealth> CropHealthRecords => Set<CropHealth>();
 
     // Operations
     public DbSet<Equipment> Equipments => Set<Equipment>();
+
     public DbSet<Maintenance> MaintenanceRecords => Set<Maintenance>();
     public DbSet<Domain.Entities.SFMS.Operations.Task> Tasks => Set<Domain.Entities.SFMS.Operations.Task>();
 
     // Production
     public DbSet<Harvest> Harvests => Set<Harvest>();
+
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Sale> Sales => Set<Sale>();
     public DbSet<Yield> Yields => Set<Yield>();
 
     // Issues
     public DbSet<Pest> Pests => Set<Pest>();
+
     public DbSet<Disease> Diseases => Set<Disease>();
     public DbSet<PestDiseaseLink> PestDiseaseLinks => Set<PestDiseaseLink>();
     public DbSet<Infestation> Infestations => Set<Infestation>();
 
     // Resources
-    public DbSet<Fertilizer> Fertilizers =>Set<Fertilizer>();
-    public DbSet<FertilizationPlan> FertilizationPlans =>Set<FertilizationPlan>();
-    public DbSet<FertilizerApplication> FertilizerApplications =>Set<FertilizerApplication>();
-    public DbSet<Pesticide> Pesticides=>Set<Pesticide>();
-    public DbSet<PesticidePlan> PesticidePlans=>Set<PesticidePlan>();
-    public DbSet<PesticideApplication> PesticideApplications =>Set<PesticideApplication>();
+    public DbSet<Fertilizer> Fertilizers => Set<Fertilizer>();
+
+    public DbSet<FertilizationPlan> FertilizationPlans => Set<FertilizationPlan>();
+    public DbSet<FertilizerApplication> FertilizerApplications => Set<FertilizerApplication>();
+    public DbSet<Pesticide> Pesticides => Set<Pesticide>();
+    public DbSet<PesticidePlan> PesticidePlans => Set<PesticidePlan>();
+    public DbSet<PesticideApplication> PesticideApplications => Set<PesticideApplication>();
 
     //Inventory
-    public DbSet<InventoryAlert> InventoryAlerts=>Set<InventoryAlert>();
-    public DbSet<FarmInventory> FarmInventories =>Set<FarmInventory>();
-    public DbSet<InventoryAlertSetting> InventoryAlertSettings =>Set<InventoryAlertSetting>();
-    public DbSet<InventoryReceipt> InventoryReceipts=>Set<InventoryReceipt>();
-    public DbSet<InventoryReceiptItem> InventoryReceiptItems =>Set<InventoryReceiptItem>();
-    public DbSet<InventoryTransaction> InventoryTransactions=>Set<InventoryTransaction>();
+    public DbSet<InventoryAlert> InventoryAlerts => Set<InventoryAlert>();
+
+    public DbSet<FarmInventory> FarmInventories => Set<FarmInventory>();
+    public DbSet<InventoryAlertSetting> InventoryAlertSettings => Set<InventoryAlertSetting>();
+    public DbSet<InventoryReceipt> InventoryReceipts => Set<InventoryReceipt>();
+    public DbSet<InventoryReceiptItem> InventoryReceiptItems => Set<InventoryReceiptItem>();
+    public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
 
     // Weather
     public DbSet<WeatherData> WeatherData => Set<WeatherData>();
+
     public DbSet<WeatherForecast> WeatherForecasts => Set<WeatherForecast>();
     public DbSet<WeatherAlert> WeatherAlerts => Set<WeatherAlert>();
 
     // Planning
     public DbSet<CropCycle> CropCycles => Set<CropCycle>();
+
     public DbSet<PlantingPlan> PlantingPlans => Set<PlantingPlan>();
     public DbSet<HarvestPlan> HarvestPlans => Set<HarvestPlan>();
 
     // Economics
     public DbSet<FarmExpense> FarmExpenses => Set<FarmExpense>();
+
     public DbSet<FarmRevenue> FarmRevenues => Set<FarmRevenue>();
     public DbSet<CostAnalysis> CostAnalyses => Set<CostAnalysis>();
     public DbSet<FarmFinancialSummary> FarmFinancialSummaries => Set<FarmFinancialSummary>();
 
     // Human Resources
     public DbSet<Department> Departments => Set<Department>();
-    public DbSet<JobPosition> JobPositions =>Set<JobPosition>();
+
+    public DbSet<JobPosition> JobPositions => Set<JobPosition>();
     public DbSet<HREmployee> HREmployees => Set<HREmployee>();
     public DbSet<JobAssignment> JobAssignments => Set<JobAssignment>();
     public DbSet<EmployeeAttendance> EmployeeAttendances => Set<EmployeeAttendance>();
-    public DbSet<WorkShift> WorkShifts=> Set<WorkShift>();
+    public DbSet<WorkShift> WorkShifts => Set<WorkShift>();
     public DbSet<LeaveRequest> LeaveRequests => Set<LeaveRequest>();
     public DbSet<EmployeeContract> EmployeeContracts => Set<EmployeeContract>();
     public DbSet<Payroll> Payrolls => Set<Payroll>();
-    #endregion 
+    #endregion SFMS (Smart Farm Management System)
+
+
 
     public IQueryable<T> SqlQueryRaw<T>(string sql, params object[] parameters) where T : class
     {
@@ -164,7 +183,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         ApplyGlobalQueryFilters(builder);
 
         //Seed data
-       Seeds.SeedData(builder);
+        Seeds.SeedData(builder);
     }
 
     /// <summary>

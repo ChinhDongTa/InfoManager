@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
+
 public record CreateCropScheduleCommand : IRequest<Result<string>>
 {
     public required string ScheduleName { get; init; }
@@ -18,16 +19,19 @@ public record CreateCropScheduleCommand : IRequest<Result<string>>
     public bool IsActive { get; init; } = true;
     public string? Notes { get; init; }
 }
+
 public class CreateCropScheduleCommandHandler : BaseCreateCommandHandler<CreateCropScheduleCommand, CropSchedule>
 {
     public CreateCropScheduleCommandHandler(IApplicationDbContext context,
                                             IValidator<CreateCropScheduleCommand> validator,
                                             ILogger<CreateCropScheduleCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task AddEntityAsync(CropSchedule entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(CropSchedule entity, CancellationToken ct)
     {
-        await Context.CropSchedules.AddAsync(entity, cancellationToken);
+        await Context.CropSchedules.AddAsync(entity, ct);
     }
+
     protected override async Task<CropSchedule> CreateEntity(CreateCropScheduleCommand request)
     {
         return new CropSchedule
@@ -51,6 +55,7 @@ public class CreateCropScheduleCommandHandler : BaseCreateCommandHandler<CreateC
         };
     }
 }
+
 public class CreateCropScheduleCommandValidator : AbstractValidator<CreateCropScheduleCommand>
 {
     public CreateCropScheduleCommandValidator()

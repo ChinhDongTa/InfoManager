@@ -7,7 +7,7 @@ namespace InfoManager.Domain.Entities;
 /// </summary>
 public class FamilyEventReminder : BaseAuditableEntity
 {
-    public required string FamilyEventId { get; set; }
+    public string FamilyEventId { get; set; }
     public FamilyEvent? FamilyEvent { get; set; }
 
     /// <summary>

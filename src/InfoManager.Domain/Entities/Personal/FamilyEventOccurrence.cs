@@ -5,7 +5,7 @@
 /// </summary>
 public class FamilyEventOccurrence : BaseAuditableEntity
 {
-    public required string FamilyEventId { get; set; }
+    public string FamilyEventId { get; set; }
     public FamilyEvent? FamilyEvent { get; set; }
 
     /// <summary>

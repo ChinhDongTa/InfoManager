@@ -13,56 +13,65 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên thiết bị" @bind-Value="updateModel.Name" />
-                    <SelectList Route="/api/enums/EquipmentType" Label="Loại thiết bị" @bind-Value="equipmentTypeSelected" />
-                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
-                    <FluentTextField Label="Nhà sản xuất" @bind-Value="updateModel.Manufacturer" />
-                    <FluentTextField Label="Số model" @bind-Value="updateModel.Model" />
-                    <FluentTextField Label="Số serial" @bind-Value="updateModel.SerialNumber" />
-                    <FluentNumberField Label="Công suất (HP)" @bind-Value="updateModel.PowerRating" />
-                    <FluentTextField Label="Thông số kỹ thuật / dung tích" @bind-Value="updateModel.Specifications" />
-                    <DateTimePicker Label="Ngày mua" @bind-Value="purchaseDate" />
-                    <FluentNumberField Label="Giá mua" @bind-Value="updateModel.PurchaseCost" />
-                    <FluentNumberField Label="Giá trị hiện tại" @bind-Value="updateModel.CurrentValue" />
-                    <SelectList Route="/api/enums/EquipmentStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
-                    <FluentNumberField Label="Số giờ vận hành" @bind-Value="updateModel.OperatingHours" />
-                    <DateTimePicker Label="Ngày bảo trì gần nhất" @bind-Value="lastMaintenanceDate" />
-                    <DateTimePicker Label="Ngày bảo trì kế tiếp" @bind-Value="nextMaintenanceDate" />
-                    <FluentTextField Label="Vị trí lưu trữ" @bind-Value="updateModel.StorageLocation" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên thiết bị" @bind-Value="updateModel.Name" />
+                        <SelectList Route="/api/enums/EquipmentType" Label="Loại thiết bị" @bind-Value="equipmentTypeSelected" />
+                        <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
+                        <FluentTextField Label="Nhà sản xuất" @bind-Value="updateModel.Manufacturer" />
+                        <FluentTextField Label="Số model" @bind-Value="updateModel.Model" />
+                        <FluentTextField Label="Số serial" @bind-Value="updateModel.SerialNumber" />
+                        <FluentNumberField Label="Công suất (HP)" @bind-Value="updateModel.PowerRating" />
+                        <FluentTextField Label="Thông số kỹ thuật / dung tích" @bind-Value="updateModel.Specifications" />
+                        <DateTimePicker Label="Ngày mua" @bind-Value="purchaseDate" />
+                       
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <CurrencyNumberField Label="Giá mua" @bind-Value="updateModel.PurchaseCost" />
+                        <CurrencyNumberField Label="Giá trị hiện tại" @bind-Value="updateModel.CurrentValue" />
+                        <SelectList Route="/api/enums/EquipmentStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                        <FluentNumberField Label="Số giờ vận hành" @bind-Value="updateModel.OperatingHours" />
+                        <DateTimePicker Label="Ngày bảo trì gần nhất" @bind-Value="lastMaintenanceDate" />
+                        <DateTimePicker Label="Ngày bảo trì kế tiếp" @bind-Value="nextMaintenanceDate" />
+                        <FluentTextField Label="Vị trí lưu trữ" @bind-Value="updateModel.StorageLocation" />
+                        <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/equipments/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/equipments/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên thiết bị" @bind-Value="createModel.Name" />
-                    <SelectList Route="/api/enums/EquipmentType" Label="Loại thiết bị" @bind-Value="equipmentTypeSelected" />
-                    <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
-                    <FluentTextField Label="Nhà sản xuất" @bind-Value="createModel.Manufacturer" />
-                    <FluentTextField Label="Số model" @bind-Value="createModel.Model" />
-                    <FluentTextField Label="Số serial" @bind-Value="createModel.SerialNumber" />
-                    <FluentNumberField Label="Công suất (HP)" @bind-Value="createModel.PowerRating" />
-                    <FluentTextField Label="Thông số kỹ thuật / dung tích" @bind-Value="createModel.Specifications" />
-                    <DateTimePicker Label="Ngày mua" @bind-Value="purchaseDate" />
-                    <FluentNumberField Label="Giá mua" @bind-Value="createModel.PurchaseCost" />
-                    <FluentNumberField Label="Giá trị hiện tại" @bind-Value="createModel.CurrentValue" />
-                    <SelectList Route="/api/enums/EquipmentStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
-                    <FluentNumberField Label="Số giờ vận hành" @bind-Value="createModel.OperatingHours" />
-                    <DateTimePicker Label="Ngày bảo trì gần nhất" @bind-Value="lastMaintenanceDate" />
-                    <DateTimePicker Label="Ngày bảo trì kế tiếp" @bind-Value="nextMaintenanceDate" />
-                    <FluentTextField Label="Vị trí lưu trữ" @bind-Value="createModel.StorageLocation" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên thiết bị" @bind-Value="createModel.Name" />
+                        <SelectList Route="/api/enums/EquipmentType" Label="Loại thiết bị" @bind-Value="equipmentTypeSelected" />
+                        <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
+                        <FluentTextField Label="Nhà sản xuất" @bind-Value="createModel.Manufacturer" />
+                        <FluentTextField Label="Số model" @bind-Value="createModel.Model" />
+                        <FluentTextField Label="Số serial" @bind-Value="createModel.SerialNumber" />
+                        <FluentNumberField Label="Công suất (HP)" @bind-Value="createModel.PowerRating" />
+                        <FluentTextField Label="Thông số kỹ thuật / dung tích" @bind-Value="createModel.Specifications" />
+                        <DateTimePicker Label="Ngày mua" @bind-Value="purchaseDate" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <CurrencyNumberField Label="Giá mua" @bind-Value="createModel.PurchaseCost" />
+                        <CurrencyNumberField Label="Giá trị hiện tại" @bind-Value="createModel.CurrentValue" />
+                        <SelectList Route="/api/enums/EquipmentStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
+                        <FluentNumberField Label="Số giờ vận hành" @bind-Value="createModel.OperatingHours" />
+                        <DateTimePicker Label="Ngày bảo trì gần nhất" @bind-Value="lastMaintenanceDate" />
+                        <DateTimePicker Label="Ngày bảo trì kế tiếp" @bind-Value="nextMaintenanceDate" />
+                        <FluentTextField Label="Vị trí lưu trữ" @bind-Value="createModel.StorageLocation" />
+                        <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/equipments/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/equipments/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

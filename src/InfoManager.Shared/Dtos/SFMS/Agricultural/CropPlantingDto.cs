@@ -43,7 +43,7 @@ public record CreateCropPlantingRequest(
     DateTimeOffset PlantingDate,
     DateTimeOffset? ActualHarvestDate,
     DateTimeOffset? ExpectedHarvestDate,
-    decimal PlantedArea ,
+    decimal PlantedArea,
     decimal? QuantityPlanted,
     string? PlantedUnit,
     PlantingStatus Status,

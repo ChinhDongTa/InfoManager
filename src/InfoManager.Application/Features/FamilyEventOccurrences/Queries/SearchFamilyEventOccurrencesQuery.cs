@@ -1,12 +1,12 @@
 ﻿using InfoManager.Shared.Dtos.FamilyEventOccurrences;
-using InfoManager.Shared.Models;
 
 namespace InfoManager.Application.Features.FamilyEventOccurrences.Queries;
 
 public record SearchFamilyEventOccurrencesQuery(string? Keyword, int PageNumber = 1, int PageSize = 20) : IRequest<Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>>;
+
 public class SearchFamilyEventOccurrencesQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchFamilyEventOccurrencesQuery, Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>> Handle(SearchFamilyEventOccurrencesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>> Handle(SearchFamilyEventOccurrencesQuery request, CancellationToken ct)
     {
         var query = context.FamilyEventOccurrences.AsQueryable();
         if (!string.IsNullOrEmpty(request.Keyword))
@@ -17,7 +17,7 @@ public class SearchFamilyEventOccurrencesQueryHandler(IApplicationDbContext cont
         var paginated = await query
             .ApplySorting()
             .ToFamilyEventOccurrenceSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>.Success(paginated);
     }
 }

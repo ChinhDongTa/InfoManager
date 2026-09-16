@@ -3,6 +3,7 @@
 namespace InfoManager.Application.Features.Transactions.Queries.GetTransactions;
 
 public record GetTransactionPendingQuery : IRequest<Result<List<TransactionSummaryDto>>>;
+
 public class GetTransactionPendingQueryHandler(IApplicationDbContext context) : IRequestHandler<GetTransactionPendingQuery, Result<List<TransactionSummaryDto>>>
 {
     public async Task<Result<List<TransactionSummaryDto>>> Handle(GetTransactionPendingQuery request, CancellationToken cancellationToken)

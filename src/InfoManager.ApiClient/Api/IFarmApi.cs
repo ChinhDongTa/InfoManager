@@ -119,5 +119,4 @@ public interface IFarmApi
                                         [Query, AliasAs("Status")] FarmStatus? status,
                                         [Query, AliasAs("PageNumber")] int pageNumber,
                                         [Query, AliasAs("PageSize")] int pageSize, CancellationToken ct = default);
-
 }

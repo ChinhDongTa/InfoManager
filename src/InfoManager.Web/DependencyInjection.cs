@@ -33,20 +33,17 @@ public static class DependencyInjection
         // Vì AuthService liên quan đến CustomAuthStateProvider nên phải thực hiện nó ở ngay Blazor.
         services.AddScoped<IAuthService, AuthService>();
 
-        
-        services.AddScoped<ISelectListService ,SelectListService>();
+        services.AddScoped<ISelectListService, SelectListService>();
 
         // Register CustomAuthStateProvider - CRITICAL
         services.AddScoped<CustomAuthStateProvider>();
 
         // Register as AuthenticationStateProvider so CascadingAuthenticationState uses it
         services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthStateProvider>());
-        
-       
+
         return services;
     }
 }
+
 //https://localhost:7217
 //http://localhost:5200
-
-

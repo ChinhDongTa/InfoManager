@@ -1,5 +1,5 @@
-﻿
-namespace InfoManager.Application.Features.Experiences.Commands;
+﻿namespace InfoManager.Application.Features.Experiences.Commands;
+
 public record UpdateExperienceCommand() : IRequest<Result>
 {
     public required string Id { get; init; }
@@ -8,6 +8,7 @@ public record UpdateExperienceCommand() : IRequest<Result>
     public DateOnly? ExperienceDate { get; init; }
     public string? CategoryId { get; init; }
 }
+
 public class UpdateExperienceCommandHandler : BaseUpdateCommandHandler<UpdateExperienceCommand, Experience>
 {
     public UpdateExperienceCommandHandler(IApplicationDbContext context,
@@ -16,9 +17,10 @@ public class UpdateExperienceCommandHandler : BaseUpdateCommandHandler<UpdateExp
         : base(context, validator, logger)
     {
     }
-    protected override async Task<Experience?> GetEntityAsync(UpdateExperienceCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<Experience?> GetEntityAsync(UpdateExperienceCommand request, CancellationToken ct)
     {
-        return await Context.Experiences.FindAsync([request.Id], cancellationToken);
+        return await Context.Experiences.FindAsync([request.Id], ct);
     }
 
     protected override async Task UpdateEntityProperties(Experience entity, UpdateExperienceCommand request)
@@ -36,6 +38,7 @@ public class UpdateExperienceCommandHandler : BaseUpdateCommandHandler<UpdateExp
             entity.ExperienceDate = request.ExperienceDate;
     }
 }
+
 public class UpdateExperienceCommandValidator : AbstractValidator<UpdateExperienceCommand>
 {
     public UpdateExperienceCommandValidator()
@@ -44,7 +47,7 @@ public class UpdateExperienceCommandValidator : AbstractValidator<UpdateExperien
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorNotEmpty("Id"));
         //RuleFor(x => x)
         //    .Must(x => HasAtLeastOneFieldToUpdate(x))
-            //.WithMessage("At least one field (Content, Description, ExperienceDate, or CategoryId) must be provided for update.");
+        //.WithMessage("At least one field (Content, Description, ExperienceDate, or CategoryId) must be provided for update.");
         RuleFor(x => x.Content)
             .MaximumLength(500).WithMessage(ErrorHelpers.GetErrorMaxLength("Content", 500))
             .When(x => !string.IsNullOrEmpty(x.Content));

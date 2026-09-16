@@ -17,7 +17,7 @@ public record CropDto(
     decimal? WaterRequirement,
     decimal? SunLightHours,
     bool IsActive,
-   
+
     DateTimeOffset Created
 );
 

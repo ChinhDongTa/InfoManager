@@ -1,5 +1,4 @@
 ﻿using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
-using InfoManager.Shared.Dtos.SFMS.Planning;
 
 namespace InfoManager.Application.Features.SFMS.Planning.Queries;
 

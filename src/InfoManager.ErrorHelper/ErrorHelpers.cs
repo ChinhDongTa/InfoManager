@@ -47,8 +47,10 @@ public static class ErrorHelpers
     /// </summary>
     public static string GetErrorNotFound(string name)
         => string.Format(Resources.ErrorNotFound, name);   // Giữ key cũ nếu chưa sửa trong .resx
+
     public static string GetErrorNotFoundWithId(string name, object id)
        => string.Format(Resources.ErrorNotFoundWithId, name, id);
+
     /// <summary>
     /// Lấy thông báo lỗi:Error, không thể thực hiện {0} {1} này
     /// </summary>
@@ -62,12 +64,14 @@ public static class ErrorHelpers
     /// Lấy thông báo lỗi:Error, không thể lấy dữ liệu của {0}
     public static string GetErrorCannotRetrieveData(string name)
         => string.Format(Resources.ErrorCannotRetrieveData, name);
+
     public static string GetErrorServer(string? error = null)
     {
         if (error == null)
             return Resources.ErrorServer;
         return error;
     }
+
     public static string GetErrorUnknown => Resources.ErrorUnknown;
     public static string GetErrorBusinessRule => Resources.ErrorBusinessRule;
 
@@ -135,7 +139,7 @@ public static class ErrorHelpers
     public static string GetErrorOperationFailed(string operationType = "Operation")
         => $"{operationType} failed";
 
-    #endregion
+    #endregion Error Messages
 
     #region Success Messages
 
@@ -169,7 +173,7 @@ public static class ErrorHelpers
         return $"Info, {message.Trim()}";
     }
 
-    #endregion
+    #endregion Success Messages
 
     #region Generic Helpers (Khuyến nghị dùng)
 
@@ -189,6 +193,7 @@ public static class ErrorHelpers
     /// </summary>
     public static string GetError(string resourceKey, params object[] args)
         => Get(resourceKey, args);
+
     /// <summary>
     /// fieldName phải lớn hơn hoặc bằng minValue
     /// </summary>
@@ -197,6 +202,7 @@ public static class ErrorHelpers
     /// <returns></returns>
     public static string GetErrorMinValue(string fieldName, object minValue)
         => string.Format(Resources.ErrorMinValue, fieldName, minValue);
+
     /// <summary>
     /// v1 tối đa là v2
     /// </summary>
@@ -205,6 +211,6 @@ public static class ErrorHelpers
     /// <returns></returns>
     public static string GetErrorMaxValue(string v1, string v2)
         => string.Format(Resources.ErrorMaxValue, v1, v2);
-    #endregion
-}
 
+    #endregion Generic Helpers (Khuyến nghị dùng)
+}

@@ -20,14 +20,15 @@ public record SearchEquipmentsQuery(
     int PageNumeber,
     int PageSize
     ) : IRequest<Result<PaginatedList<EquipmentSummaryDto>>>;
+
 public class SearchEquipmentQueryHandler(IApplicationDbContext Context) : IRequestHandler<SearchEquipmentsQuery, Result<PaginatedList<EquipmentSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<EquipmentSummaryDto>>> Handle(SearchEquipmentsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<EquipmentSummaryDto>>> Handle(SearchEquipmentsQuery request, CancellationToken ct)
     {
         var query = Context.Equipments.AsQueryable().BuildSearchQuery(request);
         var paged = await query.ApplySorting()
             .ToEquipmentSummaryDto()
-            .PaginatedListAsync(request.PageNumeber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumeber, request.PageSize, ct);
         return Result<PaginatedList<EquipmentSummaryDto>>.Success(paged);
     }
 }

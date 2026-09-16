@@ -14,6 +14,7 @@ public class Transaction : BaseAuditableEntity
     /// Mã loại giao dịch
     /// </summary>
     public string? CategoryId { get; set; }
+
     public Category? Category { get; set; }
 
     /// <summary>

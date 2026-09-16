@@ -144,37 +144,37 @@ public record CreateInfestationRequest(
     SeverityLevel SeverityLevel,
 
     /// <summary>Trạng thái. Mặc định Detected.</summary>
-    InfestationStatus Status = InfestationStatus.Detected,
+    InfestationStatus Status,
 
     /// <summary>Biện pháp đã áp dụng. Tối đa 500 ký tự.</summary>
-    string? TreatmentApplied = null,
+    string? TreatmentApplied,
 
     /// <summary>Ngày xử lý.</summary>
-    DateTimeOffset? TreatmentDate = null,
+    DateTimeOffset? TreatmentDate,
 
     /// <summary>Thuốc / chế phẩm đã dùng. Tối đa 500 ký tự.</summary>
-    string? ProductUsed = null,
+    string? ProductUsed,
 
     /// <summary>Chi phí xử lý. ≥ 0.</summary>
-    decimal? TreatmentCost = null,
+    decimal? TreatmentCost,
 
     /// <summary>Hiệu quả xử lý (%). 0–100.</summary>
-    decimal? EffectivenessRating = null,
+    decimal? EffectivenessRating,
 
     /// <summary>Ngày kiểm soát được.</summary>
-    DateTimeOffset? ControlledDate = null,
+    DateTimeOffset? ControlledDate,
 
     /// <summary>Tỷ lệ giảm năng suất (%). 0–100.</summary>
-    decimal? YieldLossPercentage = null,
+    decimal? YieldLossPercentage,
 
     /// <summary>Thiệt hại kinh tế. ≥ 0.</summary>
-    decimal? EconomicLoss = null,
+    decimal? EconomicLoss,
 
     /// <summary>Ghi chú. Tối đa 1000 ký tự.</summary>
-    string? Notes = null,
+    string? Notes,
 
     /// <summary>Đường dẫn ảnh. Tối đa 500 ký tự.</summary>
-    string? PhotoUrl = null
+    string? PhotoUrl
 );
 
 /// <summary>
@@ -241,3 +241,5 @@ public record UpdateInfestationRequest(
     /// <summary>Đường dẫn ảnh. Tối đa 500 ký tự.</summary>
     string? PhotoUrl
 );
+
+public record SearchInfestationsRequest(string? Term, string? CropPlantingId, InfestationType? InfestationType, InfestationStatus? Status, SeverityLevel? SeverityLevel, int PageNumber, int PageSize);

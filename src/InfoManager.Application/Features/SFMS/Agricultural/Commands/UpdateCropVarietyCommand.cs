@@ -16,6 +16,7 @@ public record UpdateCropVarietyCommand : IRequest<Result>
     public int? YearOfRelease { get; init; }
     public bool? IsActive { get; init; }
 }
+
 public class UpdateCropVarietyCommandHandler : BaseUpdateCommandHandler<UpdateCropVarietyCommand, CropVariety>
 {
     public UpdateCropVarietyCommandHandler(IApplicationDbContext context,
@@ -24,10 +25,12 @@ public class UpdateCropVarietyCommandHandler : BaseUpdateCommandHandler<UpdateCr
         : base(context, validator, logger)
     {
     }
-    protected override async Task<CropVariety?> GetEntityAsync(UpdateCropVarietyCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<CropVariety?> GetEntityAsync(UpdateCropVarietyCommand request, CancellationToken ct)
     {
-        return await Context.CropVarieties.FindAsync([request.Id], cancellationToken);
+        return await Context.CropVarieties.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(CropVariety entity, UpdateCropVarietyCommand request)
     {
         if (request.VarietyName.HasValueAndIsDifferentFrom(entity.VarietyName))
@@ -56,6 +59,7 @@ public class UpdateCropVarietyCommandHandler : BaseUpdateCommandHandler<UpdateCr
             entity.IsActive = request.IsActive!.Value;
     }
 }
+
 public class UpdateCropVarietyCommandValidator : AbstractValidator<UpdateCropVarietyCommand>
 {
     public UpdateCropVarietyCommandValidator()

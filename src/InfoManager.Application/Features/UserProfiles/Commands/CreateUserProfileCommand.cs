@@ -1,13 +1,11 @@
-﻿using InfoManager.Domain.Entities.Authentication;
-
-namespace InfoManager.Application.Features.UserProfiles.Commands;
+﻿namespace InfoManager.Application.Features.UserProfiles.Commands;
 
 public record CreateUserProfileCommand : IRequest<Result<string>>
 {
     public required string UserId { get; init; }
     public string? FamilyMemberId { get; init; }
     public string? FamilyId { get; init; }
-    public string? Notes { get; init; } 
+    public string? Notes { get; init; }
     public string? ImageUrl { get; init; }
 }
 
@@ -18,6 +16,7 @@ public class CreateUserProfileCommandHandler : BaseCreateCommandHandler<CreateUs
                                             ILogger<CreateUserProfileCommandHandler> logger) : base(context, validator, logger)
     {
     }
+
     protected override async Task<UserProfile> CreateEntity(CreateUserProfileCommand request)
     {
         return new UserProfile
@@ -29,11 +28,13 @@ public class CreateUserProfileCommandHandler : BaseCreateCommandHandler<CreateUs
             ImageUrl = request.ImageUrl?.Trim()
         };
     }
-    protected override async Task AddEntityAsync(UserProfile entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(UserProfile entity, CancellationToken ct)
     {
-        await Context.UserProfiles.AddAsync(entity, cancellationToken);
+        await Context.UserProfiles.AddAsync(entity, ct);
     }
 }
+
 public class CreateUserProfileCommandValidator : AbstractValidator<CreateUserProfileCommand>
 {
     public CreateUserProfileCommandValidator()

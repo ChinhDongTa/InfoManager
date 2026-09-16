@@ -1,6 +1,5 @@
-﻿using InfoManager.Domain.Entities.Personal;
+﻿namespace InfoManager.Application.Features.PriceTrackings.Commands;
 
-namespace InfoManager.Application.Features.PriceTrackings.Commands;
 public record CreatePriceTrackingCommand : IRequest<Result<string>>
 {
     public string ProductName { get; init; } = string.Empty;
@@ -13,6 +12,7 @@ public record CreatePriceTrackingCommand : IRequest<Result<string>>
     public bool IsPurchased { get; init; } = false;
     public DateTimeOffset? LastCheckedDate { get; init; }
 }
+
 public class CreatePriceTrackingCommandHandler : BaseCreateCommandHandler<CreatePriceTrackingCommand, PriceTracking>
 {
     public CreatePriceTrackingCommandHandler(IApplicationDbContext context,
@@ -20,6 +20,7 @@ public class CreatePriceTrackingCommandHandler : BaseCreateCommandHandler<Create
                                              ILogger<CreatePriceTrackingCommandHandler> logger) : base(context, validator, logger)
     {
     }
+
     protected override async Task<PriceTracking> CreateEntity(CreatePriceTrackingCommand request)
     {
         return new PriceTracking
@@ -35,11 +36,13 @@ public class CreatePriceTrackingCommandHandler : BaseCreateCommandHandler<Create
             LastCheckedDate = request.LastCheckedDate
         };
     }
-    protected override async Task AddEntityAsync(PriceTracking entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(PriceTracking entity, CancellationToken ct)
     {
-        await Context.PriceTrackings.AddAsync(entity, cancellationToken);
+        await Context.PriceTrackings.AddAsync(entity, ct);
     }
 }
+
 public class CreatePriceTrackingCommandValidator : AbstractValidator<CreatePriceTrackingCommand>
 {
     public CreatePriceTrackingCommandValidator()

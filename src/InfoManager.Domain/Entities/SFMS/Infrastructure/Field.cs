@@ -10,7 +10,7 @@ public class Field : BaseAuditableEntity
     /// Tên hoặc mã định danh của thửa ruộng
     /// </summary>
     [MaxLength(100)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Mô tả thửa ruộng
@@ -26,7 +26,7 @@ public class Field : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Loại đất (Đất thịt, Đất cát, Đất sét...)
@@ -77,6 +77,7 @@ public class Field : BaseAuditableEntity
 
     // Navigation properties
     public virtual Farm? Farm { get; set; }
+
     public virtual ICollection<CropPlanting> CropPlantings { get; set; } = [];
     public virtual ICollection<Sensor> Sensors { get; set; } = [];
     public virtual ICollection<SoilAnalysis> SoilAnalyses { get; set; } = [];

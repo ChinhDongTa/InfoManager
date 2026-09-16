@@ -1,14 +1,16 @@
 ﻿namespace InfoManager.Api.Endpoints.SFMS.Agricultural;
+
 public class Crops : EndpointGroupBase
 {
     public override string GroupName => "Crops";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
         //=============Data Retrieval Endpoints================
-        api.MapGet(GetCropByIdQueryAsync,"{id}");
+        api.MapGet(GetCropByIdQueryAsync, "{id}");
         api.MapGet(GetCropsQueryAsync);
-        api.MapGet(SearchCropsQueryAsync,"search");
+        api.MapGet(SearchCropsQueryAsync, "search");
 
         //=============Data Manipulation Endpoints================
         api.MapPost(CreateCropAsync);
@@ -16,17 +18,19 @@ public class Crops : EndpointGroupBase
         api.MapDelete(DeleteCropAsync, "{id}");
     }
 
-    public async Task<IResult> GetCropByIdQueryAsync(string id, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> GetCropByIdQueryAsync(string id, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetCropByIdQuery(id), cancellationToken);
+        var result = await sender.Send(new GetCropByIdQuery(id), ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> GetCropsQueryAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> GetCropsQueryAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetCropsQuery(pageNumber,pageSize), cancellationToken);
+        var result = await sender.Send(new GetCropsQuery(pageNumber, pageSize), ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> SearchCropsQueryAsync([AsParameters] SearchCropRequest request, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> SearchCropsQueryAsync([AsParameters] SearchCropRequest request, [FromServices] ISender sender, CancellationToken ct)
     {
         var searchRequest = new SearchCropsQuery(Term: request.Term,
                                                  MinDaysToMaturity: request.MinDaysToMaturity,
@@ -37,10 +41,11 @@ public class Crops : EndpointGroupBase
                                                  IsActive: request.IsActive,
                                                  PageNumber: request.PageNumber,
                                                  PageSize: request.PageSize);
-        var result = await sender.Send(searchRequest, cancellationToken);
+        var result = await sender.Send(searchRequest, ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> CreateCropAsync([FromBody] CreateCropRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> CreateCropAsync([FromBody] CreateCropRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         var command = new CreateCropCommand()
         {
@@ -59,16 +64,17 @@ public class Crops : EndpointGroupBase
             SunLightHours = request.SunLightHours,
             WaterRequirement = request.WaterRequirement
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
-    public async Task<IResult> UpdateCropAsync(string id, [FromBody] UpdateCropRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> UpdateCropAsync(string id, [FromBody] UpdateCropRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         if (id != request.Id)
         {
             return Results.BadRequest("The ID in the URL does not match the ID in the request body.");
         }
-        var command=new UpdateCropCommand()
+        var command = new UpdateCropCommand()
         {
             Id = id,
             CommonName = request.CommonName,
@@ -86,13 +92,13 @@ public class Crops : EndpointGroupBase
             SunLightHours = request.SunLightHours,
             WaterRequirement = request.WaterRequirement
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> DeleteCropAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+    public async Task<IResult> DeleteCropAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(new DeleteCropCommand(id), cancellationToken);
+        var result = await sender.Send(new DeleteCropCommand(id), ct);
         return result.ToHttpResult();
     }
 }

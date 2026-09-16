@@ -175,3 +175,4 @@ public record UpdateSaleRequest(
     /// <summary>Ghi chú. Tối đa 500 ký tự.</summary>
     string? Notes
 );
+public record SearchSalesRequest(string? Term, string? ProductId, PaymentStatus? PaymentStatus, int PageNumber, int PageSize);

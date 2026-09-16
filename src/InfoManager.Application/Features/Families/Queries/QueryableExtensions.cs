@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.Families;
+﻿using InfoManager.Shared.Dtos.Families;
 
 namespace InfoManager.Application.Features.Families.Queries;
 
@@ -21,11 +20,12 @@ public static class QueryableExtensions
 
         return sortBy.ToLower() switch
         {
-            "name" => ascending? query.OrderBy(f => f.Name) : query.OrderByDescending(f => f.Name), 
-            "representative" => ascending? query.OrderBy(f => f.Representative!.FullName) : query.OrderByDescending(f => f.Representative!.FullName),
+            "name" => ascending ? query.OrderBy(f => f.Name) : query.OrderByDescending(f => f.Name),
+            "representative" => ascending ? query.OrderBy(f => f.Representative!.FullName) : query.OrderByDescending(f => f.Representative!.FullName),
             _ => query.OrderByDescending(f => f.Created)
         };
     }
+
     public static IQueryable<FamilySummaryDto> ToFamilySummaryDto(this IQueryable<Family> query)
     {
         return query.Select(f => new FamilySummaryDto(
@@ -33,12 +33,13 @@ public static class QueryableExtensions
             Name: f.Name,
             Email: f.Email));
     }
+
     public static IQueryable<FamilyDto> ToFamilyDto(this IQueryable<Family> query)
     {
         return query.Select(f => new FamilyDto(
             Id: f.Id,
             Name: f.Name,
-            RepresentativeName: f.Representative!= null ? f.Representative.FullName : null,
+            RepresentativeName: f.Representative != null ? f.Representative.FullName : null,
             Address: f.Address,
             Email: f.Email));
     }

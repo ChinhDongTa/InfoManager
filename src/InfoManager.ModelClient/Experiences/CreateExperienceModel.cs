@@ -6,14 +6,13 @@ public class CreateExperienceModel
 {
     [MaxLength(500)]
     [Required]
-    /// <summary>
-    /// Nội dung trải nghiệm
-    /// </summary>
     public string Content { get; set; } = string.Empty;
+
     /// <summary>
     /// Mô tả chi tiết về trải nghiệm
     /// </summary>
     public string? Description { get; set; }
+
     /// <summary>
     /// Ngày diễn ra trải nghiệm
     /// </summary>

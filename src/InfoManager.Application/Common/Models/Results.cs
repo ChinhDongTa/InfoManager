@@ -5,18 +5,23 @@ public class Result
     public bool Succeeded => Status is ResultStatus.Ok or ResultStatus.NoContent or ResultStatus.Created;
     public ResultStatus Status { get; protected set; }
     public IEnumerable<string>? Errors { get; protected set; }
-    public string? SuccessMessage { get; protected set; } 
+    public string? SuccessMessage { get; protected set; }
     public string? Location { get; protected set; }
-    public Result() { }
+
+    public Result()
+    { }
+
     public Result(string successMessage)
     {
         SuccessMessage = successMessage;
     }
+
     public Result(ResultStatus status, string? successMessage = null)
     {
         Status = status;
         SuccessMessage = successMessage;
     }
+
     public Result(ResultStatus status, IEnumerable<string> errors, string? successMessage = null, string? location = null)
     {
         Status = status;
@@ -24,17 +29,23 @@ public class Result
         SuccessMessage = successMessage;
         Location = location;
     }
+
     public static Result Error(params string[] errorMessage) => new(ResultStatus.Error, errorMessage);
+
     public static Result Success(ResultStatus resultStatus) => new(resultStatus);
+
     //public static Result NotFound(ResultStatus resultStatus) => new(resultStatus);
     public static Result NotFound(string message) => new(ResultStatus.NotFound, [message]);
-    public static Result NotFound(string entityName, object entityId) => new(ResultStatus.NotFound, [ErrorHelpers.GetErrorNotFoundWithId(entityName,entityId)]);
+
+    public static Result NotFound(string entityName, object entityId) => new(ResultStatus.NotFound, [ErrorHelpers.GetErrorNotFoundWithId(entityName, entityId)]);
 }
 
 public partial class Result<T> : Result
 {
     public T? Value { get; init; }
-    protected Result() { }
+
+    protected Result()
+    { }
 
     public Result(T value) => Value = value;
 
@@ -50,15 +61,13 @@ public partial class Result<T> : Result
     {
     }
 
-    public string? CorrelationId { get; protected set; } 
+    public string? CorrelationId { get; protected set; }
 
     /// <summary>
     /// Returns the current value.
     /// </summary>
     /// <returns></returns>
     public object? GetValue() => this.Value;
-
-
 
     /// <summary>
     /// Represents a successful operation and accepts a values as the result of the operation
@@ -99,7 +108,7 @@ public partial class Result<T> : Result
     /// </summary>
     /// <param name="errorMessage"></param>
     /// <returns></returns>
-    public static new Result<T> Error(params string[] errorMessage) => new(ResultStatus.Error) { Errors = errorMessage };
+    public new static Result<T> Error(params string[] errorMessage) => new(ResultStatus.Error) { Errors = errorMessage };
 
     /// <summary>
     /// Represents an error that occurred during the execution of the service.
@@ -112,7 +121,6 @@ public partial class Result<T> : Result
         CorrelationId = error?.CorrelationId ?? string.Empty,
         Errors = error?.ErrorMessages ?? []
     };
-
 
     /// <summary>
     /// Represents the situation where a service was unable to find a requested resource.
@@ -139,7 +147,7 @@ public partial class Result<T> : Result
     /// The parameters to the call were correct, but the user does not have permission to perform some action.
     /// See also HTTP 403 Forbidden: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
-    /// <param name="errorMessages">A list of string error messages.</param> 
+    /// <param name="errorMessages">A list of string error messages.</param>
     /// <returns>A Result<typeparamref name="T"/></returns>
     public static Result<T> Forbidden(params string[] errorMessages) => new(ResultStatus.Forbidden) { Errors = errorMessages };
 
@@ -154,7 +162,7 @@ public partial class Result<T> : Result
     /// This is similar to Forbidden, but should be used when the user has not authenticated or has attempted to authenticate but failed.
     /// See also HTTP 401 Unauthorized: https://en.wikipedia.org/wiki/List_of_HTTP_statusCodes#4xxClient_errors
     /// </summary>
-    /// <param name="errorMessages">A list of string error messages.</param>  
+    /// <param name="errorMessages">A list of string error messages.</param>
     /// <returns>A Result<typeparamref name="T"/></returns>
     public static Result<T> Unauthorized(params string[] errorMessages) => new(ResultStatus.Unauthorized) { Errors = errorMessages };
 
@@ -202,9 +210,9 @@ public partial class Result<T> : Result
     public static Result<T> NoContent() => new(ResultStatus.NoContent);
 }
 
-    /// <summary>
-    /// A wrapper class for a list of error messages and an optional CorrelationId.
-    /// </summary>
-    /// <param name="ErrorMessages"></param>
-    /// <param name="CorrelationId"></param>
-    public record ErrorList(IEnumerable<string> ErrorMessages, string? CorrelationId = null);
+/// <summary>
+/// A wrapper class for a list of error messages and an optional CorrelationId.
+/// </summary>
+/// <param name="ErrorMessages"></param>
+/// <param name="CorrelationId"></param>
+public record ErrorList(IEnumerable<string> ErrorMessages, string? CorrelationId = null);

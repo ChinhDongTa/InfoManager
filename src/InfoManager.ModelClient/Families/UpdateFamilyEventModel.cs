@@ -6,23 +6,26 @@ namespace InfoManager.ModelClient.Families;
 public class UpdateFamilyEventModel
 {
     public string Id { get; set; } = string.Empty;
-    public string? FamilyMemberId { get; set; } 
+    public string? FamilyMemberId { get; set; }
+
     /// <summary>
-    /// Ngày diễn ra sự kiện 
+    /// Ngày diễn ra sự kiện
     /// </summary>
     public DateOnly? EventDate { get; set; }
 
     public bool IsActive { get; set; }
 
     /// <summary>
-    /// Tên sự kiện 
+    /// Tên sự kiện
     /// </summary>
     [MaxLength(300)]
-    public string? Title { get; set; } 
+    public string? Title { get; set; }
+
     /// <summary>
     /// Loại sự kiện (Sinh nhật, Kỷ niệm, Lễ hội, Sự kiện quan trọng khác)
     /// </summary>
     public FamilyEventType? EventType { get; set; }
+
     /// <summary>
     /// Địa điểm diễn ra sự kiện
     /// </summary>
@@ -50,6 +53,7 @@ public class UpdateFamilyEventModel
         EventType = this.EventType,
         Location = this.Location
     };
-    public bool HasChanges(UpdateFamilyEventModel originalModel) 
+
+    public bool HasChanges(UpdateFamilyEventModel originalModel)
         => ClientUpdateHelper.HasChanges(this, originalModel);
 }

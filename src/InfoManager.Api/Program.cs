@@ -1,8 +1,6 @@
 using InfoManager.Api;
 using InfoManager.Application;
 using InfoManager.Infrastructure;
-using NSwag;
-using NSwag.Generation.Processors.Security;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -54,8 +52,7 @@ var app = builder.Build();
 
 Log.Information("Application built successfully");
 
-
-app.UseExceptionHandler(options => {});
+app.UseExceptionHandler(options => { });
 
 // ✅ Use CORS middleware
 app.UseCors("AllowAll");
@@ -74,11 +71,8 @@ app.UseSwaggerUi(settings =>
 
 app.UseHttpsRedirection();
 
-
-
 app.Map("/", () => Results.Redirect("/api"));
 
 app.MapEndpoints();
 
 app.Run();
-

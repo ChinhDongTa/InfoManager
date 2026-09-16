@@ -10,12 +10,12 @@ public class Sensor : BaseAuditableEntity
     /// Tên / mã định danh cảm biến
     /// </summary>
     [MaxLength(100)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Loại cảm biến (Nhiệt độ, Độ ẩm, Độ ẩm đất, pH đất, NPK...)
     /// </summary>
-    public required SensorType SensorType { get; set; }
+    public SensorType SensorType { get; set; }
 
     /// <summary>
     /// Model / thương hiệu cảm biến
@@ -32,7 +32,7 @@ public class Sensor : BaseAuditableEntity
     /// <summary>
     /// ID thửa ruộng liên quan
     /// </summary>
-    public required string FieldId { get; set; }
+    public string FieldId { get; set; }
 
     /// <summary>
     /// ID thiết bị / gateway thu thập dữ liệu từ cảm biến này
@@ -86,6 +86,7 @@ public class Sensor : BaseAuditableEntity
 
     // Navigation properties
     public virtual Field? Field { get; set; }
+
     public virtual Device? Device { get; set; }
     public virtual ICollection<EnvironmentalReading> Readings { get; set; } = [];
 }

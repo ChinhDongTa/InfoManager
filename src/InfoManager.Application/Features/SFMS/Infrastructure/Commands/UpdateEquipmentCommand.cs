@@ -105,12 +105,12 @@ public class UpdateEquipmentCommandHandler : BaseUpdateCommandHandler<UpdateEqui
     {
     }
 
-    protected override async Task<Equipment?> GetEntityAsync(UpdateEquipmentCommand request, CancellationToken cancellationToken) 
-        => await Context.Equipments.FindAsync(request.Id, cancellationToken);
+    protected override async Task<Equipment?> GetEntityAsync(UpdateEquipmentCommand request, CancellationToken ct)
+        => await Context.Equipments.FindAsync(request.Id, ct);
 
     protected override async Task UpdateEntityProperties(Equipment entity, UpdateEquipmentCommand request)
     {
-        if(request.Name.HasValueAndIsDifferentFrom(entity.Name))
+        if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;
         if (request.EquipmentType.HasValueAndIsDifferentFrom(entity.EquipmentType))
             entity.EquipmentType = request.EquipmentType!.Value;
@@ -143,10 +143,9 @@ public class UpdateEquipmentCommandHandler : BaseUpdateCommandHandler<UpdateEqui
         if (request.StorageLocation.IsDifferentFrom(entity.StorageLocation))
             entity.StorageLocation = request.StorageLocation;
         if (request.Notes.IsDifferentFrom(entity.Notes))
-                entity.Notes = request.Notes;
+            entity.Notes = request.Notes;
     }
 }
-
 
 public class UpdateEquipmentCommandValidator : AbstractValidator<UpdateEquipmentCommand>
 {

@@ -56,8 +56,10 @@ public class UpdateCustomerPaymentCommandHandler : BaseUpdateCommandHandler<Upda
 {
     public UpdateCustomerPaymentCommandHandler(IApplicationDbContext context, IValidator<UpdateCustomerPaymentCommand> validator, ILogger<UpdateCustomerPaymentCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task<CustomerPayment?> GetEntityAsync(UpdateCustomerPaymentCommand request, CancellationToken cancellationToken)
-        => await Context.CustomerPayments.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+
+    protected override async Task<CustomerPayment?> GetEntityAsync(UpdateCustomerPaymentCommand request, CancellationToken ct)
+        => await Context.CustomerPayments.FirstOrDefaultAsync(x => x.Id == request.Id, ct);
+
     protected override async Task UpdateEntityProperties(CustomerPayment entity, UpdateCustomerPaymentCommand request)
     {
         if (request.SaleId.IsDifferentFrom(entity.SaleId))
@@ -78,6 +80,7 @@ public class UpdateCustomerPaymentCommandHandler : BaseUpdateCommandHandler<Upda
             entity.Notes = request.Notes;
     }
 }
+
 public class UpdateCustomerPaymentCommandValidator : AbstractValidator<UpdateCustomerPaymentCommand>
 {
     public UpdateCustomerPaymentCommandValidator()

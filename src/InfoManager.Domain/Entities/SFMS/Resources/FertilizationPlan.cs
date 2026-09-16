@@ -1,5 +1,4 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Resources;
+﻿namespace InfoManager.Domain.Entities.SFMS.Resources;
 
 /// <summary>
 /// Lịch / kế hoạch bón phân
@@ -9,7 +8,7 @@ public class FertilizationPlan : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// ID lần trồng (tùy chọn)
@@ -24,13 +23,13 @@ public class FertilizationPlan : BaseAuditableEntity
     /// <summary>
     /// ID phân bón
     /// </summary>
-    public required string FertilizerId { get; set; }
+    public string FertilizerId { get; set; }
 
     /// <summary>
     /// Tên lịch bón
     /// </summary>
     [MaxLength(200)]
-    public required string PlanName { get; set; }
+    public string PlanName { get; set; }
 
     /// <summary>
     /// Ngày bón dự kiến

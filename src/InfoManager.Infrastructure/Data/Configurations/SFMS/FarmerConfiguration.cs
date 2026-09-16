@@ -1,6 +1,7 @@
 ﻿using InfoManager.Domain.Entities.SFMS.Infrastructure;
 
 namespace InfoManager.Infrastructure.Data.Configurations.SFMS;
+
 public class FarmerConfiguration : IEntityTypeConfiguration<Farmer>
 {
     public void Configure(EntityTypeBuilder<Farmer> builder)
@@ -95,4 +96,3 @@ public class FarmConfiguration : IEntityTypeConfiguration<Farm>
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
-

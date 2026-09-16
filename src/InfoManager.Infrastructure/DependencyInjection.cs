@@ -16,7 +16,7 @@ public static class DependencyInjection
         var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Host=localhost;Port=5432;Database=InfoManagerDb; Username=postgres; Password=P@ssw0rd";
 
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-       builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        builder.Services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
         builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {

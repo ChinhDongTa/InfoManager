@@ -8,7 +8,7 @@ public class SoilAnalysis : BaseAuditableEntity
     /// <summary>
     /// ID thửa ruộng
     /// </summary>
-    public required string FieldId { get; set; }
+    public string FieldId { get; set; }
 
     /// <summary>
     /// Ngày phân tích

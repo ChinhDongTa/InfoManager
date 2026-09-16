@@ -10,15 +10,15 @@ public static class SensorMappings
 {
     public static SearchSensorsQuery ToSearchQuery(SearchSensorsRequest request)
         => new(
-            Term : request.Term,
-            FieldId : request.FieldId,
-            DeviceId : request.DeviceId,
-            SensorType : request.SensorType,
-            Status : request.Status,
-            StartInstallationDate : request.StartInstallationDate,
-            EndInstallationDate : request.EndInstallationDate,
-            PageNumber : request.PageNumber,
-            PageSize : request.PageSize
+            Term: request.Term,
+            FieldId: request.FieldId,
+            DeviceId: request.DeviceId,
+            SensorType: request.SensorType,
+            Status: request.Status,
+            StartInstallationDate: request.StartInstallationDate,
+            EndInstallationDate: request.EndInstallationDate,
+            PageNumber: request.PageNumber,
+            PageSize: request.PageSize
         );
 
     public static CreateSensorCommand ToCreateCommand(CreateSensorRequest request)

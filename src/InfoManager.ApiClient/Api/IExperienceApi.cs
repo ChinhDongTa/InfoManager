@@ -34,7 +34,7 @@ public interface IExperienceApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Post("/api/Experiences")]
-    Task<ApiResponse<string>> CreateExperienceAsync([Body] CreateExperienceRequest request,CancellationToken ct );
+    Task<ApiResponse<string>> CreateExperienceAsync([Body] CreateExperienceRequest request, CancellationToken ct);
 
     /// <param name="keyword">keyword parameter</param>
     /// <param name="categoryId">categoryId parameter</param>

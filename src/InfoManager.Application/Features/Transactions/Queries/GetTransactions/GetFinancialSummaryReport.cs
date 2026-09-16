@@ -3,6 +3,7 @@
 namespace InfoManager.Application.Features.Transactions.Queries.GetTransactions;
 
 public record GetFinancialSummaryReport(int Month, int Year) : IRequest<Result<FinancialSummaryReportDto>>;
+
 public class GetFinancialSummaryReportHandler(IApplicationDbContext context) : IRequestHandler<GetFinancialSummaryReport, Result<FinancialSummaryReportDto>>
 {
     public async Task<Result<FinancialSummaryReportDto>> Handle(GetFinancialSummaryReport request, CancellationToken ct)
@@ -33,6 +34,7 @@ public class GetFinancialSummaryReportHandler(IApplicationDbContext context) : I
     }
 
     public static byte GetQuarter(int month) => (byte)((month - 1) / 3 + 1);
+
     public static (int, int) GetStartMonthAndEndMonthOfQuarter(int month)
     {
         var quarter = GetQuarter(month);

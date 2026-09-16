@@ -5,7 +5,7 @@ public static class QueryableExtensions
     //extension<T>(IQueryable<T> query) where T : BaseAuditableEntity
     //{
     //    /// <summary>
-    //    /// Áp dụng filter theo User. 
+    //    /// Áp dụng filter theo User.
     //    /// - Nếu userId = null hoặc user là Admin → trả về tất cả
     //    /// - Ngược lại lọc theo CreatedBy
     //    /// </summary>

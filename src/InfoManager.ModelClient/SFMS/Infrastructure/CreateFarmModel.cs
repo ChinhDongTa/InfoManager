@@ -7,7 +7,7 @@ public record CreateFarmModel
     [Required]
     public string Name { get; set; } = string.Empty;
     [Required]
-    public string FarmerId { get; set; }= string.Empty;
+    public string FarmerId { get; set; } = string.Empty;
     public string? Description { get; set; }
     public decimal TotalArea { get; set; } = 0;
     public decimal CultivableArea { get; set; } = 0;
@@ -21,17 +21,17 @@ public record CreateFarmModel
     public CreateFarmRequest CreateRequest()
     {
         return new(
-            Name:this.Name,
-            FarmerId:this.FarmerId,
-            Description:this.Description,
-            TotalArea:this.TotalArea,
-            CultivableArea:this.CultivableArea,
-            Location:this.Location,
-            Latitude:this.Latitude,
-            Longitude:this.Longitude,
-            LicenseNumber:this.LicenseNumber,
-            Status:this.Status,
-            EstablishedDate:this.EstablishedDate
+            Name: this.Name,
+            FarmerId: this.FarmerId,
+            Description: this.Description,
+            TotalArea: this.TotalArea,
+            CultivableArea: this.CultivableArea,
+            Location: this.Location,
+            Latitude: this.Latitude,
+            Longitude: this.Longitude,
+            LicenseNumber: this.LicenseNumber,
+            Status: this.Status,
+            EstablishedDate: this.EstablishedDate
             );
     }
 }

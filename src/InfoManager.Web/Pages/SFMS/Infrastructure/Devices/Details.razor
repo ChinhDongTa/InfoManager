@@ -7,33 +7,37 @@
 <AuthorizeView>
     <Authorized>
         <LoadingOverlay IsLoading="isLoading" />
-        <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="max-width:600px; margin: 20px auto;">
-            <DetailItem Label="Tên thiết bị" Value="@dto?.Name" />
-            <DetailItem Label="Loại thiết bị" Value="@dto?.DeviceTypeName" />
-            <DetailItem Label="Model" Value="@dto?.Model" />
-            <DetailItem Label="Địa chỉ MAC" Value="@dto?.MacAddress" />
-            <DetailItem Label="Nông trại">
-                @if (!string.IsNullOrWhiteSpace(dto?.FarmId))
-                {
-                    <a href="/sfms/Infrastructure/farms/details/@dto.FarmId">@(dto?.FarmName ?? dto?.FarmId)</a>
-                }
-                else
-                {
-                    <text>-</text>
-                }
-            </DetailItem>
-            <DetailItem Label="Trạng thái" Value="@dto?.StatusName" />
-            <DetailItem Label="Địa chỉ IP" Value="@dto?.IpAddress" />
-            <DetailItem Label="Giao thức truyền thông" Value="@dto?.CommunicationProtocol" />
-            <DetailItem Label="Lần đồng bộ dữ liệu gần nhất" Value="@dto?.LastDataSyncTime?.ToString("dd/MM/yyyy HH:mm")" />
-            <DetailItem Label="Phiên bản firmware" Value="@dto?.FirmwareVersion" />
-            <DetailItem Label="Mức pin" Value="@(dto?.BatteryLevel is null ? null : $"{dto.BatteryLevel}%")" />
-            <DetailItem Label="Dung lượng lưu trữ" Value="@FormatStorage(dto?.StorageUsed, dto?.StorageCapacity)" />
-            <DetailItem Label="Ngày lắp đặt" Value="@dto?.InstallationDate.ToString("dd/MM/yyyy")" />
-            <DetailItem Label="Ngày bảo trì gần nhất" Value="@dto?.LastMaintenanceDate?.ToString("dd/MM/yyyy")" />
-            <DetailItem Label="Ghi chú" Value="@dto?.Notes" />
-            <DetailItem Label="Ngày tạo" Value="@dto?.Created.ToString("dd/MM/yyyy HH:mm")" />
-            <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/devices" OnDeleteClick="DeleteHandler" />
+        <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                <DetailItem Label="Tên thiết bị" Value="@dto?.Name" />
+                <DetailItem Label="Loại thiết bị" Value="@dto?.DeviceTypeName" />
+                <DetailItem Label="Model" Value="@dto?.Model" />
+                <DetailItem Label="Địa chỉ MAC" Value="@dto?.MacAddress" />
+                <DetailItem Label="Nông trại">
+                    @if (!string.IsNullOrWhiteSpace(dto?.FarmId))
+                    {
+                        <a href="/sfms/Infrastructure/farms/details/@dto.FarmId">@(dto?.FarmName ?? dto?.FarmId)</a>
+                    }
+                    else
+                    {
+                        <text>-</text>
+                    }
+                </DetailItem>
+                <DetailItem Label="Trạng thái" Value="@dto?.StatusName" />
+                <DetailItem Label="Địa chỉ IP" Value="@dto?.IpAddress" />
+                <DetailItem Label="Giao thức truyền thông" Value="@dto?.CommunicationProtocol" />
+            </FluentStack>
+            <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                <DetailItem Label="Lần đồng bộ dữ liệu gần nhất" Value="@dto?.LastDataSyncTime?.ToString("dd/MM/yyyy HH:mm")" />
+                <DetailItem Label="Phiên bản firmware" Value="@dto?.FirmwareVersion" />
+                <DetailItem Label="Mức pin" Value="@(dto?.BatteryLevel is null ? null : $"{dto.BatteryLevel}%")" />
+                <DetailItem Label="Dung lượng lưu trữ" Value="@FormatStorage(dto?.StorageUsed, dto?.StorageCapacity)" />
+                <DetailItem Label="Ngày lắp đặt" Value="@dto?.InstallationDate.ToString("dd/MM/yyyy")" />
+                <DetailItem Label="Ngày bảo trì gần nhất" Value="@dto?.LastMaintenanceDate?.ToString("dd/MM/yyyy")" />
+                <DetailItem Label="Ghi chú" Value="@dto?.Notes" />
+                <DetailItem Label="Ngày tạo" Value="@dto?.Created.ToString("dd/MM/yyyy HH:mm")" />
+                <EntityActions EntityId="@Id" Folder="/sfms/Infrastructure/devices" OnDeleteClick="DeleteHandler" />
+            </FluentStack>
         </FluentStack>
     </Authorized>
     <NotAuthorized>

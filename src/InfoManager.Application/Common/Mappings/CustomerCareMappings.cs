@@ -8,7 +8,7 @@ namespace InfoManager.Application.Common.Mappings;
 /// </summary>
 public static class CustomerCareMappings
 {
-    public static CreateCustomerCareCommand ToCreateCommand( CreateCustomerCareRequest request)
+    public static CreateCustomerCareCommand ToCreateCommand(CreateCustomerCareRequest request)
         => new()
         {
             CustomerId = request.CustomerId,
@@ -39,12 +39,12 @@ public static class CustomerCareMappings
 
     public static SearchCustomerCaresQuery ToSearchQuery(SearchCustomerCareRequest request)
         => new(
-            Term : request.Term,
-            StartCareDate : request.StartCareDate,
-            EndCareDate : request.EndCareDate,
-            StartNextFollowUpDate : request.StartNextFollowUpDate,
-            EndNextFollowUpDate : request.EndNextFollowUpDate,
-            PageNumber : request.PageNumber,
-            PageSize : request.PageSize
+            Term: request.Term,
+            StartCareDate: request.StartCareDate,
+            EndCareDate: request.EndCareDate,
+            StartNextFollowUpDate: request.StartNextFollowUpDate,
+            EndNextFollowUpDate: request.EndNextFollowUpDate,
+            PageNumber: request.PageNumber,
+            PageSize: request.PageSize
        );
 }

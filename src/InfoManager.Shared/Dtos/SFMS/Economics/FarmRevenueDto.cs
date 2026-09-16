@@ -49,31 +49,31 @@ public record SearchFarmRevenuesRequest(
 
 public record CreateFarmRevenueRequest(
     string FarmId,
-    string? CropPlantingId ,
-    string? HarvestId ,
-    string? SaleId ,
-    string Source ,
+    string? CropPlantingId,
+    string? HarvestId,
+    string? SaleId,
+    string Source,
     decimal Amount,
     string? Currency,
-    DateTimeOffset RevenueDate ,
-    string? BuyerName ,
-    PaymentStatus PaymentStatus ,
-    DateTimeOffset? PaymentReceivedDate ,
-    string? Notes 
+    DateTimeOffset RevenueDate,
+    string? BuyerName,
+    PaymentStatus PaymentStatus,
+    DateTimeOffset? PaymentReceivedDate,
+    string? Notes
 );
 
 public record UpdateFarmRevenueRequest(
     string Id,
-    string? FarmId ,
-    string? CropPlantingId ,
-    string? HarvestId ,
-    string? SaleId ,
-    string? Source ,
-    decimal? Amount ,
-    string? Currency ,
-    DateTimeOffset? RevenueDate ,
-    string? BuyerName ,
-    PaymentStatus? PaymentStatus ,
-    DateTimeOffset? PaymentReceivedDate ,
-    string? Notes 
+    string? FarmId,
+    string? CropPlantingId,
+    string? HarvestId,
+    string? SaleId,
+    string? Source,
+    decimal? Amount,
+    string? Currency,
+    DateTimeOffset? RevenueDate,
+    string? BuyerName,
+    PaymentStatus? PaymentStatus,
+    DateTimeOffset? PaymentReceivedDate,
+    string? Notes
 );

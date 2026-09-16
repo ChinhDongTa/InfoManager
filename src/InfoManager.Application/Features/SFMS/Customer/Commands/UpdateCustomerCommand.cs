@@ -16,17 +16,18 @@ public record UpdateCustomerCommand : IRequest<Result>
     public CustomerStatus? Status { get; init; }
     public string? Notes { get; init; }
 }
+
 public class UpdateCustomerCommandHanlder : BaseUpdateCommandHandler<UpdateCustomerCommand, Domain.Entities.SFMS.Customers.Customer>
 {
     public UpdateCustomerCommandHanlder(IApplicationDbContext context,
                                         IValidator<UpdateCustomerCommand> validator,
-                                        ILogger<UpdateCustomerCommandHanlder> logger) :base(context,validator,logger)
+                                        ILogger<UpdateCustomerCommandHanlder> logger) : base(context, validator, logger)
     {
-        
     }
-    protected override async Task<Domain.Entities.SFMS.Customers.Customer?> GetEntityAsync(UpdateCustomerCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<Domain.Entities.SFMS.Customers.Customer?> GetEntityAsync(UpdateCustomerCommand request, CancellationToken ct)
     {
-        return await Context.Customers.FindAsync(request.Id, cancellationToken);
+        return await Context.Customers.FindAsync(request.Id, ct);
     }
 
     protected override async Task UpdateEntityProperties(Domain.Entities.SFMS.Customers.Customer entity, UpdateCustomerCommand request)
@@ -56,14 +57,15 @@ public class UpdateCustomerCommandHanlder : BaseUpdateCommandHandler<UpdateCusto
             entity.Status = request.Status!.Value;
     }
 }
-public class UpdateCustomerCommandValidtor:AbstractValidator<UpdateCustomerCommand>
+
+public class UpdateCustomerCommandValidtor : AbstractValidator<UpdateCustomerCommand>
 {
     public UpdateCustomerCommandValidtor()
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(ErrorHelpers.GetErrorRequired("Id khách hàng"));
-       RuleFor(x => x.Name).MaximumLength(200)
-            .When(x => !string.IsNullOrEmpty(x.Name))
-            .WithMessage(ErrorHelpers.GetErrorMaxLength("Tên khách hàng", 200));
+        RuleFor(x => x.Name).MaximumLength(200)
+             .When(x => !string.IsNullOrEmpty(x.Name))
+             .WithMessage(ErrorHelpers.GetErrorMaxLength("Tên khách hàng", 200));
     }
 }

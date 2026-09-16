@@ -65,16 +65,19 @@ public record CreateSensorCommand : IRequest<Result<string>>
     /// </summary>
     public DateTimeOffset? NextCalibrationDate { get; init; }
 }
+
 public class CreateSensorCommandHandler : BaseCreateCommandHandler<CreateSensorCommand, Sensor>
 {
     public CreateSensorCommandHandler(IApplicationDbContext context,
                                       IValidator<CreateSensorCommand> validator,
                                       ILogger<CreateSensorCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task AddEntityAsync(Sensor entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(Sensor entity, CancellationToken ct)
     {
-        await Context.Sensors.AddAsync(entity, cancellationToken);
+        await Context.Sensors.AddAsync(entity, ct);
     }
+
     protected override async Task<Sensor> CreateEntity(CreateSensorCommand request)
     {
         return new Sensor
@@ -94,6 +97,7 @@ public class CreateSensorCommandHandler : BaseCreateCommandHandler<CreateSensorC
         };
     }
 }
+
 public class CreateSensorCommandValidator : AbstractValidator<CreateSensorCommand>
 {
     public CreateSensorCommandValidator()

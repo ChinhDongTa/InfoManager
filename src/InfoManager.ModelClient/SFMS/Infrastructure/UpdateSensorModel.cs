@@ -1,6 +1,7 @@
 ﻿using InfoManager.Enum.SFMS;
 
 namespace InfoManager.ModelClient.SFMS.Infrastructure;
+
 public class UpdateSensorModel
 {
     /// <summary>ID cảm biến. Bắt buộc.</summary>

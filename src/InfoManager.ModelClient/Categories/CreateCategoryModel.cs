@@ -6,9 +6,6 @@ public class CreateCategoryModel
 {
     [MaxLength(200)]
     [Required]
-    /// <summary>
-    /// Tên phân loại trải nghiệm
-    /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
@@ -16,6 +13,7 @@ public class CreateCategoryModel
     /// </summary>
     [MaxLength(50)]
     public string? Group { get; set; }
+
     /// <summary>
     /// Tên khóa phân loại group, ví dụ: "Kinh-Nghiem", "Y-Dinh", "Giao-Dich"
     /// </summary>

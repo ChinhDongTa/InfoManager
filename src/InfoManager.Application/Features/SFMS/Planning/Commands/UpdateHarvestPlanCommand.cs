@@ -115,8 +115,8 @@ public class UpdateHarvestPlanCommandHandler : BaseUpdateCommandHandler<UpdateHa
         : base(context, validator, logger)
     { }
 
-    protected override async Task<HarvestPlan?> GetEntityAsync(UpdateHarvestPlanCommand request, CancellationToken cancellationToken)
-        => await Context.HarvestPlans.FindAsync([request.Id], cancellationToken);
+    protected override async Task<HarvestPlan?> GetEntityAsync(UpdateHarvestPlanCommand request, CancellationToken ct)
+        => await Context.HarvestPlans.FindAsync([request.Id], ct);
 
     protected override async Task UpdateEntityProperties(HarvestPlan entity, UpdateHarvestPlanCommand request)
     {

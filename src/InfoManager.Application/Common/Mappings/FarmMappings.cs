@@ -40,6 +40,7 @@ public static class FarmMappings
             Status = request.Status,
             EstablishedDate = request.EstablishedDate
         };
+
     public static SearchFarmsQuery ToSearchQuery(SearchFarmsRequest request)
         => new(Term: request.Term,
                MinCultivableArea: request.MinCultivableArea,

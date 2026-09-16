@@ -16,10 +16,11 @@ public sealed class AuthService(IAuthApi authApi, IProtectAuthApi protectAuthApi
         var result = await ApiResponseHandler.HandleAsync(response);
         if (result.Success && result.Data is not null)
         {
-            await  authStateProvider.MarkUserAsAuthenticatedAsync(result.Data.AccessToken, result.Data.RefreshToken);
+            await authStateProvider.MarkUserAsAuthenticatedAsync(result.Data.AccessToken, result.Data.RefreshToken);
         }
         return result;
     }
+
     public async Task<ApiResult<LoginResponse?>> RegisterAsync(RegisterRequest registerRequest, CancellationToken ct = default)
     {
         var response = await authApi.RegisterAsync(registerRequest, ct);
@@ -33,7 +34,7 @@ public sealed class AuthService(IAuthApi authApi, IProtectAuthApi protectAuthApi
 
     public async Task<ApiResult<TokenResponse?>> RefreshTokenAsync(string refreshToken, CancellationToken ct = default)
     {
-        var request = new RefreshRequest ( RefreshToken : refreshToken );
+        var request = new RefreshRequest(RefreshToken: refreshToken);
         var response = await authApi.RefreshTokenAsync(request, ct);
         var result = await ApiResponseHandler.HandleAsync(response);
         if (result.Success && result.Data is not null)

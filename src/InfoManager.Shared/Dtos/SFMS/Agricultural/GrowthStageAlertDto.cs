@@ -36,23 +36,23 @@ public record CreateGrowthStageAlertRequest(
     string GrowthStageId,
     GrowthAlertType AlertType,
     string Message,
-    AlertSeverity Severity ,
-    DateTimeOffset AlertTime ,
-    DateTimeOffset? ExpectedAchievementDate ,
-    DateTimeOffset? ActualAchievementDate ,
-    bool IsResolved ,
-    string? ActionTaken 
+    AlertSeverity Severity,
+    DateTimeOffset AlertTime,
+    DateTimeOffset? ExpectedAchievementDate,
+    DateTimeOffset? ActualAchievementDate,
+    bool IsResolved,
+    string? ActionTaken
 );
 
 public record UpdateGrowthStageAlertRequest(
     string Id,
-    GrowthAlertType? AlertType ,
-    string? Message ,
-    AlertSeverity? Severity ,
-    DateTimeOffset? ExpectedAchievementDate ,
-    DateTimeOffset? ActualAchievementDate ,
-    bool? IsResolved ,
-    string? ActionTaken 
+    GrowthAlertType? AlertType,
+    string? Message,
+    AlertSeverity? Severity,
+    DateTimeOffset? ExpectedAchievementDate,
+    DateTimeOffset? ActualAchievementDate,
+    bool? IsResolved,
+    string? ActionTaken
 );
 
 public record SearchGrowthStageAlertRequest(

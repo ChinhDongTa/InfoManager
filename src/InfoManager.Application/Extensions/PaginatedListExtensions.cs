@@ -1,6 +1,4 @@
-﻿using InfoManager.Shared.Models;
-
-namespace InfoManager.Application.Extensions;
+﻿namespace InfoManager.Application.Extensions;
 
 public static class PaginatedListExtensions
 {
@@ -13,9 +11,10 @@ public static class PaginatedListExtensions
 
         return new PaginatedList<T>(items, count, pageNumber, pageSize);
     }
+
     extension<TDestination>(IQueryable<TDestination> queryable) where TDestination : class
     {
-        public Task<PaginatedList<TDestination>> PaginatedListAsync(int pageNumber, int pageSize, CancellationToken ct = default) 
+        public Task<PaginatedList<TDestination>> PaginatedListAsync(int pageNumber, int pageSize, CancellationToken ct = default)
             => CreateAsync(queryable.AsNoTracking(), pageNumber, pageSize, ct);
     }
 }

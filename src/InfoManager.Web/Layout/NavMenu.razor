@@ -6,29 +6,36 @@
             <FluentNavGroup Title="Nông trại thông minh" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
                 <FluentNavGroup Title="Nông trại" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
                     <FluentNavLink Href="/sfms/Infrastructure/farms/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Nông trại</FluentNavLink>
+                    <FluentNavLink Href="/sfms/Infrastructure/fields/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Thửa đất</FluentNavLink>
                 </FluentNavGroup>
                 <FluentNavGroup Title="Cây trồng" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
                     <FluentNavLink Href="/sfms/Agricultural/crops/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Loại cây</FluentNavLink>
+                    <FluentNavLink Href="/sfms/agricultural/crop-plantings/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Đợt trồng</FluentNavLink>
                     <FluentNavLink Href="/sfms/Agricultural/Crop-Varieties/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Giống</FluentNavLink>
+                    <FluentNavLink Href="/sfms/Agricultural/Crop-Schedules/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Lịch canh tác</FluentNavLink>
+                    <FluentNavLink Href="/sfms/Agricultural/Growth-Stages/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Giai đoạn trưởng thành</FluentNavLink>
                 </FluentNavGroup>
 
                 <FluentNavLink Href="/crops/harvests/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Thu hoạch</FluentNavLink>
                 <FluentNavLink Href="/crops/harvests/transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch thu hoạch</FluentNavLink>
-                <FluentNavGroup Title="Vật tư" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+                <FluentNavGroup Title="Vật tư & thiết bị" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
                     <FluentNavGroup Title="Phân bón" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
 
                     </FluentNavGroup>
                     <FluentNavGroup Title="Thuốc BVTV" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
 
                     </FluentNavGroup>
-                    <FluentNavGroup Title="Thiết bị" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
-
-                    </FluentNavGroup>
+                    <FluentNavLink Href="/sfms/Infrastructure/devices/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Thiết bị</FluentNavLink>
+                    <FluentNavLink Href="/sfms/Infrastructure/device-alerts/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Cảnh báo thiết bị</FluentNavLink>
+                    <FluentNavLink Href="/sfms/Infrastructure/sensors/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Sensor</FluentNavLink>
                 </FluentNavGroup>
                 <FluentNavGroup Title="Quản lý kho" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
 
                 </FluentNavGroup>
                 <FluentNavLink Href="/sfms/customers/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Khách hàng</FluentNavLink>
+            </FluentNavGroup>
+            <FluentNavGroup Title="HR" Icon="@(new Icons.Filled.Size20.PeopleCommunication())">
+                <FluentNavLink Href="/sfms/hr/employees/list" Icon="@(new Icons.Regular.Size20.EmojiMultiple())" IconColor="Color.Accent">Danh sách</FluentNavLink>
             </FluentNavGroup>
             <FluentNavGroup Title="Tiện ích cá nhân" Icon="@(new Icons.Regular.Size20.Apps())" IconColor="Color.Accent">
                 <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>

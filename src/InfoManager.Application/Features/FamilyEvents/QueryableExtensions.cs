@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.FamilyEvents;
+﻿using InfoManager.Shared.Dtos.FamilyEvents;
 
 namespace InfoManager.Application.Features.FamilyEvents;
 
@@ -22,6 +21,7 @@ public static class QueryableExtensions
                  IsActive: fe.IsActive
              ));
     }
+
     public static IQueryable<FamilyEventSummaryDto> ToQuerySummaryDto(this IQueryable<FamilyEvent> query)
     {
         // For example, filter by user ID or roles
@@ -34,6 +34,7 @@ public static class QueryableExtensions
                  IsActive: fe.IsActive
              ));
     }
+
     /// <summary>
     /// Applies sorting to the FamilyEvent query based on the provided sortBy parameter.
     /// </summary>

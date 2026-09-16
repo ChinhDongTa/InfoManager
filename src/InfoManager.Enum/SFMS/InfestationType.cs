@@ -7,10 +7,13 @@ public enum InfestationType
 {
     [Display(Name = "Sâu bệnh")]
     Pest = 1,
+
     [Display(Name = "Bệnh tật")]
     Disease = 2,
-    [Display(Name = "Cỏ dại")]  
+
+    [Display(Name = "Cỏ dại")]
     Weed = 3,
+
     [Display(Name = "Môi trường")]
     Environmental = 4
 }

@@ -8,12 +8,12 @@ public class CustomerCare : BaseAuditableEntity
     /// <summary>
     /// ID khách hàng
     /// </summary>
-    public required string CustomerId { get; set; }
+    public string CustomerId { get; set; }
 
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// Loại chăm sóc (Gọi điện, Ghé thăm, Khiếu nại, Theo dõi...)
@@ -24,7 +24,7 @@ public class CustomerCare : BaseAuditableEntity
     /// Tiêu đề
     /// </summary>
     [MaxLength(200)]
-    public required string Subject { get; set; }
+    public string Subject { get; set; }
 
     /// <summary>
     /// Nội dung chăm sóc
@@ -61,5 +61,6 @@ public class CustomerCare : BaseAuditableEntity
 
     // Navigation
     public virtual Customer? Customer { get; set; }
+
     public virtual Farm? Farm { get; set; }
 }

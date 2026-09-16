@@ -20,7 +20,6 @@ public interface ITransactionApi
                                                                                  [Query, AliasAs("Year")] int year,
                                                                                  CancellationToken ct);
 
-
     /// <param name="request">request parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>

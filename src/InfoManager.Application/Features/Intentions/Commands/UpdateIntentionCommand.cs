@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.Intentions.Commands;
+﻿namespace InfoManager.Application.Features.Intentions.Commands;
 
 public record UpdateIntentionCommand : IRequest<Result>
 {
@@ -12,6 +10,7 @@ public record UpdateIntentionCommand : IRequest<Result>
     public Priority? Priority { get; init; }
     public string? CategoryId { get; init; }
 }
+
 public class UpdateIntentionCommandHandler : BaseUpdateCommandHandler<UpdateIntentionCommand, Intention>
 {
     public UpdateIntentionCommandHandler(IApplicationDbContext context,
@@ -19,10 +18,12 @@ public class UpdateIntentionCommandHandler : BaseUpdateCommandHandler<UpdateInte
                                           ILogger<UpdateIntentionCommandHandler> logger) : base(context, validator, logger)
     {
     }
-    protected override async Task<Intention?> GetEntityAsync(UpdateIntentionCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<Intention?> GetEntityAsync(UpdateIntentionCommand request, CancellationToken ct)
     {
-        return await Context.Intentions.FindAsync([request.Id], cancellationToken);
+        return await Context.Intentions.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(Intention entity, UpdateIntentionCommand request)
     {
         if (request.Content.HasValueAndIsDifferentFrom(entity.Content))
@@ -44,6 +45,7 @@ public class UpdateIntentionCommandHandler : BaseUpdateCommandHandler<UpdateInte
             entity.CategoryId = request.CategoryId;
     }
 }
+
 public class UpdateIntentionCommandValidator : AbstractValidator<UpdateIntentionCommand>
 {
     public UpdateIntentionCommandValidator()

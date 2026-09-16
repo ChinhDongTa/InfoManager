@@ -41,9 +41,9 @@ public class UpdateExperienceCommandHandler(
 	}
 
 	// Override GetEntityAsync to fetch the entity
-	protected override async Task<Experience?> GetEntityAsync(UpdateExperienceCommand request, CancellationToken cancellationToken)
+	protected override async Task<Experience?> GetEntityAsync(UpdateExperienceCommand request, CancellationToken ct)
 	{
-		return await Context.Experiences.FindAsync([request.Id], cancellationToken);
+		return await Context.Experiences.FindAsync([request.Id], ct);
 	}
 
 	// Override UpdateEntityProperties to map command properties to entity
@@ -100,9 +100,9 @@ public class DeleteExperienceCommandHandler(
 	{
 	}
 
-	protected override async Task<Experience?> GetEntityAsync(DeleteExperienceCommand request, CancellationToken cancellationToken)
+	protected override async Task<Experience?> GetEntityAsync(DeleteExperienceCommand request, CancellationToken ct)
 	{
-		return await Context.Experiences.FindAsync([request.Id], cancellationToken);
+		return await Context.Experiences.FindAsync([request.Id], ct);
 	}
 }
 
@@ -197,11 +197,11 @@ Option 2: Soft Delete (Optional)
 - Remember to filter IsDeleted == false in queries
 
 Example soft delete:
-  protected override async Task DeleteAsync(DeleteExperienceCommand request, CancellationToken cancellationToken)
+  protected override async Task DeleteAsync(DeleteExperienceCommand request, CancellationToken ct)
   {
-	  var entity = await GetEntity(request, cancellationToken);
+	  var entity = await GetEntity(request, ct);
 	  entity.IsDeleted = true;
-	  await Context.SaveChangesAsync(cancellationToken);
+	  await Context.SaveChangesAsync(ct);
   }
 
 

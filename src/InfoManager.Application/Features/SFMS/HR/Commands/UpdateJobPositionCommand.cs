@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Application.Features.SFMS.HR.Commands;
+
 public record UpdateJobPositionCommand : IRequest<Result>
 {
     public required string Id { get; init; }
@@ -20,8 +21,8 @@ public class UpdateJobPositionCommandHandler : BaseUpdateCommandHandler<UpdateJo
                                            ILogger<UpdateJobPositionCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task<JobPosition?> GetEntityAsync(UpdateJobPositionCommand request, CancellationToken cancellationToken)
-        => await Context.JobPositions.FindAsync([request.Id], cancellationToken);
+    protected override async Task<JobPosition?> GetEntityAsync(UpdateJobPositionCommand request, CancellationToken ct)
+        => await Context.JobPositions.FindAsync([request.Id], ct);
 
     protected override Task UpdateEntityProperties(JobPosition entity, UpdateJobPositionCommand request)
     {

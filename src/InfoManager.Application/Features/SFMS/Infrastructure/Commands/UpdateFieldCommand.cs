@@ -26,6 +26,7 @@ public class UpdateFieldCommandHandler : BaseUpdateCommandHandler<UpdateFieldCom
                                       IValidator<UpdateFieldCommand> validator,
                                       ILogger<UpdateFieldCommandHandler> logger) : base(context, validator, logger)
     { }
+
     protected override async Task<Field?> GetEntityAsync(UpdateFieldCommand request, CancellationToken cancellationToken)
     {
         return await Context.Fields.FindAsync([request.Id], cancellationToken);
@@ -33,9 +34,9 @@ public class UpdateFieldCommandHandler : BaseUpdateCommandHandler<UpdateFieldCom
 
     protected override async Task UpdateEntityProperties(Field entity, UpdateFieldCommand request)
     {
-        if(request.Name.HasValueAndIsDifferentFrom(entity.Name))
+        if (request.Name.HasValueAndIsDifferentFrom(entity.Name))
             entity.Name = request.Name!;
-        if(request.Description.IsDifferentFrom(entity.Description))
+        if (request.Description.IsDifferentFrom(entity.Description))
             entity.Description = request.Description;
         if (request.Area.HasValueAndIsDifferentFrom(entity.Area))
             entity.Area = request.Area!.Value;
@@ -43,21 +44,21 @@ public class UpdateFieldCommandHandler : BaseUpdateCommandHandler<UpdateFieldCom
             entity.FarmId = request.FarmId!;
         if (request.SoilType.IsDifferentFrom(entity.SoilType))
             entity.SoilType = request.SoilType;
-        if(request.SoilCondition.IsDifferentFrom(entity.SoilCondition))
+        if (request.SoilCondition.IsDifferentFrom(entity.SoilCondition))
             entity.SoilCondition = request.SoilCondition;
-        if(request.Elevation.IsDifferentFrom(entity.Elevation))
+        if (request.Elevation.IsDifferentFrom(entity.Elevation))
             entity.Elevation = request.Elevation;
-        if(request.Latitude.        IsDifferentFrom(entity.Latitude))
+        if (request.Latitude.IsDifferentFrom(entity.Latitude))
             entity.Latitude = request.Latitude;
-        if(request.Longitude.IsDifferentFrom(entity.Longitude))
+        if (request.Longitude.IsDifferentFrom(entity.Longitude))
             entity.Longitude = request.Longitude;
-        if(request.Status.HasValueAndIsDifferentFrom(entity.Status))
+        if (request.Status.HasValueAndIsDifferentFrom(entity.Status))
             entity.Status = request.Status!.Value;
-        if(request.LastPreparationDate.IsDifferentFrom(entity.LastPreparationDate))
+        if (request.LastPreparationDate.IsDifferentFrom(entity.LastPreparationDate))
             entity.LastPreparationDate = request.LastPreparationDate;
-        if(request.DrainageCondition.IsDifferentFrom(entity.DrainageCondition))
+        if (request.DrainageCondition.IsDifferentFrom(entity.DrainageCondition))
             entity.DrainageCondition = request.DrainageCondition;
-        if(request.HasIrrigation.HasValueAndIsDifferentFrom(entity.HasIrrigation))
+        if (request.HasIrrigation.HasValueAndIsDifferentFrom(entity.HasIrrigation))
             entity.HasIrrigation = request.HasIrrigation!.Value;
     }
 }

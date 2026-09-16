@@ -15,10 +15,11 @@ public class CreateRoleModel
 
 public class UpdateRoleModel
 {
-    public required string Id { get; set; }
-    public required string Name { get; set; }
+    public string Id { get; set; }
+    public string Name { get; set; }
+
     public UpdateRoleDto ToRequest()
     {
-        return new UpdateRoleDto {  Id = Id, Name = Name };
+        return new UpdateRoleDto { Id = Id, Name = Name };
     }
 }

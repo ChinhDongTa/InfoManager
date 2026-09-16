@@ -53,6 +53,7 @@ public static class DateTimeHelper
     {
         return dateTimeOffset.LocalDateTime;
     }
+
     public static DateTime? ToLocalDateTime(this DateTimeOffset? dateTimeOffset)
     {
         return dateTimeOffset?.LocalDateTime;

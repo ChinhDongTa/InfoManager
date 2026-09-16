@@ -13,7 +13,7 @@ public interface IFamilyApi
     Task<ApiResponse<FamilyDto?>> GetFamilyByIdAsync(string id, CancellationToken ct);
 
     [Get("api/famylies")]
-    Task<ApiResponse<PaginatedList<FamilySummaryDto>>> GetFamiliesAsync(int pageNumber, int pageSize   , CancellationToken ct);
+    Task<ApiResponse<PaginatedList<FamilySummaryDto>>> GetFamiliesAsync(int pageNumber, int pageSize, CancellationToken ct);
 
     [Get("api/famylies/search")]
     Task<ApiResponse<PaginatedList<FamilySummaryDto>>> SearchFamiliesAsync([Query, AliasAs("SearchTerm")] string? searchTerm,
@@ -73,11 +73,10 @@ public interface IFamilyApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/FamilyEvents/{id}")]
-   Task<ApiResponse<FamilyEventDto?>> GetFamilyEventByIdAsync(string id,CancellationToken ct);
+    Task<ApiResponse<FamilyEventDto?>> GetFamilyEventByIdAsync(string id, CancellationToken ct);
 
     [Get("/api/FamilyEvents/{familyMemberId}/select-list")]
     Task<ApiResponse<List<SelectListItemDto>>> GetSelectListFamilyEventsAsync(string familyMemberId, CancellationToken ct = default);
-
 
     [Get("/api/FamilyEvents/FamilyMember/{memberId}")]
     Task<ApiResponse<PaginatedList<FamilyEventSummaryDto>>> GetFamilyEventsByMemberIdAsync(string memberId,
@@ -121,11 +120,12 @@ public interface IFamilyApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/FamilyMembers")]
-   Task<ApiResponse<PaginatedList<FamilyMemberSummaryDto>>> GetFamilyMembersAsync([Query, AliasAs("FullName")] string? fullName,
+    Task<ApiResponse<PaginatedList<FamilyMemberSummaryDto>>> GetFamilyMembersAsync([Query, AliasAs("FullName")] string? fullName,
                                                                                   [Query, AliasAs("EventType")] FamilyEventType? eventType,
                                                                                   [Query, AliasAs("PageNumber")] int pageNumber,
                                                                                   [Query, AliasAs("PageSize")] int pageSize,
                                                                                   CancellationToken ct);
+
     /// <param name="command">command parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
@@ -137,7 +137,7 @@ public interface IFamilyApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/FamilyMembers/{id}")]
-   Task<ApiResponse<FamilyMemberDto?>> GetFamilyMemberByIdAsync(string id, CancellationToken ct);
+    Task<ApiResponse<FamilyMemberDto?>> GetFamilyMemberByIdAsync(string id, CancellationToken ct);
 
     /// <param name="id">id parameter</param>
     /// <param name="request">request parameter</param>
@@ -159,7 +159,7 @@ public interface IFamilyApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/FamilyRelations")]
-   Task<ApiResponse<PaginatedList<FamilyRelationDto>?>> GetFamilyRelationsAsync([Query] string? name,
+    Task<ApiResponse<PaginatedList<FamilyRelationDto>?>> GetFamilyRelationsAsync([Query] string? name,
                                                                                 [Query, AliasAs("PageNumber")] int? pageNumber,
                                                                                 [Query, AliasAs("PageSize")] int? pageSize,
                                                                                 CancellationToken ct);
@@ -169,7 +169,7 @@ public interface IFamilyApi
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Headers("Content-Type: application/json")]
     [Post("/api/FamilyRelations")]
-   Task<ApiResponse<string>> CreateFamilyRelationAsync([Body] CreateFamilyRelationRequest request, CancellationToken ct);
+    Task<ApiResponse<string>> CreateFamilyRelationAsync([Body] CreateFamilyRelationRequest request, CancellationToken ct);
 
     [Get("/api/FamilyRelations/select-list")]
     Task<ApiResponse<List<SelectListItemDto>>> GetSelectListFamilyRelationsAsync(CancellationToken ct = default);
@@ -178,7 +178,7 @@ public interface IFamilyApi
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>
     /// <exception cref="ApiException">Thrown when the request returns a non-success status code.</exception>
     [Get("/api/FamilyRelations/{id}")]
-   Task<ApiResponse<FamilyRelationDto?>> GetFamilyRelationByIdAsync(string id, CancellationToken ct);
+    Task<ApiResponse<FamilyRelationDto?>> GetFamilyRelationByIdAsync(string id, CancellationToken ct);
 
     /// <param name="id">id parameter</param>
     /// <param name="request">request parameter</param>

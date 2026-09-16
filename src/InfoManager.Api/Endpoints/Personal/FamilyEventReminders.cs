@@ -7,6 +7,7 @@ namespace InfoManager.Api.Endpoints.Personal;
 public class FamilyEventReminders : EndpointGroupBase
 {
     public override string GroupName => "FamilyEventReminders";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -22,14 +23,15 @@ public class FamilyEventReminders : EndpointGroupBase
         group.MapPut(UpdateFamilyEventReminderAsync, "{id}");
         group.MapDelete(DeleteFamilyEventReminderAsync, "{id}");
     }
+
     public async Task<IResult> GetFamilyEventRemindersAsync([FromServices] ISender sender,
                                                             [FromServices] IUser user,
-                                                            CancellationToken cancellationToken,
+                                                            CancellationToken ct,
                                                             int pageNumber,
                                                             int pageSize)
     {
         var query = new GetFamilyEventRemindersQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
@@ -38,26 +40,26 @@ public class FamilyEventReminders : EndpointGroupBase
                                                                       int pageSize,
                                                                       [FromServices] ISender sender,
                                                                       [FromServices] IUser user,
-                                                                      CancellationToken cancellationToken)
+                                                                      CancellationToken ct)
     {
         var query = new GetFamilyEventRemindersByMemberIdQuery(id, pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
     public async Task<IResult> GetFamilyEventReminderByIdAsync(string id,
                                                                [FromServices] ISender sender,
                                                                [FromServices] IUser user,
-                                                               CancellationToken cancellationToken)
+                                                               CancellationToken ct)
     {
         var query = new GetFamilyEventReminderByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
     public async Task<IResult> SearchFamilyEventRemindersAsync([FromServices] ISender sender,
                                                                [FromServices] IUser user,
-                                                               CancellationToken cancellationToken,
+                                                               CancellationToken ct,
                                                                [AsParameters] SearchFamilyEventReminderRequest request)
     {
         var query = new SearchFamilyEventRemindersQuery
@@ -68,13 +70,13 @@ public class FamilyEventReminders : EndpointGroupBase
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
 
     public async Task<IResult> CreateFamilyEventReminderAsync([FromServices] ISender sender,
                                                               [FromServices] IUser user,
-                                                              CancellationToken cancellationToken,
+                                                              CancellationToken ct,
                                                               [FromBody] CreateFamilyEventReminderRequest request)
     {
         var command = new CreateFamilyEventReminderCommand
@@ -86,14 +88,14 @@ public class FamilyEventReminders : EndpointGroupBase
             IsEnabled = request.IsEnabled,
             Note = request.Note
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
     public async Task<IResult> UpdateFamilyEventReminderAsync(string id,
                                                               [FromServices] ISender sender,
                                                               [FromServices] IUser user,
-                                                              CancellationToken cancellationToken,
+                                                              CancellationToken ct,
                                                               [FromBody] UpdateFamilyEventReminderRequest request)
     {
         if (id != request.Id)
@@ -109,16 +111,17 @@ public class FamilyEventReminders : EndpointGroupBase
             IsEnabled = request.IsEnabled,
             Note = request.Note
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
+
     public async Task<IResult> DeleteFamilyEventReminderAsync(string id,
                                                               [FromServices] ISender sender,
                                                               [FromServices] IUser user,
-                                                              CancellationToken cancellationToken)
+                                                              CancellationToken ct)
     {
         var command = new DeleteFamilyEventReminderCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

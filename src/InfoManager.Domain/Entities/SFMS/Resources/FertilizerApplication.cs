@@ -1,5 +1,4 @@
-﻿
-namespace InfoManager.Domain.Entities.SFMS.Resources;
+﻿namespace InfoManager.Domain.Entities.SFMS.Resources;
 
 /// <summary>
 /// Lần bón phân thực tế
@@ -9,7 +8,7 @@ public class FertilizerApplication : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>
     /// ID thửa ruộng
@@ -29,7 +28,7 @@ public class FertilizerApplication : BaseAuditableEntity
     /// <summary>
     /// ID phân bón
     /// </summary>
-    public required string FertilizerId { get; set; }
+    public string FertilizerId { get; set; }
 
     /// <summary>
     /// Ngày bón thực tế

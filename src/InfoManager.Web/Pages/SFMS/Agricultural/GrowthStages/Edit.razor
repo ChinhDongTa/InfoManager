@@ -13,58 +13,66 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên giai đoạn" @bind-Value="updateModel.StageName" />
-                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
-                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="updateModel.CropScheduleId" />
-                    <FluentNumberField Label="Thứ tự giai đoạn" @bind-Value="updateModel.StageSequence" />
-                    <FluentNumberField Label="Số ngày sau khi trồng" @bind-Value="updateModel.DaysAfterPlanting" />
-                    <FluentNumberField Label="Thời gian kéo dài giai đoạn" @bind-Value="updateModel.StageDuration" />
-                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
-                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
-                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
-                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
-                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
-                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
-                    <FluentNumberField Label="Nhu cầu đạm" @bind-Value="updateModel.NitrogenRequirement" />
-                    <FluentNumberField Label="Nhu cầu lân" @bind-Value="updateModel.PhosphorusRequirement" />
-                    <FluentNumberField Label="Nhu cầu kali" @bind-Value="updateModel.PotassiumRequirement" />
-                    <FluentTextField Label="Sâu hại thường gặp" @bind-Value="updateModel.CommonPests" />
-                    <FluentTextField Label="Bệnh thường gặp" @bind-Value="updateModel.CommonDiseases" />
-                    <FluentTextField Label="Hoạt động quản lý" @bind-Value="updateModel.ManagementActivities" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên giai đoạn" @bind-Value="updateModel.StageName" />
+                        <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
+                        <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="updateModel.CropScheduleId" />
+                        <FluentNumberField Label="Thứ tự giai đoạn" @bind-Value="updateModel.StageSequence" />
+                        <FluentNumberField Label="Số ngày sau khi trồng" @bind-Value="updateModel.DaysAfterPlanting" />
+                        <FluentNumberField Label="Thời gian kéo dài giai đoạn" @bind-Value="updateModel.StageDuration" />
+                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
+                        <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
+                        <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
+                        <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
+                        <FluentNumberField Label="Nhu cầu đạm" @bind-Value="updateModel.NitrogenRequirement" />
+                        <FluentNumberField Label="Nhu cầu lân" @bind-Value="updateModel.PhosphorusRequirement" />
+                        <FluentNumberField Label="Nhu cầu kali" @bind-Value="updateModel.PotassiumRequirement" />
+                        <FluentTextField Label="Sâu hại thường gặp" @bind-Value="updateModel.CommonPests" />
+                        <FluentTextField Label="Bệnh thường gặp" @bind-Value="updateModel.CommonDiseases" />
+                        <FluentTextField Label="Hoạt động quản lý" @bind-Value="updateModel.ManagementActivities" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stages/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stages/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Tên giai đoạn" @bind-Value="createModel.StageName" />
-                    <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
-                    <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="createModel.CropScheduleId" />
-                    <FluentNumberField Label="Thứ tự giai đoạn" @bind-Value="createModel.StageSequence" />
-                    <FluentNumberField Label="Số ngày sau khi trồng" @bind-Value="createModel.DaysAfterPlanting" />
-                    <FluentNumberField Label="Thời gian kéo dài giai đoạn" @bind-Value="createModel.StageDuration" />
-                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
-                    <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
-                    <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
-                    <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
-                    <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
-                    <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
-                    <FluentNumberField Label="Nhu cầu đạm" @bind-Value="createModel.NitrogenRequirement" />
-                    <FluentNumberField Label="Nhu cầu lân" @bind-Value="createModel.PhosphorusRequirement" />
-                    <FluentNumberField Label="Nhu cầu kali" @bind-Value="createModel.PotassiumRequirement" />
-                    <FluentTextField Label="Sâu hại thường gặp" @bind-Value="createModel.CommonPests" />
-                    <FluentTextField Label="Bệnh thường gặp" @bind-Value="createModel.CommonDiseases" />
-                    <FluentTextField Label="Hoạt động quản lý" @bind-Value="createModel.ManagementActivities" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Tên giai đoạn" @bind-Value="createModel.StageName" />
+                        <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
+                        <SelectList Route="/api/selectlist/cropschedule" Label="Chọn lịch canh tác" @bind-Value="createModel.CropScheduleId" />
+                        <FluentNumberField Label="Thứ tự giai đoạn" @bind-Value="createModel.StageSequence" />
+                        <FluentNumberField Label="Số ngày sau khi trồng" @bind-Value="createModel.DaysAfterPlanting" />
+                        <FluentNumberField Label="Thời gian kéo dài giai đoạn" @bind-Value="createModel.StageDuration" />
+                        <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                        <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
+                        <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
+                        <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
+                        <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
+                        <FluentNumberField Label="Nhu cầu đạm" @bind-Value="createModel.NitrogenRequirement" />
+                        <FluentNumberField Label="Nhu cầu lân" @bind-Value="createModel.PhosphorusRequirement" />
+                        <FluentNumberField Label="Nhu cầu kali" @bind-Value="createModel.PotassiumRequirement" />
+                        <FluentTextField Label="Sâu hại thường gặp" @bind-Value="createModel.CommonPests" />
+                        <FluentTextField Label="Bệnh thường gặp" @bind-Value="createModel.CommonDiseases" />
+                        <FluentTextField Label="Hoạt động quản lý" @bind-Value="createModel.ManagementActivities" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stages/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/growth-stages/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

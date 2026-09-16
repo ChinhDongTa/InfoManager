@@ -35,27 +35,27 @@ public record CreateFertilizerApplicationRequest(
     string FertilizerId,
     DateTimeOffset AppliedDate,
     decimal AppliedQuantity,
-    string? FieldId = null,
-    string? CropPlantingId = null,
-    string? FertilizationPlanId = null,
-    string Unit = "kg",
-    string? ApplicationMethod = null,
-    string? AppliedBy = null,
-    decimal? Cost = null,
-    string? Notes = null
+    string? FieldId,
+    string? CropPlantingId,
+    string? FertilizationPlanId,
+    string Unit,
+    string? ApplicationMethod,
+    string? AppliedBy,
+    decimal? Cost,
+    string? Notes
 );
 
 public record UpdateFertilizerApplicationRequest(
     string Id,
-    string? FieldId = null,
-    string? CropPlantingId = null,
-    string? FertilizationPlanId = null,
-    string? FertilizerId = null,
-    DateTimeOffset? AppliedDate = null,
-    decimal? AppliedQuantity = null,
-    string? Unit = null,
-    string? ApplicationMethod = null,
-    string? AppliedBy = null,
-    decimal? Cost = null,
-    string? Notes = null
+    string? FieldId,
+    string? CropPlantingId,
+    string? FertilizationPlanId,
+    string? FertilizerId,
+    DateTimeOffset? AppliedDate,
+    decimal? AppliedQuantity,
+    string? Unit,
+    string? ApplicationMethod,
+    string? AppliedBy,
+    decimal? Cost,
+    string? Notes
 );

@@ -5,7 +5,7 @@
 /// </summary>
 public class InventoryAlertSetting : BaseAuditableEntity
 {
-    public required string FarmId { get; set; }
+    public string FarmId { get; set; }
 
     /// <summary>Số ngày trước hạn dùng để cảnh báo "Sắp hết hạn"</summary>
     public int ExpiringSoonDays { get; set; } = 30;

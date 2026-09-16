@@ -5,7 +5,8 @@ namespace InfoManager.Api.Endpoints.SFMS.Infrastructure;
 
 public class Farms : EndpointGroupBase
 {
-    override public string GroupName => "Farms";
+    public override string GroupName => "Farms";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -19,41 +20,44 @@ public class Farms : EndpointGroupBase
         api.MapPut(UpdateFarmAsync, "{id}");
         api.MapDelete(DeleteFarmAsync, "{id}");
     }
-    public async Task<IResult> GetFarmByIdAsync(string id, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> GetFarmByIdAsync(string id, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetFarmByIdQuery(id), cancellationToken);
+        var result = await sender.Send(new GetFarmByIdQuery(id), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> GetFarmsAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> GetFarmsAsync(int pageNumber, int pageSize, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(new GetFarmsQuery(pageNumber, pageSize), cancellationToken);
+        var result = await sender.Send(new GetFarmsQuery(pageNumber, pageSize), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> SearchFarmsAsync([AsParameters] SearchFarmsRequest request, [FromServices] ISender sender, CancellationToken cancellationToken)
+    public async Task<IResult> SearchFarmsAsync([AsParameters] SearchFarmsRequest request, [FromServices] ISender sender, CancellationToken ct)
     {
-        var result = await sender.Send(FarmMappings.ToSearchQuery(request), cancellationToken);
+        var result = await sender.Send(FarmMappings.ToSearchQuery(request), ct);
         return result.ToHttpResult();
     }
 
-    public async Task<IResult> CreateFarmAsync(CreateFarmRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+    public async Task<IResult> CreateFarmAsync(CreateFarmRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(FarmMappings.ToCreateCommand(request), cancellationToken);
+        var result = await sender.Send(FarmMappings.ToCreateCommand(request), ct);
         return result.ToCreatedHttpResult(GroupName);
     }
-    public async Task<IResult> UpdateFarmAsync(string id, UpdateFarmRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> UpdateFarmAsync(string id, UpdateFarmRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         if (id != request.Id)
         {
             return Results.BadRequest("The ID in the URL does not match the ID in the request body.");
         }
-        var result = await sender.Send(FarmMappings.ToUpdateCommand(request, id), cancellationToken);
+        var result = await sender.Send(FarmMappings.ToUpdateCommand(request, id), ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> DeleteFarmAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken cancellationToken)
+
+    public async Task<IResult> DeleteFarmAsync(string id, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
-        var result = await sender.Send(new DeleteFarmCommand(id), cancellationToken);
+        var result = await sender.Send(new DeleteFarmCommand(id), ct);
         return result.ToHttpResult();
     }
 }

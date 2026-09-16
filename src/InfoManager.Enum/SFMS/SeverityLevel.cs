@@ -7,10 +7,13 @@ public enum SeverityLevel
 {
     [Display(Name = "Thấp")]
     Low = 1,
+
     [Display(Name = "Trung bình")]
     Medium = 2,
+
     [Display(Name = "Cao")]
     High = 3,
+
     [Display(Name = "Nghiêm trọng")]
     Critical = 4
 }

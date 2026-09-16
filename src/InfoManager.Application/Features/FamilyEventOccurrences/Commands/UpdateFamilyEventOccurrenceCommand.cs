@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.FamilyEventOccurrences.Commands;
+﻿namespace InfoManager.Application.Features.FamilyEventOccurrences.Commands;
 
 public record UpdateFamilyEventOccurrenceCommand : IRequest<Result>
 {
@@ -10,6 +8,7 @@ public record UpdateFamilyEventOccurrenceCommand : IRequest<Result>
     public string? Location { get; init; }
     public decimal? Cost { get; init; }
 }
+
 public class UpdateFamilyEventOccurrenceCommandHandler : BaseUpdateCommandHandler<UpdateFamilyEventOccurrenceCommand, FamilyEventOccurrence>
 {
     public UpdateFamilyEventOccurrenceCommandHandler(IApplicationDbContext context,
@@ -18,10 +17,12 @@ public class UpdateFamilyEventOccurrenceCommandHandler : BaseUpdateCommandHandle
         : base(context, validator, logger)
     {
     }
-    protected override async Task<FamilyEventOccurrence?> GetEntityAsync(UpdateFamilyEventOccurrenceCommand request, CancellationToken cancellationToken)
+
+    protected override async Task<FamilyEventOccurrence?> GetEntityAsync(UpdateFamilyEventOccurrenceCommand request, CancellationToken ct)
     {
-        return await Context.FamilyEventOccurrences.FindAsync([request.Id], cancellationToken);
+        return await Context.FamilyEventOccurrences.FindAsync([request.Id], ct);
     }
+
     protected override async Task UpdateEntityProperties(FamilyEventOccurrence entity, UpdateFamilyEventOccurrenceCommand request)
     {
         if (request.OccurrenceDate.HasValueAndIsDifferentFrom(entity.OccurrenceDate))
@@ -34,6 +35,7 @@ public class UpdateFamilyEventOccurrenceCommandHandler : BaseUpdateCommandHandle
             entity.Cost = request.Cost;
     }
 }
+
 public class UpdateFamilyEventOccurrenceCommandValidator : AbstractValidator<UpdateFamilyEventOccurrenceCommand>
 {
     public UpdateFamilyEventOccurrenceCommandValidator()
@@ -45,5 +47,4 @@ public class UpdateFamilyEventOccurrenceCommandValidator : AbstractValidator<Upd
         RuleFor(x => x.Notes).MaximumLength(2000).WithMessage(ErrorHelpers.GetErrorMaxLength("Notes", 2000))
             .When(x => !string.IsNullOrEmpty(x.Notes));
     }
-    
 }

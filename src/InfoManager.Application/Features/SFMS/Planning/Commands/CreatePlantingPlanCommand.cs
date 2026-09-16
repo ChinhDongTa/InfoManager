@@ -84,9 +84,9 @@ public class CreatePlantingPlanCommandHandler : BaseCreateCommandHandler<CreateP
         : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(PlantingPlan entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(PlantingPlan entity, CancellationToken ct)
     {
-        await Context.PlantingPlans.AddAsync(entity, cancellationToken);
+        await Context.PlantingPlans.AddAsync(entity, ct);
     }
 
     protected override async Task<PlantingPlan> CreateEntity(CreatePlantingPlanCommand request)

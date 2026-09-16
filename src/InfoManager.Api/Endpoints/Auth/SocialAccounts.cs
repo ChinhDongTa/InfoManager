@@ -7,6 +7,7 @@ namespace InfoManager.Api.Endpoints.Auth;
 public class SocialAccounts : EndpointGroupBase
 {
     public override string GroupName => "SocialAccounts";
+
     public override void Map(RouteGroupBuilder group)
     {
         var api = group.MapGroup("").RequireAuthorization();
@@ -19,27 +20,30 @@ public class SocialAccounts : EndpointGroupBase
         api.MapPut(UpdateSocialAccountAsync, "{id}");
         api.MapDelete(DeleteSocialAccountAsync, "{id}");
     }
+
     public async Task<IResult> GetSocialAccountByIdAsync(string id,
                                                          [FromServices] ISender sender,
-                                                         CancellationToken cancellationToken)
+                                                         CancellationToken ct)
     {
         var query = new GetSocialAccountByIdQuery(id);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
+
     public async Task<IResult> GetSocialAccountsAsync(int pageNumber,
                                                       int pageSize,
                                                       [FromServices] ISender sender,
-                                                      CancellationToken cancellationToken)
+                                                      CancellationToken ct)
     {
         var query = new GetSocialAccountsQuery(pageNumber, pageSize);
-        var result = await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, ct);
         return result.ToHttpResult();
     }
+
     public async Task<IResult> CreateSocialAccountAsync([FromBody] CreateSocialAccountRequest request,
                                                         [FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken)
+                                                        CancellationToken ct)
     {
         var command = new CreateSocialAccountCommand()
         {
@@ -49,7 +53,7 @@ public class SocialAccounts : EndpointGroupBase
             DisplayName = request.DisplayName,
             HomepageUrl = request.HomepageUrl
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToCreatedHttpResult(GroupName);
     }
 
@@ -57,7 +61,7 @@ public class SocialAccounts : EndpointGroupBase
                                                         [FromBody] UpdateSocialAccountRequest request,
                                                         [FromServices] ISender sender,
                                                         [FromServices] IUser user,
-                                                        CancellationToken cancellationToken)
+                                                        CancellationToken ct)
     {
         if (id != request.Id)
         {
@@ -72,13 +76,14 @@ public class SocialAccounts : EndpointGroupBase
             DisplayName = request.DisplayName,
             HomepageUrl = request.HomepageUrl
         };
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
-    public async Task<IResult> DeleteSocialAccountAsync(string id, [FromServices] ISender sender, CancellationToken cancellationToken)
+
+    public async Task<IResult> DeleteSocialAccountAsync(string id, [FromServices] ISender sender, CancellationToken ct)
     {
         var command = new DeleteSocialAccountCommand(id);
-        var result = await sender.Send(command, cancellationToken);
+        var result = await sender.Send(command, ct);
         return result.ToHttpResult();
     }
 }

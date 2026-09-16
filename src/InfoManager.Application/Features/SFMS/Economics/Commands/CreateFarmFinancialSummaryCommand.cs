@@ -85,9 +85,9 @@ public class CreateFarmFinancialSummaryCommandHandler
         : base(context, validator, logger)
     { }
 
-    protected override async Task AddEntityAsync(FarmFinancialSummary entity, CancellationToken cancellationToken)
+    protected override async Task AddEntityAsync(FarmFinancialSummary entity, CancellationToken ct)
     {
-        await Context.FarmFinancialSummaries.AddAsync(entity, cancellationToken);
+        await Context.FarmFinancialSummaries.AddAsync(entity, ct);
     }
 
     protected override async Task<FarmFinancialSummary> CreateEntity(CreateFarmFinancialSummaryCommand request)

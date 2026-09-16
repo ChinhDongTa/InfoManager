@@ -1,5 +1,6 @@
 ﻿namespace InfoManager.Application.Features.SFMS.Agricultural.Commands;
-public record CreateCropPlantingCommand:IRequest<Result<string>>
+
+public record CreateCropPlantingCommand : IRequest<Result<string>>
 {
     public required string FieldId { get; init; }
     public required string CropId { get; init; }
@@ -14,23 +15,28 @@ public record CreateCropPlantingCommand:IRequest<Result<string>>
     public PlantingStatus Status { get; init; } = PlantingStatus.Planned;
     public string? Notes { get; init; } = null;
 }
+
 public class CreateCropPlantingCommandHandler : BaseCreateCommandHandler<CreateCropPlantingCommand, CropPlanting>
 {
     private readonly ICodeGeneratorService _codeGenerator;
+
     public CreateCropPlantingCommandHandler(IApplicationDbContext context,
                                             IValidator<CreateCropPlantingCommand> validator,
                                             ILogger<CreateCropPlantingCommandHandler> logger, ICodeGeneratorService codeGenerator) : base(context, validator, logger)
-    { 
+    {
         _codeGenerator = codeGenerator;
     }
-    protected override async Task AddEntityAsync(CropPlanting entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(CropPlanting entity, CancellationToken ct)
     {
-        await Context.CropPlantings.AddAsync(entity, cancellationToken);
+        await Context.CropPlantings.AddAsync(entity, ct);
     }
-    private async Task<string> GetPlantingCode(CreateCropPlantingCommand request,  CancellationToken cancellationToken)
+
+    private async Task<string> GetPlantingCode(CreateCropPlantingCommand request, CancellationToken ct)
     {
-        return await _codeGenerator.PlantingCodeGenerator(request.FieldId, request.CropId, request.PlantingDate, cancellationToken);
+        return await _codeGenerator.PlantingCodeGenerator(request.FieldId, request.CropId, request.PlantingDate, ct);
     }
+
     protected override async Task<CropPlanting> CreateEntity(CreateCropPlantingCommand request)
     {
         return new CropPlanting
@@ -51,6 +57,7 @@ public class CreateCropPlantingCommandHandler : BaseCreateCommandHandler<CreateC
         };
     }
 }
+
 public class CreateCropPlantingCommandValidator : AbstractValidator<CreateCropPlantingCommand>
 {
     public CreateCropPlantingCommandValidator()

@@ -9,12 +9,12 @@ public class CropVariety : BaseAuditableEntity
     /// Tên giống / tên cultivar
     /// </summary>
     [MaxLength(200)]
-    public required string VarietyName { get; set; }
+    public string VarietyName { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public required string CropId { get; set; }
+    public string CropId { get; set; }
 
     /// <summary>
     /// Tên nhà tạo giống / công ty phát triển
@@ -73,6 +73,7 @@ public class CropVariety : BaseAuditableEntity
 
     // Navigation properties
     public virtual Crop? Crop { get; set; }
+
     public virtual ICollection<CropSchedule> Schedules { get; set; } = [];
     public virtual ICollection<CropPlanting> Plantings { get; set; } = [];
 }

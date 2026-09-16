@@ -55,16 +55,19 @@ public record CreateCustomerCareCommand : IRequest<Result<string>>
     /// </summary>
     public string? Result { get; init; }
 }
+
 public class CreateCustomerCareCommandHandler : BaseCreateCommandHandler<CreateCustomerCareCommand, CustomerCare>
 {
     public CreateCustomerCareCommandHandler(IApplicationDbContext context,
                                             IValidator<CreateCustomerCareCommand> validator,
                                             ILogger<CreateCustomerCareCommandHandler> logger) : base(context, validator, logger)
     { }
-    protected override async Task AddEntityAsync(CustomerCare entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(CustomerCare entity, CancellationToken ct)
     {
-        await Context.CustomerCares.AddAsync(entity, cancellationToken);
+        await Context.CustomerCares.AddAsync(entity, ct);
     }
+
     protected override async Task<CustomerCare> CreateEntity(CreateCustomerCareCommand request)
         => new()
         {
@@ -80,6 +83,7 @@ public class CreateCustomerCareCommandHandler : BaseCreateCommandHandler<CreateC
             Result = request.Result
         };
 }
+
 public class CreateCustomerCareCommandValidator : AbstractValidator<CreateCustomerCareCommand>
 {
     public CreateCustomerCareCommandValidator()

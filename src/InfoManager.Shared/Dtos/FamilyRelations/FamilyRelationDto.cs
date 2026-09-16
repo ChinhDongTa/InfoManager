@@ -1,6 +1,5 @@
 ﻿namespace InfoManager.Shared.Dtos.FamilyRelations;
 
-
 public record FamilyRelationDto(string Id, string Name, string? Description);
 public record CreateFamilyRelationRequest
 {

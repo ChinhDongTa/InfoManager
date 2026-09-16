@@ -9,7 +9,7 @@ public class Fertilizer : BaseAuditableEntity
     /// Tên phân bón
     /// </summary>
     [MaxLength(200)]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// Loại phân (Hữu cơ, NPK, Đạm, Lân, Kali...)

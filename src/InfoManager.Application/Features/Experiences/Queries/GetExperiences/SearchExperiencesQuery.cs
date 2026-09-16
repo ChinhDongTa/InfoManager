@@ -9,6 +9,7 @@ public record SearchExperiencesQuery : IRequest<Result<PaginatedList<ExperienceS
     public int PageNumber { get; init; } = 1;
     public int PageSize { get; init; } = 20;
 }
+
 public class SearchExperiencesQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchExperiencesQuery, Result<PaginatedList<ExperienceSummaryDto>>>
 {
     public async Task<Result<PaginatedList<ExperienceSummaryDto>>> Handle(SearchExperiencesQuery request, CancellationToken ct)
@@ -20,7 +21,8 @@ public class SearchExperiencesQueryHandler(IApplicationDbContext context) : IReq
              .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<ExperienceSummaryDto>>.Success(paginated);
     }
-    static IQueryable<Experience> BuildSearchQuery(IQueryable<Experience> query, string? keyword, string? categoryId)
+
+    private static IQueryable<Experience> BuildSearchQuery(IQueryable<Experience> query, string? keyword, string? categoryId)
     {
         if (!string.IsNullOrEmpty(keyword))
         {

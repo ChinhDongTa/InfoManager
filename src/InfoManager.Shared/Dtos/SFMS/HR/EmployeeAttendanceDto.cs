@@ -11,6 +11,7 @@ public record EmployeeAttendanceDto(
     TimeOnly? CheckOutTime,
     string? WorkShiftId,
     string? WorkShiftName,
+    AttendanceStatus Status,
     string StatusName,
     string? Reason,
     decimal? HoursWorked,

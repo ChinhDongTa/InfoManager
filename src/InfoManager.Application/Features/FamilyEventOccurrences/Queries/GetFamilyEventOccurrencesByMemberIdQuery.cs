@@ -1,12 +1,12 @@
 ﻿using InfoManager.Shared.Dtos.FamilyEventOccurrences;
-using InfoManager.Shared.Models;
-
 
 namespace InfoManager.Application.Features.FamilyEventOccurrences.Queries;
+
 public record GetFamilyEventOccurrencesByMemberIdQuery(string MemberId, int PageNumber = 1, int PageSize = 20) : IRequest<Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>>;
+
 public class GetFamilyEventOccurrencesByMemberIdQueryHandler(IApplicationDbContext context) : IRequestHandler<GetFamilyEventOccurrencesByMemberIdQuery, Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>> Handle(GetFamilyEventOccurrencesByMemberIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>> Handle(GetFamilyEventOccurrencesByMemberIdQuery request, CancellationToken ct)
     {
         var query = context.FamilyEventOccurrences
             .Where(e => e.FamilyEvent != null && e.FamilyEvent.FamilyMemberId == request.MemberId)
@@ -14,7 +14,7 @@ public class GetFamilyEventOccurrencesByMemberIdQueryHandler(IApplicationDbConte
         var paginated = await query
             .ApplySorting()
             .ToFamilyEventOccurrenceSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<FamilyEventOccurrenceSummaryDto>>.Success(paginated);
     }
 }

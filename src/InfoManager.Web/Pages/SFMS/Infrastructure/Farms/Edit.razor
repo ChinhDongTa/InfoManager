@@ -13,44 +13,52 @@
         @if (updateModel != null)
         {
             <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Họ và tên" @bind-Value="updateModel.Name" />
-                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
-                    <FluentNumberField Label="Tổng diện tích" @bind-Value="updateModel.TotalArea" />
-                    <FluentNumberField Label="Diện tích canh tác" @bind-Value="updateModel.CultivableArea" />
-                    <FluentTextField Label="Vị trí" @bind-Value="updateModel.Location" />
-                    <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
-                    <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
-                    <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="updateModel.FarmerId" />
-                    <FluentTextField Label="Giấy phép" @bind-Value="updateModel.LicenseNumber" />
-                    <SelectList Route="/api/enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
-                    <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
-                    
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Họ và tên" @bind-Value="updateModel.Name" />
+                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <FluentNumberField Label="Tổng diện tích" @bind-Value="updateModel.TotalArea" />
+                        <FluentNumberField Label="Diện tích canh tác" @bind-Value="updateModel.CultivableArea" />
+                        <FluentTextField Label="Vị trí" @bind-Value="updateModel.Location" />
+                        <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
+                        <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="updateModel.FarmerId" />
+                        <FluentTextField Label="Giấy phép" @bind-Value="updateModel.LicenseNumber" />
+                        <SelectList Route="/api/enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
+                        <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
+
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }
         else if (createModel != null)
         {
             <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
-                <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.Name" />
-                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
-                    <FluentNumberField Label="Tổng diện tích" @bind-Value="createModel.TotalArea" />
-                    <FluentNumberField Label="Diện tích canh tác" @bind-Value="createModel.CultivableArea" />
-                    <FluentTextField Label="Vị trí" @bind-Value="createModel.Location" />
-                    <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
-                    <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
-                    <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="createModel.FarmerId" />
-                    <FluentTextField Label="Giấy phép" @bind-Value="createModel.LicenseNumber" />
-                    <SelectList Route="api/Enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
-                    <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+                        <FluentTextField Label="Họ và tên" @bind-Value="createModel.Name" />
+                        <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
+                        <FluentNumberField Label="Tổng diện tích" @bind-Value="createModel.TotalArea" />
+                        <FluentNumberField Label="Diện tích canh tác" @bind-Value="createModel.CultivableArea" />
+                        <FluentTextField Label="Vị trí" @bind-Value="createModel.Location" />
+                        <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
+                        <SelectList Route="/api/selectlist/farmer" Label="Chọn chủ hộ" @bind-Value="createModel.FarmerId" />
+                        <FluentTextField Label="Giấy phép" @bind-Value="createModel.LicenseNumber" />
+                        <SelectList Route="api/Enums/FarmStatus" Label="Chọn chủ hộ" @bind-Value="farmStatusSelected" />
+                        <DateTimePicker Label="Ngày thành lập" @bind-Value="establishedDate" />
 
-                    <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />
+                        <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farms/list" />
+                    </FluentStack>
                 </FluentStack>
             </EditForm>
         }

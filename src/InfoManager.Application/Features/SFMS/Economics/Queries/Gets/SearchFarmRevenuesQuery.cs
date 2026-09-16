@@ -11,14 +11,15 @@ public record SearchFarmRevenuesQuery(
     DateTimeOffset? EndRevenueDate,
     int PageNumber,
     int PageSize) : IRequest<Result<PaginatedList<FarmRevenueSummaryDto>>>;
+
 public class SearchFarmRevenuesQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchFarmRevenuesQuery, Result<PaginatedList<FarmRevenueSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<FarmRevenueSummaryDto>>> Handle(SearchFarmRevenuesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<FarmRevenueSummaryDto>>> Handle(SearchFarmRevenuesQuery request, CancellationToken ct)
     {
         var paged = await context.FarmRevenues.BuildSearchQuery(request)
             .ApplySorting()
             .ToFarmRevenueSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<FarmRevenueSummaryDto>>.Success(paged);
     }
 }

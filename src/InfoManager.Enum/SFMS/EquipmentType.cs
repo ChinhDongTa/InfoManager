@@ -1,4 +1,5 @@
 ﻿namespace InfoManager.Enum.SFMS;
+
 public enum EquipmentType
 {
     [Display(Name = "Máy kéo")]

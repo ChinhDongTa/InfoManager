@@ -1,6 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-
-namespace InfoManager.Application.Features.HistoricalEvents.Commands;
+﻿namespace InfoManager.Application.Features.HistoricalEvents.Commands;
 
 public record CreateHistoricalEventCommand : IRequest<Result<string>>
 {
@@ -11,6 +9,7 @@ public record CreateHistoricalEventCommand : IRequest<Result<string>>
     public required string Summary { get; init; }
     public string? ReferenceSource { get; init; }
 }
+
 public class CreateHistoricalEventCommandHandler : BaseCreateCommandHandler<CreateHistoricalEventCommand, HistoricalEvent>
 {
     public CreateHistoricalEventCommandHandler(IApplicationDbContext context,
@@ -18,6 +17,7 @@ public class CreateHistoricalEventCommandHandler : BaseCreateCommandHandler<Crea
                                             ILogger<CreateHistoricalEventCommandHandler> logger) : base(context, validator, logger)
     {
     }
+
     protected override async Task<HistoricalEvent> CreateEntity(CreateHistoricalEventCommand request)
     {
         return new HistoricalEvent
@@ -30,11 +30,13 @@ public class CreateHistoricalEventCommandHandler : BaseCreateCommandHandler<Crea
             ReferenceSource = request.ReferenceSource?.Trim()
         };
     }
-    protected override async Task AddEntityAsync(HistoricalEvent entity, CancellationToken cancellationToken)
+
+    protected override async Task AddEntityAsync(HistoricalEvent entity, CancellationToken ct)
     {
-        await Context.HistoricalEvents.AddAsync(entity, cancellationToken);
+        await Context.HistoricalEvents.AddAsync(entity, ct);
     }
 }
+
 public class CreateHistoricalEventCommandValidator : AbstractValidator<CreateHistoricalEventCommand>
 {
     public CreateHistoricalEventCommandValidator()

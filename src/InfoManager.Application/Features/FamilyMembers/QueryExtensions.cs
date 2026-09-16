@@ -1,5 +1,4 @@
-﻿using InfoManager.Domain.Entities.Personal;
-using InfoManager.Shared.Dtos.FamilyMembers;
+﻿using InfoManager.Shared.Dtos.FamilyMembers;
 
 namespace InfoManager.Application.Features.FamilyMembers;
 
@@ -22,6 +21,7 @@ public static class QueryExtensions
             fm.FamilyId
         ));
     }
+
     public static IQueryable<FamilyMemberSummaryDto> ToFamilyMemberSummaryDto(this IQueryable<FamilyMember> query)
     {
         return query.Select(fm => new FamilyMemberSummaryDto(
@@ -31,6 +31,7 @@ public static class QueryExtensions
             fm.BirthDate
         ));
     }
+
     /// <summary>
     /// Applies sorting to the query based on the provided sortBy parameter. If sortBy is null or empty, it defaults to sorting by BirthDate and then by FullName.
     /// </summary>

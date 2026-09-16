@@ -12,19 +12,23 @@ public class UpdateFamilyRelationModel
     /// </summary>
     [MaxLength(100)]
     public string? Name { get; set; }
+
     public string? Description { get; set; }
+
     public UpdateFamilyRelationModel(FamilyRelationDto dto)
     {
         Id = dto.Id;
         Name = dto.Name;
         Description = dto.Description;
     }
+
     public UpdateFamilyRelationRequest CreateRequest() => new()
     {
         Id = this.Id,
         Name = this.Name,
         Description = this.Description
     };
+
     public bool HasChanges(UpdateFamilyRelationModel originalModel)
         => ClientUpdateHelper.HasChanges(this, originalModel);
 }

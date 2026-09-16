@@ -5,7 +5,8 @@ namespace InfoManager.ModelClient.HistoricalEvents;
 
 public class UpdateHistoricalEventModel
 {
-    public string Id { get; set; } =string.Empty;
+    public string Id { get; set; } = string.Empty;
+
     /// <summary>
     /// Ngày diễn ra sự kiện lịch sử
     /// </summary>
@@ -47,6 +48,7 @@ public class UpdateHistoricalEventModel
         Summary = dto.Summary;
         ReferenceSource = dto.ReferenceSource;
     }
+
     public UpdateHistoricalEventRequest CreateRequest()
     {
         return new UpdateHistoricalEventRequest
@@ -60,6 +62,7 @@ public class UpdateHistoricalEventModel
             ReferenceSource = this.ReferenceSource
         };
     }
+
     public bool HasChanges(UpdateHistoricalEventModel originalModel)
     {
         return ClientUpdateHelper.HasChanges(this, originalModel);

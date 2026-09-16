@@ -77,14 +77,13 @@ public record CropHealthSummaryDto(
     /// <summary>Ngày đánh giá</summary>
     DateTimeOffset AssessmentDate,
 
-
     /// <summary>Tên tình trạng sức khỏe</summary>
     string? HealthStatusName,
 
     /// <summary>Thiệt hại do sâu (%)</summary>
     decimal? PestDamagePercentage,
 
-     /// <summary>Việc nên làm tiếp</summary>
+    /// <summary>Việc nên làm tiếp</summary>
     string? RecommendedActions
 );
 

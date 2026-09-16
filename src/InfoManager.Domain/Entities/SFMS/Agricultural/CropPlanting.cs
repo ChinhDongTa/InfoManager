@@ -13,17 +13,17 @@ public class CropPlanting : BaseAuditableEntity
     /// Được sinh tự động khi tạo mới, nhưng có thể chỉnh sửa nếu cần.
     /// </summary>
     [MaxLength(300)]
-    public string PlantingCode { get; set; }=string.Empty;
+    public string PlantingCode { get; set; } = string.Empty;
 
     /// <summary>
     /// ID thửa ruộng / khu vực trồng
     /// </summary>
-    public required string FieldId { get; set; }
+    public string FieldId { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public required string CropId { get; set; }
+    public string CropId { get; set; }
 
     /// <summary>
     /// ID giống cây trồng
@@ -79,6 +79,7 @@ public class CropPlanting : BaseAuditableEntity
 
     // Navigation properties
     public virtual Field? Field { get; set; }
+
     public virtual Crop? Crop { get; set; }
     public virtual CropVariety? CropVariety { get; set; }
     public virtual CropSchedule? CropSchedule { get; set; }

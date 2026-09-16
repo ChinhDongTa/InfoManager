@@ -1,5 +1,4 @@
 ﻿using InfoManager.Shared.Dtos.FamilyEventReminders;
-using InfoManager.Shared.Models;
 
 namespace InfoManager.Application.Features.FamilyEventReminders.Queries;
 
@@ -14,10 +13,10 @@ public record SearchFamilyEventRemindersQuery : IRequest<Result<PaginatedList<Fa
 
 public class SearchFamilyEventRemindersQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchFamilyEventRemindersQuery, Result<PaginatedList<FamilyEventReminderSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<FamilyEventReminderSummaryDto>>> Handle(SearchFamilyEventRemindersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<FamilyEventReminderSummaryDto>>> Handle(SearchFamilyEventRemindersQuery request, CancellationToken ct)
     {
         var query = context.FamilyEventReminders.AsQueryable();
-       
+
         if (request.MinDaysBefore.HasValue)
         {
             query = query.Where(r => r.DaysBefore >= request.MinDaysBefore.Value);
@@ -34,7 +33,7 @@ public class SearchFamilyEventRemindersQueryHandler(IApplicationDbContext contex
         var paginated = await query
             .ApplySorting()
             .ToFamilyEventReminderSummaryDto()
-            .PaginatedListAsync(request.PageNumber, request.PageSize, cancellationToken);
+            .PaginatedListAsync(request.PageNumber, request.PageSize, ct);
         return Result<PaginatedList<FamilyEventReminderSummaryDto>>.Success(paginated);
     }
 }

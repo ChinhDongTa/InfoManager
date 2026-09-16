@@ -8,15 +8,16 @@ public record SearchCropPlantingsQuery(string? Term,
                                         PlantingStatus? Status,
                                         int PageNumber,
                                         int PageSize) : IRequest<Result<PaginatedList<CropPlantingSummaryDto>>>;
+
 public class SearchCropPlantingsQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchCropPlantingsQuery, Result<PaginatedList<CropPlantingSummaryDto>>>
 {
-    public async Task<Result<PaginatedList<CropPlantingSummaryDto>>> Handle(SearchCropPlantingsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<CropPlantingSummaryDto>>> Handle(SearchCropPlantingsQuery request, CancellationToken ct)
     {
         IQueryable<CropPlanting> query = ApplyFilter(request);
         var result = await query
             .ApplySorting()
             .ToCropPlantingSummaryDto()
-            .PaginatedListAsync(1, 10, cancellationToken); // Default pagination values
+            .PaginatedListAsync(1, 10, ct); // Default pagination values
         return Result<PaginatedList<CropPlantingSummaryDto>>.Success(result);
     }
 
@@ -25,10 +26,10 @@ public class SearchCropPlantingsQueryHandler(IApplicationDbContext context) : IR
         var query = context.CropPlantings.AsQueryable();
         if (!string.IsNullOrWhiteSpace(request.Term))
         {
-            var key=$"%{request.Term.Trim()}%";
-            query = query.Where(x => EF.Functions.ILike(x.PlantingCode, key) 
-            || (x.PlantedUnit != null && EF.Functions.ILike(x.PlantedUnit, key)) 
-            ||(x.Notes!=null &&EF.Functions.ILike(x.Notes, key)));
+            var key = $"%{request.Term.Trim()}%";
+            query = query.Where(x => EF.Functions.ILike(x.PlantingCode, key)
+            || (x.PlantedUnit != null && EF.Functions.ILike(x.PlantedUnit, key))
+            || (x.Notes != null && EF.Functions.ILike(x.Notes, key)));
         }
         if (request.StartPlantingDate.HasValue)
         {

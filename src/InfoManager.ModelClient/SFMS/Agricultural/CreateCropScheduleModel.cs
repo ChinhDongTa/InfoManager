@@ -1,6 +1,7 @@
 ﻿using InfoManager.Shared.Dtos.SFMS.Agricultural;
 
 namespace InfoManager.ModelClient.SFMS.Agricultural;
+
 public class CreateCropScheduleModel
 {
     /// <summary>

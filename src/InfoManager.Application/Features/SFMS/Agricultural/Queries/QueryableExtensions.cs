@@ -62,9 +62,9 @@ internal static class QueryableExtensions
             Id: a.Id,
             PlantingCode: a.PlantingCode,
             FieldId: a.FieldId,
-            FieldName: a.Field!= null ? a.Field.Name : null,
+            FieldName: a.Field != null ? a.Field.Name : null,
             CropId: a.CropId,
-            CropName: a.Crop!= null ? a.Crop.CommonName : null,
+            CropName: a.Crop != null ? a.Crop.CommonName : null,
             CropVarietyId: a.CropVarietyId,
             CropVarietyName: a.CropVariety != null ? a.CropVariety.VarietyName : null,
             CropScheduleId: a.CropScheduleId,
@@ -81,6 +81,7 @@ internal static class QueryableExtensions
             Created: a.Created
         ));
     }
+
     public static IQueryable<CropPlantingSummaryDto> ToCropPlantingSummaryDto(this IQueryable<CropPlanting> query)
     {
         return query.Select(a => new CropPlantingSummaryDto(
@@ -115,6 +116,7 @@ internal static class QueryableExtensions
             _ => query
         };
     }
+
     //=============================== CropSchedule Queryable Extensions ==========================================
 
     public static IQueryable<CropScheduleDto> ToCropScheduleDto(this IQueryable<CropSchedule> query)
@@ -142,6 +144,7 @@ internal static class QueryableExtensions
             Created: a.Created
         ));
     }
+
     public static IQueryable<CropScheduleSummaryDto> ToCropScheduleSummaryDto(this IQueryable<CropSchedule> query)
     {
         return query.Select(a => new CropScheduleSummaryDto(
@@ -155,6 +158,7 @@ internal static class QueryableExtensions
             IsActive: a.IsActive
         ));
     }
+
     /// <summary>
     /// Applies sorting to the CropSchedule query based on the specified sortBy field and order (ascending or descending).
     /// </summary>
@@ -198,6 +202,7 @@ internal static class QueryableExtensions
             Created: a.Created
         ));
     }
+
     public static IQueryable<CropVarietySummaryDto> ToCropVarietySummaryDto(this IQueryable<CropVariety> query)
     {
         return query.Select(a => new CropVarietySummaryDto(
@@ -242,7 +247,7 @@ internal static class QueryableExtensions
             CropPlantingId: a.CropPlantingId,
             CropPlantingName: a.CropPlanting != null ? a.CropPlanting.PlantingCode : null,
             GrowthStageId: a.GrowthStageId,
-            GrowthStageName: a.GrowthStage!=null?a.GrowthStage.StageName : null,
+            GrowthStageName: a.GrowthStage != null ? a.GrowthStage.StageName : null,
             AlertType: a.AlertType,
             AlertTypeName: a.AlertType.ToDisplayName(),
             Message: a.Message,
@@ -332,6 +337,7 @@ internal static class QueryableExtensions
             Description: a.Description
         ));
     }
+
     /// <summary>
     /// Applies sorting to the GrowthStage query based on the specified sortBy field and order (ascending or descending).
     /// </summary>

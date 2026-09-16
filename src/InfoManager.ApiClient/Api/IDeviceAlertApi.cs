@@ -121,5 +121,4 @@ public interface IDeviceAlertApi
                                                [Query, AliasAs("EndAlertTime")] System.DateTimeOffset? endAlertTime,
                                                [Query, AliasAs("PageNumber")] int pageNumber,
                                                [Query, AliasAs("PageSize")] int pageSize, CancellationToken ct = default);
-
 }

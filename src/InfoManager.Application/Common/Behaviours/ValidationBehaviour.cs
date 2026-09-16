@@ -3,13 +3,13 @@
 public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
     {
         if (validators.Any())
         {
             var validationResults = await Task.WhenAll(
                 validators.Select(v =>
-                    v.ValidateAsync(new ValidationContext<TRequest>(request), cancellationToken)));
+                    v.ValidateAsync(new ValidationContext<TRequest>(request), ct)));
 
             var failures = validationResults
                 .Where(r => r.Errors.Count != 0)
@@ -20,6 +20,6 @@ public class ValidationBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRe
                 throw new FluentValidation.ValidationException(failures);
         }
 
-        return await next(cancellationToken);
+        return await next(ct);
     }
 }

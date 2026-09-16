@@ -22,8 +22,8 @@ public class CreateHREmployeeCommandHandler : BaseCreateCommandHandler<CreateHRE
                                           ILogger<CreateHREmployeeCommandHandler> logger)
         : base(context, validator, logger) { }
 
-    protected override async Task AddEntityAsync(HREmployee entity, CancellationToken cancellationToken)
-        => await Context.HREmployees.AddAsync(entity, cancellationToken);
+    protected override async Task AddEntityAsync(HREmployee entity, CancellationToken ct)
+        => await Context.HREmployees.AddAsync(entity, ct);
 
     protected override Task<HREmployee> CreateEntity(CreateHREmployeeCommand request)
         => Task.FromResult(new HREmployee

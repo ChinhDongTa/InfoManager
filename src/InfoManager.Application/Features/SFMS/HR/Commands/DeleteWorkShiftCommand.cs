@@ -1,6 +1,7 @@
 ﻿namespace InfoManager.Application.Features.SFMS.HR.Commands;
 
 public record DeleteWorkShiftCommand(string Id) : IRequest<Result>;
+
 public class DeleteWorkShiftCommandHandler : BaseDeleteCommandHandler<DeleteWorkShiftCommand, WorkShift>
 {
     public DeleteWorkShiftCommandHandler(IApplicationDbContext context,
@@ -8,6 +9,6 @@ public class DeleteWorkShiftCommandHandler : BaseDeleteCommandHandler<DeleteWork
     {
     }
 
-    protected override async Task<WorkShift?> GetEntityAsync(DeleteWorkShiftCommand request, CancellationToken cancellationToken)
-        => await Context.WorkShifts.FindAsync([request.Id], cancellationToken);
+    protected override async Task<WorkShift?> GetEntityAsync(DeleteWorkShiftCommand request, CancellationToken ct)
+        => await Context.WorkShifts.FindAsync([request.Id], ct);
 }

@@ -43,23 +43,23 @@ public record CreateCustomerCareRequest(
     string CustomerId,
     string FarmId,
     string Subject,
-    CustomerCareType CareType ,
-    string? Content ,
-    DateTimeOffset CareDate ,
-    DateTimeOffset? NextFollowUpDate ,
-    CustomerCareStatus Status ,
-    string? HandledBy ,
-    string? Result 
+    CustomerCareType CareType,
+    string? Content,
+    DateTimeOffset CareDate,
+    DateTimeOffset? NextFollowUpDate,
+    CustomerCareStatus Status,
+    string? HandledBy,
+    string? Result
 );
 
 public record UpdateCustomerCareRequest(
     string Id,
-    CustomerCareType? CareType ,
-    string? Subject ,
-    string? Content ,
-    DateTimeOffset? CareDate ,
-    DateTimeOffset? NextFollowUpDate ,
-    CustomerCareStatus? Status ,
-    string? HandledBy ,
-    string? Result 
+    CustomerCareType? CareType,
+    string? Subject,
+    string? Content,
+    DateTimeOffset? CareDate,
+    DateTimeOffset? NextFollowUpDate,
+    CustomerCareStatus? Status,
+    string? HandledBy,
+    string? Result
 );

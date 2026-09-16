@@ -11,17 +11,17 @@ public class UpdateFamilyEventReminderModel
     /// <summary>
     /// Nhắc trước bao nhiêu ngày (0 = đúng ngày sự kiện, 1 = 1 ngày trước, 7 = 1 tuần...)
     /// </summary>
-    public int DaysBefore { get; set; } 
+    public int DaysBefore { get; set; }
 
     /// <summary>
     /// Giờ nhắc trong ngày (ví dụ 08:00, 19:30). Null = cả ngày
     /// </summary>
-    public TimeOnly? RemindTime { get; set; } 
+    public TimeOnly? RemindTime { get; set; }
 
     /// <summary>
     /// Kênh nhắc nhở
     /// </summary>
-    public ReminderChannel Channel { get; set; } 
+    public ReminderChannel Channel { get; set; }
 
     /// <summary>
     /// Bật / tắt nhắc nhở này
@@ -43,6 +43,7 @@ public class UpdateFamilyEventReminderModel
         IsEnabled = dto.IsEnabled;
         Note = dto.Note;
     }
+
     public UpdateFamilyEventReminderRequest CreateRequest() => new(
             Id: this.Id,
             DaysBefore: this.DaysBefore,
@@ -51,6 +52,7 @@ public class UpdateFamilyEventReminderModel
             IsEnabled: this.IsEnabled,
             Note: this.Note
         );
-    public bool HasChanges(UpdateFamilyEventReminderModel originalModel) 
+
+    public bool HasChanges(UpdateFamilyEventReminderModel originalModel)
         => ClientUpdateHelper.HasChanges(this, originalModel);
 }

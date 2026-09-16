@@ -52,7 +52,7 @@ public record CreateCropScheduleRequest(
     decimal? ExpectedYield,
     decimal? EstimatedCost,
     bool IsActive,
-    string? Notes 
+    string? Notes
 );
 
 public record UpdateCropScheduleRequest(
@@ -75,8 +75,8 @@ public record UpdateCropScheduleRequest(
     string? Notes
 );
 public record SearchCropSchedulesRequest(
-    string? Term ,
-    int? MinDaysToHarvest ,
+    string? Term,
+    int? MinDaysToHarvest,
     int? MaxDaysToHarvest,
     decimal? MinExpectedYield,
     decimal? MaxExpectedYield,

@@ -1,4 +1,5 @@
 ﻿using InfoManager.Application.Features.SFMS.HR.Queries.Gets;
+
 namespace InfoManager.Application.Features.SFMS.HR.Queries;
 
 public static class QueryExtensions
@@ -70,11 +71,13 @@ public static class QueryExtensions
             DepartmentId: e.DepartmentId,
             DepartmentName: e.Department != null ? e.Department.Name : null,
             EmployeeNumber: e.EmployeeNumber,
+            Status: e.Status,
             StatusName: e.Status.ToDisplayName(),
             HireDate: e.HireDate,
             TerminationDate: e.TerminationDate,
             TerminationReason: e.TerminationReason,
             Salary: e.Salary,
+            SalaryType: e.SalaryType,
             SalaryTypeName: e.SalaryType.ToDisplayName(),
             BankAccount: e.BankAccount,
             EmergencyContactName: e.EmergencyContactName,
@@ -200,6 +203,7 @@ public static class QueryExtensions
             JobPositionTitle: a.JobPosition != null ? a.JobPosition.Title : null,
             StartDate: a.StartDate,
             EndDate: a.EndDate,
+            Status: a.Status,
             StatusName: a.Status.ToDisplayName(),
             AssignedSalary: a.AssignedSalary,
             AssignedFieldId: a.AssignedFieldId,
@@ -268,6 +272,7 @@ public static class QueryExtensions
             CheckOutTime: a.CheckOutTime,
             WorkShiftId: a.WorkShiftId,
             WorkShiftName: a.WorkShift != null ? a.WorkShift.Name : null,
+            Status: a.Status,
             StatusName: a.Status.ToDisplayName(),
             Reason: a.Reason,
             HoursWorked: a.HoursWorked,
@@ -444,6 +449,7 @@ public static class QueryExtensions
             Deductions: p.Deductions,
             DeductionDetails: p.DeductionDetails,
             NetAmount: p.NetAmount,
+            PayrollStatus: p.PaymentStatus,
             PaymentStatusName: p.PaymentStatus.ToDisplayName(),
             PaymentDate: p.PaymentDate,
             PaymentMethod: p.PaymentMethod,
@@ -507,6 +513,7 @@ public static class QueryExtensions
             ContractType: c.ContractType,
             StartDate: c.StartDate,
             EndDate: c.EndDate,
+            SalaryType: c.SalaryType,
             SalaryTypeName: c.SalaryType.ToDisplayName(),
             BaseSalary: c.BaseSalary,
             IsActive: c.IsActive,

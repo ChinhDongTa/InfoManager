@@ -3,6 +3,7 @@ using InfoManager.Application.Common.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+
 namespace InfoManager.Application;
 
 public static class DependencyInjection
@@ -23,6 +24,6 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(PerformanceBehaviour<,>));
         });
         builder.Services.AddScoped<ITokenBlacklistService, TokenBlacklistService>();
-       builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
+        builder.Services.AddScoped<ICodeGeneratorService, CodeGeneratorService>();
     }
 }

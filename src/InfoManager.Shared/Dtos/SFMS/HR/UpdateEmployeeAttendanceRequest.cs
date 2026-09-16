@@ -1,5 +1,4 @@
-﻿using InfoManager.Enum.SFMS;
-namespace InfoManager.Shared.Dtos.SFMS.HR;
+﻿namespace InfoManager.Shared.Dtos.SFMS.HR;
 
 public record UpdateEmployeeAttendanceRequest(
     string Id,

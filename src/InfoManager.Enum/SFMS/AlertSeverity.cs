@@ -7,10 +7,13 @@ public enum AlertSeverity
 {
     [Display(Name = "Thông tin")]
     Info = 1,
+
     [Display(Name = "Cảnh báo")]
     Warning = 2,
+
     [Display(Name = "Lỗi")]
     Error = 3,
+
     [Display(Name = "Nguy cấp")]
     Critical = 4
 }

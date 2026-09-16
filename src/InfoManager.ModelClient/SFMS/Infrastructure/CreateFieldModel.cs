@@ -1,6 +1,5 @@
 ﻿using InfoManager.Enum.SFMS;
 
-
 namespace InfoManager.ModelClient.SFMS.Infrastructure;
 
 public class CreateFieldModel
