@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class ExperienceService(IExperienceApi api) : IExperienceService
+internal class ExperienceService(IExperienceApi api) : IExperienceService
 {
     public async Task<ApiResult<string>> CreateExperienceAsync(CreateExperienceRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateExperienceAsync(request, ct));

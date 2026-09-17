@@ -1,7 +1,12 @@
 ﻿namespace InfoManager.Application.Features.SFMS.HR.Queries.Gets;
 
-public record SearchEmployeeAttendancesQuery(string? Term, string? HREmployeeId, string? WorkShiftId, AttendanceStatus? Status, DateOnly? AttendanceDate, int PageNumber, int PageSize)
-    : IRequest<Result<PaginatedList<EmployeeAttendanceSummaryDto>>>;
+public record SearchEmployeeAttendancesQuery(string? Term,
+                                             string? HREmployeeId,
+                                             string? WorkShiftId,
+                                             AttendanceStatus? Status,
+                                             DateOnly? AttendanceDate,
+                                             int PageNumber,
+                                             int PageSize): IRequest<Result<PaginatedList<EmployeeAttendanceSummaryDto>>>;
 
 public class SearchEmployeeAttendancesQueryHandler(IApplicationDbContext context) : IRequestHandler<SearchEmployeeAttendancesQuery, Result<PaginatedList<EmployeeAttendanceSummaryDto>>>
 {

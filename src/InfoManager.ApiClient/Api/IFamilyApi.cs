@@ -5,7 +5,7 @@ using InfoManager.Shared.Dtos.FamilyRelations;
 
 namespace InfoManager.ApiClient.Api;
 
-public interface IFamilyApi
+internal interface IFamilyApi
 {
     //==============================Family==============================
 

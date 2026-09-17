@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class PriceTrackingService(IPriceTrackingApi api) : IPriceTrackingService
+internal class PriceTrackingService(IPriceTrackingApi api) : IPriceTrackingService
 {
     public async Task<ApiResult<string>> CreatePriceTrackingAsync(CreatePriceTrackingRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreatePriceTrackingAsync(request, ct));

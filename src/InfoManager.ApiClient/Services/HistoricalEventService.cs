@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class HistoricalEventService(IHistoricalEventApi api) : IHistoricalEventService
+internal class HistoricalEventService(IHistoricalEventApi api) : IHistoricalEventService
 {
     public async Task<ApiResult<string>> CreateHistoricalEventAsync(CreateHistoricalEventRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateHistoricalEventAsync(request, ct));

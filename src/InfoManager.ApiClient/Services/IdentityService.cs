@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class IdentityService(IIdentityApi identityApi) : IIdentityService
+internal class IdentityService(IIdentityApi identityApi) : IIdentityService
 {
     public async Task<ApiResult> AddToRoleAsync(RoleActionDto request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await identityApi.AddToRoleAsync(request, ct));

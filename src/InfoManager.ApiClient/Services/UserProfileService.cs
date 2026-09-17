@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class UserProfileService(IUserProfileApi api) : IUserProfileService
+internal class UserProfileService(IUserProfileApi api) : IUserProfileService
 {
     public async Task<ApiResult<string>> CreateUserProfileAsync(CreateUserProfileRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateUserProfileAsync(request, ct));

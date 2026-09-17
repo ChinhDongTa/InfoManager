@@ -22,6 +22,14 @@ public record PesticideApplicationDto(
     DateTimeOffset Created
 );
 
+public record PesticideApplicationSummaryDto(
+    string Id,
+    string? PlantingCode,
+    string? PesticideName,
+    DateTimeOffset AppliedDate,
+    decimal AppliedQuantity,
+    string Unit);
+
 public record CreatePesticideApplicationRequest(
     string FarmId,
     string PesticideId,
@@ -51,3 +59,4 @@ public record UpdatePesticideApplicationRequest(
     decimal? Cost,
     string? Notes
 );
+public record SearchFertilizerApplicationsRequest(string? Term, string? FarmId, string? FertilizerId, string? CropPlantingId, int PageNumber, int PageSize);

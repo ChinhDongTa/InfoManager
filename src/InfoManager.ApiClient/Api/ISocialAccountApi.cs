@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface ISocialAccountApi
+internal interface ISocialAccountApi
 {
     [Get("/api/SocialAccounts/{id}")]
     Task<ApiResponse<SocialAccountDto?>> GetSocialAccountByIdAsync(string id, CancellationToken ct = default);

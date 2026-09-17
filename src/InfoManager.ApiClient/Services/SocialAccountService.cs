@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class SocialAccountService(ISocialAccountApi api) : ISocialAccountService
+internal class SocialAccountService(ISocialAccountApi api) : ISocialAccountService
 {
     public async Task<ApiResult<string>> CreateSocialAccountAsync(CreateSocialAccountRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateSocialAccountAsync(request, ct));

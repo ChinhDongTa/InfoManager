@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class SensorService(ISensorApi api) : ISensorService
+internal class SensorService(ISensorApi api) : ISensorService
 {
     public async Task<ApiResult<string>> CreateSensorAsync(CreateSensorRequest request, CancellationToken ct = default)
    => await ApiResponseHandler.HandleAsync(await api.CreateSensorAsync(request, ct));

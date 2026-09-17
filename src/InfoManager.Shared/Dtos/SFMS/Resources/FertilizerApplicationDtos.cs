@@ -59,3 +59,4 @@ public record UpdateFertilizerApplicationRequest(
     decimal? Cost,
     string? Notes
 );
+public record SearchPesticideApplicationsRequest(string? Term, string? FarmId, string? PesticideId, string? CropPlantingId, int PageNumber, int PageSize);

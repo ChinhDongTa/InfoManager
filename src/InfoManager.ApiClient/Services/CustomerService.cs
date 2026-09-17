@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class CustomerService(ICustomerApi api) : ICustomerService
+internal class CustomerService(ICustomerApi api) : ICustomerService
 {
     public async Task<ApiResult<string>> CreateCustomerAsync([Body] CreateCustomerRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.CreateCustomerAsync(request, ct));

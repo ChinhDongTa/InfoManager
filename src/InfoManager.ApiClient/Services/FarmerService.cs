@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class FarmerService(IFarmerApi api) : IFarmerService
+internal class FarmerService(IFarmerApi api) : IFarmerService
 {
     public async Task<ApiResult<string>> CreateFarmerAsync(CreateFarmerRequest request, CancellationToken ct = default)
    => await ApiResponseHandler.HandleAsync(await api.CreateFarmerAsync(request, ct));

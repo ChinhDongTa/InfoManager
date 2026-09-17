@@ -20,6 +20,16 @@ public record PesticidePlanDto(
     DateTimeOffset Created
 );
 
+
+public record PesticidePlanSummaryDto(
+    string Id,
+    string PlanName,
+    string? PlantingCode,
+    string? PesticideName,
+    DateTimeOffset PlannedDate,
+    decimal PlannedQuantity,
+    string StatusName);
+
 public record CreatePesticidePlanRequest(
     string FarmId,
     string PesticideId,
@@ -47,3 +57,4 @@ public record UpdatePesticidePlanRequest(
     PesticidePlanStatus? Status,
     string? Notes
 );
+public record SearchPesticidePlansRequest(string? Term, string? FarmId, string? PesticideId, PesticidePlanStatus? Status, int PageNumber, int PageSize);

@@ -1,6 +1,6 @@
 ﻿namespace InfoManager.ApiClient.Api;
 
-public interface IDeviceAlertApi
+internal interface IDeviceAlertApi
 {
     /// <param name="id">id parameter</param>
     /// <returns>

@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class FamilyEventOccurrenceService(IFamilyEventOccurrenceApi api) : IFamilyEventOccurrenceService
+internal class FamilyEventOccurrenceService(IFamilyEventOccurrenceApi api) : IFamilyEventOccurrenceService
 {
     public async Task<ApiResult<string>> CreateFamilyEventOccurrenceAsync(CreateFamilyEventOccurrenceRequest dto, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateFamilyEventOccurrenceAsync(dto, ct));

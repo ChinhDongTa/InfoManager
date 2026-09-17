@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface IUserProfileApi
+internal interface IUserProfileApi
 {
     [Get("/api/UserProfiles/{id}")]
     Task<ApiResponse<UserProfileDto?>> GetUserProfileByIdAsync(string id, CancellationToken ct = default);

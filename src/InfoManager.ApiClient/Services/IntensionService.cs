@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class IntentionService(IIntentionApi api) : IIntentionService
+internal class IntentionService(IIntentionApi api) : IIntentionService
 {
     public async Task<ApiResult<string>> CreateIntentionAsync(CreateIntentionRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateIntentionAsync(request, ct));

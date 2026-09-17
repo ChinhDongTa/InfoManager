@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class CategoryService(ICategoryApi api) : ICategoryService
+internal class CategoryService(ICategoryApi api) : ICategoryService
 {
     public async Task<ApiResult<string>> CreateCategoryAsync(CreateCategoryRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateCategoryAsync(request, ct));

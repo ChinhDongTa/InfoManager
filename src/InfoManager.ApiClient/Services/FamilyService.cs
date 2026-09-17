@@ -5,7 +5,7 @@ using InfoManager.Shared.Dtos.FamilyRelations;
 
 namespace InfoManager.ApiClient.Services;
 
-public class FamilyService(IFamilyApi api) : IFamilyService
+internal class FamilyService(IFamilyApi api) : IFamilyService
 {
     public async Task<ApiResult<string>> CreateFamilyMemberAsync(CreateFamilyMemberRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateFamilyMemberAsync(request, ct));

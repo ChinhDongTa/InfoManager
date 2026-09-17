@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class FamilyEventReminderService(IFamilyEventReminderApi api) : IFamilyEventReminderService
+internal class FamilyEventReminderService(IFamilyEventReminderApi api) : IFamilyEventReminderService
 {
     public async Task<ApiResult<string>> CreateFamilyEventReminderAsync(CreateFamilyEventReminderRequest dto, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateFamilyEventReminderAsync(dto, ct));

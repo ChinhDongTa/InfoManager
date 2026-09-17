@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class TransactionService(ITransactionApi api) : ITransactionService
+internal class TransactionService(ITransactionApi api) : ITransactionService
 {
     public async Task<ApiResult<string>> CreateTransactionAsync(CreateTransactionRequest request, CancellationToken ct = default)
         => await ApiResponseHandler.HandleAsync(await api.CreateTransactionAsync(request, ct));

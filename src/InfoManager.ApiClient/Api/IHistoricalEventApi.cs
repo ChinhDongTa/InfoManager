@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface IHistoricalEventApi
+internal interface IHistoricalEventApi
 {
     /// <param name="pageNumber">pageNumber parameter</param>
     /// <param name="pageSize">pageSize parameter</param>

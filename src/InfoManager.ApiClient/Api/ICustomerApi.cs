@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface ICustomerApi
+internal interface ICustomerApi
 {
     /// <param name="id">id parameter</param>
     /// <returns>

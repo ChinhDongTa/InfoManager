@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface IFieldApi
+internal interface IFieldApi
 {
     /// <param name="id">id parameter</param>
     /// <returns>

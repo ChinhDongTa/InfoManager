@@ -61,3 +61,5 @@ public record UpdateFertilizationPlanRequest(
     FertilizationPlanStatus? Status,
     string? Notes
 );
+
+public record SearchFertilizationPlansRequest(string? Term, string? FarmId, string? FertilizerId, FertilizationPlanStatus? Status, int PageNumber, int PageSize);

@@ -1,6 +1,6 @@
 ﻿namespace InfoManager.ApiClient.Services;
 
-public class AgriculturalService(IAgriculturalApi api) : IAgriculturalService
+internal class AgriculturalService(IAgriculturalApi api) : IAgriculturalService
 {
     public async Task<ApiResult<string>> CreateCropAsync(CreateCropRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.CreateCropAsync(request, ct));

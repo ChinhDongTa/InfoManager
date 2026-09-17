@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface IFamilyEventOccurrenceApi
+internal interface IFamilyEventOccurrenceApi
 {
     /// <param name="id">id parameter</param>
     /// <returns>

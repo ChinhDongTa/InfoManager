@@ -5,7 +5,7 @@ namespace InfoManager.Api.Endpoints.SFMS.HR;
 
 public class EmployeeAttendances : EndpointGroupBase
 {
-    public override string? GroupName => "EmployeeAttendances";
+    public override string GroupName => "EmployeeAttendances";
 
     public override void Map(RouteGroupBuilder group)
     {
@@ -42,7 +42,7 @@ public class EmployeeAttendances : EndpointGroupBase
     public async Task<IResult> CreateEmployeeAttendanceAsync(CreateEmployeeAttendanceRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)
     {
         var result = await sender.Send(HRMappings.ToCreateCommand(request), ct);
-        return result.ToHttpResult();
+        return result.ToCreatedHttpResult(GroupName);
     }
 
     public async Task<IResult> UpdateEmployeeAttendanceAsync(string id, UpdateEmployeeAttendanceRequest request, [FromServices] ISender sender, [FromServices] IUser user, CancellationToken ct)

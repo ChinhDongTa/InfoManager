@@ -51,3 +51,4 @@ public record UpdatePesticideRequest(
     bool? IsActive,
     string? Notes
 );
+public record SearchPesticidesRequest(string? Term, PesticideType? PesticideType, bool? IsActive, int PageNumber, int PageSize);

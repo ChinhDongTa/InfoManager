@@ -47,3 +47,4 @@ public record UpdateFertilizerRequest(
     bool? IsActive,
     string? Notes
 );
+public record SearchFertilizersRequest(string? Term, FertilizerType? FertilizerType, bool? IsActive, int PageNumber, int PageSize);

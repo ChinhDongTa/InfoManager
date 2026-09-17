@@ -40,3 +40,4 @@ global using InfoManager.Shared.Dtos.SFMS.Infrastructure;
 global using InfoManager.Shared.Dtos.SFMS.Planning;
 global using InfoManager.Shared.Dtos.SFMS.Production;
 global using InfoManager.Shared.Dtos.SFMS.Issues;
+global using InfoManager.Shared.Dtos.SFMS.Resources;

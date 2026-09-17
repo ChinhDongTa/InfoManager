@@ -1,6 +1,6 @@
 ﻿namespace InfoManager.ApiClient.Api;
 
-public interface IAgriculturalApi
+internal interface IAgriculturalApi
 {
     /// <param name="pageIndex">pageIndex parameter</param>
     /// <param name="pageSize">pageSize parameter</param>

@@ -30,3 +30,5 @@ global using InfoManager.Application.Features.SFMS.Planning.Commands;
 global using InfoManager.Application.Features.SFMS.Planning.Queries.Gets;
 global using InfoManager.Application.Features.SFMS.Production.Commands;
 global using InfoManager.Application.Features.SFMS.Production.Queries.Gets;
+global using InfoManager.Application.Features.SFMS.Resources.Commands;
+global using InfoManager.Application.Features.SFMS.Resources.Queries.Gets;

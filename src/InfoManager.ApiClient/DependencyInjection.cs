@@ -47,6 +47,28 @@ public static class DependencyInjection
         AddAuthenticatedClient<IFieldApi>();
         AddAuthenticatedClient<ISensorApi>();
         AddAuthenticatedClient<IEquipmentApi>();
+        AddAuthenticatedClient<IFertilizationPlanApi>();
+        AddAuthenticatedClient<IFertilizerApi>();
+        AddAuthenticatedClient<IFertilizerApplicationApi>();
+        AddAuthenticatedClient<IPesticideApi>();
+        AddAuthenticatedClient<IPesticideApplicationApi>();
+        AddAuthenticatedClient<IPesticidePlanApi>();
+        AddAuthenticatedClient<ICropCycleApi>();
+        AddAuthenticatedClient<IHarvestPlanApi>();
+        AddAuthenticatedClient<IPlantingPlanApi>();
+        AddAuthenticatedClient<IDepartmentApi>();
+        AddAuthenticatedClient<IEmployeeAttendanceApi>();
+        AddAuthenticatedClient<IEmployeeContractApi>();
+        AddAuthenticatedClient<IHREmployeeApi>();
+        AddAuthenticatedClient<IJobAssignmentApi>();
+        AddAuthenticatedClient<IJobPositionApi>();
+        AddAuthenticatedClient<ILeaveRequestApi>();
+        AddAuthenticatedClient<IPayrollApi>();
+        AddAuthenticatedClient<IWorkShiftApi>();
+        AddAuthenticatedClient<ICostAnalysisApi>();
+        AddAuthenticatedClient<IFarmExpenseApi>();
+        AddAuthenticatedClient<IFarmFinancialSummaryApi>();
+        AddAuthenticatedClient<IFarmRevenueApi>();
 
         //====================== Services ======================
         services.AddScoped<IExperienceService, ExperienceService>();
@@ -70,6 +92,28 @@ public static class DependencyInjection
         services.AddScoped<IFieldService, FieldService>();
         services.AddScoped<ISensorService, SensorService>();
         services.AddScoped<IEquipmentService, EquipmentService>();
+        services.AddScoped<IFertilizationPlanService, FertilizationPlanService>();
+        services.AddScoped<IFertilizerService, FertilizerService>();
+        services.AddScoped<IFertilizerApplicationService, FertilizerApplicationService>();
+        services.AddScoped<IPesticideService, PesticideService>();
+        services.AddScoped<IPesticideApplicationService, PesticideApplicationService>();
+        services.AddScoped<IPesticidePlanService, PesticidePlanService>();
+        services.AddScoped<ICropCycleService, CropCycleService>();
+        services.AddScoped<IHarvestPlanService, HarvestPlanService>();
+        services.AddScoped<IPlantingPlanService, PlantingPlanService>();
+        services.AddScoped<IDepartmentService, DepartmentService>();
+        services.AddScoped<IEmployeeAttendanceService, EmployeeAttendanceService>();
+        services.AddScoped<IEmployeeContractService, EmployeeContractService>();
+        services.AddScoped<IHREmployeeService, HREmployeeService>();
+        services.AddScoped<IJobAssignmentService, JobAssignmentService>();
+        services.AddScoped<IJobPositionService, JobPositionService>();
+        services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+        services.AddScoped<IPayrollService, PayrollService>();
+        services.AddScoped<IWorkShiftService, WorkShiftService>();
+        services.AddScoped<ICostAnalysisService, CostAnalysisService>();
+        services.AddScoped<IFarmExpenseService, FarmExpenseService>();
+        services.AddScoped<IFarmFinancialSummaryService, FarmFinancialSummaryService>();
+        services.AddScoped<IFarmRevenueService, FarmRevenueService>();
 
         return services;
     }

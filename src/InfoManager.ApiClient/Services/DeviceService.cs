@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class DeviceService(IDeviceApi api) : IDeviceService
+internal class DeviceService(IDeviceApi api) : IDeviceService
 {
     public async Task<ApiResult<string>> CreateDeviceAsync(CreateDeviceRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.CreateDeviceAsync(request, ct));

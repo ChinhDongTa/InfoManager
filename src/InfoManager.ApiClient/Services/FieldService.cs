@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class FieldService(IFieldApi api) : IFieldService
+internal class FieldService(IFieldApi api) : IFieldService
 {
     public async Task<ApiResult<string>> CreateFieldAsync(CreateFieldRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.CreateFieldAsync(request, ct));

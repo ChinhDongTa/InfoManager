@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Api;
 
-public interface IIdentityApi
+internal interface IIdentityApi
 {
     /// <param name="id">id parameter</param>
     /// <returns>A <see cref="Task"/> that completes when the request is finished.</returns>

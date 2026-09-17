@@ -1,6 +1,6 @@
 ﻿namespace InfoManager.ApiClient.Services;
 
-public class DeviceAlertService(IDeviceAlertApi api) : IDeviceAlertService
+internal class DeviceAlertService(IDeviceAlertApi api) : IDeviceAlertService
 {
     public async Task<ApiResult<string>> CreateDeviceAlertAsync(CreateDeviceAlertRequest request, CancellationToken ct = default)
     => await ApiResponseHandler.HandleAsync(await api.CreateDeviceAlertAsync(request, ct));

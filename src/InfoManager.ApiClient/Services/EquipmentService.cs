@@ -2,7 +2,7 @@
 
 namespace InfoManager.ApiClient.Services;
 
-public class EquipmentService(IEquipmentApi api) : IEquipmentService
+internal class EquipmentService(IEquipmentApi api) : IEquipmentService
 {
     public async Task<ApiResult<string>> CreateEquipmentAsync(CreateEquipmentRequest request, CancellationToken ct = default)
    => await ApiResponseHandler.HandleAsync(await api.CreateEquipmentAsync(request, ct));
