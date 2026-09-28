@@ -11,7 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.8" />
   </ItemGroup>
 
@@ -22,5 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\InfoManager.AppHost\InfoManager.AppHost.ServiceDefaults\InfoManager.AppHost.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\InfoManager.Application\InfoManager.Application.csproj" />
+    <ProjectReference Include="..\InfoManager.Infrastructure\InfoManager.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
