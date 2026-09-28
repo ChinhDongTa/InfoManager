@@ -10,5 +10,5 @@ builder.AddProject<Projects.InfoManager_Web>("webfrontend")
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WaitFor(apiService);
-builder.AddProject<Projects.InfoManager_BlazorAuto>("infomanager-blazorauto");
+builder.AddProject<Projects.InfoManager_WebBlazorV5>("infomanager-webblazorv5");
 builder.Build().Run();
