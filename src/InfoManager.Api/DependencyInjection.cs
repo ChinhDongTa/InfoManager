@@ -1,4 +1,4 @@
-﻿using InfoManager.Api.Services;
+using InfoManager.Api.Services;
 using InfoManager.Application.Common.Services;
 using InfoManager.Domain.Entities.Authentication;
 using InfoManager.Infrastructure.Data;
@@ -37,7 +37,6 @@ public static class DependencyInjection
                       .AllowAnyHeader();
             });
         });
-        // Customise default API behaviour
         builder.Services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
 
@@ -46,13 +45,7 @@ public static class DependencyInjection
         builder.Services.AddOpenApiDocument((configure, sp) =>
         {
             configure.Title = "InfoManager API";
-            configure.Description = """
-                                    InfoManager - Smart Farm Management System
-
-                                    Nhấp vào nút "Authorize" ở trên cùng bên phải để nhập JWT token
-                                    """;
-
-            // ✅ Thêm JWT Bearer security scheme
+            configure.Description = "InfoManager - Smart Farm Management System";
             configure.AddSecurity("Bearer", new NSwag.OpenApiSecurityScheme
             {
                 Type = NSwag.OpenApiSecuritySchemeType.Http,
@@ -60,19 +53,8 @@ public static class DependencyInjection
                 BearerFormat = "JWT",
                 Name = "Authorization",
                 In = NSwag.OpenApiSecurityApiKeyLocation.Header,
-                Description = """
-                              Nhập JWT token.
-
-                              Cách lấy token:
-                              1. Gọi endpoint POST /auth/login với credentials
-                              2. Sao chép token từ response
-                              3. Dán vào ô Authorization ở đây với tiền tố "Bearer "
-
-                              Ví dụ: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-                              """
+                Description = "JWT Bearer token"
             });
-
-            // ✅ Áp dụng security requirement cho tất cả operations
             configure.OperationProcessors.Add(
                 new NSwag.Generation.Processors.Security.AspNetCoreOperationSecurityScopeProcessor("Bearer"));
         });
@@ -86,26 +68,22 @@ public static class DependencyInjection
             .AddIdentityCore<ApplicationUser>()
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddSignInManager()
             .AddApiEndpoints();
 
         builder.Services.AddTransient<IIdentityService, IdentityService>();
-        // Đăng ký Authentication với JWT Bearer
         AddJwtAuthentication(builder);
     }
 
     public static void AddJwtAuthentication(this IHostApplicationBuilder builder)
     {
-        // ✅ JWT Configuration
         var jwtSettings = builder.Configuration.GetSection("Jwt");
         var secretKey = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"] ?? "your-secret-key-here");
 
         builder.Services.AddAuthentication(options =>
         {
-            // ✅ Default: JWT (cho API calls)
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            // ✅ Cookie scheme (fallback)
             options.AddScheme<CookieAuthenticationHandler>("Cookie", "Cookie");
         })
         .AddJwtBearer(options =>
@@ -119,25 +97,9 @@ public static class DependencyInjection
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-            //options.Events = new JwtBearerEvents
-            //{
-            //    OnTokenValidated = async context =>
-            //    {
-            //        var jti = context.Principal.FindFirstValue(JwtRegisteredClaimNames.Jti);
-            //        var userId =context.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            //        var blacklistService = context.HttpContext.RequestServices.GetRequiredService<ITokenBlacklistService>();
-
-            //        if (await blacklistService.IsBlacklistedAsync(jti!, userId!))
-            //        {
-            //            context.Fail("Token has been revoked.");
-            //        }
-            //    }
-            //};
         })
         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
         {
-            // ✅ Support cookie-based clients (PC apps)
             options.LoginPath = "api/IdentityJwt/login";
             options.LogoutPath = "api/IdentityJwt/logout";
         });
