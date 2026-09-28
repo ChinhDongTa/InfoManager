@@ -1,0 +1,87 @@
+﻿@page "/sfms/production/product/list"
+@inject IProductService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Danh sách sản phẩm" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/sfms/production/product/create"))>
+            Tạo mới
+        </FluentButton>
+        <PaginatedTable TItem="ProductSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="string" Title="Tên sản phẩm" Property="@(x => x.ProductName)" />
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="string" Title="Mã lần trồng" Property="@(x => x.PlantingCode)" />
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="decimal" Title="Số lượng" Property="@(x => x.Quantity)" />
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="string" Title="Đơn vị" Property="@(x => x.Unit)" />
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="decimal?" Title="Giá bán" Property="@(x => x.SellingPrice)" />
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
+            <PropertyColumn TGridItem="ProductSummaryDto" TProp="DateTimeOffset?" Title="Hạn sử dụng" Property="@(x => x.ExpiryDate)" />
+            <TemplateColumn TGridItem="ProductSummaryDto" Context="item" Title="Actions" Class="col-actions">
+                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+            </TemplateColumn>
+        </PaginatedTable>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    PaginatedList<ProductSummaryDto>? paginatedList;
+    Alert? alertComponent;
+    bool isLoading = false;
+    int pageSize = Models.Constants.PageSize;
+
+    private int currentPage = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetProductsAsync(currentPage, pageSize);
+            if (result.Success && result.Data != null)
+            {
+                paginatedList = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Products"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadPageAsync(int page)
+    {
+        currentPage = page;
+        isLoading = true;
+
+        var result = await service.GetProductsAsync(currentPage, pageSize);
+        if (result.Success && result.Data != null)
+        {
+            paginatedList = result.Data;
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Products"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        isLoading = false;
+    }
+
+    private void ViewHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/production/product/details/{id}");
+    }
+
+    private void EditHandler(string id)
+    {
+        navigationManager.NavigateTo($"/sfms/production/product/update/{id}");
+    }
+}

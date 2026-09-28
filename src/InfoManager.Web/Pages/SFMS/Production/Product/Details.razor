@@ -1,0 +1,84 @@
+﻿@page "/sfms/production/product/details/{Id}"
+@inject IProductService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết sản phẩm sau thu hoạch" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (product != null)
+        {
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Mã đợt thu hoạch" Value="@product.HarvestId" />
+                    <DetailItem Label="Ngày thu hoạch" Value="@(product.HarvestDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Mã lần trồng" Value="@product.PlantingCode" />
+                    <DetailItem Label="Tên sản phẩm" Value="@product.ProductName" />
+                    <DetailItem Label="Mô tả" Value="@product.Description" />
+                    <DetailItem Label="Hình thức chế biến" Value="@product.ProcessingType" />
+                    <DetailItem Label="Số lượng" Value="@FormatNumber.FormatDecimal(product.Quantity)" />
+                    <DetailItem Label="Đơn vị" Value="@product.Unit" />
+                    <DetailItem Label="Vị trí lưu kho" Value="@product.StorageLocation" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Hạn sử dụng" Value="@(product.ExpiryDate?.ToLocalTime().ToString("dd/MM/yyyy HH:mm") ?? "-")" />
+                    <DetailItem Label="Giá vốn / đơn vị" Value="@FormatNumber.FormatDecimal(product.CostPerUnit)" />
+                    <DetailItem Label="Giá bán / đơn vị" Value="@FormatNumber.FormatDecimal(product.SellingPrice)" />
+                    <DetailItem Label="Thành tiền" Value="@FormatNumber.FormatDecimal(product.TotalValue)" />
+                    <DetailItem Label="Trạng thái" Value="@product.StatusName" />
+                    <DetailItem Label="Chứng nhận" Value="@product.Certification" />
+                    <DetailItem Label="Ghi chú" Value="@product.Notes" />
+                    <DetailItem Label="Ngày tạo" Value="@product.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                </FluentStack>
+            </FluentStack>
+            <EntityActions EntityId="@Id" Folder="/sfms/production/product" OnDeleteClick="DeleteHandler" />
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    ProductDto? product;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetProductByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                product = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Product"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

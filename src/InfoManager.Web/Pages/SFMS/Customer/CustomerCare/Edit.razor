@@ -18,15 +18,15 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
                         <SelectList Route="/api/enums/CustomerCareType" Label="Loại chăm sóc" @bind-Value="careTypeSelected" />
-                        <FluentTextField Label="Tiêu đề chăm sóc" @bind-Value="updateModel.Subject" />
-                        <FluentTextField Label="Nội dung" @bind-Value="updateModel.Content" />
+                        <FluentTextInput Label="Tiêu đề chăm sóc" @bind-Value="updateModel.Subject" />
+                        <FluentTextInput Label="Nội dung" @bind-Value="updateModel.Content" />
                         <DateTimePicker Label="Ngày chăm sóc" @bind-Value="careDate" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DateTimePicker Label="Ngày theo dõi tiếp theo" @bind-Value="nextFollowUpDate" />
                         <SelectList Route="/api/enums/CustomerCareStatus" Label="Trạng thái chăm sóc" @bind-Value="statusSelected" />
-                        <FluentTextField Label="Người xử lý" @bind-Value="updateModel.HandledBy" />
-                        <FluentTextField Label="Kết quả" @bind-Value="updateModel.Result" />
+                        <FluentTextInput Label="Người xử lý" @bind-Value="updateModel.HandledBy" />
+                        <FluentTextInput Label="Kết quả" @bind-Value="updateModel.Result" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/customer-care/list" />
                     </FluentStack>
@@ -42,16 +42,16 @@
                         <ValidationSummary />
                         <SelectList Route="/api/selectlist/customer" Label="Chọn khách hàng" @bind-Value="createModel.CustomerId" />
                         <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
-                        <FluentTextField Label="Tiêu đề chăm sóc" @bind-Value="createModel.Subject" />
+                        <FluentTextInput Label="Tiêu đề chăm sóc" @bind-Value="createModel.Subject" />
                         <SelectList Route="/api/enums/CustomerCareType" Label="Loại chăm sóc" @bind-Value="careTypeSelected" />
-                        <FluentTextField Label="Nội dung" @bind-Value="createModel.Content" />
+                        <FluentTextInput Label="Nội dung" @bind-Value="createModel.Content" />
                         <DateTimePicker Label="Ngày chăm sóc" @bind-Value="careDate" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DateTimePicker Label="Ngày theo dõi tiếp theo" @bind-Value="nextFollowUpDate" />
                         <SelectList Route="/api/enums/CustomerCareStatus" Label="Trạng thái chăm sóc" @bind-Value="statusSelected" />
-                        <FluentTextField Label="Người xử lý" @bind-Value="createModel.HandledBy" />
-                        <FluentTextField Label="Kết quả" @bind-Value="createModel.Result" />
+                        <FluentTextInput Label="Người xử lý" @bind-Value="createModel.HandledBy" />
+                        <FluentTextInput Label="Kết quả" @bind-Value="createModel.Result" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/customer-care/list" />
                     </FluentStack>

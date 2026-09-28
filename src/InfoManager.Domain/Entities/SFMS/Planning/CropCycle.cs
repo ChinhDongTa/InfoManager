@@ -8,18 +8,18 @@ public class CropCycle : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// Tên / mã chu kỳ
     /// </summary>
     [MaxLength(200)]
-    public string CycleName { get; set; }
+    public required string CycleName { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public string CropId { get; set; }
+    public string? CropId { get; set; }
 
     /// <summary>
     /// ID giống cây

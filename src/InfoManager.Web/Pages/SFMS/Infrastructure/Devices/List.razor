@@ -17,7 +17,7 @@
             <PropertyColumn TGridItem="DeviceSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
             <PropertyColumn TGridItem="DeviceSummaryDto" TProp="decimal?" Title="Pin" Property="@(x => x.BatteryLevel)" />
             <PropertyColumn TGridItem="DeviceSummaryDto" TProp="DateTimeOffset?" Title="Đồng bộ lần cuối" Property="@(x => x.LastDataSyncTime)" />
-            <TemplateColumn TGridItem="DeviceSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="DeviceSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

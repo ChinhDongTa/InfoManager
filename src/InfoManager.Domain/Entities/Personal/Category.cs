@@ -6,7 +6,7 @@
 public class Category : BaseAuditableEntity
 {
     [MaxLength(200)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Nhóm phân loại, ví dụ: "Kinh nghiệm", "Ý định", "Giao dịch"

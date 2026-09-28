@@ -8,24 +8,27 @@
 
 <AuthorizeView>
     <Authorized>
-        <LoadingOverlay IsLoading="isLoading" />
-        <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/transactions/create"))>Tạo mới</FluentButton>
+        <FluentStack Orientation="Orientation.Vertical">
+            <LoadingOverlay IsLoading="isLoading" />
+            <FluentButton IconStart="@(new Icons.Filled.Size16.Add())" OnClick=@(() => navigationManager.NavigateTo("/transactions/create"))>Tạo mới</FluentButton>
 
-        <PaginatedTable TItem="TransactionSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
-            <PropertyColumn TGridItem="TransactionSummaryDto" TProp="string" Title="Nội dung" Property="@(x => x.Description)" />
-            <PropertyColumn TGridItem="TransactionSummaryDto" TProp="string" Title="Danh mục" Property="@(x => x.CategoryName)" />
-            <PropertyColumn TGridItem="TransactionSummaryDto" TProp="decimal" Title="Số tiền" Property="@(x => x.Amount)" Sortable="true" />
+            <PaginatedTable TItem="TransactionSummaryDto" Data="paginatedList" PageSize="pageSize" OnPageChanged="LoadPageAsync" CurrentPage="currentPage" IsLoading="isLoading">
+                <PropertyColumn TGridItem="TransactionSummaryDto" TProp="string" Title="Nội dung" Property="@(x => x.Description)" />
+                <PropertyColumn TGridItem="TransactionSummaryDto" TProp="string" Title="Danh mục" Property="@(x => x.CategoryName)" />
+                <PropertyColumn TGridItem="TransactionSummaryDto" TProp="decimal" Title="Số tiền" Property="@(x => x.Amount)" Sortable="true" />
            
-            <TemplateColumn TGridItem="TransactionSummaryDto" Context="item" Title="Actions">
-                <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
-                <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
-            </TemplateColumn>
-        </PaginatedTable>
+                <TemplateColumn TGridItem="TransactionSummaryDto" Context="item" Title="Actions" Class="col-actions">
+                    <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
+                    <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
+                </TemplateColumn>
+            </PaginatedTable>
+         </FluentStack>
     </Authorized>
     <NotAuthorized>
         <NotAuthorizedMessage />
     </NotAuthorized>
 </AuthorizeView>
+
 @code {
     PaginatedList<TransactionSummaryDto>? paginatedList;
     bool isLoading = false;

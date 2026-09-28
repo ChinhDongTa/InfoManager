@@ -8,7 +8,7 @@ public class FertilizerApplication : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// ID thửa ruộng
@@ -28,7 +28,7 @@ public class FertilizerApplication : BaseAuditableEntity
     /// <summary>
     /// ID phân bón
     /// </summary>
-    public string FertilizerId { get; set; }
+    public required string FertilizerId { get; set; }
 
     /// <summary>
     /// Ngày bón thực tế

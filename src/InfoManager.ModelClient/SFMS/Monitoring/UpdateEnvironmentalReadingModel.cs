@@ -19,7 +19,7 @@ public class UpdateEnvironmentalReadingModel
     [MaxLength(500)]
     public string? Notes { get; set; }
 
-    public UpdateEnvironmentalReadingModel(string id, EnvironmentalReadingDto dto)
+    public UpdateEnvironmentalReadingModel(string id, EnvironmentalMonitoringDto dto)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentNullException.ThrowIfNull(dto);
@@ -30,9 +30,9 @@ public class UpdateEnvironmentalReadingModel
         Notes = dto.Notes;
     }
 
-    public UpdateEnvironmentalReadingRequest CreateRequest()
+    public UpdateEnvironmentalMonitoringRequest CreateRequest()
     {
-        return new UpdateEnvironmentalReadingRequest
+        return new UpdateEnvironmentalMonitoringRequest
         (
             Id: this.Id,
             Quality: this.Quality,

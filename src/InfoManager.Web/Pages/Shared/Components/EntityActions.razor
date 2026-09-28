@@ -1,11 +1,11 @@
 ﻿@inject NavigationManager navigationManager
 <div class="entity-actions">
     <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="10" HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="width:100%; margin-top:16px;">
-        <FluentButton IconStart="@(new Icons.Filled.Size16.Edit())" Appearance="Appearance.Accent" OnClick="UpdateClick">
+        <FluentButton IconStart="@(new Icons.Filled.Size16.Edit())" Appearance="ButtonAppearance.Primary" OnClick="UpdateClick">
             Cập nhật
         </FluentButton>
 
-        <FluentButton IconStart="@(new Icons.Filled.Size20.Add())" Appearance="Appearance.Stealth" OnClick="CreateClick">
+        <FluentButton IconStart="@(new Icons.Filled.Size20.Add())" Appearance="ButtonAppearance.Subtle" OnClick="CreateClick">
             Tạo mới
         </FluentButton>
          
@@ -13,11 +13,11 @@
             Xóa
         </FluentButton>
 
-        <FluentButton IconStart="@(new Icons.Filled.Size20.ArrowDownload())" Appearance="Appearance.Outline" OnClick="ExportClick">
+        <FluentButton IconStart="@(new Icons.Filled.Size20.ArrowDownload())" Appearance="ButtonAppearance.Outline" OnClick="ExportClick">
             Xuất file
         </FluentButton>
 
-        <FluentButton IconStart="@(new Icons.Filled.Size20.ArrowLeft())" Appearance="Appearance.Outline" OnClick="BackClick">
+        <FluentButton IconStart="@(new Icons.Filled.Size20.ArrowLeft())" Appearance="ButtonAppearance.Outline" OnClick="BackClick">
             Trở về danh sách
         </FluentButton>
     </FluentStack>

@@ -8,7 +8,7 @@ public class WeatherAlert : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// Loại cảnh báo (Sương giá, Mưa đá, Mưa lớn, Hạn hán, Gió mạnh, v.v.)
@@ -19,7 +19,7 @@ public class WeatherAlert : BaseAuditableEntity
     /// Mô tả cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Mức độ nghiêm trọng của cảnh báo

@@ -3,7 +3,7 @@
 /// <summary>
 /// Chi tiết một lần đo môi trường
 /// </summary>
-public record EnvironmentalReadingDto(
+public record EnvironmentalMonitoringDto(
     string Id,
 
     /// <summary>ID cảm biến</summary>
@@ -60,7 +60,7 @@ public record EnvironmentalReadingDto(
 /// <summary>
 /// Số liệu đo dùng cho danh sách / biểu đồ
 /// </summary>
-public record EnvironmentalReadingSummaryDto(
+public record EnvironmentalMonitoringSummaryDto(
     string Id,
 
     /// <summary>Tên cảm biến</summary>
@@ -88,7 +88,7 @@ public record EnvironmentalReadingSummaryDto(
 /// <summary>
 /// Request ghi nhận số liệu từ cảm biến
 /// </summary>
-public record CreateEnvironmentalReadingRequest(
+public record CreateEnvironmentalMonitoringRequest(
     /// <summary>ID cảm biến. Bắt buộc.</summary>
     string SensorId,
 
@@ -125,13 +125,13 @@ public record CreateEnvironmentalReadingRequest(
 /// </summary>
 public record CreateEnvironmentalReadingBatchRequest(
     /// <summary>Danh sách lần đo. Bắt buộc, ít nhất 1.</summary>
-    IReadOnlyList<CreateEnvironmentalReadingRequest> Readings
+    IReadOnlyList<CreateEnvironmentalMonitoringRequest> Readings
 );
 
 /// <summary>
 /// Request sửa metadata lần đo. Field null = không đổi. Không nên sửa Value trừ hiệu chuẩn.
 /// </summary>
-public record UpdateEnvironmentalReadingRequest(
+public record UpdateEnvironmentalMonitoringRequest(
     /// <summary>ID lần đo. Bắt buộc.</summary>
     string Id,
 
@@ -148,7 +148,7 @@ public record UpdateEnvironmentalReadingRequest(
 /// <summary>
 /// Bộ lọc truy vấn time-series
 /// </summary>
-public record SearchEnvironmentalReadingRequest(
+public record SearchEnvironmentalMonitoringsRequest(
     /// <summary>ID cảm biến.</summary>
     string? SensorId,
 
@@ -167,6 +167,6 @@ public record SearchEnvironmentalReadingRequest(
     /// <summary>Chất lượng dữ liệu.</summary>
     DataQuality? Quality,
 
-    int PageNumber = 1,
-    int PageSize = 100
+    int PageNumber,
+    int PageSize
 );

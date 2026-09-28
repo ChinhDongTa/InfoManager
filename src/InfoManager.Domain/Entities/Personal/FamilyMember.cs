@@ -3,7 +3,7 @@
 public class FamilyMember : BaseAuditableEntity
 {
     [MaxLength(200)]
-    public string FullName { get; set; }
+    public required string FullName { get; set; }
 
     /// <summary>
     /// Mối quan hệ với người dùng (Ông cố nội, Bà cố nội, Ông cố ngoại, Bà cố ngoại, Ông nội, Bà nội, Ông ngoại, Bà ngoại, Cha, Mẹ, Con trai, Con gái)

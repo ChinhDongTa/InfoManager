@@ -28,7 +28,7 @@ public record ProductDto(
     decimal Quantity,
 
     /// <summary>Đơn vị</summary>
-    string Unit,
+    string? Unit,
 
     /// <summary>Vị trí lưu kho</summary>
     string? StorageLocation,
@@ -76,7 +76,7 @@ public record ProductSummaryDto(
     decimal Quantity,
 
     /// <summary>Đơn vị</summary>
-    string Unit,
+    string? Unit,
 
     /// <summary>Giá bán / đơn vị</summary>
     decimal? SellingPrice,

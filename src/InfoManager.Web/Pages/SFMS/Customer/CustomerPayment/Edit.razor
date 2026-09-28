@@ -16,14 +16,14 @@
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentNumberField Label="Số tiền thanh toán" @bind-Value="updateModel.Amount" />
+                    <FluentNumberInput Label="Số tiền thanh toán" @bind-Value="updateModel.Amount" />
                     <DateTimePicker Label="Ngày thanh toán" @bind-Value="paymentDate" />
                     <SelectList Route="/api/selectlist/sale" Label="Chọn đơn bán" @bind-Value="updateModel.SaleId" />
                     <SelectList Route="/api/selectlist/farmrevenue" Label="Chọn doanh thu nông trại" @bind-Value="updateModel.FarmRevenueId" />
-                    <FluentTextField Label="Phương thức thanh toán" @bind-Value="updateModel.PaymentMethod" />
+                    <FluentTextInput Label="Phương thức thanh toán" @bind-Value="updateModel.PaymentMethod" />
                     <SelectList Route="/api/enums/PaymentStatus" Label="Trạng thái thanh toán" @bind-Value="paymentStatusSelected" />
-                    <FluentTextField Label="Số chứng từ tham chiếu" @bind-Value="updateModel.ReferenceNumber" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+                    <FluentTextInput Label="Số chứng từ tham chiếu" @bind-Value="updateModel.ReferenceNumber" />
+                    <FluentTextInput Label="Ghi chú" @bind-Value="updateModel.Notes" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/customer-payment/list" />
                 </FluentStack>
@@ -37,14 +37,14 @@
                     <ValidationSummary />
                     <SelectList Route="/api/selectlist/customer" Label="Chọn khách hàng" @bind-Value="createModel.CustomerId" />
                     <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
-                    <FluentNumberField Label="Số tiền thanh toán" @bind-Value="createModel.Amount" />
+                    <FluentNumberInput Label="Số tiền thanh toán" @bind-Value="createModel.Amount" />
                     <DateTimePicker Label="Ngày thanh toán" @bind-Value="paymentDate" />
                     <SelectList Route="/api/selectlist/sale" Label="Chọn đơn bán" @bind-Value="createModel.SaleId" />
                     <SelectList Route="/api/selectlist/farmrevenue" Label="Chọn doanh thu nông trại" @bind-Value="createModel.FarmRevenueId" />
-                    <FluentTextField Label="Phương thức thanh toán" @bind-Value="createModel.PaymentMethod" />
+                    <FluentTextInput Label="Phương thức thanh toán" @bind-Value="createModel.PaymentMethod" />
                     <SelectList Route="/api/enums/PaymentStatus" Label="Trạng thái thanh toán" @bind-Value="paymentStatusSelected" />
-                    <FluentTextField Label="Số chứng từ tham chiếu" @bind-Value="createModel.ReferenceNumber" />
-                    <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+                    <FluentTextInput Label="Số chứng từ tham chiếu" @bind-Value="createModel.ReferenceNumber" />
+                    <FluentTextInput Label="Ghi chú" @bind-Value="createModel.Notes" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/customer-payment/list" />
                 </FluentStack>

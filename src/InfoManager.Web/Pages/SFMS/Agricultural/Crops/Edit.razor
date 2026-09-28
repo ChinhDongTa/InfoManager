@@ -17,21 +17,21 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên thường gọi" @bind-Value="updateModel.CommonName" />
-                        <FluentTextField Label="Tên khoa học" @bind-Value="updateModel.ScientificName" />
-                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
-                        <FluentTextField Label="Họ thực vật" @bind-Value="updateModel.Family" />
-                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
-                        <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
-                        <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
+                        <FluentTextInput Label="Tên thường gọi" @bind-Value="updateModel.CommonName" />
+                        <FluentTextInput Label="Tên khoa học" @bind-Value="updateModel.ScientificName" />
+                        <FluentTextInput Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <FluentTextInput Label="Họ thực vật" @bind-Value="updateModel.Family" />
+                        <FluentNumberInput Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
+                        <FluentNumberInput Label="Nhiệt độ tối thiểu" @bind-Value="updateModel.MinTemperature" />
+                        <FluentNumberInput Label="Nhiệt độ tối đa" @bind-Value="updateModel.MaxTemperature" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
-                        <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
-                        <FluentNumberField Label="pH đất tối thiểu" @bind-Value="updateModel.MinSoilPh" />
-                        <FluentNumberField Label="pH đất tối đa" @bind-Value="updateModel.MaxSoilPh" />
-                        <FluentNumberField Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
-                        <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="updateModel.SunLightHours" />
+                        <FluentNumberInput Label="Độ ẩm tối thiểu" @bind-Value="updateModel.MinHumidity" />
+                        <FluentNumberInput Label="Độ ẩm tối đa" @bind-Value="updateModel.MaxHumidity" />
+                        <FluentNumberInput Label="pH đất tối thiểu" @bind-Value="updateModel.MinSoilPh" />
+                        <FluentNumberInput Label="pH đất tối đa" @bind-Value="updateModel.MaxSoilPh" />
+                        <FluentNumberInput Label="Nhu cầu nước" @bind-Value="updateModel.WaterRequirement" />
+                        <FluentNumberInput Label="Số giờ ánh sáng" @bind-Value="updateModel.SunLightHours" />
                         <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />
@@ -46,21 +46,21 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên thường gọi" @bind-Value="createModel.CommonName" />
-                        <FluentTextField Label="Tên khoa học" @bind-Value="createModel.ScientificName" />
-                        <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
-                        <FluentTextField Label="Họ thực vật" @bind-Value="createModel.Family" />
-                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
-                        <FluentNumberField Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
-                        <FluentNumberField Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
+                        <FluentTextInput Label="Tên thường gọi" @bind-Value="createModel.CommonName" />
+                        <FluentTextInput Label="Tên khoa học" @bind-Value="createModel.ScientificName" />
+                        <FluentTextInput Label="Mô tả" @bind-Value="createModel.Description" />
+                        <FluentTextInput Label="Họ thực vật" @bind-Value="createModel.Family" />
+                        <FluentNumberInput Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
+                        <FluentNumberInput Label="Nhiệt độ tối thiểu" @bind-Value="createModel.MinTemperature" />
+                        <FluentNumberInput Label="Nhiệt độ tối đa" @bind-Value="createModel.MaxTemperature" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentNumberField Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
-                        <FluentNumberField Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
-                        <FluentNumberField Label="pH đất tối thiểu" @bind-Value="createModel.MinSoilPh" />
-                        <FluentNumberField Label="pH đất tối đa" @bind-Value="createModel.MaxSoilPh" />
-                        <FluentNumberField Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
-                        <FluentNumberField Label="Số giờ ánh sáng" @bind-Value="createModel.SunLightHours" />
+                        <FluentNumberInput Label="Độ ẩm tối thiểu" @bind-Value="createModel.MinHumidity" />
+                        <FluentNumberInput Label="Độ ẩm tối đa" @bind-Value="createModel.MaxHumidity" />
+                        <FluentNumberInput Label="pH đất tối thiểu" @bind-Value="createModel.MinSoilPh" />
+                        <FluentNumberInput Label="pH đất tối đa" @bind-Value="createModel.MaxSoilPh" />
+                        <FluentNumberInput Label="Nhu cầu nước" @bind-Value="createModel.WaterRequirement" />
+                        <FluentNumberInput Label="Số giờ ánh sáng" @bind-Value="createModel.SunLightHours" />
                         <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crops/list" />

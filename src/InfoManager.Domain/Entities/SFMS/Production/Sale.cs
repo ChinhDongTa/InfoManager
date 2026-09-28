@@ -8,7 +8,7 @@ public class Sale : BaseAuditableEntity
     /// <summary>
     /// Associated product ID
     /// </summary>
-    public string ProductId { get; set; }
+    public required string ProductId { get; set; }
 
     /// <summary>
     /// Sale date
@@ -19,7 +19,7 @@ public class Sale : BaseAuditableEntity
     /// Buyer name
     /// </summary>
     [MaxLength(200)]
-    public string BuyerName { get; set; }
+    public string? BuyerName { get; set; }
 
     /// <summary>
     /// Quantity sold

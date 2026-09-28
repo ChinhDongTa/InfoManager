@@ -15,7 +15,7 @@
             <PropertyColumn TGridItem="CropSummaryDto" TProp="string" Title="Họ" Property="@(x => x.Family)" />
             <PropertyColumn TGridItem="CropSummaryDto" TProp="int?" Title="Số ngày thu hoạch" Property="@(x => x.DaysToMaturity)" />
             <PropertyColumn TGridItem="CropSummaryDto" TProp="bool" Title="Đang sử dụng" Property="@(x => x.IsActive)" />
-            <TemplateColumn TGridItem="CropSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="CropSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

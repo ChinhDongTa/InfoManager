@@ -6,7 +6,7 @@
 public class Intention : BaseAuditableEntity
 {
     [MaxLength(500)]
-    public string Content { get; set; }
+    public required string Content { get; set; }
 
     /// <summary>
     /// Mô tả chi tiết về ý định, việc muốn làm

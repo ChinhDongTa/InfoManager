@@ -8,7 +8,7 @@ public class Harvest : BaseAuditableEntity
     /// <summary>
     /// Associated crop planting ID
     /// </summary>
-    public string CropPlantingId { get; set; }
+    public required string CropPlantingId { get; set; }
 
     /// <summary>
     /// Harvest date
@@ -35,7 +35,7 @@ public class Harvest : BaseAuditableEntity
     /// Unit of quantity (kg, ton, bags, etc.)
     /// </summary>
     [MaxLength(50)]
-    public string QuantityUnit { get; set; }
+    public string? QuantityUnit { get; set; }
 
     /// <summary>
     /// Estimated yield (quantity/hectare)

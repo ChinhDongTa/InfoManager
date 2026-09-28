@@ -26,7 +26,7 @@
                         <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày sự kiện" />
                         <FluentCheckbox Label="Còn hoạt động ?" @bind-Value="updateModel.IsActive" />
                         <SelectList Label="Loại sự kiện" Route="api/enums/familyEventType" @bind-Value="eventTypeSelected" />
-                        <FluentTextField Label="Địa điểm" @bind-Value="updateModel.Location" Maxlength="100" />
+                        <FluentTextInput Label="Địa điểm" @bind-Value="updateModel.Location" Maxlength="100" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />
                     </FluentStack>
@@ -44,7 +44,7 @@
                         <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày sự kiện" />
                             <FluentCheckbox Label="Còn hoạt động ?" @bind-Value="createModel.IsActive" />
                         <SelectList Route="api/enums/familyEventType" @bind-Value="eventTypeSelected" Required="true" />
-                        <FluentTextField Label="Địa điểm" @bind-Value="createModel.Location" Maxlength="100" />
+                        <FluentTextInput Label="Địa điểm" @bind-Value="createModel.Location" Maxlength="100" />
 
                     @* Action : create, update *@
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/events/list" />

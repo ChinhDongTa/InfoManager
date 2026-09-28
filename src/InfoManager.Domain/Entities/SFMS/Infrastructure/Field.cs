@@ -10,7 +10,7 @@ public class Field : BaseAuditableEntity
     /// Tên hoặc mã định danh của thửa ruộng
     /// </summary>
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Mô tả thửa ruộng
@@ -26,7 +26,7 @@ public class Field : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// Loại đất (Đất thịt, Đất cát, Đất sét...)

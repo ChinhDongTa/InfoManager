@@ -14,7 +14,7 @@
             <PropertyColumn TGridItem="IntentionSummaryDto" TProp="string" Title="Ý định" Property="@(x => x.Content)" />
             <PropertyColumn TGridItem="IntentionSummaryDto" TProp="bool" Title="Hoàn thành" Property="@(x => x.IsCompleted)" Sortable="true" />
             <PropertyColumn TGridItem="IntentionSummaryDto" TProp="string" Title="Ưu tiên" Property="@(x => x.PriorityName)" />
-            <TemplateColumn TGridItem="IntentionSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="IntentionSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

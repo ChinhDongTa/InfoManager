@@ -14,7 +14,7 @@
             <PropertyColumn TGridItem="ExperienceSummaryDto" TProp="string" Title="ID" Property="@(x => x.Id)" />
             <PropertyColumn TGridItem="ExperienceSummaryDto" TProp="string" Title="Content" Property="@(x => x.Content)" Sortable="true" />
             <PropertyColumn TGridItem="ExperienceSummaryDto" TProp="DateOnly?" Title="Date" Property="@(x => x.ExperienceDate)" />
-            <TemplateColumn TGridItem="ExperienceSummaryDto" Context="item"  Title="Actions">
+            <TemplateColumn TGridItem="ExperienceSummaryDto" Context="item"  Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

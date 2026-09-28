@@ -3,7 +3,7 @@
 @inject NavigationManager navigationManager
 
 <FluentStack Style="width:100%; margin: 5px;" Orientation="Orientation.Vertical">
-    <FluentLabel Typo="Typography.PaneHeader" Weight="FontWeight.Bold" Color="Color.Success">
+    <FluentLabel>
         @title
     </FluentLabel>
     @if (summary is null)
@@ -28,7 +28,7 @@
             <strong>Số dư</strong>: @summary.BalanceYear.ToString("C0") <br />
         </FluentLabel>
         <!-- Container để đẩy nút sang phải -->
-        <FluentButton Appearance="Appearance.Outline"
+        <FluentButton Appearance="ButtonAppearance.Outline"
                       @onclick="@( () => navigationManager.NavigateTo("/transactions/create/"))">
             Create new
         </FluentButton>

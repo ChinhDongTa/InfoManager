@@ -13,10 +13,10 @@ public class HREmployee : BaseAuditableEntity
     public string? FamilyMemberId { get; set; }
 
     /// <summary>ID nông trại</summary>
-    public string FarmId { get; set; }
+    public string? FarmId { get; set; }
 
     /// <summary>UserId (liên kết tài khoản đăng nhập)</summary>
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
 
     /// <summary>ID phòng ban</summary>
     public string? DepartmentId { get; set; }

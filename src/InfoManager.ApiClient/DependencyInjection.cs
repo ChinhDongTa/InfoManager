@@ -69,6 +69,17 @@ public static class DependencyInjection
         AddAuthenticatedClient<IFarmExpenseApi>();
         AddAuthenticatedClient<IFarmFinancialSummaryApi>();
         AddAuthenticatedClient<IFarmRevenueApi>();
+        AddAuthenticatedClient<IHarvestApi>();
+        AddAuthenticatedClient<IProductApi>();
+        AddAuthenticatedClient<ISaleApi>();
+        AddAuthenticatedClient<IYieldApi>();
+        AddAuthenticatedClient<IDiseaseApi>();
+        AddAuthenticatedClient<IInfestationApi>();
+        AddAuthenticatedClient<IPestApi>();
+        AddAuthenticatedClient<IPestDiseaseLinkApi>();
+        AddAuthenticatedClient<ICropHealthApi>();
+        AddAuthenticatedClient<IEnvironmentalMonitoringApi>();
+        AddAuthenticatedClient<ISoilAnalysisApi>();
 
         //====================== Services ======================
         services.AddScoped<IExperienceService, ExperienceService>();
@@ -114,6 +125,17 @@ public static class DependencyInjection
         services.AddScoped<IFarmExpenseService, FarmExpenseService>();
         services.AddScoped<IFarmFinancialSummaryService, FarmFinancialSummaryService>();
         services.AddScoped<IFarmRevenueService, FarmRevenueService>();
+        services.AddScoped<IHarvestService, HarvestService>();
+        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ISaleService, SaleService>();
+        services.AddScoped<IYieldService, YieldService>();
+        services.AddScoped<IDiseaseService, DiseaseService>();
+        services.AddScoped<IInfestationService, InfestationService>();
+        services.AddScoped<IPestService, PestService>();
+        services.AddScoped<IPestDiseaseLinkService, PestDiseaseLinkService>();
+        services.AddScoped<ICropHealthService, CropHealthService>();
+        //services.AddScoped<IEnvironmentalMonitoringService, EnvironmentalMonitoringService>();
+        services.AddScoped<ISoilAnalysisService, SoilAnalysisService>();
 
         return services;
     }

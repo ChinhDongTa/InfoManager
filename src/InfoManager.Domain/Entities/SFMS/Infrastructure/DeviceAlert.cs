@@ -8,7 +8,7 @@ public class DeviceAlert : BaseAuditableEntity
     /// <summary>
     /// ID thiết bị liên quan
     /// </summary>
-    public string DeviceId { get; set; }
+    public required string DeviceId { get; set; }
 
     /// <summary>
     /// Loại cảnh báo (Pin yếu, Tín hiệu yếu, Không có dữ liệu, Lỗi phần cứng...)
@@ -19,7 +19,7 @@ public class DeviceAlert : BaseAuditableEntity
     /// Nội dung / mô tả cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Mức độ nghiêm trọng của cảnh báo

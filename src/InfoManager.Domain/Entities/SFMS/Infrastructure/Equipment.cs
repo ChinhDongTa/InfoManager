@@ -9,7 +9,7 @@ public class Equipment : BaseAuditableEntity
     /// Equipment name/identifier
     /// </summary>
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Equipment type (Tractor, Pump, Sprayer, Harrow, etc.)
@@ -20,7 +20,7 @@ public class Equipment : BaseAuditableEntity
     /// <summary>
     /// Associated farm ID
     /// </summary>
-    public string FarmId { get; set; }
+    public string? FarmId { get; set; }
 
     /// <summary>
     /// Manufacturer name

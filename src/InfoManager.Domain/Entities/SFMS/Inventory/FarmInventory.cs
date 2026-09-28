@@ -6,11 +6,11 @@ namespace InfoManager.Domain.Entities.SFMS.Inventory;
 /// </summary>
 public class FarmInventory : BaseAuditableEntity
 {
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>Tên vật tư</summary>
     [MaxLength(200)]
-    public string ResourceName { get; set; }
+    public required string ResourceName { get; set; }
 
     /// <summary>Nhóm vật tư</summary>
     public ResourceType ResourceType { get; set; }
@@ -32,7 +32,7 @@ public class FarmInventory : BaseAuditableEntity
     public decimal CurrentQuantity { get; set; }
 
     [MaxLength(50)]
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
 
     public decimal? MinQuantity { get; set; }
     public decimal? MaxQuantity { get; set; }

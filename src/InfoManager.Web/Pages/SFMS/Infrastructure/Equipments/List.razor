@@ -17,7 +17,7 @@
             <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="decimal?" Title="Giờ vận hành" Property="@(x => x.OperatingHours)" />
             <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="DateTimeOffset?" Title="Bảo trì gần nhất" Property="@(x => x.LastMaintenanceDate)" />
             <PropertyColumn TGridItem="EquipmentSummaryDto" TProp="string" Title="Vị trí lưu trữ" Property="@(x => x.StorageLocation)" />
-            <TemplateColumn TGridItem="EquipmentSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="EquipmentSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

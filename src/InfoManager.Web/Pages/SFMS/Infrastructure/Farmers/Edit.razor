@@ -16,12 +16,12 @@
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField Label="Họ và tên" @bind-Value="updateModel.FullName" />
-                    <FluentTextField Label="Mã chủ hộ/nông dân" @bind-Value="updateModel.FarmerCode" />
+                    <FluentTextInput Label="Họ và tên" @bind-Value="updateModel.FullName" />
+                    <FluentTextInput Label="Mã chủ hộ/nông dân" @bind-Value="updateModel.FarmerCode" />
                     <SelectList Route="api/SelectList/FamilyMember" @bind-Value="updateModel.FamilyMemberId" Placeholder="Chọn thành viên" />
-                    <FluentTextField Label="Điện thoại" @bind-Value="updateModel.Phone" />
-                    <FluentTextField Label="CCCD/Thông hành" @bind-Value="updateModel.IdentityNumber" />
-                    <FluentTextField Label="Email" @bind-Value="updateModel.Email" />
+                    <FluentTextInput Label="Điện thoại" @bind-Value="updateModel.Phone" />
+                    <FluentTextInput Label="CCCD/Thông hành" @bind-Value="updateModel.IdentityNumber" />
+                    <FluentTextInput Label="Email" @bind-Value="updateModel.Email" />
                     <FluentTextArea Label="Ghi chú" @bind-Value="updateModel.Notes"/>
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farmers/list" />
                 </FluentStack>
@@ -33,13 +33,13 @@
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" />
-                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" />
-                    <FluentTextField Label="Mã chủ hộ/nông dân" @bind-Value="createModel.FarmerCode" />
+                    <FluentTextInput Label="Họ và tên" @bind-Value="createModel.FullName" />
+                    <FluentTextInput Label="Họ và tên" @bind-Value="createModel.FullName" />
+                    <FluentTextInput Label="Mã chủ hộ/nông dân" @bind-Value="createModel.FarmerCode" />
                     <SelectList Route="api/SelectList/FamilyMember" @bind-Value="createModel.FamilyMemberId" Placeholder="Chọn thành viên" />
-                    <FluentTextField Label="Điện thoại" @bind-Value="createModel.Phone" />
-                    <FluentTextField Label="CCCD/Thông hành" @bind-Value="createModel.IdentityNumber" />
-                    <FluentTextField Label="Email" @bind-Value="createModel.Email" />
+                    <FluentTextInput Label="Điện thoại" @bind-Value="createModel.Phone" />
+                    <FluentTextInput Label="CCCD/Thông hành" @bind-Value="createModel.IdentityNumber" />
+                    <FluentTextInput Label="Email" @bind-Value="createModel.Email" />
                     <FluentTextArea Label="Ghi chú" @bind-Value="createModel.Notes" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/farmers/list" />

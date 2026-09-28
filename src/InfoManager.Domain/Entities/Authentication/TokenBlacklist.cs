@@ -24,13 +24,13 @@ public class TokenBlacklist : BaseAuditableEntity
     /// JWT ID (claim jti)
     /// </summary>
     [MaxLength(100)]
-    public string Jti { get; set; }
+    public required string Jti { get; set; }
 
     /// <summary>
     /// UserId được embed trong token
     /// </summary>
     [MaxLength(100)]
-    public string UserIdOfToken { get; set; }
+    public required string UserIdOfToken { get; set; }
 
     /// <summary>
     /// Lý do thu hồi (enum)

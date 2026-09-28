@@ -9,7 +9,7 @@
 <AuthorizeView Roles="admin">
     <Authorized>
         <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="margin: 20px auto;">
-            <FluentSearch @ref=fluentSearch
+            <FluentTextInput @ref=fluentSearch
                           @bind-Value="@searchValue"
                           @bind-Value:after=HandleSearchInput
                           Placeholder="Search for email or role" />
@@ -19,7 +19,7 @@
                     <PropertyColumn Property="@(item => item.UserNameOrEmail)" Sortable="true" />
                     <PropertyColumn Property="@(item => item.PhoneNumber)" Sortable="true" />
                     <PropertyColumn Property="@(item => item.Roles.ToLine(" | "))" Title="Roles" /> 
-                    <TemplateColumn Context="item" Title="Thao tác" Align="Align.End">
+                    <TemplateColumn Context="item" Title="Thao tác" >
                         <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                         <FluentIcon Title="Khởi tạo dữ liệu nông dân" Value="@(new Icons.Filled.Size20.AddCircle())" @onclick=@(() => navigationManager.NavigateTo($"/account/InitFarmerData/{item.Id}")) />
                     </TemplateColumn>
@@ -59,7 +59,7 @@
 </AuthorizeView>
 
 @code {
-    FluentSearch? fluentSearch;
+    FluentTextInput? fluentSearch;
     string? searchValue;
     private IQueryable<UserDto>? items;
     private Alert? alert;

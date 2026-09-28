@@ -4,7 +4,7 @@ namespace InfoManager.Domain.Entities.Authentication;
 
 public class UserProfile : BaseAuditableEntity
 {
-    public string UserId { get; set; }               // FK → ApplicationUser (1-1)
+    public required string UserId { get; set; }               // FK → ApplicationUser (1-1)
     public ApplicationUser? User { get; set; }
 
     // === Liên kết Gia đình ===

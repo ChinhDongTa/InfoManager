@@ -18,7 +18,7 @@
             <TemplateColumn TGridItem="PriceTrackingSummaryDto" Context="item" Title="Xem sản phẩm">
                 <FluentAnchor Href="@item.ProductUrl" Target="_blank">Xem</FluentAnchor>
             </TemplateColumn>
-            <TemplateColumn TGridItem="PriceTrackingSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="PriceTrackingSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

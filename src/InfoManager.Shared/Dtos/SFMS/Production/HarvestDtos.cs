@@ -31,7 +31,7 @@ public record HarvestDto(
     decimal TotalQuantity,
 
     /// <summary>Đơn vị sản lượng</summary>
-    string QuantityUnit,
+    string? QuantityUnit,
 
     /// <summary>Năng suất / hecta</summary>
     decimal? YieldPerHectare,
@@ -79,7 +79,7 @@ public record HarvestSummaryDto(
     decimal TotalQuantity,
 
     /// <summary>Đơn vị</summary>
-    string QuantityUnit,
+    string? QuantityUnit,
 
     /// <summary>Năng suất / hecta</summary>
     decimal? YieldPerHectare,

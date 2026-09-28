@@ -18,7 +18,7 @@
             <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="string" Title="Sự kiện" Property="@(x => x.EventTitle)" />
             <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="int?" Title="Số ngày nhắc trước" Property="@(x => x.DaysBefore)" />
             <PropertyColumn TGridItem="FamilyEventReminderSummaryDto" TProp="TimeOnly?" Title="Thời gian nhắc" Property="@(x => x.RemindTime)" />
-            <TemplateColumn TGridItem="FamilyEventReminderSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="FamilyEventReminderSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

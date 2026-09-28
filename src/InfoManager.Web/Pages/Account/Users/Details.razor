@@ -19,7 +19,7 @@
                     
                     <DetailItem Label="Roles" Value="@userDto?.Roles.ToLine()" />
                     <FluentStack Orientation="Orientation.Horizontal" HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="width:100%; margin-top:10px;">
-                        <FluentButton Appearance="Appearance.Outline" OnClick="BtnBackToList">
+                        <FluentButton Appearance="ButtonAppearance.Outline" OnClick="BtnBackToList">
                             Back to List
                         </FluentButton>
                     </FluentStack>
@@ -30,8 +30,8 @@
                       
                     <DisplayRoleName />
                     <FluentLabel Typo="Typography.H3" Color="Color.Info">Thêm role cho user</FluentLabel>
-                    <FluentTextField Label="Nhập tên role" @bind-Value="@addRoleName" />
-                    <FluentButton Appearance="Appearance.Accent" OnClick="HandleAddRoleToUser" Disabled="@isSaving">
+                    <FluentTextInput Label="Nhập tên role" @bind-Value="@addRoleName" />
+                    <FluentButton Appearance="ButtonAppearance.Primary" OnClick="HandleAddRoleToUser" Disabled="@isSaving">
                         @if (isSaving)
                         {
                             <span>Đang lưu...</span>
@@ -44,8 +44,8 @@
                     </FluentButton>
 
                     <FluentLabel Typo="Typography.H3" Color="Color.Warning">Xóa role khỏi user</FluentLabel>
-                    <FluentTextField Label="Nhập tên role" @bind-Value="@removeRoleName" />
-                    <FluentButton Appearance="Appearance.Accent" OnClick="HandleRemoveRoleToUser" Disabled="@isSaving">
+                    <FluentTextInput Label="Nhập tên role" @bind-Value="@removeRoleName" />
+                    <FluentButton Appearance="ButtonAppearance.Primary" OnClick="HandleRemoveRoleToUser" Disabled="@isSaving">
                         @if (isSaving)
                         {
                             <span>Đang lưu...</span>

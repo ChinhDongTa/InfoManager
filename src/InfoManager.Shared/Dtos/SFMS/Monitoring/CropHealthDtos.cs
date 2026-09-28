@@ -189,3 +189,5 @@ public record UpdateCropHealthRequest(
     /// <summary>Đường dẫn ảnh. Tối đa 500 ký tự.</summary>
     string? PhotoUrl
 );
+
+public record SearchCropHealthsRequest(string? Term, string? CropPlantingId, HealthStatus? Status, int PageNumber, int PageSize);

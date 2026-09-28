@@ -8,7 +8,7 @@ public class WorkShift : BaseAuditableEntity
 {
     /// <summary>Tên ca (Ca sáng, Ca chiều, Ca đêm...)</summary>
     [MaxLength(50)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>Giờ bắt đầu</summary>
     public TimeOnly StartTime { get; set; }
@@ -17,7 +17,7 @@ public class WorkShift : BaseAuditableEntity
     public TimeOnly EndTime { get; set; }
 
     /// <summary>ID nông trại</summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     // Navigation
     public virtual Farm? Farm { get; set; }

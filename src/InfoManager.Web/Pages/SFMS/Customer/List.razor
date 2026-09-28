@@ -15,7 +15,7 @@
             <PropertyColumn TGridItem="CustomerSummaryDto" TProp="string" Title="Loại khách hàng" Property="@(x => x.CustomerTypeName)" />
             <PropertyColumn TGridItem="CustomerSummaryDto" TProp="string" Title="Điện thoại" Property="@(x => x.Phone)" />
             <PropertyColumn TGridItem="CustomerSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
-            <TemplateColumn TGridItem="CustomerSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="CustomerSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

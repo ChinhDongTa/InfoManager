@@ -10,7 +10,7 @@ public class Device : BaseAuditableEntity
     /// Tên / mã định danh thiết bị
     /// </summary>
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Loại thiết bị (Gateway, DataLogger, WeatherStation...)
@@ -32,7 +32,7 @@ public class Device : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public string FarmId { get; set; }
+    public string? FarmId { get; set; }
 
     /// <summary>
     /// Trạng thái thiết bị

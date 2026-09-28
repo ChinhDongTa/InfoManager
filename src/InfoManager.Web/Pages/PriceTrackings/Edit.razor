@@ -19,9 +19,9 @@
                         <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                             <DataAnnotationsValidator />
                             <ValidationSummary />
-                            <FluentTextField Label="Tên sản phẩm" @bind-Value="updateModel.ProductName" />
-                            <FluentTextField Label="Liên kết sản phẩm" @bind-Value="updateModel.ProductUrl" />
-                            <FluentTextField Label="Tên cửa hàng" @bind-Value="updateModel.StoreName" />
+                            <FluentTextInput Label="Tên sản phẩm" @bind-Value="updateModel.ProductName" />
+                            <FluentTextInput Label="Liên kết sản phẩm" @bind-Value="updateModel.ProductUrl" />
+                            <FluentTextInput Label="Tên cửa hàng" @bind-Value="updateModel.StoreName" />
                             <FluentTextArea Label="Mô tả" @bind-Value="updateModel.Description" Cols="100" Rows="5" />
                             <CurrencyNumberField Label="Giá hiện tại" @bind-Value="updateModel.CurrentPrice" />
                         </FluentStack>
@@ -43,9 +43,9 @@
                             <DataAnnotationsValidator />
                             <ValidationSummary />
 
-                            <FluentTextField Label="Tên sản phẩm" @bind-Value="createModel.ProductName" />
-                            <FluentTextField Label="Liên kết sản phẩm" @bind-Value="createModel.ProductUrl" />
-                            <FluentTextField Label="Tên cửa hàng" @bind-Value="createModel.StoreName" />
+                            <FluentTextInput Label="Tên sản phẩm" @bind-Value="createModel.ProductName" />
+                            <FluentTextInput Label="Liên kết sản phẩm" @bind-Value="createModel.ProductUrl" />
+                            <FluentTextInput Label="Tên cửa hàng" @bind-Value="createModel.StoreName" />
                             <FluentTextArea Label="Mô tả" @bind-Value="createModel.Description" Cols="100" Rows="5" />
                             <CurrencyNumberField Label="Giá hiện tại" @bind-Value="createModel.CurrentPrice" />
                         </FluentStack>

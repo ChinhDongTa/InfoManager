@@ -8,7 +8,7 @@ public class EnvironmentalReading : BaseAuditableEntity
     /// <summary>
     /// ID cảm biến
     /// </summary>
-    public string SensorId { get; set; }
+    public required string SensorId { get; set; }
 
     /// <summary>
     /// Thời điểm đo
@@ -29,7 +29,7 @@ public class EnvironmentalReading : BaseAuditableEntity
     /// Đơn vị đo
     /// </summary>
     [MaxLength(50)]
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
 
     /// <summary>
     /// Chất lượng dữ liệu (Tốt, Cảnh báo, Lỗi)

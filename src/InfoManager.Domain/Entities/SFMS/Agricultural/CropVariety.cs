@@ -9,12 +9,12 @@ public class CropVariety : BaseAuditableEntity
     /// Tên giống / tên cultivar
     /// </summary>
     [MaxLength(200)]
-    public string VarietyName { get; set; }
+    public required string VarietyName { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public string CropId { get; set; }
+    public required string CropId { get; set; }
 
     /// <summary>
     /// Tên nhà tạo giống / công ty phát triển

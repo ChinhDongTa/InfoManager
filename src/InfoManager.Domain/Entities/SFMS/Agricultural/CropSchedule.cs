@@ -9,12 +9,12 @@ public class CropSchedule : BaseAuditableEntity
     /// Tên lịch trình / kế hoạch trồng
     /// </summary>
     [MaxLength(200)]
-    public string ScheduleName { get; set; }
+    public required string ScheduleName { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public string CropId { get; set; }
+    public required string CropId { get; set; }
 
     /// <summary>
     /// ID giống cây trồng

@@ -5,7 +5,7 @@
 /// </summary>
 public class InventoryReceiptItem : BaseAuditableEntity
 {
-    public string InventoryReceiptId { get; set; }
+    public required string InventoryReceiptId { get; set; }
 
     /// <summary>ID tồn kho được cộng vào sau khi ghi sổ (nếu có)</summary>
     public string? FarmInventoryId { get; set; }
@@ -13,7 +13,7 @@ public class InventoryReceiptItem : BaseAuditableEntity
     public ResourceType ResourceType { get; set; }
 
     [MaxLength(200)]
-    public string ResourceName { get; set; }
+    public string? ResourceName { get; set; }
 
     public string? FertilizerId { get; set; }
     public string? PesticideId { get; set; }
@@ -25,7 +25,7 @@ public class InventoryReceiptItem : BaseAuditableEntity
     public decimal Quantity { get; set; }
 
     [MaxLength(50)]
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
 
     public decimal? CostPerUnit { get; set; }
     public decimal? LineAmount { get; set; }

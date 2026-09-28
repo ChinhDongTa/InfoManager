@@ -8,12 +8,12 @@ public class GrowthStageAlert : BaseAuditableEntity
     /// <summary>
     /// ID lần trồng cây liên quan
     /// </summary>
-    public string CropPlantingId { get; set; }
+    public required string CropPlantingId { get; set; }
 
     /// <summary>
     /// ID giai đoạn sinh trưởng liên quan
     /// </summary>
-    public string GrowthStageId { get; set; }
+    public required string GrowthStageId { get; set; }
 
     /// <summary>
     /// Loại cảnh báo
@@ -24,7 +24,7 @@ public class GrowthStageAlert : BaseAuditableEntity
     /// Nội dung cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public string Message { get; set; }
+    public required string Message { get; set; }
 
     /// <summary>
     /// Mức độ nghiêm trọng của cảnh báo

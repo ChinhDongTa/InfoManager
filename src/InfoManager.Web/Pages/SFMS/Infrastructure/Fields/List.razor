@@ -17,7 +17,7 @@
             <PropertyColumn TGridItem="FieldSummaryDto" TProp="string" Title="Tình trạng đất" Property="@(x => x.SoilConditionName)" />
             <PropertyColumn TGridItem="FieldSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.StatusName)" />
             <PropertyColumn TGridItem="FieldSummaryDto" TProp="bool" Title="Có tưới" Property="@(x => x.HasIrrigation)" />
-            <TemplateColumn TGridItem="FieldSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="FieldSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

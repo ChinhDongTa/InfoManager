@@ -28,7 +28,7 @@ public class CreateSaleModel
     /// Số lượng bán
     /// </summary>
     [Required]
-    [Range(typeof(decimal), "0.0000001", "79228162514264337593543950335")]
+    [Range(typeof(decimal), "1", "79228162514264337593543950335")]
     public decimal QuantitySold { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class CreateSaleModel
     /// </summary>
     [Required]
     [Range(0, double.MaxValue)]
-    public decimal UnitPrice { get; set; }
+    public decimal? UnitPrice { get; set; }
 
     /// <summary>
     /// Thành tiền
@@ -90,7 +90,7 @@ public class CreateSaleModel
             SaleDate: this.SaleDate,
             BuyerName: this.BuyerName,
             QuantitySold: this.QuantitySold,
-            UnitPrice: this.UnitPrice,
+            UnitPrice: this.UnitPrice.Value,
             TotalAmount: this.TotalAmount,
             DiscountPercentage: this.DiscountPercentage,
             NetAmount: this.NetAmount,

@@ -21,7 +21,7 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
                         <DateTimePicker @bind-Value="occurrenceDate" WithTime="false" />
-                        <FluentTextField @bind-Value="updateModel.Location" Label="Địa điểm" />
+                        <FluentTextInput @bind-Value="updateModel.Location" Label="Địa điểm" />
                         <CurrencyNumberField @bind-Value="updateModel.Cost" Label="Chi phí" />
                         <FluentTextArea @bind-Value="updateModel.Notes" Label="Ghi chú" Class="Width70ch" />
 
@@ -35,9 +35,9 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                         <DataAnnotationsValidator />
                         <ValidationSummary /> 
-                        <FluentTextField @bind-Value="@createModel.FamilyEventId" Label="Family Event ID" ReadOnly="true"/>
+                        <FluentTextInput @bind-Value="@createModel.FamilyEventId" Label="Family Event ID" ReadOnly="true"/>
                         <DateTimePicker @bind-Value="occurrenceDate" WithTime="false" />
-                        <FluentTextField @bind-Value="createModel.Location" Label="Địa điểm" />
+                        <FluentTextInput @bind-Value="createModel.Location" Label="Địa điểm" />
                         <CurrencyNumberField @bind-Value="createModel.Cost" Label="Chi phí" />
                         <FluentTextArea @bind-Value="createModel.Notes" Label="Ghi chú" Class="Width70ch" />
                         @* Action : create, update *@

@@ -8,7 +8,7 @@ public class FarmExpense : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// ID lần trồng cây liên quan (tùy chọn)
@@ -24,7 +24,7 @@ public class FarmExpense : BaseAuditableEntity
     /// Mô tả chi phí
     /// </summary>
     [MaxLength(500)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Số tiền đã chi

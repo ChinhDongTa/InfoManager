@@ -8,7 +8,7 @@ public class Maintenance : BaseAuditableEntity
     /// <summary>
     /// ID thiết bị liên quan
     /// </summary>
-    public string EquipmentId { get; set; }
+    public required string EquipmentId { get; set; }
 
     /// <summary>
     /// Ngày thực hiện bảo trì
@@ -24,7 +24,7 @@ public class Maintenance : BaseAuditableEntity
     /// Mô tả công việc bảo trì đã thực hiện
     /// </summary>
     [MaxLength(500)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Các phụ tùng đã thay/sử dụng (ngăn cách bằng dấu phẩy)

@@ -8,7 +8,7 @@ public class FarmFinancialSummary : BaseAuditableEntity
     /// <summary>
     /// ID nông trại liên quan
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// Năm của bản tổng hợp

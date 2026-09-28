@@ -1,77 +1,74 @@
-﻿<div class="navmenu">
-    <input type="checkbox" title="Menu expand/collapse toggle" id="navmenu-toggle" class="navmenu-icon" />
-    <label for="navmenu-toggle" class="navmenu-icon"><FluentIcon Value="@(new Icons.Regular.Size20.Navigation())" Color="Color.Fill" /></label>
-    <nav class="sitenav" aria-labelledby="main-menu">
-        <FluentNavMenu Id="main-menu" Width="250" Collapsible="true" Title="Navigation menu" @bind-Expanded="expanded" CustomToggle="true">
-            <FluentNavGroup Title="Nông trại thông minh" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
-                <FluentNavGroup Title="Nông trại" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
-                    <FluentNavLink Href="/sfms/Infrastructure/farms/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Nông trại</FluentNavLink>
-                    <FluentNavLink Href="/sfms/Infrastructure/fields/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Thửa đất</FluentNavLink>
-                </FluentNavGroup>
-                <FluentNavGroup Title="Cây trồng" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
-                    <FluentNavLink Href="/sfms/Agricultural/crops/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Loại cây</FluentNavLink>
-                    <FluentNavLink Href="/sfms/agricultural/crop-plantings/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Đợt trồng</FluentNavLink>
-                    <FluentNavLink Href="/sfms/Agricultural/Crop-Varieties/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Giống</FluentNavLink>
-                    <FluentNavLink Href="/sfms/Agricultural/Crop-Schedules/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Lịch canh tác</FluentNavLink>
-                    <FluentNavLink Href="/sfms/Agricultural/Growth-Stages/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Giai đoạn trưởng thành</FluentNavLink>
-                </FluentNavGroup>
+﻿
+<FluentNav Id="main-menu" Width="250">
+    <FluentNavCategory  Title="Nông trại thông minh" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+        <FluentNavCategory  Title="Nông trại" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+            <FluentNavItem   Href="/sfms/Infrastructure/farms/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Nông trại</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/Infrastructure/fields/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Thửa đất</FluentNavItem  >
+        </FluentNavCategory >
+        <FluentNavCategory  Title="Cây trồng" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+            <FluentNavItem   Href="/sfms/Agricultural/crops/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Loại cây</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/agricultural/crop-plantings/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Đợt trồng</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/Agricultural/Crop-Varieties/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Giống</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/Agricultural/Crop-Schedules/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Lịch canh tác</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/Agricultural/Growth-Stages/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Giai đoạn trưởng thành</FluentNavItem  >
+        </FluentNavCategory >
 
-                <FluentNavLink Href="/crops/harvests/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Thu hoạch</FluentNavLink>
-                <FluentNavLink Href="/crops/harvests/transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch thu hoạch</FluentNavLink>
-                <FluentNavGroup Title="Vật tư & thiết bị" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
-                    <FluentNavGroup Title="Phân bón" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+        <FluentNavItem   Href="/crops/harvests/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Thu hoạch</FluentNavItem  >
+        <FluentNavItem   Href="/crops/harvests/transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch thu hoạch</FluentNavItem  >
+        <FluentNavCategory  Title="Vật tư & thiết bị" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+            <FluentNavCategory  Title="Phân bón" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
 
-                    </FluentNavGroup>
-                    <FluentNavGroup Title="Thuốc BVTV" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+            </FluentNavCategory >
+            <FluentNavCategory  Title="Thuốc BVTV" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
 
-                    </FluentNavGroup>
-                    <FluentNavLink Href="/sfms/Infrastructure/devices/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Thiết bị</FluentNavLink>
-                    <FluentNavLink Href="/sfms/Infrastructure/device-alerts/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Cảnh báo thiết bị</FluentNavLink>
-                    <FluentNavLink Href="/sfms/Infrastructure/sensors/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Sensor</FluentNavLink>
-                </FluentNavGroup>
-                <FluentNavGroup Title="Quản lý kho" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
+            </FluentNavCategory >
+            <FluentNavItem   Href="/sfms/Infrastructure/devices/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Thiết bị</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/Infrastructure/device-alerts/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Cảnh báo thiết bị</FluentNavItem  >
+            <FluentNavItem   Href="/sfms/Infrastructure/sensors/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Sensor</FluentNavItem  >
+        </FluentNavCategory >
+        <FluentNavCategory  Title="Quản lý kho" Icon="@(new Icons.Regular.Size20.TreeEvergreen())" IconColor="Color.Accent">
 
-                </FluentNavGroup>
-                <FluentNavLink Href="/sfms/customers/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Khách hàng</FluentNavLink>
-            </FluentNavGroup>
-            <FluentNavGroup Title="HR" Icon="@(new Icons.Filled.Size20.PeopleCommunication())">
-                <FluentNavLink Href="/sfms/hr/employees/list" Icon="@(new Icons.Regular.Size20.EmojiMultiple())" IconColor="Color.Accent">Danh sách</FluentNavLink>
-            </FluentNavGroup>
-            <FluentNavGroup Title="Tiện ích cá nhân" Icon="@(new Icons.Regular.Size20.Apps())" IconColor="Color.Accent">
-                <FluentNavLink Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavLink>
-                <FluentNavLink Href="/categories/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Danh mục</FluentNavLink>
-                <FluentNavLink Href="/experiences/list" Icon="@(new Icons.Regular.Size20.LearningApp())" IconColor="Color.Accent">Kinh nghiệm</FluentNavLink>
-                <FluentNavGroup Title="Gia đình" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
-                    <FluentNavLink Href="/families/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Thành viên gia đình</FluentNavLink>
-                    <FluentNavLink Href="/families/Events/list" Icon="@(new Icons.Regular.Size20.FoodCake())" IconColor="Color.Accent">Sự kiện gia đình</FluentNavLink>
-                    <FluentNavLink Href="/families/EventOccurrences/list" Icon="@(new Icons.Regular.Size20.Calendar())" IconColor="Color.Accent">Diễn biến sự kiện</FluentNavLink>
-                    <FluentNavLink Href="/families/EventReminders/list" Icon="@(new Icons.Regular.Size20.Alert())" IconColor="Color.Accent">Nhắc nhở sự kiện</FluentNavLink>
-                    <FluentNavLink Href="/families/Relations/list" Icon="@(new Icons.Regular.Size20.PeopleCommunity())" IconColor="Color.Accent">Mối quan hệ gia đình</FluentNavLink>
-                </FluentNavGroup>
-                <FluentNavLink Href="/HistoricalEvents/list" Icon="@(new Icons.Regular.Size20.History())" IconColor="Color.Accent">Sự kiện lịch sử</FluentNavLink>
-                <FluentNavLink Href="/Intentions/list" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">Ý định</FluentNavLink>
-                <FluentNavLink Href="/PriceTrackings/list" Icon="@(new Icons.Regular.Size20.Money())" IconColor="Color.Accent">Theo dõi giá</FluentNavLink>
-                <FluentNavLink Href="/Transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch</FluentNavLink>
+        </FluentNavCategory >
+        <FluentNavItem   Href="/sfms/customers/list" Icon="@(new Icons.Regular.Size20.Cube())" IconColor="Color.Accent">Khách hàng</FluentNavItem  >
+    </FluentNavCategory >
+    <FluentNavCategory  Title="Sản xuất">
+        <FluentNavItem   Href="/sfms/production/product/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Sản phẩm</FluentNavItem  >
+        <FluentNavItem   Href="/sfms/production/harvest/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Thu hoạch</FluentNavItem  >
+        <FluentNavItem   Href="/sfms/production/sale/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Đơn hàng</FluentNavItem  >
+        <FluentNavItem   Href="/sfms/production/yield/list" Icon="@(new Icons.Regular.Size20.Library())" IconColor="Color.Accent">Năng suất</FluentNavItem  >
+
+    </FluentNavCategory >
+    <FluentNavCategory  Title="HR" Icon="@(new Icons.Filled.Size20.PeopleCommunication())">
+        <FluentNavItem   Href="/sfms/hr/employees/list" Icon="@(new Icons.Regular.Size20.EmojiMultiple())" IconColor="Color.Accent">Danh sách</FluentNavItem  >
+    </FluentNavCategory >
+    <FluentNavCategory  Title="Tiện ích cá nhân" Icon="@(new Icons.Regular.Size20.Apps())" IconColor="Color.Accent">
+        <FluentNavItem   Href="/" Match="NavLinkMatch.All" Icon="@(new Icons.Regular.Size20.Home())" IconColor="Color.Accent">Home</FluentNavItem  >
+        <FluentNavItem   Href="/categories/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Danh mục</FluentNavItem  >
+        <FluentNavItem   Href="/experiences/list" Icon="@(new Icons.Regular.Size20.LearningApp())" IconColor="Color.Accent">Kinh nghiệm</FluentNavItem  >
+        <FluentNavCategory  Title="Gia đình" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
+            <FluentNavItem   Href="/families/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Thành viên gia đình</FluentNavItem  >
+            <FluentNavItem   Href="/families/Events/list" Icon="@(new Icons.Regular.Size20.FoodCake())" IconColor="Color.Accent">Sự kiện gia đình</FluentNavItem  >
+            <FluentNavItem   Href="/families/EventOccurrences/list" Icon="@(new Icons.Regular.Size20.Calendar())" IconColor="Color.Accent">Diễn biến sự kiện</FluentNavItem  >
+            <FluentNavItem   Href="/families/EventReminders/list" Icon="@(new Icons.Regular.Size20.Alert())" IconColor="Color.Accent">Nhắc nhở sự kiện</FluentNavItem  >
+            <FluentNavItem   Href="/families/Relations/list" Icon="@(new Icons.Regular.Size20.PeopleCommunity())" IconColor="Color.Accent">Mối quan hệ gia đình</FluentNavItem  >
+        </FluentNavCategory >
+        <FluentNavItem   Href="/HistoricalEvents/list" Icon="@(new Icons.Regular.Size20.History())" IconColor="Color.Accent">Sự kiện lịch sử</FluentNavItem  >
+        <FluentNavItem   Href="/Intentions/list" Icon="@(new Icons.Regular.Size20.Lightbulb())" IconColor="Color.Accent">Ý định</FluentNavItem  >
+        <FluentNavItem   Href="/PriceTrackings/list" Icon="@(new Icons.Regular.Size20.Money())" IconColor="Color.Accent">Theo dõi giá</FluentNavItem  >
+        <FluentNavItem   Href="/Transactions/list" Icon="@(new Icons.Regular.Size20.ShoppingBag())" IconColor="Color.Accent">Giao dịch</FluentNavItem  >
               
-            </FluentNavGroup>
-            <FluentNavGroup Title=" Quản trị hệ thống" Icon="@(new Icons.Regular.Size20.Toolbox())" IconColor="Color.Accent">
-                <FluentNavGroup Title="Trang trại" Icon="@(new Icons.Regular.Size20.Person())" IconColor="Color.Accent">
-                    <FluentNavLink Href="/SFMS/Infrastructure/Farmers/list" Icon="@(new Icons.Filled.Size20.PersonHome())" IconColor="Color.Accent">
-                      Chủ hộ/nông dân
-                    </FluentNavLink>
-                    <FluentNavLink Href="/SFMS/Infrastructure/Farms/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Trang trại</FluentNavLink>
-                    <FluentNavLink Href="/SFMS/Infrastructure/Fields/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Thửa đất/ruộng</FluentNavLink>
-                </FluentNavGroup>
-                <FluentNavGroup Title="Quản lý tài khoản" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
-                    <FluentNavLink Href="/account/users/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Danh sách người dùng</FluentNavLink>
-                    <FluentNavLink Href="/account/roles/manager" Icon="@(new Icons.Regular.Size20.ShieldPerson())" IconColor="Color.Accent">Quản lý Role</FluentNavLink>
-                </FluentNavGroup>
-            </FluentNavGroup>
-        </FluentNavMenu>
-       
-    </nav>
-</div>
-
-@code {
-    private bool expanded = true;
-}
+    </FluentNavCategory >
+    <FluentNavCategory  Title=" Quản trị hệ thống" Icon="@(new Icons.Regular.Size20.Toolbox())" IconColor="Color.Accent">
+        <FluentNavCategory  Title="Trang trại" Icon="@(new Icons.Regular.Size20.Person())" IconColor="Color.Accent">
+            <FluentNavItem   Href="/SFMS/Infrastructure/Farmers/list" Icon="@(new Icons.Filled.Size20.PersonHome())" IconColor="Color.Accent">
+                Chủ hộ/nông dân
+            </FluentNavItem  >
+            <FluentNavItem   Href="/SFMS/Infrastructure/Farms/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Trang trại</FluentNavItem  >
+            <FluentNavItem   Href="/SFMS/Infrastructure/Fields/list" Icon="@(new Icons.Regular.Size20.List())" IconColor="Color.Accent">Thửa đất/ruộng</FluentNavItem  >
+        </FluentNavCategory >
+        <FluentNavCategory  Title="Quản lý tài khoản" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">
+            <FluentNavItem   Href="/account/users/list" Icon="@(new Icons.Regular.Size20.People())" IconColor="Color.Accent">Danh sách người dùng</FluentNavItem  >
+            <FluentNavItem   Href="/account/roles/manager" Icon="@(new Icons.Regular.Size20.ShieldPerson())" IconColor="Color.Accent">Quản lý Role</FluentNavItem  >
+        </FluentNavCategory >
+    </FluentNavCategory >
+</FluentNav>

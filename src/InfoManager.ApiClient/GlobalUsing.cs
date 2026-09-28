@@ -10,5 +10,7 @@ global using InfoManager.Shared.Dtos.SFMS.Economics;
 global using InfoManager.Shared.Dtos.SFMS.HR;
 global using InfoManager.Shared.Dtos.SFMS.Planning;
 global using InfoManager.Shared.Dtos.SFMS.Resources;
+global using InfoManager.Shared.Dtos.SFMS.Issues;
+global using InfoManager.Shared.Dtos.SFMS.Monitoring;
 global using InfoManager.Shared.Models;
 global using Refit;

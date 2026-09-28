@@ -17,7 +17,7 @@
             <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="string" Title="Sự kiện" Property="@(x => x.EventName)" Sortable="true" />
             <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="DateOnly?" Title="Ngày diễn ra" Property="@(x => x.EventDate)" Sortable="true" />
             <PropertyColumn TGridItem="FamilyEventSummaryDto" TProp="bool" Title="Còn hoạt động ?" Property="@(x => x.IsActive)" />   
-            <TemplateColumn TGridItem="FamilyEventSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="FamilyEventSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) Title="Xem chi tiết" />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) Title="Cập nhật" />
                 <FluentIcon Value="@(new Icons.Filled.Size20.CalendarAdd())" @onclick=@(() => AddOccurrenceHandler(item.Id)) Title="Dự kiến tổ chức sự kiện" />

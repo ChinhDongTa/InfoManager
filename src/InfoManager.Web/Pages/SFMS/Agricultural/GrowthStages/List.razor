@@ -16,7 +16,7 @@
             <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="int" Title="Ngày sau gieo" Property="@(x => x.DaysAfterPlanting)" />
             <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="int?" Title="Thời gian giai đoạn" Property="@(x => x.StageDuration)" />
             <PropertyColumn TGridItem="GrowthStageSummaryDto" TProp="string" Title="Mô tả" Property="@(x => x.Description)" />
-            <TemplateColumn TGridItem="GrowthStageSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="GrowthStageSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

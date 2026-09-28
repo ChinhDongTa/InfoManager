@@ -1,0 +1,84 @@
+﻿@page "/sfms/production/harvest/details/{Id}"
+@inject IHarvestService service
+@inject NavigationManager navigationManager
+
+<PageHeader Title="Chi tiết thu hoạch" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="isLoading" />
+        @if (harvest != null)
+        {
+            <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Mã lần trồng" Value="@harvest.PlantingCode" />
+                    <DetailItem Label="Cây trồng" Value="@harvest.CropName" />
+                    <DetailItem Label="Thửa ruộng" Value="@harvest.FieldName" />
+                    <DetailItem Label="Ngày thu hoạch" Value="@harvest.HarvestDate.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                    <DetailItem Label="Phương pháp thu hoạch" Value="@harvest.HarvestMethod" />
+                    <DetailItem Label="Diện tích đã thu (ha)" Value="@FormatNumber.FormatDecimal(harvest.HarvestedArea)" />
+                    <DetailItem Label="Tổng sản lượng" Value="@FormatNumber.FormatDecimal(harvest.TotalQuantity)" />
+                    <DetailItem Label="Đơn vị sản lượng" Value="@harvest.QuantityUnit" />
+                    <DetailItem Label="Năng suất / hecta" Value="@FormatNumber.FormatDecimal(harvest.YieldPerHectare)" />
+                </FluentStack>
+                <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                    <DetailItem Label="Phân loại chất lượng" Value="@harvest.QualityGrade" />
+                    <DetailItem Label="Người / tổ thu hoạch" Value="@harvest.HarvesterName" />
+                    <DetailItem Label="Điều kiện thời tiết" Value="@harvest.WeatherCondition" />
+                    <DetailItem Label="Tỷ lệ thất thoát (%)" Value="@FormatNumber.FormatDecimal(harvest.LossPercentage)" />
+                    <DetailItem Label="Ghi chú" Value="@harvest.Notes" />
+                    <DetailItem Label="Đường dẫn ảnh" Value="@harvest.PhotoUrl" />
+                    <DetailItem Label="Số sản phẩm tạo từ đợt thu" Value="@harvest.ProductCount.ToString()" />
+                    <DetailItem Label="Ngày tạo" Value="@harvest.Created.ToLocalTime().ToString("dd/MM/yyyy HH:mm")" />
+                </FluentStack>
+            </FluentStack>
+            <EntityActions EntityId="@Id" Folder="/sfms/production/harvest" OnDeleteClick="DeleteHandler" />
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    HarvestDto? harvest;
+    Alert? alertComponent;
+    bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        isLoading = true;
+        try
+        {
+            var result = await service.GetHarvestByIdAsync(Id);
+            if (result.Success && result.Data != null)
+            {
+                harvest = result.Data;
+            }
+            else
+            {
+                alertComponent?.AddAlert(
+                    ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Harvest"),
+                    AlertType.Error,
+                    Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteHandler()
+    {
+        alertComponent?.AddAlert("Not support", AlertType.Info, 5000);
+    }
+}

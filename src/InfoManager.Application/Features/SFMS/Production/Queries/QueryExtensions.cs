@@ -177,7 +177,7 @@ public static class QueryExtensions
         if (!string.IsNullOrEmpty(search.Term))
         {
             var term = $"%{search.Term.Trim()}%";
-            query = query.Where(s => EF.Functions.ILike(s.BuyerName, term)
+            query = query.Where(s =>(s.BuyerName!=null && EF.Functions.ILike(s.BuyerName, term))
                 || (s.InvoiceNumber != null && EF.Functions.ILike(s.InvoiceNumber, term))
                 || (s.SaleChannel != null && EF.Functions.ILike(s.SaleChannel, term))
                 || (s.Product != null && EF.Functions.ILike(s.Product.ProductName, term)));

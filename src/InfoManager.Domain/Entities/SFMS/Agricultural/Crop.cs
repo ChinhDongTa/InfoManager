@@ -10,13 +10,13 @@ public class Crop : BaseAuditableEntity
     /// Tên thông thường của cây trồng (ví dụ: "Lúa", "Ngô", "Khoai tây", "Cà chua")
     /// </summary>
     [MaxLength(100)]
-    public string CommonName { get; set; }
+    public required string CommonName { get; set; }
 
     /// <summary>
     /// Tên khoa học của cây trồng (ví dụ: "Ipomoea aquatica", "Solanum lycopersicum")
     /// </summary>
     [MaxLength(100)]
-    public string ScientificName { get; set; }
+    public required string ScientificName { get; set; }
 
     /// <summary>
     /// Mô tả đặc điểm và công dụng của cây trồng

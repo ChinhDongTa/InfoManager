@@ -8,7 +8,7 @@
     
     <!-- Nút Lưu (Submit) -->
     <FluentButton Type="ButtonType.Submit"
-                  Appearance="Appearance.Accent" 
+                  Appearance="ButtonAppearance.Primary" 
                   Disabled="@IsSaving">
         @if (IsSaving)
         {
@@ -21,7 +21,7 @@
     </FluentButton>
 
     <!-- Nút Hủy / Quay lại -->
-    <FluentButton Appearance="Appearance.Outline" OnClick="@OnCancelClick">
+    <FluentButton Appearance="ButtonAppearance.Outline" OnClick="@OnCancelClick">
         @CancelText
     </FluentButton>
 </FluentStack>

@@ -8,7 +8,7 @@
 public class Family : BaseAuditableEntity
 {
     [MaxLength(200)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Người đại diện của gia đình, có thể là cha/mẹ hoặc con trưởng

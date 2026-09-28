@@ -23,8 +23,8 @@
                     <FluentTextArea @bind-Value="@updateModel.Summary" Label="Tóm tắt" Cols="150" Rows="10" />
                     <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày xảy ra sự kiện" />
                     <SelectList @bind-Value="eventTypeSelected" Route="api/enums/HistoricalEventType" Label="Loại sự kiện" />
-                    <FluentTextField @bind-Value="@updateModel.Location" Label="Địa điểm" Class="fluent-text-field-wide" />
-                    <FluentTextField @bind-Value="@updateModel.ReferenceSource" Label="Nguồn tham khảo" Class="fluent-text-field-wide"/>
+                    <FluentTextInput @bind-Value="@updateModel.Location" Label="Địa điểm" Class="fluent-text-field-wide" />
+                    <FluentTextInput @bind-Value="@updateModel.ReferenceSource" Label="Nguồn tham khảo" Class="fluent-text-field-wide"/>
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/historicalEvents/list" />
                 </EditForm>
@@ -38,8 +38,8 @@
                     <FluentTextArea @bind-Value="@createModel.Summary" Label="Tóm tắt" Cols="150" Rows="10" Required="true" />
                     <DateTimePicker @bind-Value="@eventDate" WithTime="false" Label="Ngày xảy ra sự kiện" />
                     <SelectList @bind-Value="eventTypeSelected" Route="api/enums/HistoricalEventType" Label="Loại sự kiện" />
-                    <FluentTextField @bind-Value="@createModel.Location" Label="Địa điểm" Class="fluent-text-field-wide" />
-                    <FluentTextField @bind-Value="@createModel.ReferenceSource" Label="Nguồn tham khảo" Class="fluent-text-field-wide"/>
+                    <FluentTextInput @bind-Value="@createModel.Location" Label="Địa điểm" Class="fluent-text-field-wide" />
+                    <FluentTextInput @bind-Value="@createModel.ReferenceSource" Label="Nguồn tham khảo" Class="fluent-text-field-wide"/>
 
                     @* Action : create, update *@
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/historicalEvents/list" />

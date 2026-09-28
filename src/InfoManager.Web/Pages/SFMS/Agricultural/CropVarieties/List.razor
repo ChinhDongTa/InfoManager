@@ -17,7 +17,7 @@
             <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="decimal?" Title="Năng suất dự kiến" Property="@(x => x.ExpectedYield)" />
             <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="string" Title="Đơn vị năng suất" Property="@(x => x.YieldUnit)" />
             <PropertyColumn TGridItem="CropVarietySummaryDto" TProp="bool" Title="Đang sử dụng" Property="@(x => x.IsActive)" />
-            <TemplateColumn TGridItem="CropVarietySummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="CropVarietySummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

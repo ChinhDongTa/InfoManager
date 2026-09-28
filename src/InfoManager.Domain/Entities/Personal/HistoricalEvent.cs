@@ -11,7 +11,7 @@ public class HistoricalEvent : BaseAuditableEntity
     /// Tên sự kiện lịch sử
     /// </summary>
     [MaxLength(500)]
-    public string Title { get; set; }
+    public required string Title { get; set; }
 
     /// <summary>
     /// Loại sự kiện lịch sử (Chính trị, Quân sự, Văn hóa, Khoa học, Kinh tế, Khác)
@@ -26,7 +26,7 @@ public class HistoricalEvent : BaseAuditableEntity
     /// <summary>
     /// Tóm tắt sự kiện lịch sử
     /// </summary>
-    public string Summary { get; set; }
+    public string? Summary { get; set; }
 
     /// <summary>
     /// Nguồn tham khảo, ví dụ: sách, bài báo, trang web, v.v.

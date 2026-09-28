@@ -19,8 +19,8 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField Label="Tên quan hệ" @bind-Value="updateModel.Name" Maxlength="100" />
-                    <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" Maxlength="300" />
+                    <FluentTextInput Label="Tên quan hệ" @bind-Value="updateModel.Name" Maxlength="100" />
+                    <FluentTextInput Label="Mô tả" @bind-Value="updateModel.Description" Maxlength="300" />
                    
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/relations/list" />
@@ -34,8 +34,8 @@
                     <DataAnnotationsValidator />
                     <ValidationSummary /> 
  
-                    <FluentTextField Label="Tên quan hệ" @bind-Value="createModel.Name" Maxlength="100" Required/>
-                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" Maxlength="300" />
+                    <FluentTextInput Label="Tên quan hệ" @bind-Value="createModel.Name" Maxlength="100" Required/>
+                    <FluentTextInput Label="Mô tả" @bind-Value="createModel.Description" Maxlength="300" />
 
                     @* Action : create, update *@
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/relations/list" />

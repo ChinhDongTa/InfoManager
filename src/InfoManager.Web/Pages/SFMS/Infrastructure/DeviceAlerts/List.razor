@@ -16,7 +16,7 @@
             <PropertyColumn TGridItem="DeviceAlertSummaryDto" TProp="string" Title="Mức độ" Property="@(x => x.SeverityName)" />
             <PropertyColumn TGridItem="DeviceAlertSummaryDto" TProp="DateTimeOffset" Title="Thời gian" Property="@(x => x.AlertTime)" />
             <PropertyColumn TGridItem="DeviceAlertSummaryDto" TProp="bool" Title="Đã xử lý" Property="@(x => x.IsResolved)" />
-            <TemplateColumn TGridItem="DeviceAlertSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="DeviceAlertSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

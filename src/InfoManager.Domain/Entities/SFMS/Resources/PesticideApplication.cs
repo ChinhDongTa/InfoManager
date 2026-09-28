@@ -8,7 +8,7 @@ public class PesticideApplication : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// ID thửa ruộng
@@ -28,7 +28,7 @@ public class PesticideApplication : BaseAuditableEntity
     /// <summary>
     /// ID thuốc
     /// </summary>
-    public string PesticideId { get; set; }
+    public required string PesticideId { get; set; }
 
     /// <summary>
     /// Ngày phun thực tế
@@ -44,7 +44,7 @@ public class PesticideApplication : BaseAuditableEntity
     /// Đơn vị
     /// </summary>
     [MaxLength(20)]
-    public string Unit { get; set; } = "lít";
+    public string? Unit { get; set; } = "lít";
 
     /// <summary>
     /// Cách phun

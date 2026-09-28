@@ -17,7 +17,7 @@
             <PropertyColumn TGridItem="FamilyEventOccurrenceSummaryDto" TProp="string" Title="Sự kiện" Property="@(x => x.EventTitle)" />
             <PropertyColumn TGridItem="FamilyEventOccurrenceSummaryDto" TProp="DateOnly?" Title="Ngày" Property="@(x => x.OccurrenceDate)" />
             <PropertyColumn TGridItem="FamilyEventOccurrenceSummaryDto" TProp="string" Title="Chi phí" Property="@(x => x.Cost.ToVND())" />
-            <TemplateColumn TGridItem="FamilyEventOccurrenceSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="FamilyEventOccurrenceSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

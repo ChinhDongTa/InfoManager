@@ -19,7 +19,7 @@ public record SaleDto(
     DateTimeOffset SaleDate,
 
     /// <summary>Tên người mua</summary>
-    string BuyerName,
+    string? BuyerName,
 
     /// <summary>Số lượng bán</summary>
     decimal QuantitySold,
@@ -70,7 +70,7 @@ public record SaleSummaryDto(
     DateTimeOffset SaleDate,
 
     /// <summary>Tên người mua</summary>
-    string BuyerName,
+    string? BuyerName,
 
     /// <summary>Số lượng bán</summary>
     decimal QuantitySold,

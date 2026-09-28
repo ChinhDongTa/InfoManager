@@ -10,7 +10,7 @@ public class Customer : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public string FarmId { get; set; }
+    public string? FarmId { get; set; }
 
     /// <summary>
     /// Mã khách hàng
@@ -22,7 +22,7 @@ public class Customer : BaseAuditableEntity
     /// Tên khách hàng / tên công ty
     /// </summary>
     [MaxLength(200)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Loại khách hàng (Cá nhân, Doanh nghiệp)

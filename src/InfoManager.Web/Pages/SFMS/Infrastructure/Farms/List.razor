@@ -15,7 +15,7 @@
             <PropertyColumn TGridItem="FarmSummaryDto" TProp="decimal" Title="TotalArea" Property="@(x => x.TotalArea)" />
             <PropertyColumn TGridItem="FarmSummaryDto" TProp="decimal" Title="CultivableArea" Property="@(x => x.CultivableArea)" />
             <PropertyColumn TGridItem="FarmSummaryDto" TProp="string" Title="Location" Property="@(x => x.Location)" />
-            <TemplateColumn TGridItem="FarmSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="FarmSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

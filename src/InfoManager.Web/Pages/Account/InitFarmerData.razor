@@ -11,13 +11,13 @@
     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" Required />
-        <FluentTextField @bind-Value="@createModel.FarmerCode" Label="Mã nông dân" />
+        <FluentTextInput Label="Họ và tên" @bind-Value="createModel.FullName" Required />
+        <FluentTextInput @bind-Value="@createModel.FarmerCode" Label="Mã nông dân" />
         <SelectList Label="Là thành viên gia đình" @bind-Value="@familyMemberId" Route="api/SelectList/FamilyMember" />
-        <FluentTextField Label="CCCD/Thông hành" @bind-Value="@createModel.IdentityNumber"  />
-        <FluentTextField Label="Email" @bind-Value="createModel.Email" TextFieldType="TextFieldType.Email"   />
-        <FluentTextField Label="Phone" @bind-Value="createModel.Phone" Maxlength="50" />
-        <FluentButton Appearance="Appearance.Accent" Type="ButtonType.Submit">
+        <FluentTextInput Label="CCCD/Thông hành" @bind-Value="@createModel.IdentityNumber"  />
+        <FluentTextInput Label="Email" @bind-Value="createModel.Email" TextFieldType="TextFieldType.Email"   />
+        <FluentTextInput Label="Phone" @bind-Value="createModel.Phone" Maxlength="50" />
+        <FluentButton Appearance="ButtonAppearance.Primary" Type="ButtonType.Submit">
             @if (IsSaving)
             {
                 <span>Đang lưu...</span>

@@ -11,7 +11,7 @@ public class Task : BaseAuditableEntity
     /// Tên công việc
     /// </summary>
     [MaxLength(200)]
-    public string TaskName { get; set; }
+    public required string TaskName { get; set; }
 
     /// <summary>
     /// Mô tả công việc
@@ -22,7 +22,7 @@ public class Task : BaseAuditableEntity
     /// <summary>
     /// ID thửa ruộng / ô ruộng liên quan
     /// </summary>
-    public string FieldId { get; set; }
+    public required string FieldId { get; set; }
 
     /// <summary>
     /// ID lần trồng (CropPlanting) liên quan (tùy chọn)

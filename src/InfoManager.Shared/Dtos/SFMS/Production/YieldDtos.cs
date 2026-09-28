@@ -28,7 +28,7 @@ public record YieldDto(
     decimal? ExpectedYield,
 
     /// <summary>Đơn vị</summary>
-    string Unit,
+    string? Unit,
 
     /// <summary>Năng suất / hecta</summary>
     decimal YieldPerHectare,
@@ -88,7 +88,7 @@ public record YieldSummaryDto(
     decimal? ExpectedYield,
 
     /// <summary>Đơn vị</summary>
-    string Unit,
+    string? Unit,
 
     /// <summary>Năng suất / hecta</summary>
     decimal YieldPerHectare,

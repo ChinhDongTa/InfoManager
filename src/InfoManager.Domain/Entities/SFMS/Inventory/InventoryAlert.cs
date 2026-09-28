@@ -8,7 +8,7 @@ public class InventoryAlert : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// Nhóm vật tư
@@ -37,7 +37,7 @@ public class InventoryAlert : BaseAuditableEntity
     /// Tên vật tư tại thời điểm cảnh báo
     /// </summary>
     [MaxLength(200)]
-    public string ItemName { get; set; }
+    public string? ItemName { get; set; }
 
     /// <summary>
     /// Loại cảnh báo
@@ -68,7 +68,7 @@ public class InventoryAlert : BaseAuditableEntity
     /// Nội dung cảnh báo
     /// </summary>
     [MaxLength(500)]
-    public string Message { get; set; }
+    public required string Message { get; set; }
 
     /// <summary>
     /// Thời điểm cảnh báo

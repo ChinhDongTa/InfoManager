@@ -5,8 +5,8 @@
 /// </summary>
 public class InventoryTransaction : BaseAuditableEntity
 {
-    public string FarmId { get; set; }
-    public string FarmInventoryId { get; set; }
+    public required string FarmId { get; set; }
+    public required string FarmInventoryId { get; set; }
 
     /// <summary>Nhập / Xuất / Điều chỉnh</summary>
     public InventoryTransactionType TransactionType { get; set; }
@@ -18,7 +18,7 @@ public class InventoryTransaction : BaseAuditableEntity
     public decimal Quantity { get; set; }
 
     [MaxLength(50)]
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
 
     /// <summary>Tồn trước giao dịch</summary>
     public decimal QuantityBefore { get; set; }

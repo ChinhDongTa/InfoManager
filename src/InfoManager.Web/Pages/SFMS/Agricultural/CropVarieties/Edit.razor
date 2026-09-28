@@ -17,19 +17,19 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên giống" @bind-Value="updateModel.VarietyName" />
+                        <FluentTextInput Label="Tên giống" @bind-Value="updateModel.VarietyName" />
                         <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="updateModel.CropId" />
-                        <FluentTextField Label="Tên đơn vị lai tạo" @bind-Value="updateModel.BreederName" />
-                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
-                        <FluentNumberField Label="Năng suất dự kiến" @bind-Value="updateModel.ExpectedYield" />
-                        <FluentTextField Label="Đơn vị năng suất" @bind-Value="updateModel.YieldUnit" />
+                        <FluentTextInput Label="Tên đơn vị lai tạo" @bind-Value="updateModel.BreederName" />
+                        <FluentNumberInput Label="Số ngày đến thu hoạch" @bind-Value="updateModel.DaysToMaturity" />
+                        <FluentNumberInput Label="Năng suất dự kiến" @bind-Value="updateModel.ExpectedYield" />
+                        <FluentTextInput Label="Đơn vị năng suất" @bind-Value="updateModel.YieldUnit" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentNumberField Label="Định mức hạt giống" @bind-Value="updateModel.SeedRate" />
-                        <FluentTextField Label="Khả năng kháng bệnh" @bind-Value="updateModel.DiseaseResistance" />
-                        <FluentTextField Label="Khả năng kháng sâu" @bind-Value="updateModel.PestResistance" />
-                        <FluentTextField Label="Khả năng thích nghi khí hậu" @bind-Value="updateModel.ClimateSuitability" />
-                        <FluentNumberField Label="Năm công nhận giống" @bind-Value="updateModel.YearOfRelease" />
+                        <FluentNumberInput Label="Định mức hạt giống" @bind-Value="updateModel.SeedRate" />
+                        <FluentTextInput Label="Khả năng kháng bệnh" @bind-Value="updateModel.DiseaseResistance" />
+                        <FluentTextInput Label="Khả năng kháng sâu" @bind-Value="updateModel.PestResistance" />
+                        <FluentTextInput Label="Khả năng thích nghi khí hậu" @bind-Value="updateModel.ClimateSuitability" />
+                        <FluentNumberInput Label="Năm công nhận giống" @bind-Value="updateModel.YearOfRelease" />
                         <FluentCheckbox Label="Đang hoạt động" @bind-Value="isActive" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-varieties/list" />
@@ -44,19 +44,19 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên giống" @bind-Value="createModel.VarietyName" />
+                        <FluentTextInput Label="Tên giống" @bind-Value="createModel.VarietyName" />
                         <SelectList Route="/api/selectlist/crop" Label="Chọn cây trồng" @bind-Value="createModel.CropId" />
-                        <FluentTextField Label="Tên đơn vị lai tạo" @bind-Value="createModel.BreederName" />
-                        <FluentNumberField Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
-                        <FluentNumberField Label="Năng suất dự kiến" @bind-Value="createModel.ExpectedYield" />
-                        <FluentTextField Label="Đơn vị năng suất" @bind-Value="createModel.YieldUnit" />
+                        <FluentTextInput Label="Tên đơn vị lai tạo" @bind-Value="createModel.BreederName" />
+                        <FluentNumberInput Label="Số ngày đến thu hoạch" @bind-Value="createModel.DaysToMaturity" />
+                        <FluentNumberInput Label="Năng suất dự kiến" @bind-Value="createModel.ExpectedYield" />
+                        <FluentTextInput Label="Đơn vị năng suất" @bind-Value="createModel.YieldUnit" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentNumberField Label="Định mức hạt giống" @bind-Value="createModel.SeedRate" />
-                        <FluentTextField Label="Khả năng kháng bệnh" @bind-Value="createModel.DiseaseResistance" />
-                        <FluentTextField Label="Khả năng kháng sâu" @bind-Value="createModel.PestResistance" />
-                        <FluentTextField Label="Khả năng thích nghi khí hậu" @bind-Value="createModel.ClimateSuitability" />
-                        <FluentNumberField Label="Năm công nhận giống" @bind-Value="createModel.YearOfRelease" />
+                        <FluentNumberInput Label="Định mức hạt giống" @bind-Value="createModel.SeedRate" />
+                        <FluentTextInput Label="Khả năng kháng bệnh" @bind-Value="createModel.DiseaseResistance" />
+                        <FluentTextInput Label="Khả năng kháng sâu" @bind-Value="createModel.PestResistance" />
+                        <FluentTextInput Label="Khả năng thích nghi khí hậu" @bind-Value="createModel.ClimateSuitability" />
+                        <FluentNumberInput Label="Năm công nhận giống" @bind-Value="createModel.YearOfRelease" />
                         <FluentCheckbox Label="Đang hoạt động" @bind-Value="createModel.IsActive" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/agricultural/crop-varieties/list" />

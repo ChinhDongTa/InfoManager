@@ -1,0 +1,179 @@
+﻿@page "/sfms/production/sales/update/{Id}"
+@page "/sfms/production/sales/create/"
+@inject ISaleService service
+
+<PageHeader Title="Quản lý đơn bán" />
+<Alert @ref="alertComponent" />
+<AuthorizeView>
+    <Authorized>
+        <LoadingOverlay IsLoading="IsLoading" />
+        <FluentLabel Typo="Typography.H4">
+            @title
+        </FluentLabel>
+        @if (updateModel != null)
+        {
+            <EditForm Model="@updateModel" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <SelectList Route="/api/selectlist/product" Label="Chọn sản phẩm" @bind-Value="updateModel.ProductId" />
+                        <DateTimePicker Label="Ngày bán" @bind-Value="saleDate" />
+                        <FluentTextInput Label="Tên người mua" @bind-Value="updateModel.BuyerName" MaxLength="200" />
+                        <FluentNumberInput Label="Số lượng bán" @bind-Value="updateModel.QuantitySold" />
+                        <CurrencyNumberField Label="Đơn giá" @bind-Value="updateModel.UnitPrice" />
+                        <CurrencyNumberField Label="Thành tiền" @bind-Value="updateModel.TotalAmount" />
+                        <FluentNumberInput Label="Chiết khấu (%)" @bind-Value="updateModel.DiscountPercentage" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <CurrencyNumberField Label="Thực nhận" @bind-Value="updateModel.NetAmount" />
+                        <FluentTextInput Label="Kênh bán" @bind-Value="updateModel.SaleChannel" MaxLength="50" />
+                        <SelectList Route="/api/enums/PaymentStatus" Label="Trạng thái thanh toán" @bind-Value="paymentStatusSelected" />
+                        <DateTimePicker Label="Ngày thanh toán" @bind-Value="paymentDate" />
+                        <FluentTextInput Label="Số hóa đơn" @bind-Value="updateModel.InvoiceNumber" MaxLength="100" />
+                        <FluentTextInput Label="Ghi chú" @bind-Value="updateModel.Notes" MaxLength="500" />
+                    </FluentStack>
+                </FluentStack>
+                <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/production/sales/list" />
+            </EditForm>
+        }
+        else if (createModel != null)
+        {
+            <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <FluentStack Style="margin:10px auto;" HorizontalAlignment="HorizontalAlignment.Center">
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <SelectList Route="/api/selectlist/product" Label="Chọn sản phẩm" @bind-Value="createModel.ProductId" />
+                        <DateTimePicker Label="Ngày bán" @bind-Value="saleDate" />
+                        <FluentTextInput Label="Tên người mua" @bind-Value="createModel.BuyerName" MaxLength="200" />
+                        <FluentNumberInput Label="Số lượng bán" @bind-Value="createModel.QuantitySold" />
+                        <CurrencyNumberField Label="Đơn giá" @bind-Value="createModel.UnitPrice" />
+                        <CurrencyNumberField Label="Thành tiền" @bind-Value="createModel.TotalAmount" />
+                        <FluentNumberInput Label="Chiết khấu (%)" @bind-Value="createModel.DiscountPercentage" />
+                    </FluentStack>
+                    <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
+                        <CurrencyNumberField Label="Thực nhận" @bind-Value="createModel.NetAmount" />
+                        <FluentTextInput Label="Kênh bán" @bind-Value="createModel.SaleChannel" MaxLength="50" />
+                        <SelectList Route="/api/enums/PaymentStatus" Label="Trạng thái thanh toán" @bind-Value="paymentStatusSelected" />
+                        <DateTimePicker Label="Ngày thanh toán" @bind-Value="paymentDate" />
+                        <FluentTextInput Label="Số hóa đơn" @bind-Value="createModel.InvoiceNumber" MaxLength="100" />
+                        <FluentTextInput Label="Ghi chú" @bind-Value="createModel.Notes" MaxLength="500" />
+                    </FluentStack>
+                </FluentStack>
+                <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/production/sales/list" />
+            </EditForm>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedMessage />
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private UpdateSaleModel? updateModel;
+    private UpdateSaleModel? orginalModel;
+    private CreateSaleModel? createModel;
+
+    Alert? alertComponent;
+    bool IsSaving = false;
+    bool IsLoading = false;
+    string? title = null;
+
+    string? paymentStatusSelected;
+    DateTime? saleDate;
+    DateTime? paymentDate;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IsLoading = true;
+        if (!string.IsNullOrEmpty(Id))
+        {
+            title = "Cập nhật đơn bán";
+            var result = await service.GetSaleByIdAsync(Id, CancellationToken.None);
+            if (result.Success && result.Data != null)
+            {
+                updateModel = new UpdateSaleModel(Id, result.Data);
+                orginalModel = new UpdateSaleModel(Id, result.Data);
+                paymentStatusSelected = updateModel.PaymentStatus?.ToIntString();
+                saleDate = updateModel.SaleDate?.ToLocalDateTime();
+                paymentDate = updateModel.PaymentDate?.ToLocalDateTime();
+            }
+            else
+            {
+                alertComponent?.AddAlert(ErrorHelpers.GetErrorCannotRetrieveData(result.ErrorMessage?.ToLine() ?? "Get Sale"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            }
+        }
+        else
+        {
+            title = "Tạo mới đơn bán";
+            createModel = new CreateSaleModel();
+            saleDate = DateTime.Now;
+            paymentStatusSelected = ((int)InfoManager.Enum.SFMS.PaymentStatus.Pending).ToString();
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task HandleUpdateValidSubmit()
+    {
+        IsSaving = true;
+        if (updateModel == null || orginalModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Update Model"), InfoManager.Web.Models.AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        updateModel.PaymentStatus = Enum.Parse<InfoManager.Enum.SFMS.PaymentStatus>(paymentStatusSelected ?? "0");
+        updateModel.SaleDate = saleDate.ToUtcOffset();
+        updateModel.PaymentDate = paymentDate.ToUtcOffset();
+
+        if (!updateModel.HasChanges(orginalModel))
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetInfoCustom(), AlertType.Info, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        var result = await service.UpdateSaleAsync(Id, updateModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Update, "Đơn bán"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+
+    private async Task HandleCreateValidSubmit()
+    {
+        IsSaving = true;
+        if (createModel == null)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorNull("Create Model"), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+            IsSaving = false;
+            return;
+        }
+
+        createModel.PaymentStatus = Enum.Parse<InfoManager.Enum.SFMS.PaymentStatus>(paymentStatusSelected ?? "0");
+        createModel.SaleDate = saleDate.Value.ToUtcOffset();
+        createModel.PaymentDate = paymentDate.ToUtcOffset();
+
+        var result = await service.CreateSaleAsync(createModel.CreateRequest());
+        if (result.Success)
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetSuccessAction(InfoManager.Enum.ActionType.Create, "Đơn bán"), AlertType.Success, Constants.DismissAlertAfter10Seconds);
+        }
+        else
+        {
+            alertComponent?.AddAlert(ErrorHelpers.GetErrorCustom(result.ErrorMessage?.ToLine()), AlertType.Error, Constants.DismissAlertAfter10Seconds);
+        }
+        IsSaving = false;
+    }
+}

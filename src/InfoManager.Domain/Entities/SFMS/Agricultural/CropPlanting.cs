@@ -18,12 +18,12 @@ public class CropPlanting : BaseAuditableEntity
     /// <summary>
     /// ID thửa ruộng / khu vực trồng
     /// </summary>
-    public string FieldId { get; set; }
+    public required string FieldId { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public string CropId { get; set; }
+    public required string CropId { get; set; }
 
     /// <summary>
     /// ID giống cây trồng

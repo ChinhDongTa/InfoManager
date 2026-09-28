@@ -6,7 +6,7 @@
 public class FamilyRelation : BaseAuditableEntity
 {
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     public string? Description { get; set; }
 

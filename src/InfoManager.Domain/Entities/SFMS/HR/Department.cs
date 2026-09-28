@@ -8,7 +8,7 @@ public class Department : BaseAuditableEntity
 {
     /// <summary>Tên phòng ban / tổ</summary>
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>Mô tả</summary>
     [MaxLength(500)]
@@ -18,7 +18,7 @@ public class Department : BaseAuditableEntity
     public string? ParentId { get; set; }
 
     /// <summary>ID nông trại</summary>
-    public string FarmId { get; set; }
+    public string? FarmId { get; set; }
 
     // Navigation
     public virtual Department? Parent { get; set; }

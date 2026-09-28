@@ -7,7 +7,7 @@
 public class EmployeeAttendance : BaseAuditableEntity
 {
     /// <summary>ID nhân viên</summary>
-    public string HREmployeeId { get; set; }
+    public required string HREmployeeId { get; set; }
 
     /// <summary>Ngày chấm công</summary>
     public DateOnly AttendanceDate { get; set; }

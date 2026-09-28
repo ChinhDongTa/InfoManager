@@ -62,9 +62,9 @@ public class CreateEnvironmentalReadingModel
     [MaxLength(500)]
     public string? Notes { get; set; }
 
-    public CreateEnvironmentalReadingRequest CreateRequest()
+    public CreateEnvironmentalMonitoringRequest CreateRequest()
     {
-        return new CreateEnvironmentalReadingRequest
+        return new CreateEnvironmentalMonitoringRequest
         (
             SensorId: this.SensorId,
             ReadingTime: this.ReadingTime,

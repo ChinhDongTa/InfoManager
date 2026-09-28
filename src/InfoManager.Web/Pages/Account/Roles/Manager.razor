@@ -16,7 +16,7 @@
                 <FluentMultiSplitterPane Size="34%">
                     <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px">
                         <FluentLabel Typo="Typography.H3" Color="Color.Success">Danh sách Role</FluentLabel>
-                        <FluentListbox Items="roles"
+                        <FluentListbox Items="roles" TValue="string"
                                        TOption="UpdateRoleModel"
                                        OptionText="@(i => i.Name)"
                                        OptionValue="@(i => i.Id)"
@@ -30,8 +30,8 @@
                         <FluentLabel Typo="Typography.H3" Color="Color.Success">Cập nhật Role</FluentLabel>
                         @if (selectedRole != null)
                         {
-                            <FluentTextField Label="Tên" @bind-Value="@selectedRole.Name" />
-                            <FluentButton Appearance="Appearance.Accent" OnClick="HandleUpdateRole" Disabled="@IsSaving">
+                            <FluentTextInput Label="Tên" @bind-Value="@selectedRole.Name" />
+                            <FluentButton Appearance="ButtonAppearance.Primary" OnClick="HandleUpdateRole" Disabled="@IsSaving">
                                 @if (IsSaving)
                                 {
                                     <span>Đang lưu...</span>
@@ -45,8 +45,8 @@
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px; margin-top:10px">
                         <FluentLabel Typo="Typography.H3" Color="Color.Success">Tạo mới Role</FluentLabel>
-                        <FluentTextField Label="Tên" @bind-Value="@newRoleModel.Name" />
-                        <FluentButton Appearance="Appearance.Accent" OnClick="HandleAddRole" Disabled="@IsSaving">
+                        <FluentTextInput Label="Tên" @bind-Value="@newRoleModel.Name" />
+                        <FluentButton Appearance="ButtonAppearance.Primary" OnClick="HandleAddRole" Disabled="@IsSaving">
                             @if (IsSaving)
                             {
                                 <span>Đang lưu...</span>
@@ -62,8 +62,8 @@
                 <FluentMultiSplitterPane Size="33%">
                     <FluentStack Orientation="Orientation.Vertical" HorizontalAlignment="HorizontalAlignment.Left" Style="margin-left:5px; margin-right:5px">
                         <FluentLabel Typo="Typography.H3" Color="Color.Success">Xóa Role</FluentLabel>
-                        <FluentTextField Label="Tên" />
-                        <FluentButton Appearance="Appearance.Accent" OnClick="HandleDeleteRole" Disabled="@IsSaving">
+                        <FluentTextInput Label="Tên" />
+                        <FluentButton Appearance="ButtonAppearance.Primary" OnClick="HandleDeleteRole" Disabled="@IsSaving">
                             @if (IsSaving)
                             {
                                 <span>Đang lưu...</span>

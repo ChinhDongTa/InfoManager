@@ -18,7 +18,7 @@
             <PropertyColumn TGridItem="SensorSummaryDto" TProp="decimal?" Title="Pin" Property="@(x => x.BatteryLevel)" />
             <PropertyColumn TGridItem="SensorSummaryDto" TProp="decimal?" Title="Tín hiệu" Property="@(x => x.SignalStrength)" />
             <PropertyColumn TGridItem="SensorSummaryDto" TProp="DateTimeOffset?" Title="Đọc lần cuối" Property="@(x => x.LastReadingTime)" />
-            <TemplateColumn TGridItem="SensorSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="SensorSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

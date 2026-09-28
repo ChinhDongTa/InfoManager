@@ -17,20 +17,20 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên thửa đất" @bind-Value="updateModel.Name" />
-                        <FluentTextField Label="Mô tả" @bind-Value="updateModel.Description" />
-                        <FluentNumberField Label="Diện tích" @bind-Value="updateModel.Area" />
+                        <FluentTextInput Label="Tên thửa đất" @bind-Value="updateModel.Name" />
+                        <FluentTextInput Label="Mô tả" @bind-Value="updateModel.Description" />
+                        <FluentNumberInput Label="Diện tích" @bind-Value="updateModel.Area" />
                         <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
-                        <FluentTextField Label="Loại đất" @bind-Value="updateModel.SoilType" />
+                        <FluentTextInput Label="Loại đất" @bind-Value="updateModel.SoilType" />
                         <SelectList Route="/api/enums/SoilCondition" Label="Tình trạng đất" @bind-Value="soilConditionSelected" />
-                        <FluentNumberField Label="Độ cao" @bind-Value="updateModel.Elevation" />
+                        <FluentNumberInput Label="Độ cao" @bind-Value="updateModel.Elevation" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentNumberField Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
-                        <FluentNumberField Label="Kinh độ" @bind-Value="updateModel.Longitude" />
+                        <FluentNumberInput Label="Vĩ độ" @bind-Value="updateModel.Latitude" />
+                        <FluentNumberInput Label="Kinh độ" @bind-Value="updateModel.Longitude" />
                         <SelectList Route="/api/enums/FieldStatus" Label="Trạng thái thửa đất" @bind-Value="statusSelected" />
                         <DateTimePicker Label="Ngày làm đất gần nhất" @bind-Value="lastPreparationDate" />
-                        <FluentTextField Label="Điều kiện thoát nước" @bind-Value="updateModel.DrainageCondition" />
+                        <FluentTextInput Label="Điều kiện thoát nước" @bind-Value="updateModel.DrainageCondition" />
                         <FluentCheckbox Label="Có hệ thống tưới" @bind-Value="hasIrrigation" />
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/fields/list" />
                     </FluentStack>
@@ -45,20 +45,20 @@
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="5" >
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField Label="Tên thửa đất" @bind-Value="createModel.Name" />
-                    <FluentTextField Label="Mô tả" @bind-Value="createModel.Description" />
-                    <FluentNumberField Label="Diện tích" @bind-Value="createModel.Area" />
+                    <FluentTextInput Label="Tên thửa đất" @bind-Value="createModel.Name" />
+                    <FluentTextInput Label="Mô tả" @bind-Value="createModel.Description" />
+                    <FluentNumberInput Label="Diện tích" @bind-Value="createModel.Area" />
                     <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
-                    <FluentTextField Label="Loại đất" @bind-Value="createModel.SoilType" />
+                    <FluentTextInput Label="Loại đất" @bind-Value="createModel.SoilType" />
                     <SelectList Route="/api/enums/SoilCondition" Label="Tình trạng đất" @bind-Value="soilConditionSelected" />
                 </FluentStack>
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="5" >
-                    <FluentNumberField Label="Độ cao" @bind-Value="createModel.Elevation" />
-                    <FluentNumberField Label="Vĩ độ" @bind-Value="createModel.Latitude" />
-                    <FluentNumberField Label="Kinh độ" @bind-Value="createModel.Longitude" />
+                    <FluentNumberInput Label="Độ cao" @bind-Value="createModel.Elevation" />
+                    <FluentNumberInput Label="Vĩ độ" @bind-Value="createModel.Latitude" />
+                    <FluentNumberInput Label="Kinh độ" @bind-Value="createModel.Longitude" />
                     <SelectList Route="/api/enums/FieldStatus" Label="Trạng thái thửa đất" @bind-Value="statusSelected" />
                     <DateTimePicker Label="Ngày làm đất gần nhất" @bind-Value="lastPreparationDate" />
-                    <FluentTextField Label="Điều kiện thoát nước" @bind-Value="createModel.DrainageCondition" />
+                    <FluentTextInput Label="Điều kiện thoát nước" @bind-Value="createModel.DrainageCondition" />
                     <FluentCheckbox Label="Có hệ thống tưới" @bind-Value="createModel.HasIrrigation" />
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/fields/list" />
                 </FluentStack>

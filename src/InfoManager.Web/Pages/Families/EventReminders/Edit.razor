@@ -30,8 +30,8 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField @bind-Value="@createModel.FamilyEventId" Label="Family Event ID" ReadOnly="true" />
-                        <FluentNumberField @bind-Value="@createModel.DaysBefore" Label="Nhắc trước bao nhiêu ngày ?" />
+                        <FluentTextInput @bind-Value="@createModel.FamilyEventId" Label="Family Event ID" ReadOnly="true" />
+                        <FluentNumberInput @bind-Value="@createModel.DaysBefore" Label="Nhắc trước bao nhiêu ngày ?" />
                         <FluentTimePicker @bind-Value="@timeReminder" Label="Thời gian nhắc" />
                         <SelectList Route="api/selectList/ReminderChannel" @bind-Value="@channelSelected" />
                         <FluentCheckbox @bind-Value="@createModel.IsEnabled" Label="Đang bật ?" />

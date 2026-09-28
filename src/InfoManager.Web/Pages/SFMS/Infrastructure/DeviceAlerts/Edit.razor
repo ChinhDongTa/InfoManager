@@ -17,11 +17,11 @@
                     <DataAnnotationsValidator />
                     <ValidationSummary />
                     <SelectList Route="/api/enums/AlertType" Label="Loại cảnh báo" @bind-Value="alertTypeSelected" />
-                    <FluentTextField Label="Nội dung cảnh báo" @bind-Value="updateModel.Message" />
+                    <FluentTextInput Label="Nội dung cảnh báo" @bind-Value="updateModel.Message" />
                     <SelectList Route="/api/enums/AlertSeverity" Label="Mức độ cảnh báo" @bind-Value="severitySelected" />
                     <DateTimePicker Label="Thời điểm xử lý" @bind-Value="resolvedTime" />
                     <FluentCheckbox Label="Đã xử lý" @bind-Value="isResolved" />
-                    <FluentTextField Label="Ghi chú xử lý" @bind-Value="updateModel.ResolutionNotes" />
+                    <FluentTextInput Label="Ghi chú xử lý" @bind-Value="updateModel.ResolutionNotes" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devicealerts/list" />
                 </FluentStack>
@@ -35,11 +35,11 @@
                     <ValidationSummary />
                     <SelectList Route="/api/selectlist/device" Label="Chọn thiết bị" @bind-Value="createModel.DeviceId" />
                     <SelectList Route="/api/enums/AlertType" Label="Loại cảnh báo" @bind-Value="alertTypeSelected" />
-                    <FluentTextField Label="Nội dung cảnh báo" @bind-Value="createModel.Message" />
+                    <FluentTextInput Label="Nội dung cảnh báo" @bind-Value="createModel.Message" />
                     <SelectList Route="/api/enums/AlertSeverity" Label="Mức độ cảnh báo" @bind-Value="severitySelected" />
                     <DateTimePicker Label="Thời điểm cảnh báo" @bind-Value="alertTime" />
                     <FluentCheckbox Label="Đã xử lý" @bind-Value="createModel.IsResolved" />
-                    <FluentTextField Label="Ghi chú xử lý" @bind-Value="createModel.ResolutionNotes" />
+                    <FluentTextInput Label="Ghi chú xử lý" @bind-Value="createModel.ResolutionNotes" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devicealerts/list" />
                 </FluentStack>

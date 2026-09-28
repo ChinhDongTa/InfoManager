@@ -10,7 +10,7 @@ public class Sensor : BaseAuditableEntity
     /// Tên / mã định danh cảm biến
     /// </summary>
     [MaxLength(100)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     /// <summary>
     /// Loại cảm biến (Nhiệt độ, Độ ẩm, Độ ẩm đất, pH đất, NPK...)
@@ -32,7 +32,7 @@ public class Sensor : BaseAuditableEntity
     /// <summary>
     /// ID thửa ruộng liên quan
     /// </summary>
-    public string FieldId { get; set; }
+    public string? FieldId { get; set; }
 
     /// <summary>
     /// ID thiết bị / gateway thu thập dữ liệu từ cảm biến này

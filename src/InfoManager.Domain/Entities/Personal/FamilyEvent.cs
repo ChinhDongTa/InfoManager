@@ -2,7 +2,7 @@
 
 public class FamilyEvent : BaseAuditableEntity
 {
-    public string FamilyMemberId { get; set; }
+    public required string FamilyMemberId { get; set; }
     public FamilyMember? FamilyMember { get; set; }
 
     /// <summary>
@@ -20,7 +20,7 @@ public class FamilyEvent : BaseAuditableEntity
     /// Tên sự kiện
     /// </summary>
     [MaxLength(300)]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     /// <summary>
     /// Loại sự kiện (Kỷ niệm, Lễ hội, Sự kiện quan trọng khác)

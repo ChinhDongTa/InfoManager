@@ -9,12 +9,12 @@ public class GrowthStage : BaseAuditableEntity
     /// Tên giai đoạn (ví dụ: "Sinh dưỡng", "Ra hoa", "Kết trái", "Chín")
     /// </summary>
     [MaxLength(100)]
-    public string StageName { get; set; }
+    public required string StageName { get; set; }
 
     /// <summary>
     /// ID loại cây trồng
     /// </summary>
-    public string CropId { get; set; }
+    public required string CropId { get; set; }
 
     /// <summary>
     /// ID lịch trình trồng (tùy chọn)

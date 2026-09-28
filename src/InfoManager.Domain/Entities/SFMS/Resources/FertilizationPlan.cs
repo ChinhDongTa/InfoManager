@@ -8,7 +8,7 @@ public class FertilizationPlan : BaseAuditableEntity
     /// <summary>
     /// ID nông trại
     /// </summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>
     /// ID lần trồng (tùy chọn)
@@ -23,13 +23,13 @@ public class FertilizationPlan : BaseAuditableEntity
     /// <summary>
     /// ID phân bón
     /// </summary>
-    public string FertilizerId { get; set; }
+    public required string FertilizerId { get; set; }
 
     /// <summary>
     /// Tên lịch bón
     /// </summary>
     [MaxLength(200)]
-    public string PlanName { get; set; }
+    public string? PlanName { get; set; }
 
     /// <summary>
     /// Ngày bón dự kiến
@@ -50,7 +50,7 @@ public class FertilizationPlan : BaseAuditableEntity
     /// Đơn vị
     /// </summary>
     [MaxLength(20)]
-    public string Unit { get; set; } = "kg";
+    public string? Unit { get; set; } = "kg";
 
     /// <summary>
     /// Cách bón (Rải gốc, Phun lá, Tưới...)

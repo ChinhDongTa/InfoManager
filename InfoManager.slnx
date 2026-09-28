@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="InfoManager.BlazorAuto/InfoManager.BlazorAuto.csproj" Id="4234c513-77f0-49b2-a4dd-0175271f9dd0" />
   <Project Path="src/InfoManager.Api/InfoManager.Api.csproj" Id="a169f98f-f202-43d1-a90c-ae46c27510fe" />
   <Project Path="src/InfoManager.ApiClient/InfoManager.ApiClient.csproj" Id="558362c6-02ef-4cf8-b526-b1bff18663dd" />
   <Project Path="src/InfoManager.AppHost/InfoManager.AppHost.AppHost/InfoManager.AppHost.AppHost.csproj" Id="cd66d7b5-8f5b-45df-9d72-647a1b25b297" />

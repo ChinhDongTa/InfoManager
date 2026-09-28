@@ -1,12 +1,12 @@
 ﻿<FluentStack Orientation="Orientation.Horizontal">
-    <FluentDatePicker @bind-Value="SelectedDate" Label="@Label" Placeholder="@Placeholder" DayFormat="DayFormat.TwoDigit" Immediate="@Immediate" Required="@Required" Style="width:130px" />
+    <FluentDatePicker @bind-Value="SelectedDate" Label="@Label" Placeholder="@Placeholder" Required="@Required" Style="width:130px" />
     @if (WithTime)
     {
-        <FluentTimePicker @bind-Value="SelectedTime" TimeDisplay="TimeDisplay.HourMinute" Style="width:130px" />
+        <FluentTimePicker @bind-Value="SelectedTime" Style="width:130px" />
     }
 
     <!-- Clear button -->
-    <FluentButton Appearance="Appearance.Outline" @onclick="ClearValue" Style="margin-left:5px;">
+    <FluentButton Appearance="ButtonAppearance.Outline" @onclick="ClearValue" Style="margin-left:5px;">
         ✖
     </FluentButton>
 </FluentStack>
@@ -30,7 +30,7 @@
     public EventCallback<DateTime?> ValueChanged { get; set; }
 
     private DateTime? selectedDate;
-    private DateTime? selectedTime;
+    private TimeOnly? selectedTime;
 
     protected override void OnParametersSet()
     {
@@ -39,7 +39,7 @@
         {
             selectedDate = Value.Value.Date;
             // represent time as a DateTime instance (date part is irrelevant for picker)
-            selectedTime = new DateTime(1, 1, 1).Add(Value.Value.TimeOfDay);
+            selectedTime = TimeOnly.FromDateTime(selectedDate.Value);
         }
         else
         {
@@ -59,11 +59,11 @@
                 // If there is no time selected yet, initialize to current time (so time picker shows something)
                 if (!selectedTime.HasValue)
                 {
-                    selectedTime = DateTime.Now;
+                    selectedTime = TimeOnly.FromDateTime(selectedDate.Value);
                 }
 
                 // Combine date + existing time
-                Value = selectedDate.Value.Date + (selectedTime?.TimeOfDay ?? DateTime.Now.TimeOfDay);
+                Value = CombineDateAndTime(selectedDate.Value ,selectedTime.Value);
             }
             else
             {
@@ -75,7 +75,7 @@
         }
     }
 
-    private DateTime? SelectedTime
+    private TimeOnly? SelectedTime
     {
         get => selectedTime;
         set
@@ -83,13 +83,13 @@
             selectedTime = value;
             if (selectedTime.HasValue && selectedDate.HasValue)
             {
-                Value = selectedDate.Value.Date + selectedTime.Value.TimeOfDay;
+                Value = CombineDateAndTime(selectedDate.Value.Date , selectedTime.Value);
             }
             else if (selectedTime.HasValue && !selectedDate.HasValue)
             {
                 // If user sets time without date, assume today's date
                 selectedDate = DateTime.Today;
-                Value = selectedDate.Value.Date + selectedTime.Value.TimeOfDay;
+                Value = CombineDateAndTime(selectedDate.Value.Date , selectedTime.Value);
             }
             else if (!selectedTime.HasValue && selectedDate.HasValue)
             {
@@ -111,5 +111,10 @@
         selectedTime = null;
         Value = null;
         _ = ValueChanged.InvokeAsync(Value);
+    }
+
+    private DateTime CombineDateAndTime(DateTime date, TimeOnly time)
+    {
+        return new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
     }
 }

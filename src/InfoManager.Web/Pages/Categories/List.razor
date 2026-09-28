@@ -16,7 +16,7 @@
             <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="Category Name" Property="@(x => x.Name)" Sortable="true" />
             <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="Nhóm" Property="@(x => x.Group)" />
             <PropertyColumn TGridItem="CategoryDto" TProp="string" Title="Từ khóa" Property="@(x => x.KeyName)" /> 
-            <TemplateColumn TGridItem="CategoryDto" Context="item"  Title="Actions">
+            <TemplateColumn TGridItem="CategoryDto" Context="item"  Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>

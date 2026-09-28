@@ -6,11 +6,11 @@
 public class InventoryReceipt : BaseAuditableEntity
 {
     /// <summary>ID nông trại</summary>
-    public string FarmId { get; set; }
+    public required string FarmId { get; set; }
 
     /// <summary>Số phiếu nhập</summary>
     [MaxLength(50)]
-    public string ReceiptNumber { get; set; }
+    public required string ReceiptNumber { get; set; }
 
     /// <summary>Ngày nhập</summary>
     public DateTimeOffset ReceiptDate { get; set; }

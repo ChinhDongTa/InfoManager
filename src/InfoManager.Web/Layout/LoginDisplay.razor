@@ -10,14 +10,14 @@
                            Appearance="PersonaAppearance.Circle"
                            Size="PersonaSize.Size32" />
 
-            <FluentButton Appearance="Appearance.Accent"
+            <FluentButton Appearance="ButtonAppearance.Primary"
                           OnClick="BeginLogOut"
                           Title="Đăng xuất">
                 Đăng xuất
             </FluentButton>
         </Authorized>
         <NotAuthorized>
-            <FluentButton Appearance="Appearance.Accent"
+            <FluentButton Appearance="ButtonAppearance.Primary"
                           OnClick="@(() => Navigation.NavigateTo("/account/login"))">
                 Đăng nhập
             </FluentButton>

@@ -9,7 +9,7 @@
             <FluentLabel Typo="Typography.PaneHeader">
                 Bạn đã đăng nhập!
             </FluentLabel>
-            <FluentButton Appearance="Appearance.Accent" OnClick=@(() => Navigation.NavigateTo("/"))>
+            <FluentButton Appearance="ButtonAppearance.Primary" OnClick=@(() => Navigation.NavigateTo("/"))>
                 Quay lại trang chủ
             </FluentButton>
         </FluentStack>
@@ -20,14 +20,14 @@
             <FluentLabel Typo="Typography.PaneHeader">
                 Đăng nhập vào hệ thống
             </FluentLabel>
-            <FluentTextField @bind-Value="Email"
+            <FluentTextInput @bind-Value="Email"
                              Label="Email"
                              Placeholder="nhap@email.com"
                              Required="true"
                              Immediate="true"
                              Style="width:100%;" />
 
-            <FluentTextField TextFieldType="TextFieldType.Password" @bind-Value="Password"
+            <FluentTextInput TextFieldType="TextFieldType.Password" @bind-Value="Password"
                              Label="Mật khẩu"
                              Required="true"
                              Immediate="true"
@@ -41,7 +41,7 @@
             }
 
             <FluentStack Orientation="Orientation.Horizontal" HorizontalGap="10" HorizontalAlignment="HorizontalAlignment.SpaceBetween" Style="width:100%; margin-top:16px;">
-                <FluentButton Appearance="Appearance.Accent" OnClick="HandleLogin" Disabled="@IsLoading">
+                <FluentButton  OnClick="HandleLogin" Disabled="@IsLoading">
                     @if (IsLoading)
                     {
                         <span>Đang đăng nhập...</span>
@@ -51,7 +51,7 @@
                         <span>Đăng nhập</span>
                     }
                 </FluentButton>
-                <FluentButton Appearance="Appearance.Outline" OnClick="GoToRegister">
+                <FluentButton Appearance="ButtonAppearance.Outline" OnClick="GoToRegister">
                     Đăng ký tài khoản mới
                 </FluentButton>
             </FluentStack>

@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.5.3">
+<Project Sdk="Aspire.AppHost.Sdk/13.5.4">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\InfoManager.BlazorAuto\InfoManager.BlazorAuto.csproj" />
     <ProjectReference Include="..\..\InfoManager.Api\InfoManager.Api.csproj" />
     <ProjectReference Include="..\..\InfoManager.Web\InfoManager.Web.csproj" />
   </ItemGroup>

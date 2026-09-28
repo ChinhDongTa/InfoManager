@@ -17,13 +17,13 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Họ và tên" @bind-Value="updateModel.FullName" />
+                        <FluentTextInput  Label="Họ và tên" @bind-Value="updateModel.FullName" />
                         <DateTimePicker @bind-Value="@birthDate" WithTime="false" Label="Ngày sinh"  />
                         <DateTimePicker @bind-Value="@deathDate" WithTime="false" Label="Ngày mất" />
                         <SelectList Label="Giới tính" @bind-Value="@genderSelected" Route="api/enums/gender" />
                         <SelectList Label="Quan hệ gia đình" @bind-Value="@updateModel.FamilyRelationId" Route="api/selectList/familyRelation" />
-                        <FluentTextField Label="Email" @bind-Value="updateModel.Email" />
-                        <FluentTextField Label="Phone" @bind-Value="updateModel.PhoneNumber" Maxlength="50" />
+                        <FluentTextInput  Label="Email" @bind-Value="updateModel.Email" />
+                        <FluentTextInput  Label="Phone" @bind-Value="updateModel.PhoneNumber" Maxlength="50" />
                         <FluentTextArea Label="Ghi chú" @bind-Value="updateModel.Note" class="Width70ch" />
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/list" />
                 </FluentStack>
@@ -35,13 +35,13 @@
                 <FluentStack Orientation="Orientation.Vertical" VerticalGap="16" HorizontalAlignment="HorizontalAlignment.Left" Style="width:100%; margin: 20px auto;">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField Label="Họ và tên" @bind-Value="createModel.FullName" />
+                    <FluentTextInput  Label="Họ và tên" @bind-Value="createModel.FullName" />
                     <DateTimePicker @bind-Value="@birthDate" WithTime="false" Label="Ngày sinh"   />
                     <DateTimePicker @bind-Value="@deathDate" WithTime="false" Label="Ngày mất" />
                     <SelectList Label="Giới tính" @bind-Value="@genderSelected" Route="api/enums/gender" />
                     <SelectList Label="Quan hệ gia đình" @bind-Value="@createModel.FamilyRelationId" Route="api/selectList/familyRelation" />
-                    <FluentTextField Label="Email" @bind-Value="createModel.Email" Maxlength="200" />
-                    <FluentTextField Label="Phone" @bind-Value="createModel.PhoneNumber" Maxlength="50" />
+                    <FluentTextInput  Label="Email" @bind-Value="createModel.Email" Maxlength="200" />
+                    <FluentTextInput  Label="Phone" @bind-Value="createModel.PhoneNumber" Maxlength="50" />
                     <FluentTextArea Label="Ghi chú" @bind-Value="createModel.Note" class="Width70ch" />
 
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/families/list" />

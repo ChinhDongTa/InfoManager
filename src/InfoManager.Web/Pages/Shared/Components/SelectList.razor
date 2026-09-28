@@ -3,7 +3,7 @@
 
 @if (IsLoading)
 {
-    <FluentProgressRing />
+    <FluentSpinner />
 }
 else if (HasError)
 {
@@ -13,7 +13,7 @@ else if (HasError)
 }
 else if (Items.Any())
 {
-    <FluentSelect TOption="SelectListItemDto"
+    <FluentSelect TOption="SelectListItemDto" TValue="string"
                   Items="@Items"
                   @bind-Value="Value"
                   OptionValue="@(item => item.Id ?? string.Empty)"

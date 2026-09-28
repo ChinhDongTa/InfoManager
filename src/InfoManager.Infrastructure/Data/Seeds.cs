@@ -36,21 +36,3 @@ internal static class Seeds
             );
     }
 }
-
-//public enum ExperienceCategory
-//{
-//    [Display(Name = "Nông nghiệp")]
-//    Agriculture = 0,
-//    [Display(Name = "Công nghệ thông tin")]
-//    InformationTechnology = 2,
-//    [Display(Name = "Học tập")]
-//    Study = 3,
-//    [Display(Name = "Du lịch")]
-//    Travel = 4,
-//    [Display(Name = "Ẩm thực")]
-//    Culinary = 5,
-//    [Display(Name = "Mua sắm")]
-//    Shopping = 6,
-//    [Display(Name = "Khác")]
-//    Other = 99
-//}

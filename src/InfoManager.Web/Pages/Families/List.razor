@@ -15,7 +15,7 @@
             <PropertyColumn TGridItem="FamilyMemberSummaryDto" TProp="string" Title="Họ tên" Property="@(x => x.FullName)" Sortable="true" />
             <PropertyColumn TGridItem="FamilyMemberSummaryDto" TProp="string" Title="Ngày sinh" Property="@(x => x.BirthDate.ToString("dd/MM/yyyy"))" />
             <PropertyColumn TGridItem="FamilyMemberSummaryDto" TProp="string" Title="Mối quan hệ" Property="@(x => x.Relationship)" />
-            <TemplateColumn TGridItem="FamilyMemberSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="FamilyMemberSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
                 <FluentIcon Title="Tạo sự kiện mặc định" Value="@(new Icons.Filled.Size20.AddCircle())" @onclick=@(() => CreateHandler(item.Id)) />

@@ -18,9 +18,9 @@
                 <EditForm Model="@updateModel" FormName="updateForm" Context="updateContext" OnValidSubmit="@HandleUpdateValidSubmit">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField @bind-Value="@updateModel.Name" Label="Tên danh mục" />
-                    <FluentTextField @bind-Value="@updateModel.Group" Label="Nhóm danh mục" />
-                    <FluentTextField @bind-Value="@updateModel.KeyName" Label="KeyName" />
+                    <FluentTextInput @bind-Value="@updateModel.Name" Label="Tên danh mục" />
+                    <FluentTextInput @bind-Value="@updateModel.Group" Label="Nhóm danh mục" />
+                    <FluentTextInput @bind-Value="@updateModel.KeyName" Label="KeyName" />
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/categories/list" />
                 </EditForm>
             }
@@ -29,9 +29,9 @@
                 <EditForm Model="@createModel" FormName="createForm" Context="createContext" OnValidSubmit="@HandleCreateValidSubmit">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
-                    <FluentTextField @bind-Value="@createModel.Name" Label="Tên danh mục" Required="true" />
-                    <FluentTextField @bind-Value="@createModel.Group" Label="Nhóm danh mục" />
-                    <FluentTextField @bind-Value="@createModel.KeyName" Label="KeyName" />
+                    <FluentTextInput @bind-Value="@createModel.Name" Label="Tên danh mục" Required="true" />
+                    <FluentTextInput @bind-Value="@createModel.Group" Label="Nhóm danh mục" />
+                    <FluentTextInput @bind-Value="@createModel.KeyName" Label="KeyName" />
 
                     @* Action : create, update *@
                     <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/categories/list" />

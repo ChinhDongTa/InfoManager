@@ -17,23 +17,23 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên thiết bị" @bind-Value="updateModel.Name" />
+                        <FluentTextInput Label="Tên thiết bị" @bind-Value="updateModel.Name" />
                         <SelectList Route="/api/enums/DeviceType" Label="Loại thiết bị" @bind-Value="deviceTypeSelected" />
-                        <FluentTextField Label="Model thiết bị" @bind-Value="updateModel.Model" />
-                        <FluentTextField Label="Địa chỉ MAC" @bind-Value="updateModel.MacAddress" />
+                        <FluentTextInput Label="Model thiết bị" @bind-Value="updateModel.Model" />
+                        <FluentTextInput Label="Địa chỉ MAC" @bind-Value="updateModel.MacAddress" />
                         <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
                         <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
-                        <FluentTextField Label="Địa chỉ IP" @bind-Value="updateModel.IpAddress" />
-                        <FluentTextField Label="Giao thức truyền thông" @bind-Value="updateModel.CommunicationProtocol" />
+                        <FluentTextInput Label="Địa chỉ IP" @bind-Value="updateModel.IpAddress" />
+                        <FluentTextInput Label="Giao thức truyền thông" @bind-Value="updateModel.CommunicationProtocol" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DateTimePicker Label="Thời điểm đồng bộ gần nhất" @bind-Value="lastDataSyncTime" />
-                        <FluentTextField Label="Phiên bản firmware" @bind-Value="updateModel.FirmwareVersion" />
-                        <FluentNumberField Label="Mức pin" @bind-Value="updateModel.BatteryLevel" />
-                        <FluentNumberField Label="Dung lượng lưu trữ" @bind-Value="updateModel.StorageCapacity" />
-                        <FluentNumberField Label="Dung lượng đã dùng" @bind-Value="updateModel.StorageUsed" />
+                        <FluentTextInput Label="Phiên bản firmware" @bind-Value="updateModel.FirmwareVersion" />
+                        <FluentNumberInput Label="Mức pin" @bind-Value="updateModel.BatteryLevel" />
+                        <FluentNumberInput Label="Dung lượng lưu trữ" @bind-Value="updateModel.StorageCapacity" />
+                        <FluentNumberInput Label="Dung lượng đã dùng" @bind-Value="updateModel.StorageUsed" />
                         <DateTimePicker Label="Ngày bảo trì gần nhất" @bind-Value="lastMaintenanceDate" />
-                        <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+                        <FluentTextInput Label="Ghi chú" @bind-Value="updateModel.Notes" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devices/list" />
                     </FluentStack>
@@ -47,22 +47,22 @@
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
                         <DataAnnotationsValidator />
                         <ValidationSummary />
-                        <FluentTextField Label="Tên thiết bị" @bind-Value="createModel.Name" />
+                        <FluentTextInput Label="Tên thiết bị" @bind-Value="createModel.Name" />
                         <SelectList Route="/api/enums/DeviceType" Label="Loại thiết bị" @bind-Value="deviceTypeSelected" />
-                        <FluentTextField Label="Model thiết bị" @bind-Value="createModel.Model" />
-                        <FluentTextField Label="Địa chỉ MAC" @bind-Value="createModel.MacAddress" />
+                        <FluentTextInput Label="Model thiết bị" @bind-Value="createModel.Model" />
+                        <FluentTextInput Label="Địa chỉ MAC" @bind-Value="createModel.MacAddress" />
                         <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
                         <SelectList Route="/api/enums/DeviceStatus" Label="Trạng thái thiết bị" @bind-Value="statusSelected" />
-                        <FluentTextField Label="Địa chỉ IP" @bind-Value="createModel.IpAddress" />
-                        <FluentTextField Label="Giao thức truyền thông" @bind-Value="createModel.CommunicationProtocol" />
+                        <FluentTextInput Label="Địa chỉ IP" @bind-Value="createModel.IpAddress" />
+                        <FluentTextInput Label="Giao thức truyền thông" @bind-Value="createModel.CommunicationProtocol" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentTextField Label="Phiên bản firmware" @bind-Value="createModel.FirmwareVersion" />
-                        <FluentNumberField Label="Mức pin" @bind-Value="createModel.BatteryLevel" />
-                        <FluentNumberField Label="Dung lượng lưu trữ" @bind-Value="createModel.StorageCapacity" />
-                        <FluentNumberField Label="Dung lượng đã dùng" @bind-Value="createModel.StorageUsed" />
+                        <FluentTextInput Label="Phiên bản firmware" @bind-Value="createModel.FirmwareVersion" />
+                        <FluentNumberInput Label="Mức pin" @bind-Value="createModel.BatteryLevel" />
+                        <FluentNumberInput Label="Dung lượng lưu trữ" @bind-Value="createModel.StorageCapacity" />
+                        <FluentNumberInput Label="Dung lượng đã dùng" @bind-Value="createModel.StorageUsed" />
                         <DateTimePicker Label="Ngày lắp đặt" @bind-Value="installationDate" />
-                        <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+                        <FluentTextInput Label="Ghi chú" @bind-Value="createModel.Notes" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/infrastructure/devices/list" />
                     </FluentStack>

@@ -8,13 +8,13 @@ public class Product : BaseAuditableEntity
     /// <summary>
     /// Associated harvest ID
     /// </summary>
-    public string HarvestId { get; set; }
+    public required string HarvestId { get; set; }
 
     /// <summary>
     /// Product name/variety
     /// </summary>
     [MaxLength(200)]
-    public string ProductName { get; set; }
+    public required string ProductName { get; set; }
 
     /// <summary>
     /// Product description
@@ -37,7 +37,7 @@ public class Product : BaseAuditableEntity
     /// Unit of quantity (kg, liter, boxes, etc.)
     /// </summary>
     [MaxLength(50)]
-    public string Unit { get; set; }
+    public string? Unit { get; set; }
 
     /// <summary>
     /// Storage location

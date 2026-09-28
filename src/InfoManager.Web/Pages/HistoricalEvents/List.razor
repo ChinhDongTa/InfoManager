@@ -15,7 +15,7 @@
             <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Tên" Property="@(x => x.Title)" Sortable="true" />
             <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="DateOnly?" Title="Ngày" Property="@(x => x.EventDate)" />
             <PropertyColumn TGridItem="HistoricalEventSummaryDto" TProp="string" Title="Loại" Property="@(x => x.EventType)" />
-            <TemplateColumn TGridItem="HistoricalEventSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="HistoricalEventSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>
@@ -61,5 +61,4 @@
     {
         navigationManager.NavigateTo($"/historicalEvents/update/{id}");
     }
-   
 }

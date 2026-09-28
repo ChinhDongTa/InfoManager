@@ -283,3 +283,10 @@ public record UpdateSoilAnalysisRequest(
     /// <summary>Khuyến nghị. Tối đa 1000 ký tự.</summary>
     string? Recommendations
 );
+
+public record SearchSoilAnalysesRequest(string? Term,
+                                        string? FieldId,
+                                        DateTimeOffset? StartDate,
+                                        DateTimeOffset? EndDate,
+                                        int PageNumber,
+                                        int PageSize);

@@ -18,19 +18,19 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
                         <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="updateModel.FarmId" />
-                        <FluentTextField Label="Mã khách hàng" @bind-Value="updateModel.CustomerCode" />
-                        <FluentTextField Label="Tên khách hàng" @bind-Value="updateModel.Name" />
+                        <FluentTextInput Label="Mã khách hàng" @bind-Value="updateModel.CustomerCode" />
+                        <FluentTextInput Label="Tên khách hàng" @bind-Value="updateModel.Name" />
                         <SelectList Route="/api/enums/CustomerType" Label="Loại khách hàng" @bind-Value="customerTypeSelected" />
-                        <FluentTextField Label="Số điện thoại" @bind-Value="updateModel.Phone" />
-                        <FluentTextField Label="Email" @bind-Value="updateModel.Email" />
-                        <FluentTextField Label="Địa chỉ" @bind-Value="updateModel.Address" />
+                        <FluentTextInput Label="Số điện thoại" @bind-Value="updateModel.Phone" />
+                        <FluentTextInput Label="Email" @bind-Value="updateModel.Email" />
+                        <FluentTextInput Label="Địa chỉ" @bind-Value="updateModel.Address" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentTextField Label="Mã số thuế" @bind-Value="updateModel.TaxCode" />
-                        <FluentTextField Label="Người liên hệ" @bind-Value="updateModel.ContactPerson" />
-                        <FluentNumberField Label="Hạn mức tín dụng" @bind-Value="updateModel.CreditLimit" />
+                        <FluentTextInput Label="Mã số thuế" @bind-Value="updateModel.TaxCode" />
+                        <FluentTextInput Label="Người liên hệ" @bind-Value="updateModel.ContactPerson" />
+                        <FluentNumberInput Label="Hạn mức tín dụng" @bind-Value="updateModel.CreditLimit" />
                         <SelectList Route="/api/enums/CustomerStatus" Label="Trạng thái khách hàng" @bind-Value="statusSelected" />
-                        <FluentTextField Label="Ghi chú" @bind-Value="updateModel.Notes" />
+                        <FluentTextInput Label="Ghi chú" @bind-Value="updateModel.Notes" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/list" />
                     </FluentStack>
@@ -45,19 +45,19 @@
                         <DataAnnotationsValidator />
                         <ValidationSummary />
                         <SelectList Route="/api/selectlist/farm" Label="Chọn nông trại" @bind-Value="createModel.FarmId" />
-                        <FluentTextField Label="Mã khách hàng" @bind-Value="createModel.CustomerCode" />
-                        <FluentTextField Label="Tên khách hàng" @bind-Value="createModel.Name" />
+                        <FluentTextInput Label="Mã khách hàng" @bind-Value="createModel.CustomerCode" />
+                        <FluentTextInput Label="Tên khách hàng" @bind-Value="createModel.Name" />
                         <SelectList Route="/api/enums/CustomerType" Label="Loại khách hàng" @bind-Value="customerTypeSelected" />
-                        <FluentTextField Label="Số điện thoại" @bind-Value="createModel.Phone" />
-                        <FluentTextField Label="Email" @bind-Value="createModel.Email" />
-                        <FluentTextField Label="Địa chỉ" @bind-Value="createModel.Address" />
+                        <FluentTextInput Label="Số điện thoại" @bind-Value="createModel.Phone" />
+                        <FluentTextInput Label="Email" @bind-Value="createModel.Email" />
+                        <FluentTextInput Label="Địa chỉ" @bind-Value="createModel.Address" />
                     </FluentStack>
                     <FluentStack Orientation="Orientation.Vertical" VerticalGap="5">
-                        <FluentTextField Label="Mã số thuế" @bind-Value="createModel.TaxCode" />
-                        <FluentTextField Label="Người liên hệ" @bind-Value="createModel.ContactPerson" />
-                        <FluentNumberField Label="Hạn mức tín dụng" @bind-Value="createModel.CreditLimit" />
+                        <FluentTextInput Label="Mã số thuế" @bind-Value="createModel.TaxCode" />
+                        <FluentTextInput Label="Người liên hệ" @bind-Value="createModel.ContactPerson" />
+                        <FluentNumberInput Label="Hạn mức tín dụng" @bind-Value="createModel.CreditLimit" />
                         <SelectList Route="/api/enums/CustomerStatus" Label="Trạng thái khách hàng" @bind-Value="statusSelected" />
-                        <FluentTextField Label="Ghi chú" @bind-Value="createModel.Notes" />
+                        <FluentTextInput Label="Ghi chú" @bind-Value="createModel.Notes" />
 
                         <FormActionButtons IsSaving="@IsSaving" SaveText="Lưu" CancelText="Quay lại danh sách" CancelUrl="/sfms/customers/list" />
                     </FluentStack>

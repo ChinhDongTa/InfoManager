@@ -15,7 +15,7 @@
             <PropertyColumn TGridItem="CustomerPaymentSummaryDto" TProp="DateTimeOffset" Title="Ngày thanh toán" Property="@(x => x.PaymentDate)" />
             <PropertyColumn TGridItem="CustomerPaymentSummaryDto" TProp="string" Title="Phương thức" Property="@(x => x.PaymentMethod)" />
             <PropertyColumn TGridItem="CustomerPaymentSummaryDto" TProp="string" Title="Trạng thái" Property="@(x => x.PaymentStatusName)" />
-            <TemplateColumn TGridItem="CustomerPaymentSummaryDto" Context="item" Title="Actions">
+            <TemplateColumn TGridItem="CustomerPaymentSummaryDto" Context="item" Title="Actions" Class="col-actions">
                 <FluentIcon Value="@(new Icons.Filled.Size20.Eye())" @onclick=@(() => ViewHandler(item.Id)) />
                 <FluentIcon Value="@(new Icons.Filled.Size20.Edit())" @onclick=@(() => EditHandler(item.Id)) />
             </TemplateColumn>
